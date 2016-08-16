@@ -1,8 +1,8 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
-import { ShopComponent } from './shop.component';
+import { HomeComponent } from './home/home.component';
+import { ShopComponent } from './shop/shop.component';
 
 
 export const routes: RouterConfig = [

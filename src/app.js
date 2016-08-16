@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var massive = require('massive');
 
 var app = express();
 
@@ -16,6 +17,10 @@ app.use(express.static(__dirname));
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+app.get('/api/products', function(req, res, next){
+
+})
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
