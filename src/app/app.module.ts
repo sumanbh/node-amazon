@@ -20,7 +20,7 @@ import { ShopComponent } from './shop/shop.component'
     BrowserModule,
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes, {useHash: true}),
+    RouterModule.forRoot(routes, { useHash: true }),
     HttpModule,
     JsonpModule
   ],

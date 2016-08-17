@@ -4,7 +4,10 @@ var db = app.get('db');
 
 module.exports = {
     getProducts: function(req, res){
-        db.get_all_products(function(err, products){
+        var page = req.params.page;
+        page = (page - 1) * 24;
+        console.log(page);
+        db.get_all_products(page,function(err, products){
             res.json(products);
         })
     }

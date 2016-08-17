@@ -1,13 +1,12 @@
 <h1> Shop all your favorite stuff here! </h1>
-<br>
 
-<div class = "row is-flex">
-    <div class="col-md-2 col-sm-4 col-xs-12" *ngFor="let product of products | paginate: { itemsPerPage: 18, currentPage: p }">
-        <div><img [src]="product.prod_img"></div>
-        <p>{{product.prod_name}}</p>
+<div class="center-block text-center row is-flex">
+    <div class="col-lg-2-offset-1 col-md-3 col-sm-4 col-xs-12" *ngFor="let item of data | async | paginate: { id: 'server', itemsPerPage: 24, currentPage: page, totalItems: 51 }">
+        <div><img [src]="item.prod_img"></div>
+        <p>{{item.prod_name}}</p>
     </div>
 </div>
 
-
-<pagination-controls (pageChange)="p = $event" #api>
-        </pagination-controls>
+<div class="text-center">
+    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+</div>

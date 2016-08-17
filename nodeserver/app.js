@@ -33,7 +33,7 @@ app.use(express.static(__dirname + '/../dist'));
 // });
 
 
-app.get('/api/products', shopCtrl.getProducts);
+app.get('/api/products/:page', shopCtrl.getProducts);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

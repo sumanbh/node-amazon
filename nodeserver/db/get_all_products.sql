@@ -1,1 +1,2 @@
-SELECT * FROM windows_laptops;
+SELECT * FROM windows_laptops
+LIMIT 24 OFFSET $1;
