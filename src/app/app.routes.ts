@@ -6,7 +6,10 @@ import { ShopComponent } from './shop/shop.component';
 
 
 export const routes: RouterConfig = [
-  { path: '', component: HomeComponent },
+  { 
+    path: '', 
+    component: HomeComponent 
+  },
   {
     path: 'shop',
     component: ShopComponent

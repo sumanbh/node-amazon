@@ -1,1 +1,13 @@
 <h1> Shop all your favorite stuff here! </h1>
+<br>
+
+<div class = "row is-flex">
+    <div class="col-md-2 col-sm-4 col-xs-12" *ngFor="let product of products | paginate: { itemsPerPage: 18, currentPage: p }">
+        <div><img [src]="product.prod_img"></div>
+        <p>{{product.prod_name}}</p>
+    </div>
+</div>
+
+
+<pagination-controls (pageChange)="p = $event" #api>
+        </pagination-controls>

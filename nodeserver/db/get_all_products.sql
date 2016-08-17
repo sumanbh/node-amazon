@@ -1,0 +1,1 @@
+SELECT * FROM windows_laptops;
