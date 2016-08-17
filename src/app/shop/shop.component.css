@@ -19,3 +19,23 @@
     -ms-flex-direction: column;
     flex-direction: column;
 }
+
+.shop-container .row .col-sm-2 {
+    width: 200px ;
+}
+
+.shop-container .row .col-sm-10 {
+    width: calc(100% - 200px);
+}
+
+@media (max-width: 768px) {
+    .shop-container .row .col-sm-10 {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1780px) {
+    .shop-container .row .big-display {
+        width: 16.66666667%;
+    }
+}

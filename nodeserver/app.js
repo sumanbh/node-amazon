@@ -36,19 +36,19 @@ app.use(express.static(__dirname + '/../dist'));
 app.get('/api/products/:page', shopCtrl.getProducts);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 if (app.get('env') === 'development') {
-    app.listen(3000, function () {
+    app.listen(3000, () => {
         console.log('App listening on port 3000!');
     });
 }
 else {
-    app.listen(8080, function () {
+    app.listen(8080, () => {
         console.log('App listening on port 8080!');
     });
 }
