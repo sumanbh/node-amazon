@@ -6,12 +6,12 @@ import 'rxjs/add/operator/do';
 import { PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance } from 'ng2-pagination';
 
 export interface PagedResponse<T> {
-    total: number;
+    // total: number;
     data: T[];
 }
 
 export interface DataModel {
-    id: number;
+    // id: number;
     data: string;
 }
 
@@ -27,8 +27,6 @@ export interface DataModel {
 export class ShopComponent implements OnInit {
     private data: Observable<DataModel[]>;
     private page: number = 1;
-    private loading: boolean;
-
 
     constructor(private http: Http) {
     }

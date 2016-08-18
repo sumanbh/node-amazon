@@ -1,5 +1,5 @@
-CREATE TABLE windows_laptops(
-   win_laptop_id                                                                                              INTEGER  NOT NULL PRIMARY KEY 
+CREATE TABLE laptops(
+   id                                                                                              INTEGER  NOT NULL PRIMARY KEY 
   ,quan_in_stock                                                                                              INTEGER  NOT NULL
   ,prod_category                                                                                              VARCHAR(100) NOT NULL
   ,prod_name                                                                                                  VARCHAR(200) NOT NULL
@@ -7,6 +7,24 @@ CREATE TABLE windows_laptops(
   ,prod_rating                                                                                                INTEGER  NOT NULL
   ,prod_is_prime                                                                                              VARCHAR(1) NOT NULL
 );
+
+
+CREATE TABLE operating_systems
+(
+  id serial PRIMARY KEY,
+  os_name INTEGER,
+  processor VARCHAR(40),
+  ram INTEGER,
+  
+)
+
+
+
+
+
+
+
+
 INSERT INTO windows_laptops(win_laptop_id,quan_in_stock,prod_category,prod_name,prod_img,prod_rating,prod_is_prime) VALUES (1001,30,'Tradional Laptop','HP Notebook 15-ay011nr 15.6-Inch Laptop (6th Gen Intel Core i5-6200U Processor, 8GB DDR3L SDRAM, 1TB HDD, Windows 10), Silver','https://images-na.ssl-images-amazon.com/images/I/41AerRC5u6L._AC_US200_.jpg',4,'Y');
 INSERT INTO windows_laptops(win_laptop_id,quan_in_stock,prod_category,prod_name,prod_img,prod_rating,prod_is_prime) VALUES (1002,30,'Tradional Laptop','Asus F555LA-AB31 15.6-Inch Laptop (2.1 GHz Core i3-5010U Processor,4 GB RAM,500 GB Hard Drive, Windows 10), Black','https://images-na.ssl-images-amazon.com/images/I/41MW-Z2bY6L._AC_US200_.jpg',4,'Y');
 INSERT INTO windows_laptops(win_laptop_id,quan_in_stock,prod_category,prod_name,prod_img,prod_rating,prod_is_prime) VALUES (1003,30,'Tradional Laptop','Asus F555LA-AB31 15.6-Inch Laptop (2.1 GHz Core i3-5010U Processor,4 GB RAM,500 GB Hard Drive, Windows 10), Black','https://images-na.ssl-images-amazon.com/images/I/41HfDkXXyeL._AC_US200_.jpg',4,'Y');

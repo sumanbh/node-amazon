@@ -4,6 +4,10 @@
 /dist
 /tmp
 
+#db stuff
+/nodeserver/db
+/nodeserver/schema.sql
+
 # dependencies
 /node_modules
 /bower_components
