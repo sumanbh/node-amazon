@@ -27,6 +27,8 @@ export interface DataModel {
 export class ShopComponent implements OnInit {
     private data: Observable<DataModel[]>;
     private page: number = 1;
+    private loading: boolean;
+
 
     constructor(private http: Http) {
     }

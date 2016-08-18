@@ -12,6 +12,7 @@
                     <p>{{item.prod_name}}</p>
                 </div>
             </div>
+            <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
             <div class="text-center">
                 <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
             </div>
