@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   selector: 'app-root',

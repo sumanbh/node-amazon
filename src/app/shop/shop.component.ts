@@ -25,8 +25,8 @@ export interface DataModel {
 })
 
 export class ShopComponent implements OnInit {
-    private data: Observable<DataModel[]>;
-    private page: number = 1;
+    private _data: Observable<DataModel[]>;
+    private _page: number = 1;
 
     constructor(private http: Http) {
     }
@@ -36,9 +36,9 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number) {
-        this.data = this.http.get(`/api/products/${page}`)
+        this._data = this.http.get(`/api/products/${page}`)
             .do((res: any) => {
-                this.page = page;
+                this._page = page;
             })
             .map((res: Response) => res.json());
     }

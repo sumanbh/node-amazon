@@ -14,7 +14,7 @@ var app = module.exports = express();
 
 var massiveInstance = massive.connectSync({
   connectionString: connection,
-  scripts: "./nodeserver/db"
+  scripts: "./nodeserver/db"   //location of db folder for massive
 });
 
 app.set('db', massiveInstance);
@@ -26,11 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static(__dirname + '/../dist'));
-
-// app.get('/*', function (req, res) {
-//     res.sendFile(path.join(__dirname + '/../dist', 'index.html'));
-// });
+app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
 
 app.get('/api/products/:page', shopCtrl.getProducts);
