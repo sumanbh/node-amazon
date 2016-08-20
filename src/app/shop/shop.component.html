@@ -1,9 +1,11 @@
-<h1> Shop all your favorite stuff here! </h1>
+<h3 class="text-center"> Computers and Laptops </h3>
 
 <div class="shop-container">
     <div class="row">
-        <div class="col-sm-2 hidden-xs">
-            <div style="min-height:500px;">
+        <div class="col-sm-2 hidden-xs left-filter">
+            <div style="min-height:1000px;">
+                <div class ="selection-header">Refine by</div>
+                <h3>Brand name</h3>
                 <div class="checkbox">
                     <label>
                         <input #asuscb type="checkbox" id="checkAsus" [(ngModel)]="asuscb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Asus')">Asus
@@ -34,12 +36,21 @@
                     </label>
                 </div>
 
+                <div class="checkbox">
+                    <label>
+                        <input #lenovocb type="checkbox" id="checkLenovo" [(ngModel)]="lenovocb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
+                    </label>
+                </div>
+
+                <h3>Operating Systems</h3>
+
+
 
             </div>
         </div>
         <div class="col-sm-10 col-xs-12">
             <div class="center-block text-center row is-flex">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display" *ngFor="let item of _data | async | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | async | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                     <div><img [src]="item.img"></div>
                     <p>{{item.laptops_name}}</p>
                     <p>${{item.price}}</p>

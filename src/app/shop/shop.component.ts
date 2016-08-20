@@ -40,6 +40,8 @@ export class ShopComponent implements OnInit {
         }
         else if (_queryParam.length > 0 && this.queryCollector.length === 0) this.queryCollector.push(_queryParam);
         
+
+        
         console.log(this.queryCollector);
 
         this._brand = this.queryCollector.join('');
