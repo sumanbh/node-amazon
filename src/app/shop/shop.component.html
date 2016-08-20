@@ -3,11 +3,43 @@
 <div class="shop-container">
     <div class="row">
         <div class="col-sm-2 hidden-xs">
-            <div style="min-height:500px;"></div>
+            <div style="min-height:500px;">
+                <div class="checkbox">
+                    <label>
+                        <input #asuscb type="checkbox" id="checkAsus" [(ngModel)]="asuscb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Asus')">Asus
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input #applecb type="checkbox" id="checkApple" [(ngModel)]="applecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Apple')">Apple
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input #microsoftcb type="checkbox" id="checkMS" [(ngModel)]="microsoftcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Microsoft')">Microsoft
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input #dellcb type="checkbox" id="checkDell" [(ngModel)]="dellcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Dell')">Dell
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input #hpcb type="checkbox" id="checkHP" [(ngModel)]="hpcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'HP')">HP
+                    </label>
+                </div>
+
+
+            </div>
         </div>
         <div class="col-sm-10 col-xs-12">
             <div class="center-block text-center row is-flex">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display" *ngFor="let item of _data | async | paginate: { id: 'server', itemsPerPage: 24, currentPage: _page, totalItems: _total }">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display" *ngFor="let item of _data | async | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                     <div><img [src]="item.img"></div>
                     <p>{{item.laptops_name}}</p>
                     <p>${{item.price}}</p>
@@ -15,7 +47,7 @@
             </div>
             <div class="text-center">
                 <pagination-controls (pageChange)="getPage($event)" id="server">
-                    
+
                 </pagination-controls>
             </div>
         </div>
