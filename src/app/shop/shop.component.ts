@@ -5,16 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import { PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance } from 'ng2-pagination';
 
-export interface PagedResponse<T> {
-    // total: number;
-    data: T[];
-}
-
-export interface DataModel {
-    // id: number;
-    data: string;
-}
-
 @Component({
     selector: 'shop',
     templateUrl: 'shop.component.html',
@@ -25,8 +15,11 @@ export interface DataModel {
 })
 
 export class ShopComponent implements OnInit {
-    private _data: Observable<DataModel[]>;
+    private _data: Observable<string[]>;
     private _page: number = 1;
+    public _brand: string = 'Asus';
+    private _total: number;
+
 
     constructor(private http: Http) {
     }
@@ -36,10 +29,11 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number) {
-        this._data = this.http.get(`/api/products/${page}`)
+        this._data = this.http.get(`/api/products/${page}?brand=${this._brand}&ram=8`)
             .do((res: any) => {
                 this._page = page;
+                this._total = res.json().total;
             })
-            .map((res: Response) => res.json());
+            .map((res: Response) => res.json().data);
     }
 }
