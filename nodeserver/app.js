@@ -9,7 +9,6 @@ var cors = require('cors');
 
 var connection = "postgres://suman@localhost/amazonia";
 
-
 var app = module.exports = express();
 
 var massiveInstance = massive.connectSync({
