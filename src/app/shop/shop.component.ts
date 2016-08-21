@@ -38,16 +38,12 @@ export class ShopComponent implements OnInit {
         if (this.queryCollector.length >= 1 && this.queryCollector.indexOf(_queryParam) !== -1) {
             this.queryCollector = _.without(this.queryCollector, _queryParam);
         }
-        else if (_queryParam.length > 0 && this.queryCollector.length === 0) this.queryCollector.push(_queryParam);
+        else if (_queryParam !== '') this.queryCollector.push(_queryParam);
         
+        this._brand = this.queryCollector.join(',')
 
-        
         console.log(this.queryCollector);
-
-        this._brand = this.queryCollector.join('');
         console.log(this._brand);
-
-
         
         this._data = this.http.get(`/api/products/${page}?brand=${this._brand}`)
             .do((res: any) => {

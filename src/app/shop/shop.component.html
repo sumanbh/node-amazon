@@ -52,7 +52,7 @@
             <div class="center-block text-center row is-flex">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | async | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                     <div><img [src]="item.img"></div>
-                    <p>{{item.laptops_name}}</p>
+                    <p>{{item.name}}</p>
                     <p>${{item.price}}</p>
                 </div>
             </div>
