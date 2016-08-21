@@ -46,6 +46,16 @@
     font-weight: bold;
 }
 
+.main-content-name {
+    text-align: left;
+}
+
+.main-content-price {
+    text-align: left;
+    color: #b12704;
+    font-weight: bold;
+}
+
 .shop-container .row .col-sm-2 {
     width: 200px ;
 }
