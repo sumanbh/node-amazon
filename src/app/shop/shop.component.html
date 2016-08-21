@@ -20,12 +20,6 @@
 
                 <div class="checkbox">
                     <label>
-                        <input #acercb type="checkbox" class="left-check" [(ngModel)]="acercb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Asus
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
                         <input #microsoftcb type="checkbox" class="left-check" [(ngModel)]="microsoftcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Microsoft')">Microsoft
                     </label>
                 </div>
@@ -42,6 +36,12 @@
                     </label>
                 </div>
 
+                <div class="checkbox">
+                    <label>
+                        <input #acercb type="checkbox" class="left-check" [(ngModel)]="acercb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Acer
+                    </label>
+                </div>
+                
                 <div class="checkbox">
                     <label>
                         <input #lenovocb type="checkbox" class="left-check" [(ngModel)]="lenovocb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
