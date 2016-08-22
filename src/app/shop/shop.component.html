@@ -5,7 +5,7 @@
         <div class="col-sm-2 hidden-xs left-filter">
             <div style="min-height:1000px;">
                 <div class ="selection-header">Refine by</div>
-                <h3>Brand name</h3>
+                <h3>Featured Brands</h3>
                 <div class="checkbox">
                     <label>
                         <input #applecb type="checkbox" class="left-check" [(ngModel)]="applecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Apple')">Apple
@@ -41,7 +41,7 @@
                         <input #acercb type="checkbox" class="left-check" [(ngModel)]="acercb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Acer
                     </label>
                 </div>
-                
+
                 <div class="checkbox">
                     <label>
                         <input #lenovocb type="checkbox" class="left-check" [(ngModel)]="lenovocb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
@@ -95,6 +95,11 @@
                 </div>
                 <div class="checkbox">
                     <label>
+                        <input #ram12cb type="checkbox" class="left-check" [(ngModel)]="ram12cb.checked" (ngModelChange)="getPage(_page, _queryParam = '12')">12 GB
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
                         <input #ram8cb type="checkbox" class="left-check" [(ngModel)]="ram8cb.checked" (ngModelChange)="getPage(_page, _queryParam = '8')">8 GB
                     </label>
                 </div>
@@ -103,8 +108,15 @@
                         <input #ram4cb type="checkbox" class="left-check" [(ngModel)]="ram4cb.checked" (ngModelChange)="getPage(_page, _queryParam = '4')">4 GB
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input #ram2cb type="checkbox" class="left-check" [(ngModel)]="ram2cb.checked" (ngModelChange)="getPage(_page, _queryParam = '2')">2 GB
+                    </label>
+                </div>
+
 
                 <h3>Processor Type</h3>
+
                 <div class="checkbox">
                     <label>
                         <input #i7cb type="checkbox" class="left-check" [(ngModel)]="i7cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i7')">Intel Core i7
@@ -135,16 +147,16 @@
                     </label>
                 </div>
                 
-                <h3>Processor Type</h3>
+                <h3>Hard Drive Type</h3>
                 <div class="checkbox">
                     <label>
-                        <input #ssdcb type="checkbox" class="left-check" [(ngModel)]="ssdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'SSD')">SSD
+                        <input #ssdcb type="checkbox" class="left-check" [(ngModel)]="ssdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'SSD')">Solid State Drive
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label>
-                        <input #hdcb type="checkbox" class="left-check" [(ngModel)]="hdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Disk
+                        <input #hdcb type="checkbox" class="left-check" [(ngModel)]="hdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Drive
                     </label>
                 </div>
               
