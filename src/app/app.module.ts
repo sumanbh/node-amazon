@@ -7,14 +7,16 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { HomeComponent } from './home/home.component'
-import { ShopComponent } from './shop/shop.component'
+import { HomeComponent } from './home/home.component';
+import { ShopComponent } from './shop/shop.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ShopComponent
+    ShopComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

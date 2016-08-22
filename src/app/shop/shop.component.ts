@@ -83,7 +83,7 @@ export class ShopComponent implements OnInit {
         this._processor = this.processorCollector.join(',');
         this._storage = this.storageCollector.join(',');
         
-        this._data = this.http.get(`/api/products/${page}?brand=${this._brand}&os=${this._os}&ram=${this._ram}&processor=${this._processor}&storage=${this._storage}`)
+        this._data = this.http.get(`/api/shop/${page}?brand=${this._brand}&os=${this._os}&ram=${this._ram}&processor=${this._processor}&storage=${this._storage}`)
             .do((res: any) => {
                 this._page = page;
                 this._total = res.json().total;

@@ -20,6 +20,7 @@ app.set('db', massiveInstance);
 
 var shopCtrl = require('./controllers/shop.js');
 
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,8 +28,9 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
+app.get('/api/product/:productId', shopCtrl.getProductById);
 
-app.get('/api/products/:page', shopCtrl.getProducts);
+app.get('/api/shop/:page', shopCtrl.getAllProducts);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
