@@ -2,14 +2,13 @@ import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { Observable }     from 'rxjs/Observable';
-import { Product } from './product';
-import { Router, ActivatedRoute }       from '@angular/router';
+import { ActivatedRoute }       from '@angular/router';
 
 
 @Injectable()
 export class ProductService {
-    private urlParam: string = this.route.snapshot.params['id'];
-    private productUrl = `api/product/${this.urlParam}`;
+    private urlParam: string = this.route.snapshot.params['id']; //get state param
+    private productUrl = `api/product/${this.urlParam}`;  //api url
 
     constructor(
         private route: ActivatedRoute,
