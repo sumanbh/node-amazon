@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { EllipsisPipe } from './ellipsis.pipe'
 import { PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance } from 'ng2-pagination';
 import { ShopService } from './shop.service'
 
@@ -7,7 +8,7 @@ import { ShopService } from './shop.service'
     templateUrl: 'shop.component.html',
     providers: [PaginationService, ShopService],
     directives: [PaginationControlsCmp],
-    pipes: [PaginatePipe],
+    pipes: [EllipsisPipe, PaginatePipe],
     styleUrls: ['shop.component.css']
 })
 
@@ -26,6 +27,8 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
+        window.scrollTo(0,0);
+        
         this.shopService.getAllProducts(page, _queryParam)
             .subscribe(result => {
                 this._data = result.data;

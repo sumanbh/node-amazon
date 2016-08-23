@@ -48,6 +48,9 @@
 
 .main-content-name {
     text-align: left;
+    color: #0066c0;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 .main-content-price {
@@ -73,5 +76,11 @@
 @media (min-width: 1780px) {
     .shop-container .row .big-display {
         width: 16.66666667%;
+    }
+}
+
+@media (min-width: 2560px) {
+    .shop-container .row .big-display {
+        width: 12.5%;
     }
 }
