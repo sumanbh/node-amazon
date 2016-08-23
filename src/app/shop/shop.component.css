@@ -67,7 +67,7 @@
     width: calc(100% - 200px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .shop-container .row .col-sm-10 {
         width: 100%;
     }

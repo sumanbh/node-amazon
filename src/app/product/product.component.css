@@ -1,0 +1,37 @@
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.product-container .row .col-sm-2 {
+    width: 220px ;
+}
+
+.product-container .row .col-sm-10 {
+    width: calc(100% - 220px);
+}
+
+@media (max-width: 767px) {
+    .product-container .row .col-sm-10 {
+        width: 100%;
+    }
+}
+
+.product-container h1 {
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.product-img {
+    max-width: 90%;
+    height: auto;
+    width: auto;
+}
+
+.bread-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 12em;
+    vertical-align: middle;
+}

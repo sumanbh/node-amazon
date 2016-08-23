@@ -1,10 +1,12 @@
-<h3 class="text-center"> Computers and Laptops </h3>
-
+<ol class="breadcrumb">
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li class="active">Laptops</li>
+</ol>
 <div class="shop-container">
     <div class="row">
         <div class="col-sm-2 hidden-xs left-filter">
-            <div style="min-height:1000px;">
-                <div class ="selection-header">Refine by</div>
+            <div>
+                <div class="selection-header">Refine by</div>
                 <h3>Featured Brands</h3>
                 <div class="checkbox">
                     <label>
@@ -146,7 +148,7 @@
                         <input #amdcb type="checkbox" class="left-check" [(ngModel)]="amdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'AMD')">AMD Athlon
                     </label>
                 </div>
-                
+
                 <h3>Hard Drive Type</h3>
                 <div class="checkbox">
                     <label>
@@ -164,7 +166,7 @@
         </div>
         <div class="col-sm-10 col-xs-12">
             <div class="center-block text-center row is-flex">
-                <div [ngClass]="{ 'hidden': !_loading }" class = "loader"></div>
+                <div [ngClass]="{ 'hidden': !_loading }" class="loader"></div>
 
                 <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                     <div><img [src]="item.img"></div>

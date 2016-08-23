@@ -7,7 +7,8 @@ import { ProductService } from './product.service';
 @Component({
     selector: 'product',
     templateUrl: 'product.component.html',
-    providers: [ProductService]
+    providers: [ProductService],
+    styleUrls: [ 'product.component.css' ]
 })
 export class ProductComponent implements OnInit {
     _product: Array<Object>;
@@ -23,5 +24,4 @@ export class ProductComponent implements OnInit {
           this.productService.getProductById()
                 .subscribe(product => this._product = product)
      }
-
 }

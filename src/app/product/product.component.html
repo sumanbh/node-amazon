@@ -1,3 +1,22 @@
-<div *ngFor="let item of _product">
-    {{ item.name }}
+<div class="product-container">
+    <div class="row" *ngFor="let item of _product">
+        <ol class="breadcrumb">
+            <li><a [routerLink]="['/']">Home</a></li>
+            <li><a [routerLink]="['/shop']">Laptops</a></li>
+            <li class="active bread-name">{{item.laptop_name}}</li>
+        </ol>
+        <div class="col-sm-10 xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-5">
+                <img class="product-img" [src]="item.img_big">
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-7">
+                <h1>{{ item.laptop_name }}</h1>
+                by <a [routerLink]="['/shop']">{{ item.brand_name }}</a>
+            </div>
+        </div>
+        <div class="col-sm-2 hidden-xs">
+            Add to Cart
+        </div>
+
     </div>
+</div>
