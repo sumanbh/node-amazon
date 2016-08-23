@@ -17,6 +17,7 @@ export class ShopComponent implements OnInit {
     private _itemsPerPage: number = 24;
     private _total: number;
     private _page: number = 1;
+    private _loading:boolean;
 
     constructor(
         private shopService: ShopService
@@ -27,10 +28,12 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
+        this._loading = true;
         window.scrollTo(0,0);
         
         this.shopService.getAllProducts(page, _queryParam)
             .subscribe(result => {
+                this._loading = false;
                 this._data = result.data;
                 this._total = result.total;
                 this._page = page;

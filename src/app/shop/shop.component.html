@@ -159,20 +159,20 @@
                         <input #hdcb type="checkbox" class="left-check" [(ngModel)]="hdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Drive
                     </label>
                 </div>
-              
-
 
             </div>
         </div>
         <div class="col-sm-10 col-xs-12">
             <div class="center-block text-center row is-flex">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
+                <div [ngClass]="{ 'hidden': !_loading }" class = "loader"></div>
+
+                <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                     <div><img [src]="item.img"></div>
                     <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
                     <p class="main-content-price">${{item.price}}</p>
                 </div>
             </div>
-            <div class="text-center">
+            <div [ngClass]="{ 'hidden' : _loading}" class="text-center">
                 <pagination-controls (pageChange)="getPage($event)" id="server">
 
                 </pagination-controls>

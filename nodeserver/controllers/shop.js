@@ -11,6 +11,10 @@ module.exports = {
         const processor = req.query.processor;
         const storage = req.query.storage;
 
+        for (var idx = 0; idx < 40000; idx ++){
+            console.log(idx);
+        }
+
         db.get_all_products(brand, os, ram, processor, storage, (err, products) => {
             res.json({
                 total: products.length, 
