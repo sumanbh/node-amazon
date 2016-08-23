@@ -1,3 +1,5 @@
+//To-do: move the http request here.
+
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 
@@ -69,9 +71,6 @@ export class ShopService {
         let productUrl = `/api/shop/${page}?brand=${this._brand}&os=${this._os}&ram=${this._ram}&processor=${this._processor}&storage=${this._storage}`;  //api url
 
         return this.http.get(productUrl)
-            .do((res: any) => {
-                this._page = page;
-            })
             .map((res: any) => res.json());
     }
 }
