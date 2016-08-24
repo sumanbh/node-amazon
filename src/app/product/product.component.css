@@ -35,3 +35,29 @@
     width: 12em;
     vertical-align: middle;
 }
+
+.price-box {
+    color: #555;
+    font-size: 13px;
+}
+
+.product-price {
+    color: #b12704;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.finance-master {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+#availability {
+    color: #008a00;
+    font-size: 17px;
+    margin-top: 5px;
+}
+
+.product-desc {
+    margin-top: 5px;
+}

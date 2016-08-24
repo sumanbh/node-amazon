@@ -20,7 +20,6 @@ app.set('db', massiveInstance);
 
 var shopCtrl = require('./controllers/shop.js');
 
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
