@@ -5,7 +5,7 @@
 /tmp
 
 #config
-config.json
+nodeserver/config.json
 
 #db stuff
 /nodeserver/db
