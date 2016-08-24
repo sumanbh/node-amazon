@@ -7,6 +7,8 @@ var massive = require('massive');
 var cors = require('cors');
 var session = require('express-session');
 
+var config = require('./config.json');
+
 var connection = "postgres://suman@localhost/amazonia";
 
 var app = module.exports = express();
@@ -21,7 +23,7 @@ app.set('db', massiveInstance);
 var shopCtrl = require('./controllers/shop.js');
 
 app.use(session({
-    secret: 'holycowthatchairisbiggerthanalexsmom',
+    secret: config.secret,
     saveUninitialized: false,
     resave: true
 }));

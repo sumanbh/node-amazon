@@ -4,6 +4,9 @@
 /dist
 /tmp
 
+#config
+config.json
+
 #db stuff
 /nodeserver/db
 /nodeserver/schema.sql
