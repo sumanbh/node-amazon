@@ -10,7 +10,7 @@
                 <img class="product-img" [src]="item.img_big">
             </div>
             <div class="col-lg-8 col-md-8 col-sm-7">
-                <h1>{{ item.laptop_name }}</h1>
+                <h1 class="xs-display">{{ item.laptop_name }}</h1>
                 by <a [routerLink]="['/shop']">{{ item.brand_name }}</a>
                 <hr>
                 <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
@@ -21,9 +21,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-2 hidden-xs">
-            Add to Cart
+        <div class="col-sm-2 col-xs-12">
+            <div class="product-cartbox">
+                <div class="quantity-container text-center"><label>Qty:</label> <input class="form-control" type="number" name="quantity" min="1" max="1000"></div>
+                <div class="cart-container">
+                    <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <span style="font-size: 14px">Add to Cart</span>
+                    </button>
+                </div>
+                <hr>
+                <!--Dummy Ship to information-->
+                <b>Ship to:</b>
+                <p>Suman Bhattarai- Fort Worth - Texas</p>
+            </div>
         </div>
+    </div>
 
+    <div class="product-compare">
+        
     </div>
 </div>
