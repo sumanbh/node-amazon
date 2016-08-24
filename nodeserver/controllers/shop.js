@@ -18,11 +18,25 @@ module.exports = {
             });
         })
     },
-    getProductById: (req, res) => {
-        var id = parseInt(req.params.productId);
+    getProductById: (req, res, next) => {
+        const id = parseInt(req.params.productId);
+        req.session.data = {};
 
         db.get_product(id, (err, product) => {
-            res.json(product);
+            req.session.data.productInfo = product;
+            next();
+        })
+    },
+
+    getSimilarById: (req, res, next) => {
+        const price = parseInt(req.session.data.productInfo[0].price);
+        const id = parseInt(req.params.productId);
+
+        db.get_similar_product(price, id, (err, product) => {
+            res.json({
+                product: req.session.data.productInfo,
+                similar: product.splice(0, 3)
+            });
         })
     }
 }

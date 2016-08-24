@@ -25,6 +25,7 @@
     "core-js": "^2.4.0",
     "cors": "^2.7.1",
     "express": "^4.14.0",
+    "express-session": "^1.14.0",
     "massive": "^2.5.0",
     "moment": "^2.14.1",
     "ng2-bootstrap": "^1.0.24",

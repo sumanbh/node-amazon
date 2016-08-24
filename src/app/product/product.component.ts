@@ -12,6 +12,7 @@ import { ProductService } from './product.service';
 })
 export class ProductComponent implements OnInit {
     _product: Array<Object>;
+    _similar: Array<Object>;
 
     constructor(
         private productService: ProductService
@@ -22,8 +23,9 @@ export class ProductComponent implements OnInit {
      }
      getById(){
           this.productService.getProductById()
-                .subscribe(product => {
-                    this._product = product;
+                .subscribe(response => {
+                    this._product = response.product;
+                    this._similar = response.similar;
                 })
      }
 }

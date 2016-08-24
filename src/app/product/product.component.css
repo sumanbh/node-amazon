@@ -12,6 +12,9 @@
 }
 
 @media (max-width: 767px) {
+    .product-img {
+        max-width: 70% !important;
+    }
     .product-container .row .col-sm-10 {
         width: 100%;
     }
@@ -32,6 +35,7 @@
     max-width: 90%;
     height: auto;
     width: auto;
+    margin-bottom: -20px;
 }
 
 .bread-name {
@@ -92,4 +96,62 @@
     height: 42px;
     width: 100%;
     background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+}
+
+.compare-title {
+    font-size: 21px;
+    color: #e77600;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.table {
+    margin-top: 15px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th {
+    width: 20%;
+    min-width: 170px;
+}
+
+.table>tbody>tr>td:nth-child(1), .table>tbody>tr>th:nth-child(1) {
+    min-width: 140px;
+}
+
+.table>tbody>tr>th {
+    text-align: center;
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th {
+    border-style: dotted;
+}
+
+.table-responsive, .table-bordered {
+    border-top: 0px !important;
+    border-left: 0px !important;
+}
+
+.table-responsive {
+    border-right: 0px !important;
+}
+
+.first-table-td {
+    border-style: dotted;
+    border-top: 0px !important;
+    border-left: 0px !important;
+}
+.similar-img {
+    height: auto;
+    width: auto;
+    max-width: 100px;
+}
+
+.fixed-table {
+    width: 100%;
+    table-layout: fixed;
+}
+.fixed-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -14,7 +14,9 @@
                 by <a [routerLink]="['/shop']">{{ item.brand_name }}</a>
                 <hr>
                 <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
-                <div class="finance-master"><span class="glyphicon glyphicon-info-sign"></span> Pay <b>${{(item.price/12) | number:'.1-2'}}/month</b> for <b>12</b> months (<b>${{item.price}}</b> total) with <b>Equal Pay Financing</b> on your nice store card.</div>
+                <div class="finance-master"><span class="glyphicon glyphicon-info-sign"></span> Pay <b>${{(item.price/12) | number:'.1-2'}}/month</b>                    for <b>12</b> months (<b>${{item.price}}</b> total) with <b>Equal Pay Financing</b> on your nice store
+                    card.
+                </div>
                 <div id="availability">In Stock.</div>
                 <div class="product-desc" *ngFor="let desc of item.desc">
                     <li>{{desc}}</li>
@@ -37,7 +39,60 @@
         </div>
     </div>
 
+    <!--Compare portion begin-->
+    <hr>
     <div class="product-compare">
-        
+        <div class="compare-title">Compare to Similar Items</div>
+        <div class="table-responsive">
+            <table class="table table-bordered" *ngFor="let item of _product">
+                <tr>
+                    <th class="first-table-td"></th>
+                    <th><img class="similar-img" [src]="item.img"></th>
+                    <th *ngFor="let product of _similar"><img class="similar-img" [src]="product.img"></th>
+                </tr>
+                <tr>
+                    <td class="active">Name</td>
+                    <td class="warning">
+                        <table class="fixed-table">
+                            <tr>
+                                <td><b>This item:</b> {{item.laptop_name}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td *ngFor="let product of _similar">
+                        <table class="fixed-table">
+                            <tr>
+                                <td><a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="active">Price</td>
+                    <td class="warning">${{item.price}}</td>
+                    <td *ngFor="let product of _similar">${{product.price}}</td>
+                </tr>
+                <tr>
+                    <td class="active">Operating System</td>
+                    <td class="warning">{{item.os_name}}</td>
+                    <td *ngFor="let product of _similar">{{product.os_name}}</td>
+                </tr>
+                <tr>
+                    <td class="active">Memory</td>
+                    <td class="warning">{{item.ram}} GB DDR3</td>
+                    <td *ngFor="let product of _similar">{{product.ram}} GB DDR3</td>
+                </tr>
+                <tr>
+                    <td class="active">Storage</td>
+                    <td class="warning">{{item.storage}} GB</td>
+                    <td *ngFor="let product of _similar">{{product.storage}} GB</td>
+                </tr>
+                <tr>
+                    <td class="active">Hard Drive Type</td>
+                    <td class="warning">{{item.storage_name}}</td>
+                    <td *ngFor="let product of _similar">{{product.storage_name}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

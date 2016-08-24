@@ -8,7 +8,7 @@ import { ActivatedRoute }       from '@angular/router';
 @Injectable()
 export class ProductService {
     private urlParam: string = this.route.snapshot.params['id']; //get state param
-    private productUrl = `api/product/${this.urlParam}`;  //api url
+    private productUrl = `api/product/${this.urlParam}`;  //api urlParam
 
     constructor(
         private route: ActivatedRoute,
