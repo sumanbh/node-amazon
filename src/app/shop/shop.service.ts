@@ -18,11 +18,11 @@ export class ShopService {
     private _processorName: string[] = ['Intel Core i7', 'Intel Core i5', 'Intel Core i3', 'Intel Core 2', 'AMD'];
     private _storageName: string[] = ['SSD', 'Hard Disk'];
 
-    public queryCollector = [];
-    public osCollector = [];
-    public ramCollector = [];
-    public processorCollector = [];
-    public storageCollector = [];
+    private queryCollector = [];
+    private osCollector = [];
+    private ramCollector = [];
+    private processorCollector = [];
+    private storageCollector = [];
 
     constructor(
         private http: Http
