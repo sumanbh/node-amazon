@@ -25,6 +25,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._param = this.route.params.subscribe(params => {
+            window.scrollTo(0,0);
             this._id = params['id'];
             this.getById(this._id);
         });
