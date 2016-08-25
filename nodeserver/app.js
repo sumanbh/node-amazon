@@ -7,6 +7,10 @@ var massive = require('massive');
 var cors = require('cors');
 var session = require('express-session');
 
+var google = require('googleapis');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 var config = require('./config.json');
 
 var connection = "postgres://suman@localhost/amazonia";
@@ -23,27 +27,56 @@ app.set('db', massiveInstance);
 var shopCtrl = require('./controllers/shop.js');
 
 app.use(session({
-    secret: config.secret,
+    secret: config.sessionSecret,
     saveUninitialized: false,
     resave: true
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
-app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 
+passport.use(new GoogleStrategy({
+    clientID: config.googClientId,
+    clientSecret: config.googSecret,
+    callbackURL: "http://localhost:3000/auth/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return cb(null, profile);
+    // });
+  }
+));
+
+app.get('/auth',
+  passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+      console.log(req);
+    // Successful authentication, redirect home.
+    res.redirect('/#/');
+  });
+
+app.get('/login', (req, res) => {
+    return res.redirect('/auth/');
+});
+
+app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);
 
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
 });
 
 if (app.get('env') === 'development') {

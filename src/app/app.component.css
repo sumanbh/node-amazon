@@ -89,3 +89,8 @@
     background-color: #145572;
   }
 }
+
+.login-google {
+  padding-top: 2px;
+  padding-bottom: 0px;
+}
