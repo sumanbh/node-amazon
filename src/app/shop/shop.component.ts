@@ -30,7 +30,7 @@ export class ShopComponent implements OnInit {
 
     getPage(page: number, _queryParam: string) {
         this._loading = true;
-        window.scrollTo(0,0);
+        if(window.innerWidth >= 768) window.scrollTo(0,0);
 
         this.shopService.getAllProducts(page, _queryParam)
             .subscribe(result => {

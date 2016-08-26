@@ -61,7 +61,7 @@ app.get('/auth/callback',
     function (req, res) {
         console.log(req);
         // Successful authentication, redirect home.
-        res.redirect('/#/');
+        res.redirect('/#/shop');
     });
 
 app.get('/login', (req, res) => {

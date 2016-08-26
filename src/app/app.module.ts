@@ -35,5 +35,5 @@ import { GlobalEvent } from './shared/GlobalEvent';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
+  
 }

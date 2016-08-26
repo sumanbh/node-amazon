@@ -1,190 +1,197 @@
 <ol class="breadcrumb">
-    <li><a [routerLink]="['/']">Home</a></li>
+    <li><a data-toggle="collapse" data-target=".navbar-collapse.in" [routerLink]="['/']">Home</a></li>
     <li class="active">Laptops</li>
 </ol>
 <div class="shop-container">
+    <ul class="nav nav-tabs visible-xs">
+        <li class="active"><a data-toggle="tab" href="#products">Results</a></li>
+        <li><a data-toggle="tab" href="#filter">Filter</a></li>
+    </ul>
+
     <div class="row">
-        <div class="col-sm-2 hidden-xs left-filter">
-            <div>
-                <div class="selection-header">Refine by</div>
-                <h3>Featured Brands</h3>
-                <div class="checkbox">
-                    <label>
+        <div class="tab-content">
+            <div class="col-sm-2 tab-pane fade in" id='filter'>
+                <div>
+                    <div class="selection-header">Refine by</div>
+                    <h3>Featured Brands</h3>
+                    <div class="checkbox">
+                        <label>
                         <input #applecb type="checkbox" class="left-check" [(ngModel)]="applecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Apple')">Apple
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #asuscb type="checkbox" class="left-check" [(ngModel)]="asuscb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Asus')">Asus
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #microsoftcb type="checkbox" class="left-check" [(ngModel)]="microsoftcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Microsoft')">Microsoft
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #dellcb type="checkbox" class="left-check" [(ngModel)]="dellcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Dell')">Dell
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #hpcb type="checkbox" class="left-check" [(ngModel)]="hpcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'HP')">HP
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #acercb type="checkbox" class="left-check" [(ngModel)]="acercb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Acer
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #samsungcb type="checkbox" class="left-check" [(ngModel)]="samsungcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Samsung')">Samsung
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #lenovocb type="checkbox" class="left-check" [(ngModel)]="lenovocb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
                     </label>
-                </div>
+                    </div>
 
-                <h3>Operating Systems</h3>
+                    <h3>Operating Systems</h3>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #maccb type="checkbox" class="left-check" [(ngModel)]="maccb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Mac OS X')">Mac OS X
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #win10cb type="checkbox" class="left-check" [(ngModel)]="win10cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 10')">Windows 10
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #win81cb type="checkbox" class="left-check" [(ngModel)]="win81cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 8.1')">Windows 8.1
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #win7hmcb type="checkbox" class="left-check" [(ngModel)]="win7hmcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 7 Home')">Windows 7 Home
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #chromecb type="checkbox" class="left-check" [(ngModel)]="chromecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Chrome OS')">Chrome OS
                     </label>
-                </div>
+                    </div>
 
-                <h3>RAM Size</h3>
-                <div class="checkbox">
-                    <label>
+                    <h3>RAM Size</h3>
+                    <div class="checkbox">
+                        <label>
                         <input #ram64cb type="checkbox" class="left-check" [(ngModel)]="ram64cb.checked" (ngModelChange)="getPage(_page, _queryParam = '64')">64 GB & Above
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram32cb type="checkbox" class="left-check" [(ngModel)]="ram32cb.checked" (ngModelChange)="getPage(_page, _queryParam = '32')">32 GB
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram16cb type="checkbox" class="left-check" [(ngModel)]="ram16cb.checked" (ngModelChange)="getPage(_page, _queryParam = '16')">16 GB
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram12cb type="checkbox" class="left-check" [(ngModel)]="ram12cb.checked" (ngModelChange)="getPage(_page, _queryParam = '12')">12 GB
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram8cb type="checkbox" class="left-check" [(ngModel)]="ram8cb.checked" (ngModelChange)="getPage(_page, _queryParam = '8')">8 GB
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram4cb type="checkbox" class="left-check" [(ngModel)]="ram4cb.checked" (ngModelChange)="getPage(_page, _queryParam = '4')">4 GB
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
                         <input #ram2cb type="checkbox" class="left-check" [(ngModel)]="ram2cb.checked" (ngModelChange)="getPage(_page, _queryParam = '2')">2 GB
                     </label>
-                </div>
+                    </div>
 
 
-                <h3>Processor Type</h3>
+                    <h3>Processor Type</h3>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #i7cb type="checkbox" class="left-check" [(ngModel)]="i7cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i7')">Intel Core i7
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #i5cb type="checkbox" class="left-check" [(ngModel)]="i5cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i5')">Intel Core i5
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #i3cb type="checkbox" class="left-check" [(ngModel)]="i3cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i3')">Intel Core i3
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #core2cb type="checkbox" class="left-check" [(ngModel)]="core2cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core 2')">Intel Core 2
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #amdcb type="checkbox" class="left-check" [(ngModel)]="amdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'AMD')">AMD Athlon
                     </label>
-                </div>
+                    </div>
 
-                <h3>Hard Drive Type</h3>
-                <div class="checkbox">
-                    <label>
+                    <h3>Hard Drive Type</h3>
+                    <div class="checkbox">
+                        <label>
                         <input #ssdcb type="checkbox" class="left-check" [(ngModel)]="ssdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'SSD')">Solid State Drive
                     </label>
-                </div>
+                    </div>
 
-                <div class="checkbox">
-                    <label>
+                    <div class="checkbox">
+                        <label>
                         <input #hdcb type="checkbox" class="left-check" [(ngModel)]="hdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Drive
                     </label>
-                </div>
+                    </div>
 
-            </div>
-        </div>
-        <div class="col-sm-10 col-xs-12">
-            <div class="center-block text-center row is-flex">
-                <div [ngClass]="{ 'hidden': !_loading }" class="loader"></div>
-
-                <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
-                    <div><img [src]="item.img"></div>
-                    <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
-                    <div class="main-content-price">${{item.price}}</div>
-                    <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                 </div>
             </div>
-            <div [ngClass]="{ 'hidden' : _loading}" class="text-center">
-                <pagination-controls (pageChange)="getPage($event)" id="server">
+            <div class="col-sm-10 col-xs-12 tab-pane fade in active" id="products">
+                <div class="center-block text-center row is-flex">
+                    <div [ngClass]="{ 'hidden': !_loading }" class="loader"></div>
 
-                </pagination-controls>
+                    <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
+                        <div><img [src]="item.img"></div>
+                        <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
+                        <div class="main-content-price">${{item.price}}</div>
+                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                    </div>
+                </div>
+                <div [ngClass]="{ 'hidden' : _loading}" class="text-center">
+                    <pagination-controls (pageChange)="getPage($event)" id="server">
+
+                    </pagination-controls>
+                </div>
             </div>
         </div>
     </div>
