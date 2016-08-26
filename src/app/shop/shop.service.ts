@@ -13,7 +13,7 @@ export class ShopService {
     private _processor: string = '';
     private _storage: string = '';
 
-    private _brandName: string[] = ['Asus', 'Acer', 'Apple', 'HP', 'Microsoft', 'Lenovo', 'Dell'];
+    private _brandName: string[] = ['Asus', 'Acer', 'Apple', 'HP', 'Microsoft', 'Lenovo', 'Dell', 'Samsung'];
     private _osName: string[] = ['Mac OS X', 'Windows 10', 'Chrome OS', 'Windows 8.1', 'Windows 7 Home'];
     private _processorName: string[] = ['Intel Core i7', 'Intel Core i5', 'Intel Core i3', 'Intel Core 2', 'AMD'];
     private _storageName: string[] = ['SSD', 'Hard Disk'];

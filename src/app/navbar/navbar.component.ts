@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
      }
 
     private onLoginSuccess() :void{
-        return this.http.get('/user/status')
+        this.http.get('/user/status')
             .map(res => res.json())
             .subscribe(
                 data => {

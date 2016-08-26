@@ -46,6 +46,12 @@
     vertical-align: middle;
 }
 
+#shop-rating {
+    text-align: left;
+    color: #EAA500;
+    font-size: 16px;
+}
+
 .price-box {
     color: #555;
     font-size: 13px;
@@ -103,6 +109,11 @@
     color: #e77600;
     font-weight: bold;
     margin-left: 15px;
+}
+
+.sim-container-price {
+    color: #b12704;
+    font-weight: bold;
 }
 
 .table {

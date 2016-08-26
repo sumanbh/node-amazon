@@ -11,10 +11,11 @@
             </div>
             <div class="col-lg-8 col-md-8 col-sm-7">
                 <h1 class="xs-display">{{ item.laptop_name }}</h1>
-                by <a [routerLink]="['/shop']">{{ item.brand_name }}</a>
+                <div>by <a [routerLink]="['/shop']">{{ item.brand_name }}</a></div>
+                <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                 <hr>
                 <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
-                <div class="finance-master"><span class="glyphicon glyphicon-info-sign"></span> Pay <b>${{(item.price/12) | number:'.1-2'}}/month</b> for <b>12</b> months (<b>${{item.price}}</b> total) with <b>Equal Pay Financing</b> on your nice store
+                <div class="finance-master"><span class="glyphicon glyphicon-info-sign"></span> Pay <b>${{(item.price/12) | number:'.1-2'}}/month</b>                    for <b>12</b> months (<b>${{item.price}}</b> total) with <b>Equal Pay Financing</b> on your nice store
                     card.
                 </div>
                 <div id="availability">In Stock.</div>
@@ -68,9 +69,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="active">Customer Rating</td>
+                    <td class="warning"><ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating></td>
+                    <td *ngFor="let product of _similar"><ngb-rating id="shop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating></td>
+                </tr>
+                <tr>
                     <td class="active">Price</td>
-                    <td class="warning">${{item.price}}</td>
-                    <td *ngFor="let product of _similar">${{product.price}}</td>
+                    <td class="warning sim-container-price">${{item.price}}</td>
+                    <td class="sim-container-price" *ngFor="let product of _similar">${{product.price}}</td>
                 </tr>
                 <tr>
                     <td class="active">Operating System</td>

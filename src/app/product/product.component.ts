@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router'
 import { Observable } from 'rxjs/Observable';
 
 import { ProductService } from './product.service';
+import { NgbRating } from '../shared/rating';
 
 @Component({
     selector: 'product',
     templateUrl: 'product.component.html',
     providers: [ProductService],
+    directives: [NgbRating],
     styleUrls: ['product.component.css']
 })
 export class ProductComponent implements OnInit, OnDestroy {

@@ -14,7 +14,7 @@ module.exports = {
         db.get_all_products(brand, os, ram, processor, storage, (err, products) => {
             res.json({
                 total: products.length, 
-                data: products                     //.splice(offset, limit) for pagination and not blowing up user's memory'
+                data: products.splice(offset, limit) //for pagination - memory management
             });
         })
     },

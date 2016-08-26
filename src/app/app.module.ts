@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
@@ -27,7 +28,8 @@ import { GlobalEvent } from './shared/GlobalEvent';
     FormsModule,
     RouterModule.forRoot(routes, { useHash: true }),
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

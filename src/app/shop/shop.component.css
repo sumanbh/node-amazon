@@ -54,6 +54,8 @@
 }
 
 .main-content-price {
+    margin-top: 5px;
+    margin-bottom: 5px;
     text-align: left;
     color: #b12704;
     font-weight: bold;
@@ -83,6 +85,13 @@
     .shop-container .row .big-display {
         width: 12.5%;
     }
+}
+
+#shop-rating {
+    text-align: left;
+    margin-bottom: 5px;
+    color: #EAA500;
+    font-size: 16px;
 }
 
 .loader {
