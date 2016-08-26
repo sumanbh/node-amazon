@@ -18,8 +18,8 @@ var connection = "postgres://suman@localhost/amazonia";
 var app = module.exports = express();
 
 var massiveInstance = massive.connectSync({
-  connectionString: connection,
-  scripts: "./nodeserver/db"   //location of db folder for massive
+    connectionString: connection,
+    scripts: "./nodeserver/db"   //location of db folder for massive
 });
 
 app.set('db', massiveInstance);
@@ -45,38 +45,49 @@ passport.use(new GoogleStrategy({
     clientID: config.googClientId,
     clientSecret: config.googSecret,
     callbackURL: "http://localhost:3000/auth/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(null, profile);
-    // });
-  }
+},
+    function (accessToken, refreshToken, profile, cb) {
+        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(null, profile);
+        // });
+    }
 ));
 
 app.get('/auth',
-  passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile'] }));
 
-app.get('/auth/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-      console.log(req);
-    // Successful authentication, redirect home.
-    res.redirect('/#/');
-  });
+app.get('/auth/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        console.log(req);
+        // Successful authentication, redirect home.
+        res.redirect('/#/');
+    });
 
 app.get('/login', (req, res) => {
     return res.redirect('/auth/');
 });
 
+app.get('/user/status', (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(200).json({
+            status: false
+        });
+    }
+    res.status(200).json({
+        status: true
+    });
+})
+
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
+passport.serializeUser(function (user, cb) {
+    cb(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+passport.deserializeUser(function (obj, cb) {
+    cb(null, obj);
 });
 
 if (app.get('env') === 'development') {

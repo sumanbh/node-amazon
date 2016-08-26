@@ -10,13 +10,16 @@ import { routes } from './app.routes';
 import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { GlobalEvent } from './shared/GlobalEvent';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ShopComponent,
-    ProductComponent
+    ProductComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

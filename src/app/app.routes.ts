@@ -5,7 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
 
-
 export const routes: RouterConfig = [
   { 
     path: '', 

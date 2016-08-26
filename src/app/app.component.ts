@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NavbarComponent } from './navbar/navbar.component'
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css']
+  template: `<navbar></navbar>
+            <router-outlet></router-outlet>`,
+  directives: [NavbarComponent]
 })
 
-export class AppComponent {
-  
+export class AppComponent  {
+
 }
