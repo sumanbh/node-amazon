@@ -14,10 +14,11 @@ import { NgbRating } from '../shared/rating';
     styleUrls: ['product.component.css']
 })
 export class ProductComponent implements OnInit, OnDestroy {
-    _product: Array<Object>;
-    _similar: Array<Object>;
-    _param: any;
-    _id: any;
+    private _product: Array<Object>;
+    private _similar: Array<Object>;
+    private _param: any;
+    private _id: any;
+    private _currentQuantity: number = 1;
 
     constructor(
         private route: ActivatedRoute,
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     getById(id: any) {
         this.productService.getProductById(id)
             .subscribe(response => {
+                this._currentQuantity = 1;
                 this._product = response.product;
                 this._similar = response.similar;
             })

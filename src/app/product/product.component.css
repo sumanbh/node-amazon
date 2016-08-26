@@ -92,6 +92,12 @@
     padding: 0px;
 }
 
+.current-total {
+    color: #b12704;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 .cart-container {
     width: 100%;
     text-align: center;

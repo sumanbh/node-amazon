@@ -60,7 +60,7 @@ app.get('/auth/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
         console.log(req);
-        // Successful authentication, redirect home.
+        // Successful authentication, redirect shop.
         res.redirect('/#/shop');
     });
 
@@ -75,6 +75,7 @@ app.get('/user/status', (req, res) => {
         });
     }
     res.status(200).json({
+        userName: req.user.name.givenName,
         status: true
     });
 })

@@ -26,7 +26,8 @@
         </div>
         <div class="col-sm-2 col-xs-12">
             <div class="product-cartbox">
-                <div class="quantity-container text-center"><label>Qty:</label> <input class="form-control" type="number" name="quantity" min="1" max="1000"></div>
+                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity" min="1" max="20"></div>
+                <div class="current-total text-center">${{_currentQuantity * item.price | number:'.2'}}</div>
                 <div class="cart-container">
                     <button type="button" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-shopping-cart"></span> <span style="font-size: 14px">Add to Cart</span>

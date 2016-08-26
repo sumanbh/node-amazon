@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a data-toggle="collapse" data-target=".navbar-collapse.in" class="navbar-brand" [routerLink]="['/']">Amazon</a>
+      <a data-toggle="collapse" data-target=".navbar-collapse.in" class="navbar-brand" [routerLink]="['/']">Cyrano</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -26,7 +26,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="!showLogin"><a (click)="onLoginSuccess()" class = "login-google" href="login"><img src="assets/images/signin.png" alt="Sign in"></a></li>
-        <li *ngIf="showLogin" style="color: #fff">Welcome to Amzonia</li>
+        <li *ngIf="showLogin" class="user-welcome"><a>Hello, {{userGivenName}}</a></li>
 
         
       </ul>

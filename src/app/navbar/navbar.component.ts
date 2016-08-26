@@ -12,6 +12,8 @@ import { Observable }     from 'rxjs/Observable';
 })
 export class NavbarComponent implements OnInit {
     public showLogin: boolean;
+    public userGivenName: string;
+
     constructor(
         private globalEvent: GlobalEvent
         private http: Http
@@ -30,7 +32,10 @@ export class NavbarComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 data => {
-                    if (data.status) this.globalEvent.showLogin.emit(true);
+                    if (data.status) {
+                        this.userGivenName = data.userName
+                        this.globalEvent.showLogin.emit(true)
+                    };
                 };
             )
     }
