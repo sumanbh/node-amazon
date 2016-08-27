@@ -1,6 +1,37 @@
-.login-google {
-  padding-top: 2px;
-  padding-bottom: 0px;
+.login-google img {
+  position: absolute;
+  float: right;
+  margin-top: 1px;
+  right: 10px;
+}
+
+.nav-shop {
+  float: left;
+  height: 50px;
+  padding: 15px 0px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ddd;
+}
+
+.nav-shop:hover, .nav-shop:focus {
+  text-decoration: none;
+  color: #fff;
+}
+
+.user-welcome {
+  float: right;
+  position: absolute;
+  right: 0px;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ddd;
+}
+
+.cart-icon {
+  color: #fff;
 }
 
 .navbar-default {
@@ -14,10 +45,7 @@
   letter-spacing: 2px;
   color: #fff;
 }
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  color: #ddd;
-}
+
 .navbar-default .navbar-text {
   color: #ddd;
 }
@@ -63,6 +91,13 @@
 }
 
 @media (max-width: 767px) {
+  .nav-shop {
+    font-size: 14px;
+  }
+  .user-welcome {
+    font-size: 14px;
+  }
+
   .navbar-default .navbar-nav > li > a {
     margin-left: 0px;
   }

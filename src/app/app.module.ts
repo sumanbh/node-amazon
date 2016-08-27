@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CartComponent } from './cart/cart.component';
 import { GlobalEvent } from './shared/GlobalEvent';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GlobalEvent } from './shared/GlobalEvent';
     HomeComponent,
     ShopComponent,
     ProductComponent,
-    NavbarComponent
+    NavbarComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

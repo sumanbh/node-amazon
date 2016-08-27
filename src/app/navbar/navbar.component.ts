@@ -13,6 +13,7 @@ import { Observable }     from 'rxjs/Observable';
 export class NavbarComponent implements OnInit {
     public showLogin: boolean;
     public userGivenName: string;
+    public _login:string;
 
     constructor(
         private globalEvent: GlobalEvent
@@ -28,15 +29,16 @@ export class NavbarComponent implements OnInit {
      }
 
     private onLoginSuccess() :void{
-        this.http.get('/user/status')
+        this._login = `login/state?location='${window.location.hash.replace(/[#]/g, '')}'`;  //so that login returns back to where the user was.
+        this.http.get(`/user/status/`)
             .map(res => res.json())
             .subscribe(
                 data => {
                     if (data.status) {
-                        this.userGivenName = data.userName
-                        this.globalEvent.showLogin.emit(true)
-                    };
-                };
+                        this.userGivenName = data.userName.split(' ')[0];
+                        this.globalEvent.showLogin.emit(true);
+                    }
+                }
             )
     }
 }

@@ -20,6 +20,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     private _id: any;
     private _currentQuantity: number = 1;
 
+    private _loginState: boolean = true;
+
     constructor(
         private route: ActivatedRoute,
         private productService: ProductService
@@ -39,6 +41,14 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this._currentQuantity = 1;
                 this._product = response.product;
                 this._similar = response.similar;
+            })
+    }
+
+    addToCart(id, quantity) :void {
+        this.productService.addToCart(id, quantity)
+            .subscribe(response => {
+                window.scrollTo(0,0);
+                this._loginState = response.userLog;
             })
     }
 

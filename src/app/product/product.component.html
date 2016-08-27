@@ -1,10 +1,12 @@
 <div class="product-container">
     <div class="row" *ngFor="let item of _product">
         <ol class="breadcrumb">
-            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" [routerLink]="['/']">Home</a></li>
-            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" [routerLink]="['/shop']">Laptops</a></li>
+            <li><a [routerLink]="['/']">Home</a></li>
+            <li><a [routerLink]="['/shop']">Laptops</a></li>
             <li class="active bread-name">{{item.laptop_name}}</li>
         </ol>
+        <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please log in before adding!</div>
+
         <div class="col-sm-10 xs-12">
             <div class="col-lg-4 col-md-4 col-sm-5 text-center">
                 <img class="product-img" [src]="item.img_big">
@@ -26,10 +28,10 @@
         </div>
         <div class="col-sm-2 col-xs-12">
             <div class="product-cartbox">
-                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity" min="1" max="20"></div>
+                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity" min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'></div>
                 <div class="current-total text-center">${{_currentQuantity * item.price | number:'.2'}}</div>
                 <div class="cart-container">
-                    <button type="button" class="btn btn-default btn-lg">
+                    <button (click) = "addToCart(item.id, _currentQuantity)" type="button" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-shopping-cart"></span> <span style="font-size: 14px">Add to Cart</span>
                     </button>
                 </div>

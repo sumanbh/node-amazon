@@ -13,8 +13,8 @@ module.exports = {
 
         db.get_all_products(brand, os, ram, processor, storage, (err, products) => {
             res.json({
-                total: products.length, 
-                data: products.splice(offset, limit) //for pagination - memory management
+                total: products.length,
+                data: products.splice(offset, limit) //for pagination 
             });
         })
     },
@@ -38,6 +38,30 @@ module.exports = {
                 similar: product.splice(0, 3)
             });
         })
+    },
+    addToCart: (req, res, next) => {
+        const id = parseInt(req.body.productId);
+        const quantity = parseInt(req.body.productQuantity);
+
+        if (!req.user) res.json({ userLog: false })
+        else {
+            db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
+                res.json({
+                    userLog: true
+                })
+            })
+        }
+    },
+    getFromCart: (req, res, next) => {
+        if (!req.user) res.json({ userLog: false })
+        else {
+            db.cart.find({customer_id: req.user.id}, function (err, response) {
+                res.json({
+                    userLog: true,
+                    data: response
+                })
+            })
+        }
     }
 }
 

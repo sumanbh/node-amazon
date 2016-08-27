@@ -24,6 +24,8 @@ var massiveInstance = massive.connectSync({
 
 app.set('db', massiveInstance);
 
+var db = app.get('db');
+
 var shopCtrl = require('./controllers/shop.js');
 
 app.use(session({
@@ -47,9 +49,19 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/callback"
 },
     function (accessToken, refreshToken, profile, cb) {
-        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(null, profile);
-        // });
+        db.customers.findOne({google_id: profile.id}, function (err, foundUser){
+            if(foundUser === undefined) {
+                console.log("DID NOT FIND USER. Creating...", err);
+                db.customers.insert({google_id: profile.id, fullname: profile.displayName}, function (err, newUser){
+                    console.log("Created user: ", newUser);
+                    return cb(null, newUser);
+                })
+            }
+            else {
+                // console.log("FOUND USER: ", foundUser);
+                return cb(null, foundUser);
+            }
+        });
     }
 ));
 
@@ -57,31 +69,33 @@ app.get('/auth',
     passport.authenticate('google', { scope: ['profile'] }));
 
 app.get('/auth/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: '/' }),
     function (req, res) {
-        console.log(req);
         // Successful authentication, redirect shop.
-        res.redirect('/#/shop');
+        res.redirect(`/#${req.session.location.replace(/[']/g, '')}`);
     });
 
-app.get('/login', (req, res) => {
+app.get('/login/:param', (req, res) => {
+    req.session.location = req.query.location;
     return res.redirect('/auth/');
 });
 
-app.get('/user/status', (req, res) => {
+app.get('/user/status/', (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(200).json({
             status: false
         });
     }
     res.status(200).json({
-        userName: req.user.name.givenName,
+        userName: req.user.fullname,
         status: true
     });
 })
 
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);
+app.get('/api/user/cart', shopCtrl.getFromCart);
+app.post('/api/cart/add', shopCtrl.addToCart);
 
 passport.serializeUser(function (user, cb) {
     cb(null, user);

@@ -11,6 +11,10 @@
     width: calc(100% - 240px);
 }
 
+.login-reminder {
+    margin-top: -20px;
+}
+
 @media (max-width: 767px) {
     .product-img {
         max-width: 70% !important;
