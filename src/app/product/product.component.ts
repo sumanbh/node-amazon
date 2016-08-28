@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private _id: any;
     private _currentQuantity: number = 1;
 
+    private _addedToCart: boolean = false;
     private _loginState: boolean = true;
 
     constructor(
@@ -29,6 +30,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._param = this.route.params.subscribe(params => {
+            this._loginState = true;
+            this._addedToCart = false;
             window.scrollTo(0,0);
             this._id = params['id'];
             this.getById(this._id);
@@ -49,6 +52,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             .subscribe(response => {
                 window.scrollTo(0,0);
                 this._loginState = response.userLog;
+                if (this._loginState) this._addedToCart = true;
             })
     }
 

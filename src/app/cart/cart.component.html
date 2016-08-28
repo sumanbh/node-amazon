@@ -34,8 +34,8 @@
                 <div class="checkout-subtotal">
                     <span>Subtotal: </span><span class="cart-product-price">${{_cartTotal}}</span>
                 </div>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span style="font-size: 14px" [routerLink]="['/user/checkout']">Proceed to Checkout</span>
+                <button [routerLink]="['/user/checkout']" type="button" class="btn btn-default btn-lg">
+                    <span style="font-size: 14px">Proceed to Checkout</span>
                 </button>
             </div>
         </div>

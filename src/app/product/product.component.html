@@ -6,6 +6,7 @@
             <li class="active bread-name">{{item.laptop_name}}</li>
         </ol>
         <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please log in before adding!</div>
+        <div *ngIf="_addedToCart" class="alert alert-success login-reminder" role="alert">Product added to cart!</div>
 
         <div class="col-sm-10 xs-12">
             <div class="col-lg-4 col-md-4 col-sm-5 text-center">
