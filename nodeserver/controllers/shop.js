@@ -53,12 +53,27 @@ module.exports = {
         }
     },
     getFromCart: (req, res, next) => {
-        if (!req.user) res.json({ userLog: false })
+        if (!req.user) res.json({ userLog: false });
         else {
-            db.cart.find({customer_id: req.user.id}, function (err, response) {
+            db.cartview.find({customer_id: req.user.id}, {order: "date_added desc"}, function (err, response) {
                 res.json({
                     userLog: true,
                     data: response
+                })
+            })
+        }
+    },
+    getInfo: (req, res, next) => {
+        if (!req.user) res.json({ userLog: false })
+        else {
+            db.cartview.find({customer_id: req.user.id}, {order: "date_added desc"}, function(err, response) {
+                req.session.cart = response;
+                db.customers.find({id: req.user.id}, function(err,response){
+                    req.session.userInfo = response;
+                    res.json({
+                    data: req.session.cart,
+                    userInfo: req.session.userInfo
+                })
                 })
             })
         }

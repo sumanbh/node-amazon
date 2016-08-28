@@ -6,7 +6,7 @@
 
       <a *ngIf="!showLogin" (click)="onLoginSuccess()" class="login-google" [href]="_login"><img src="assets/images/signin.png" alt="Sign in" class="hidden-xs"><img src="assets/images/btn_google_mobile.png"
           alt="Sign in" class="visible-xs"></a>
-      <span class="user-welcome" *ngIf="showLogin">Hello, {{userGivenName}} <a class = "cart-icon" [routerLink]="['/user/cart']"><span class = "glyphicon glyphicon-shopping-cart">Cart</span></a>
+      <span class="user-welcome" *ngIf="showLogin">Hello, {{userGivenName}} &nbsp; <a class = "cart-icon" [routerLink]="['/user/cart']"><span class = "glyphicon glyphicon-shopping-cart">Cart</span></a>
       </span>
     </div>
 

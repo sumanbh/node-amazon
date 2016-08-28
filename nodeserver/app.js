@@ -95,6 +95,7 @@ app.get('/user/status/', (req, res) => {
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);
 app.get('/api/user/cart', shopCtrl.getFromCart);
+app.get('/api/user/checkout', shopCtrl.getInfo);
 app.post('/api/cart/add', shopCtrl.addToCart);
 
 passport.serializeUser(function (user, cb) {

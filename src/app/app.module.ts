@@ -13,6 +13,7 @@ import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 import { GlobalEvent } from './shared/GlobalEvent';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { GlobalEvent } from './shared/GlobalEvent';
     ShopComponent,
     ProductComponent,
     NavbarComponent,
-    CartComponent
+    CartComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
