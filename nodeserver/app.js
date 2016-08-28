@@ -98,6 +98,12 @@ app.get('/api/user/cart', shopCtrl.getFromCart);
 app.get('/api/user/checkout', shopCtrl.getInfo);
 app.post('/api/cart/add', shopCtrl.addToCart);
 
+app.get('/logout', function(req, res){
+  console.log('logging out');
+  req.logout();
+  res.redirect('/');
+});
+
 passport.serializeUser(function (user, cb) {
     cb(null, user);
 });

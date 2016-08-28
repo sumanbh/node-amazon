@@ -78,7 +78,7 @@
 }
 
 .checkout-subtotal {
-    text-align: left;
+    text-align: center;
     margin-bottom: 10px;
 }
 
@@ -119,6 +119,14 @@
     padding-right: 5px;
 }
 
+.billing-info {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
 @media (max-width: 767px) {
     .user-extra {
         min-width: 0px;
@@ -129,14 +137,27 @@
     .orders-col {
         width: 100%;
     }
+    .col-xs-12 {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
     .col-sm-10 {
         padding-left: 7px;
         padding-right: 7px;
+    }
+
+    .col-xs-8 {
+        padding-right: 7px;
+        padding-left: 7px;
     }
     .name-container {
         width: calc(100% - 100px);
     }
     .image-container {
         width: 100px;
+    }
+    .checkout-container {
+        margin-top: 5px;
     }
 }

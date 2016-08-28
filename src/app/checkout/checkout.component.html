@@ -25,9 +25,13 @@
                             </form>
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" class="form-control user-address" value="{{user.state}}" maxlength="2">
+                                    <input type="text" class="form-control user-address" value="{{user.city}}" maxlength="32">
                                 </div>
                                 <div class="form-group">
+                                    <input type="text" class="form-control user-address" value="{{user.state}}" maxlength="2">
+                                </div>
+
+                            <div class="form-group">
                                     <input type="number" class="form-control user-address" value="{{user.zip}}" max="99999">
                                 </div>
                             </form>
@@ -37,12 +41,16 @@
                             <h5 class="checkout-head">Payment method</h5>
                         </div>
                         <div class="col-xs-8">
-                            <div class="payment-container">Dummy payment method here.</div>
+                            <div class="payment-container">
+
+                                <!--Dummy payment information below-->
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa"> <b>Visa</b> ending in 4850
+                                <p class="billing-info"><b>Billing address:</b> {{user.fullname}}, {{user.address}}, {{user.city}}, {{user.state}}, {{user.zip}} </p>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <hr>
 
             <h2 class="cart-title text-center">Review Items</h2>
