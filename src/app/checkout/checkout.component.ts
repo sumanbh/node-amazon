@@ -10,6 +10,7 @@ import { CheckoutService } from './checkout.service'
 })
 export class CheckoutComponent implements OnInit {
     private _cartContent: Array<Object>;
+    private _userInfo: Object;
     private _loginStatus: boolean = false;
     private _cartSum: number = 0;
     private _cartTotal: string;
@@ -26,6 +27,7 @@ export class CheckoutComponent implements OnInit {
         this.checkoutService.getCartById()
             .subscribe( response => {
                 console.log("CheckoutComponent: ", response);
+                this._userInfo = response.userInfo;
                 this._cartContent = response.data;
                 for (var prop in this._cartContent){
                     this._cartSum += parseFloat(this._cartContent[prop].price);

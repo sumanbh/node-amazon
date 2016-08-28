@@ -1,0 +1,82 @@
+<div class="orders-container">
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/']">Home</a></li>
+        <li><a [routerLink]="['/shop']">Laptops</a></li>
+        <li><a [routerLink]="['/user/cart']">Cart</a></li>
+        <li class="active bread-name">Checkout</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-sm-10 xs-12">
+            <h2 class="cart-title text-center"> Checkout</h2>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row is-flex" *ngFor="let user of _userInfo">
+                        <div class="col-xs-4 ship-info">
+                            <h5 class="checkout-head">Shipping address</h5>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="user-container">{{user.fullname}}</div>
+                            <form class="form-inline form-address">
+                                <div class="form-group">
+                                    <input type="text" class="form-control user-address user-extra" value="{{user.address}}">
+                                </div>
+                            </form>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input type="text" class="form-control user-address" value="{{user.state}}" maxlength="2">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control user-address" value="{{user.zip}}" max="99999">
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-xs-4 ship-info">
+                            <h5 class="checkout-head">Payment method</h5>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="payment-container">Dummy payment method here.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 class="cart-title text-center">Review Items</h2>
+            <hr>
+            <div class="row" *ngFor="let item of _cartContent">
+                <div class="col-xs-12">
+                    <div class="row is-flex">
+                        <div class="col-sm-2 col-xs-4 image-container">
+                            <img class="cart-img" [src]="item.img">
+                        </div>
+                        <div class="col-sm-6 col-xs-8 name-container">
+                            <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
+                        </div>
+                        <div class="col-sm-2 col-xs-6 price-container">
+                            <span class="cart-product-price">${{item.price}}</span>
+                        </div>
+                        <div class="col-sm-2 col-xs-6 quantity-container">
+                            <b>Qty: {{item.product_quantity}}</b>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 orders-col">
+            <div class="checkout-container">
+                <button type="button" class="btn btn-default btn-lg">
+                    <span style="font-size: 14px">Place your order</span>
+                </button>
+                <hr>
+                <div class="checkout-subtotal">
+                    <span class="cart-product-price">Order total: ${{_cartTotal}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
