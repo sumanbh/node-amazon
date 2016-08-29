@@ -14,6 +14,8 @@ import { ProductComponent } from './product/product.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrdersComponent } from './orders/orders.component';
+
 import { GlobalEvent } from './shared/GlobalEvent';
 
 @NgModule({
@@ -24,7 +26,8 @@ import { GlobalEvent } from './shared/GlobalEvent';
     ProductComponent,
     NavbarComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

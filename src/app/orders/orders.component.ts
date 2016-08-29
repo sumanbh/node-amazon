@@ -1,12 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { OrdersService } from './orders.service';
 
 @Component({
     selector: 'orders',
-    templateUrl: 'orders.component.html'
+    providers: [OrdersService],
+    templateUrl: 'orders.component.html',
+    styleUrls: ['orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-    constructor() { }
+    private _ordersContent: Array<Object>;
 
-    ngOnInit() { }
+    constructor(
+        private ordersService: OrdersService
+    ) { }
 
+    ngOnInit() { this.getOrdersInfo() }
+
+    getOrdersInfo() {
+        this.ordersService.getOrdersById()
+            .subscribe( response => {
+                console.log(response)
+                this._ordersContent = response.data;
+            })
+    }
 }

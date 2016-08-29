@@ -3,12 +3,25 @@
     margin-left: 0px;
 }
 
+.img-container {
+    background: url('assets/images/banner.jpg')
+}
+
 .big-display {
     padding: 10px;
 }
 
-@media (max-width: 768px) {
-    .img-responsive{
+.img-responsive{
         display: initial;
+    }
+
+@media (max-width: 768px) {
+    .featured {
+    margin-top: 50px;
+    }   
+    .carousel {
+        z-index: -1;
+        margin-top: -100px;
+        margin-bottom: -40px;
     }
 }

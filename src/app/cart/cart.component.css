@@ -55,7 +55,6 @@
     width: auto;
     max-width: 100%;
     margin-top: -10px;
-    margin-bottom: -10px;
 }
 
 .cart-product-price {
@@ -95,10 +94,16 @@
         padding-left: 7px;
         padding-right: 7px;
     }
+    .image-container {
+        width: 100px;
+    }
     .name-container {
         width: calc(100% - 100px);
     }
-    .image-container {
-        width: 100px;
+    .orders-product-price {
+        margin-top: 5px;
+    }
+    .quantity-container {
+        margin-top: 5px;
     }
 }

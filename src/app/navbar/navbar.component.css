@@ -75,6 +75,7 @@ a {
 
 @media (max-width: 767px) {
   .nav-shop {
+    padding: 16px 0px;
     font-size: 14px;
   }
   .user-welcome {

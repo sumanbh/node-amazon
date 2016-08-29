@@ -97,6 +97,16 @@ module.exports = {
                 })
             })
         }
+    },
+    getUserOrders: (req, res, next) => {
+        if (!req.user) res.json({ userLog: false})
+        else {
+            db.ordersview.find({customer_id: req.user.id}, { order: "date_added desc" }, function (err, response){
+                res.json({
+                    data: response
+                })
+            })
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrdersComponent } from './orders/orders.component';
 
 export const routes: RouterConfig = [
   { 
@@ -27,5 +28,9 @@ export const routes: RouterConfig = [
   {
     path:'user/checkout',
     component: CheckoutComponent
+  },
+  {
+    path: 'user/orders',
+    component: OrdersComponent
   }
 ];

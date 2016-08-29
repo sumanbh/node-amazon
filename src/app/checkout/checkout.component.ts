@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit {
         if (this._userInfo) {
             this.checkoutService.sendCheckout()
                 .subscribe(response => {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/user/orders']);
                     console.log(response);
                 })
         }

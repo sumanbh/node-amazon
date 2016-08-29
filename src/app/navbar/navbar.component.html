@@ -10,9 +10,9 @@
       <a *ngIf="showLogin" class="dropdown user-welcome">
         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a class="drop-link" [routerLink]="['/user/cart']">Cart</a></li>
+          <li><a class="drop-link" [routerLink]="['/user/orders']">Your Orders</a></li>
           <li role="separator" class="divider"></li>
-          <li><a class="drop-link" href="/logout">Log Out</a></li>
+          <li><a class="drop-link" href="/logout">Not {{userGivenName}}? Sign Out</a></li>
         </ul>
         &nbsp;
         <a class="cart-icon" [routerLink]="['/user/cart']"><span class = "glyphicon glyphicon-shopping-cart">Cart</span></a>
