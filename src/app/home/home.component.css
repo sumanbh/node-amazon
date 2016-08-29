@@ -15,7 +15,7 @@
         display: initial;
     }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .featured {
     margin-top: 50px;
     }   

@@ -57,12 +57,22 @@
 
 @media (max-width: 767px) {
     .name-container {
-        width: calc(100% - 120px);
+        text-align: center;
+        width: 100%;
     }
-    .orders-product-price {
+    .image-container {
+        width: 100%;
+        text-align: center;
+    }
+    .image-container img {
+        width: 100px;
+    }
+    .price-container {
         margin-top: 5px;
+        text-align: center;
     }
     .quantity-container {
         margin-top: 5px;
+        text-align: center;
     }
 }

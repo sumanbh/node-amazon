@@ -31,7 +31,7 @@
                                     <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2">
                                 </div>
 
-                            <div class="form-group">
+                                <div class="form-group">
                                     <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999">
                                 </div>
                             </form>
@@ -44,9 +44,10 @@
                             <div class="payment-container">
 
                                 <!--Dummy payment information below-->
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa"> <b>Visa</b> ending in 4850
-                                <p class="billing-info"><b>Billing address:</b> {{user.fullname}}, {{user.address}}, {{user.city}}, {{user.state}}, {{user.zip}} </p>
-                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa">                                <b>Visa</b> ending in 4850
+                                <p class="billing-info"><b>Billing address:</b> {{user.fullname}}, {{user.address}}, {{user.city}}, {{user.state}},
+                                    {{user.zip}} </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +63,7 @@
                             <img class="cart-img" [src]="item.img">
                         </div>
                         <div class="col-sm-6 col-xs-8 name-container">
-                            <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
+                            <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a>
                         </div>
                         <div class="col-sm-2 col-xs-6 price-container">
                             <span class="cart-product-price">${{item.price}}</span>

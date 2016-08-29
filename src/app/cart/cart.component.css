@@ -100,7 +100,7 @@
     .name-container {
         width: calc(100% - 100px);
     }
-    .orders-product-price {
+    .price-container {
         margin-top: 5px;
     }
     .quantity-container {

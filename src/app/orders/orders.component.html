@@ -16,11 +16,11 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><span class="ship-to">Ship to:</span> <span class="ship-info">{{item.address}}, {{item.city}}, {{item.state}}, {{item.zip}}</span></div>
                         <div class="panel-body">
-                            <div class="col-sm-2 col-xs-4 image-container">
+                            <div class="col-sm-2 col-xs-12 image-container">
                                 <img class="orders-img" [src]="item.img">
                             </div>
-                            <div class="col-sm-6 col-xs-8 name-container">
-                                <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
+                            <div class="col-sm-6 col-xs-12 name-container">
+                                <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a>
                             </div>
                             <div class="col-sm-2 col-xs-6 price-container">
                                 <span class="orders-product-price">${{item.price}}</span>
