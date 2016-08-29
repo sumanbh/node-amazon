@@ -14,16 +14,8 @@
   color: #ddd;
 }
 
-.glyphicon {
-  font-weight: 700;
-}
-
 .nav-shop:hover, .nav-shop:focus {
   text-decoration: none;
-  color: #fff;
-}
-
-.cart-icon {
   color: #fff;
 }
 
@@ -46,7 +38,7 @@
 .user-welcome {
   float: right;
   position: absolute;
-  right: 0px;
+  right: 10px;
   height: 50px;
   padding: 15px 15px;
   font-size: 16px;
@@ -79,6 +71,7 @@ a {
     font-size: 14px;
   }
   .user-welcome {
+    padding: 16px 0px;
     font-size: 14px;
   }
 }
