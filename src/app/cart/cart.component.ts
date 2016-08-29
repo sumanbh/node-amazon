@@ -10,7 +10,6 @@ import { CartService } from './cart.service';
 })
 export class CartComponent implements OnInit {
     private _cartContent: Array<Object>;
-    private _loginStatus: boolean = false;
     private _cartSum: number = 0;
     private _cartTotal: string;
 
@@ -24,7 +23,6 @@ export class CartComponent implements OnInit {
         this.cartService.getCartById()
             .subscribe( response => {
                 this._cartContent = response.data;
-                this._loginStatus = response.userLog;
                 for (var prop in this._cartContent){
                     this._cartSum += parseFloat(this._cartContent[prop].price);
                 }

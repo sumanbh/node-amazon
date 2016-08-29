@@ -1,0 +1,14 @@
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.big-display {
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .img-responsive{
+        display: initial;
+    }
+}

@@ -55,7 +55,7 @@ module.exports = {
     getFromCart: (req, res, next) => {
         if (!req.user) res.json({ userLog: false });
         else {
-            db.cartview.find({customer_id: req.user.id}, {order: "date_added desc"}, function (err, response) {
+            db.cartview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
                 res.json({
                     userLog: true,
                     data: response
@@ -66,14 +66,34 @@ module.exports = {
     getInfo: (req, res, next) => {
         if (!req.user) res.json({ userLog: false })
         else {
-            db.cartview.find({customer_id: req.user.id}, {order: "date_added desc"}, function(err, response) {
+            db.cartview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
                 req.session.cart = response;
-                db.customers.find({id: req.user.id}, function(err,response){
+                db.customers.find({ id: req.user.id }, function (err, response) {
                     req.session.userInfo = response;
                     res.json({
-                    data: req.session.cart,
-                    userInfo: req.session.userInfo
+                        data: req.session.cart,
+                        userInfo: req.session.userInfo
+                    })
                 })
+            })
+        }
+    },
+    checkoutConfirm: (req, res, next) => {
+        const userAddress = req.body.userAddress;
+        const userCity = req.body.userCity;
+        const userState = req.body.userState;
+        const userZip = parseInt(req.body.userZip);
+
+        if (!req.user) res.json({ userLog: false })
+        else {
+            db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
+                for (var idx = 0; idx < cartRes.length; idx++) {
+                    db.orders.insert({ customer_id: req.user.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, address: userAddress, city: userCity, state: userState, zip: userZip }, function (err, response) {
+                        db.cart.destroy({ customer_id: req.user.id })
+                    })
+                }
+                res.json({
+                    orderSuccess: true
                 })
             })
         }
