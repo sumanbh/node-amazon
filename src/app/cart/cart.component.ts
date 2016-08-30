@@ -26,6 +26,7 @@ export class CartComponent implements OnInit {
                     return product.unique_id === response[0].id;
                 }
                 this._cartSum -= parseFloat(this._cartContent.find(findProduct).price);
+                console.log(this._cartContent);
                 this._cartTotal = this._cartSum.toFixed(2);
             })
     }
@@ -35,7 +36,7 @@ export class CartComponent implements OnInit {
             .subscribe(response => {
                 this._cartContent = response.data;
                 for (var prop in this._cartContent) {
-                    this._cartSum += parseFloat(this._cartContent[prop].price);
+                    this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
                 }
                 this._cartTotal = this._cartSum.toFixed(2);
             })
