@@ -13,7 +13,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 var config = require('./config.json');
 
-var connection = "postgres://suman@localhost/amazonia";
+var connection = config.postgresPath;
 
 var app = module.exports = express();
 
@@ -46,7 +46,7 @@ app.use(express.static(__dirname + '/../dist')); //location of index.html for no
 passport.use(new GoogleStrategy({
     clientID: config.googClientId,
     clientSecret: config.googSecret,
-    callbackURL: "http://localhost:3000/auth/callback"
+    callbackURL: config.googCallback
 },
     function (accessToken, refreshToken, profile, cb) {
         db.customers.findOne({google_id: profile.id}, function (err, foundUser){
