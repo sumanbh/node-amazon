@@ -45,12 +45,28 @@ module.exports = {
 
         if (!req.user) res.json({ userLog: false })
         else {
-            db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
-                res.json({
-                    userLog: true
-                })
+            db.cart.find({ product_id: id }, function (err, response) {
+                if (!response || response.length === 0) {
+                    console.log('wow')
+                    db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
+                        console.log(response);
+                        res.json({
+                            userLog: true
+                        })
+                    })
+                }
+                else {
+                    const newLength = response[0].product_quantity + quantity;
+                    console.log(req.user.id, typeof req.user.id, id, newLength)
+                    db.update_cart(newLength, req.user.id, id, function(err, response) {
+                        res.json({
+                            userLog: true
+                        })
+                    })
+                }
             })
         }
+
     },
     getFromCart: (req, res, next) => {
         if (!req.user) res.json({ userLog: false });
@@ -99,9 +115,9 @@ module.exports = {
         }
     },
     getUserOrders: (req, res, next) => {
-        if (!req.user) res.json({ userLog: false})
+        if (!req.user) res.json({ userLog: false })
         else {
-            db.ordersview.find({customer_id: req.user.id}, { order: "date_added desc" }, function (err, response){
+            db.ordersview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
                 res.json({
                     data: response
                 })
@@ -113,7 +129,7 @@ module.exports = {
 
         if (!req.user) res.json({ userLog: false })
         else {
-            db.cart.destroy({customer_id: req.user.id, id: uniqueId}, function(err, response){
+            db.cart.destroy({ customer_id: req.user.id, id: uniqueId }, function (err, response) {
                 res.json(response);
             })
         }
