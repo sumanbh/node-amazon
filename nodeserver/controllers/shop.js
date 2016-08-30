@@ -107,6 +107,14 @@ module.exports = {
                 })
             })
         }
+    },
+    removeFromCart: (req, res, next) => {
+        if (!req.user) res.json({ userLog: false })
+        else {
+            db.cart.destroy({customer_id: req.user.id, id: uniqueId}, function(err, response){
+                console.log(response);
+            })
+        }
     }
 }
 

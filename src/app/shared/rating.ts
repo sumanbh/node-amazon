@@ -12,7 +12,7 @@ import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit}
         <span class="sr-only">({{ index < rate ? '*' : ' ' }})</span>
         <span (mouseenter)="enter(index + 1)" (click)="update(index + 1)" [title]="r.title" 
         [attr.aria-valuetext]="r.title" 
-        [style.cursor]="readonly ? 'pointer' : 'default'">{{ index < rate ? '&#9733;' : '&#9734;' }}</span>
+        [style.cursor]="readonly ? 'not-allowed' : 'pointer'">{{ index < rate ? '&#9733;' : '&#9734;' }}</span>
       </template>
     </span>
   `

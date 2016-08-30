@@ -16,7 +16,7 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 
-import { GlobalEvent } from './shared/GlobalEvent';
+import { GlobalEvent } from './shared/global.event';
 
 @NgModule({
   declarations: [

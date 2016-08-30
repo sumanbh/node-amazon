@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { GlobalEvent } from '../shared/GlobalEvent'
+import { GlobalEvent } from '../shared/global.event'
 
 import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
     public _login:string;
 
     constructor(
-        private globalEvent: GlobalEvent
+        private globalEvent: GlobalEvent,
         private http: Http
     ) {
         this.globalEvent.showLogin.subscribe((mode: boolean) => {

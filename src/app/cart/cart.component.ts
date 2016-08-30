@@ -23,6 +23,7 @@ export class CartComponent implements OnInit {
         this.cartService.getCartById()
             .subscribe( response => {
                 this._cartContent = response.data;
+                console.log(response.data);
                 for (var prop in this._cartContent){
                     this._cartSum += parseFloat(this._cartContent[prop].price);
                 }
