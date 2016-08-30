@@ -15,4 +15,10 @@ export class CartService {
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }
+
+    removeFromCart(id): Observable<Object[]> {
+        const productUrl = `/api/user/cart/remove/${id}`;
+        return this.http.delete(productUrl)
+            .map((res: Response) => res.json());
+    }
 }

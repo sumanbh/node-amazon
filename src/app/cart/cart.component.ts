@@ -19,12 +19,22 @@ export class CartComponent implements OnInit {
 
     ngOnInit() { this.getCartInfo() }
 
+    removeProduct(id) {
+        this.cartService.removeFromCart(id)
+            .subscribe(response => {
+                function findProduct(product) {
+                    return product.unique_id === response[0].id;
+                }
+                this._cartSum -= parseFloat(this._cartContent.find(findProduct).price);
+                this._cartTotal = this._cartSum.toFixed(2);
+            })
+    }
+
     getCartInfo() {
         this.cartService.getCartById()
-            .subscribe( response => {
+            .subscribe(response => {
                 this._cartContent = response.data;
-                console.log(response.data);
-                for (var prop in this._cartContent){
+                for (var prop in this._cartContent) {
                     this._cartSum += parseFloat(this._cartContent[prop].price);
                 }
                 this._cartTotal = this._cartSum.toFixed(2);

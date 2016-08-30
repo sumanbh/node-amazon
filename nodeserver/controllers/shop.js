@@ -109,10 +109,12 @@ module.exports = {
         }
     },
     removeFromCart: (req, res, next) => {
+        const uniqueId = parseInt(req.params.id);
+
         if (!req.user) res.json({ userLog: false })
         else {
             db.cart.destroy({customer_id: req.user.id, id: uniqueId}, function(err, response){
-                console.log(response);
+                res.json(response);
             })
         }
     }

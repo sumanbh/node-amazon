@@ -83,6 +83,11 @@
     margin-bottom: 10px;
 }
 
+.cart-remove {
+    cursor: pointer;
+    width: 30px;
+}
+
 @media (max-width: 767px) {
     .cart-container .row .col-sm-10 {
         width: 100%;
