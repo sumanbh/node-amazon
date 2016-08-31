@@ -1,8 +1,9 @@
-# Angular 2 e-commerce website: Personal project at DevMountain
+# Angular 2 e-commerce website: Personal project
+Heavily inspired by Amazon.
 
 ## Build (with cli)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. `-prod` flag is broken for now.
 
 ## Code scaffolding
 
