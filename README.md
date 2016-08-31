@@ -12,5 +12,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-##
+---
 Special thanks to [Dan](https://github.com/wooddan22) for his help.
