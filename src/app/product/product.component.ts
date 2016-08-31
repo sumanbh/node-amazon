@@ -41,7 +41,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     getById(id: any) {
         this.productService.getProductById(id)
             .subscribe(response => {
-                console.log(response);
                 this._currentQuantity = 1;
                 this._product = response.product;
                 this._similar = response.similar;

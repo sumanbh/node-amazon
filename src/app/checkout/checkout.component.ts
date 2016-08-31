@@ -28,7 +28,6 @@ export class CheckoutComponent implements OnInit {
     getCartInfo() {
         this.checkoutService.getCartById()
             .subscribe(response => {
-                console.log("CheckoutComponent: ", response);
                 this._userInfo = response.userInfo;
                 this._cartContent = response.data;
                 for (var prop in this._cartContent) {
@@ -43,7 +42,6 @@ export class CheckoutComponent implements OnInit {
             this.checkoutService.sendCheckout()
                 .subscribe(response => {
                     this.router.navigate(['/user/orders']);
-                    console.log(response);
                 })
         }
     }

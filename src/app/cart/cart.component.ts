@@ -26,7 +26,6 @@ export class CartComponent implements OnInit {
                     return product.unique_id === response[0].id;
                 }
                 this._cartSum -= parseFloat(this._cartContent.find(findProduct).price);
-                console.log(this._cartContent);
                 this._cartTotal = this._cartSum.toFixed(2);
             })
     }

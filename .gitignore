@@ -8,7 +8,7 @@
 nodeserver/config.json
 
 #db stuff
-/nodeserver/schema.sql
+/nodeserver/info.sql
 
 # dependencies
 /node_modules
