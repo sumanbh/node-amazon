@@ -47,9 +47,7 @@ module.exports = {
         else {
             db.cart.find({ product_id: id }, function (err, response) {
                 if (!response || response.length === 0) {
-                    console.log('wow')
                     db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
-                        console.log(response);
                         res.json({
                             userLog: true
                         })
