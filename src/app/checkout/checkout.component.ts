@@ -29,6 +29,7 @@ export class CheckoutComponent implements OnInit {
         this.checkoutService.getCartById()
             .subscribe(response => {
                 this._userInfo = response.userInfo;
+                if (!this._userInfo) this.router.navigate(['']);
                 this._cartContent = response.data;
                 for (var prop in this._cartContent) {
                     this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);

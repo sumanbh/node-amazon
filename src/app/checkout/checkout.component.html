@@ -18,21 +18,19 @@
                         </div>
                         <div class="col-xs-8">
                             <div class="user-container">{{user.fullname}}</div>
-                            <form class="form-inline form-address">
+                            <form class="form-inline form-address" #checkoutForm="ngForm">
                                 <div class="form-group">
-                                    <input type="text" id="userAddress" class="form-control user-address user-extra" [value]="user.address" placeholder="Shipping Address">
-                                </div>
-                            </form>
-                            <form class="form-inline">
-                                <div class="form-group">
-                                    <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32" placeholder="City">
+                                    <input type="text" id="userAddress" class="form-control user-address address-extend" [value]="user.address" placeholder="Shipping Address" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2" placeholder="State">
+                                    <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32" placeholder="City" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2" placeholder="State" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999" placeholder="Zip">
+                                    <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999" placeholder="Zip" required>
                                 </div>
                             </form>
 

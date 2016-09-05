@@ -110,7 +110,7 @@
     border-radius: 0px;
 }
 
-.user-extra {
+.address-extend {
     min-width: 300px;
 }
 
@@ -128,7 +128,7 @@
 
 
 @media (max-width: 767px) {
-    .user-extra {
+    .address-extend {
         min-width: 0px;
     }
     .orders-container .row .col-sm-10 {

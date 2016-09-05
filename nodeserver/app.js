@@ -42,7 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
-
 passport.use(new GoogleStrategy({
     clientID: config.googClientId,
     clientSecret: config.googSecret,
