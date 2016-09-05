@@ -25,7 +25,8 @@ export class CartComponent implements OnInit {
                 function findProduct(product) {
                     return product.unique_id === response[0].id;
                 }
-                this._cartSum -= parseFloat(this._cartContent.find(findProduct).price);
+                let productToRemove = this._cartContent.find(findProduct);
+                this._cartSum -= parseFloat(productToRemove.price * productToRemove.product_quantity);
                 this._cartTotal = this._cartSum.toFixed(2);
             })
     }

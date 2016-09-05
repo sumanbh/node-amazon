@@ -20,19 +20,19 @@
                             <div class="user-container">{{user.fullname}}</div>
                             <form class="form-inline form-address">
                                 <div class="form-group">
-                                    <input type="text" id="userAddress" class="form-control user-address user-extra" [value]="user.address">
+                                    <input type="text" id="userAddress" class="form-control user-address user-extra" [value]="user.address" placeholder="Shipping Address">
                                 </div>
                             </form>
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32">
+                                    <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32" placeholder="City">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2">
+                                    <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2" placeholder="State">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999">
+                                    <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999" placeholder="Zip">
                                 </div>
                             </form>
 
@@ -45,8 +45,8 @@
 
                                 <!--Dummy payment information below-->
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa">                                <b>Visa</b> ending in 4850
-                                <p class="billing-info"><b>Billing address:</b> {{user.fullname}}, {{user.address}}, {{user.city}}, {{user.state}},
-                                    {{user.zip}} </p>
+                                <!--Dummy billing address-->
+                                <p class="billing-info"><b>Billing address:</b> Same as Shipping </p>  
                             </div>
                         </div>
                     </div>
