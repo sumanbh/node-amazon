@@ -27,7 +27,7 @@ import { GlobalEvent } from './shared/global.event';
     NavbarComponent,
     CartComponent,
     CheckoutComponent,
-    OrdersComponent
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,

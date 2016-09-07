@@ -1,6 +1,8 @@
 const app = require('../app.js');
 const db = app.get('db');
 
+var shortid = require('shortid');
+ 
 module.exports = {
     getAllProducts: (req, res) => {
         const offset = (parseInt(req.params.page) - 1) * 24;

@@ -2,13 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EllipsisPipe } from './ellipsis.pipe'
 import { PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance } from 'ng2-pagination';
 import { ShopService } from './shop.service';
-import { NgbRating } from '../shared/rating';
 
 @Component({
     selector: 'shop',
     templateUrl: 'shop.component.html',
     providers: [PaginationService, ShopService],
-    directives: [PaginationControlsCmp, NgbRating],
+    directives: [PaginationControlsCmp],
     pipes: [EllipsisPipe, PaginatePipe],
     styleUrls: ['shop.component.css']
 })

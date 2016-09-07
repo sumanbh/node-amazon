@@ -3,7 +3,6 @@ import { Http, Response } from '@angular/http';
 
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import 'underscore';
 
 @Injectable()
 export class ShopService {
@@ -29,33 +28,38 @@ export class ShopService {
     ) { }
 
     getAllProducts(page: number, _queryParam: string): Observable<Object[]> {
+        // For insert/remove on checkbox
+        function _without(value) {
+            return value != _queryParam;
+        }
+
         if (this._brandName.indexOf(_queryParam) >= 0){
             if (this.queryCollector.length >= 1 && this.queryCollector.indexOf(_queryParam) !== -1) {
-                this.queryCollector = _.without(this.queryCollector, _queryParam);
+                this.queryCollector = this.queryCollector.filter(_without);
             }
             else if (_queryParam !== '') this.queryCollector.push(_queryParam);
         }
         else if (this._osName.indexOf(_queryParam) >= 0){
             if (this.osCollector.length >= 1 && this.osCollector.indexOf(_queryParam) !== -1) {
-                this.osCollector = _.without(this.osCollector, _queryParam);
+                this.osCollector = this.osCollector.filter(_without);
             }
             else if (_queryParam !== '') this.osCollector.push(_queryParam);
         }
         else if(parseInt(_queryParam)) {
             if (this.ramCollector.length >= 1 && this.ramCollector.indexOf(_queryParam) !== -1) {
-                this.ramCollector = _.without(this.ramCollector, _queryParam);
+                this.ramCollector = this.ramCollector.filter(_without);
             }
             else if (_queryParam !== '') this.ramCollector.push(_queryParam);
         }
         else if(this._processorName.indexOf(_queryParam) >=0){
             if (this.processorCollector.length >= 1 && this.processorCollector.indexOf(_queryParam) !== -1) {
-                this.processorCollector = _.without(this.processorCollector, _queryParam);
+                this.processorCollector = this.processorCollector.filter(_without);
             }
             else if (_queryParam !== '') this.processorCollector.push(_queryParam);
         }
         else if (this._storageName.indexOf(_queryParam) >=0) {
             if (this.storageCollector.length >= 1 && this.storageCollector.indexOf(_queryParam) !== -1) {
-                this.storageCollector = _.without(this.storageCollector, _queryParam);
+                this.storageCollector = this.storageCollector.filter(_without);
             }
             else if (_queryParam !== '') this.storageCollector.push(_queryParam);
         }

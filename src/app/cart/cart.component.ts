@@ -38,7 +38,7 @@ export class CartComponent implements OnInit {
         this.cartService.getCartById()
             .subscribe(response => {
                 this._cartContent = response.data;
-                if (!response.userLog) this.router.navigate([''])
+                if (!response.userLog) this.router.navigate(['']);
                 for (var prop in this._cartContent) {
                     this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
                 }

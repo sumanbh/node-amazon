@@ -11,7 +11,7 @@ import { OrdersComponent } from './orders/orders.component';
 export const routes: RouterConfig = [
   { 
     path: '', 
-    component: ShopComponent //replace with HomeComponent once you have a proper home
+    component: ShopComponent //replace with HomeComponent 
   },
   {
     path: 'shop',
