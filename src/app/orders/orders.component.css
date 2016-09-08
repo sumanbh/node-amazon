@@ -46,6 +46,36 @@
     font-weight: bold;
 }
 
+.orderdate-container {
+    width: 23%;
+    display: inline-block;
+}
+
+.total-container {
+    width: 15%;
+    display: inline-block;
+}
+
+.shipto-container {
+    width: 23%;
+    display: inline-block;
+}
+
+.ordernumber-container {
+    float: right;
+}
+
+.main-one, .child-one {
+    font-size: 12px;
+    width: 100%;
+}
+
+.dropdown-menu {
+    top: initial;
+    left: initial;
+    padding: 5px 0 0 10px;
+}
+
 @media (max-width: 767px) {
     .name-container {
         text-align: center;

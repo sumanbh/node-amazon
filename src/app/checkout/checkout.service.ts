@@ -18,6 +18,7 @@ export class CheckoutService {
 
     sendCheckout(): Observable<Object[]> {
         let userInfo = {
+            userName: document.getElementById('userName').value,
             userAddress: document.getElementById('userAddress').value,
             userCity: document.getElementById('userCity').value,
             userState: document.getElementById('userState').value,

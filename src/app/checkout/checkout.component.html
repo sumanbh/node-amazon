@@ -17,10 +17,12 @@
                             <h5 class="checkout-head">Shipping address</h5>
                         </div>
                         <div class="col-xs-8">
-                            <div class="user-container">{{user.fullname}}</div>
                             <form class="form-inline form-address" #checkoutForm="ngForm">
                                 <div class="form-group">
-                                    <input type="text" id="userAddress" class="form-control user-address address-extend" [value]="user.address" placeholder="Shipping Address" required>
+                                    <input type="text" id="userName" class="form-control user-address" [value]="user.fullname" placeholder="Full Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="userAddress" class="form-control user-address" [value]="user.address" placeholder="Shipping Address" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32" placeholder="City" required>

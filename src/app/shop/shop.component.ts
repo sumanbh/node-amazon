@@ -16,7 +16,7 @@ export class ShopComponent implements OnInit {
     private _data: Array<Object>;
     private _itemsPerPage: number = 24;
     private _total: number;
-    private _page: number = 1;
+    public _page: number = 1;
     private _loading:boolean;
 
     constructor(

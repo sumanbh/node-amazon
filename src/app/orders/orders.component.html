@@ -10,12 +10,51 @@
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
             <div class="row" *ngFor="let item of _ordersContent | keys ">
-                  
-                  <!--<div *ngFor="let new of item.value">{{new.id}}</div>-->
+
+                <!--<div *ngFor="let new of item.value">{{new.id}}</div>-->
                 <div class="col-xs-12">
 
                     <div class="panel panel-default">
-                        <div class="panel-heading">Order number: {{item.key}}, Order total: {{item.total}}</div>
+                        <div class="panel-heading">
+                            <div class="orderdate-container hidden-sm hidden-xs">
+                                <div class="main-one">
+                                    <div>Order Placed</div>
+                                </div>
+                                <div class="child-one">
+                                    <div>{{item.date | date: 'longDate'}}</div>
+                                </div>
+                            </div>
+                            <div class="total-container">
+                                <div class="main-one">
+                                    <div>Total</div>
+                                </div>
+                                <div class="child-one">
+                                    <div>${{item.total}}</div>
+                                </div>
+                            </div>
+                            <div class="shipto-container hidden-sm hidden-xs">
+                                <div class="main-one">
+                                    <div>Ship to</div>
+                                </div>
+                                <div class="child-one">
+
+                                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{item.fullname}}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><b>{{item.fullname}}</b></li>
+                                        <li>{{item.address}}</li>
+                                        <li>{{item.city}}, {{item.state}}, {{item.zip}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="ordernumber-container">
+                                <div class="main-one">
+                                    <div>Order # {{item.key}}</div>
+                                </div>
+                                <div class="child-one">
+                                    <a>Order Details</a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body" *ngFor="let new of item.value">
                             <div class="col-sm-2 col-xs-12 image-container">
                                 <img class="orders-img" [src]="new.img">
@@ -23,10 +62,10 @@
                             <div class="col-sm-6 col-xs-12 name-container">
                                 <a [routerLink]="['/product', new.laptops_id]">{{new.laptop_name}}</a>
                             </div>
-                            <div class="col-sm-2 col-xs-6 price-container">
+                            <div class="col-sm-2 price-container hidden-xs">
                                 <span class="orders-product-price">${{new.price}}</span>
                             </div>
-                            <div class="col-sm-2 col-xs-6 quantity-container">
+                            <div class="col-sm-2 quantity-container hidden-xs">
                                 <b>Qty: {{new.quantity}}</b>
                             </div>
                         </div>
