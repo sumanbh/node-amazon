@@ -46,15 +46,6 @@
     font-weight: bold;
 }
 
-.ship-to {
-    color: #555;
-    font-size: 13px;
-}
-
-.ship-info {
-    font-size: 13px;
-}
-
 @media (max-width: 767px) {
     .name-container {
         text-align: center;

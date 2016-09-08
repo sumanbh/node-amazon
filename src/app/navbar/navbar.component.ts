@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
             .subscribe(
                 data => {
                     if (data.status) {
-                        this.userGivenName = data.userName.split(' ')[0];
+                        this.userGivenName = data.userName;
                         this.globalEvent.showLogin.emit(true);
                     }
                 }

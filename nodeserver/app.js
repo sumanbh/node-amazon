@@ -51,8 +51,7 @@ passport.use(new GoogleStrategy({
         db.customers.findOne({google_id: profile.id}, function (err, foundUser){
             if(foundUser === undefined) {
                 console.log("DID NOT FIND USER. Creating...", err);
-                db.customers.insert({google_id: profile.id, fullname: profile.displayName}, function (err, newUser){
-                    console.log("Created user: ", newUser);
+                db.customers.insert({google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName}, function (err, newUser){
                     return cb(null, newUser);
                 })
             }
@@ -65,7 +64,7 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get('/auth',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
@@ -86,7 +85,7 @@ app.get('/user/status/', (req, res) => {
         });
     }
     res.status(200).json({
-        userName: req.user.fullname,
+        userName: req.user.given_name,
         status: true
     });
 })

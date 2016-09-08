@@ -5,28 +5,29 @@
         <li class="active bread-name">Your orders</li>
     </ol>
     <!--<h2> Your Shopping orders is empty.</h2>-->
-
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
-            <div class="row" *ngFor="let item of _ordersContent">
+            <div class="row" *ngFor="let item of _ordersContent | keys ">
+                  
+                  <!--<div *ngFor="let new of item.value">{{new.id}}</div>-->
                 <div class="col-xs-12">
 
                     <div class="panel panel-default">
-                        <div class="panel-heading"><span class="ship-to">Ship to:</span> <span class="ship-info">{{item.address}}, {{item.city}}, {{item.state}}, {{item.zip}}</span></div>
-                        <div class="panel-body">
+                        <div class="panel-heading">Order number: {{item.key}}, Order total: {{item.total}}</div>
+                        <div class="panel-body" *ngFor="let new of item.value">
                             <div class="col-sm-2 col-xs-12 image-container">
-                                <img class="orders-img" [src]="item.img">
+                                <img class="orders-img" [src]="new.img">
                             </div>
                             <div class="col-sm-6 col-xs-12 name-container">
-                                <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a>
+                                <a [routerLink]="['/product', new.laptops_id]">{{new.laptop_name}}</a>
                             </div>
                             <div class="col-sm-2 col-xs-6 price-container">
-                                <span class="orders-product-price">${{item.price}}</span>
+                                <span class="orders-product-price">${{new.price}}</span>
                             </div>
                             <div class="col-sm-2 col-xs-6 quantity-container">
-                                <b>Qty: {{item.quantity}}</b>
+                                <b>Qty: {{new.quantity}}</b>
                             </div>
                         </div>
                     </div>

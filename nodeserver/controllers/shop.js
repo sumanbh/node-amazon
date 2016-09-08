@@ -1,8 +1,8 @@
 const app = require('../app.js');
 const db = app.get('db');
 
-var shortid = require('shortid');
- 
+const shortid = require('shortid');
+
 module.exports = {
     getAllProducts: (req, res) => {
         const offset = (parseInt(req.params.page) - 1) * 24;
@@ -57,8 +57,7 @@ module.exports = {
                 }
                 else {
                     const newLength = response[0].product_quantity + quantity;
-                    console.log(req.user.id, typeof req.user.id, id, newLength)
-                    db.update_cart(newLength, req.user.id, id, function(err, response) {
+                    db.update_cart(newLength, req.user.id, id, function (err, response) {
                         res.json({
                             userLog: true
                         })
@@ -99,17 +98,23 @@ module.exports = {
         const userCity = req.body.userCity;
         const userState = req.body.userState;
         const userZip = parseInt(req.body.userZip);
+        const uniqueId = shortid.generate();  //create 'unique' id through shortid
 
         if (!req.user) res.json({ userLog: false })
         else {
-            db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
-                for (var idx = 0; idx < cartRes.length; idx++) {
-                    db.orders.insert({ customer_id: req.user.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, address: userAddress, city: userCity, state: userState, zip: userZip }, function (err, response) {
-                        db.cart.destroy({ customer_id: req.user.id })
+            db.sum_orderline(req.user.id, function (err, sumCart) {
+                db.orderline.insert({ id: uniqueId, customer_id: req.user.id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
+                    db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
+                        for (var idx = 0; idx < cartRes.length; idx++) {
+                            db.orders.insert({ orderline_id: orderlineRes.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, address: userAddress, city: userCity, state: userState, zip: userZip }, function (err, response) {
+                                db.cart.destroy({ customer_id: req.user.id })
+                            })
+                        }
+                        res.json({
+                            orderSuccess: true
+                        })
                     })
-                }
-                res.json({
-                    orderSuccess: true
+
                 })
             })
         }
@@ -117,10 +122,8 @@ module.exports = {
     getUserOrders: (req, res, next) => {
         if (!req.user) res.json({ userLog: false })
         else {
-            db.ordersview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
-                res.json({
-                    data: response
-                })
+            db.get_all_orders(req.user.id, function (err, response) {
+                res.json(response);
             })
         }
     },

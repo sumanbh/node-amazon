@@ -1,7 +1,11 @@
+CREATE EXTENSION citext;
+
 create table customers (
     id serial primary key not null,
     google_id varchar(100) not null,
+    given_name varchar(70),
     fullname varchar(70),
+    email citext UNIQUE,
     phone varchar(20),
     address varchar(32),
     city varchar(32),
@@ -42,16 +46,22 @@ create table laptops (
     description text[]
 );
 
+create table orderline (
+    id varchar(20) primary key not null,
+    order_total numeric(7,2),
+    customer_id integer not null references customers(id),
+    date_added timestamp with time zone default current_timestamp
+);
+
 create table orders (
     id serial primary key not null,
-    customer_id integer not null references customers(id),
+    orderline_id varchar(20) references orderline(id),
     product_id integer not null references laptops(id),
     quantity integer not null,
     address varchar(32),
     city varchar(32),
     state char(2),
-    zip char(5),
-    date_added timestamp with time zone default current_timestamp
+    zip char(5)
 );
 
 create table cart (
@@ -59,7 +69,6 @@ create table cart (
     product_id integer not null references laptops(id),
     product_quantity integer not null,
     customer_id integer not null references customers(id),
-    checkout boolean,
     date_added timestamp with time zone default current_timestamp
 );
 
@@ -115,14 +124,13 @@ create view cartview AS
 
 
 create view ordersview as
-SELECT orders.customer_id,
+SELECT 
 orders.quantity,
 
     orders.address,
     orders.city,
     orders.state,
     orders.zip,
-    orders.date_added,
 
     laptops.id AS laptops_id,
 

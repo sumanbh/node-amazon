@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { OrdersService } from './orders.service';
+import { KeysPipe } from './groupBy';
+
+import 'underscore';
 
 @Component({
     selector: 'orders',
     providers: [OrdersService],
     templateUrl: 'orders.component.html',
-    styleUrls: ['orders.component.css']
+    styleUrls: ['orders.component.css'],
+    pipes: [KeysPipe]
 })
 export class OrdersComponent implements OnInit {
     private _ordersContent: Array<Object>;
@@ -19,8 +23,11 @@ export class OrdersComponent implements OnInit {
 
     getOrdersInfo() {
         this.ordersService.getOrdersById()
-            .subscribe( response => {
-                this._ordersContent = response.data;
+            .subscribe(response => {
+                this._ordersContent = _(response).groupBy(function (response) {
+                    return response.id;
+                })
+                console.log(this._ordersContent)
             })
     }
 }

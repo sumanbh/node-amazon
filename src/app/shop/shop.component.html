@@ -184,7 +184,7 @@
                         <div><img [src]="item.img"></div>
                         <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
                         <div class="main-content-price">${{item.price}}</div>
-                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>
                     </div>
                 </div>
                 <div [ngClass]="{ 'hidden' : _loading}" class="text-center">
