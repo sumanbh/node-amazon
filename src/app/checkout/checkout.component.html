@@ -1,11 +1,4 @@
 <div class="orders-container">
-    <ol class="breadcrumb">
-        <li><a [routerLink]="['/']">Home</a></li>
-        <li><a [routerLink]="['/shop']">Laptops</a></li>
-        <li><a [routerLink]="['/user/cart']">Cart</a></li>
-        <li class="active bread-name">Checkout</li>
-    </ol>
-
     <div class="row">
         <div class="col-sm-10 col-xs-12">
             <h2 class="cart-title text-center"> Checkout</h2>
@@ -17,23 +10,24 @@
                             <h5 class="checkout-head">Shipping address</h5>
                         </div>
                         <div class="col-xs-8">
-                            <form class="form-inline form-address" #checkoutForm="ngForm">
+                            <form class="form-inline form-address" #form="ngForm" (ngSubmit)="checkoutConfirm(form.value)">
                                 <div class="form-group">
-                                    <input type="text" id="userName" class="form-control user-address" [value]="user.fullname" placeholder="Full Name" required>
+                                    <input type="text" id="userName" class="form-control user-address" [(ngModel)]="user.fullname" name="fullname" placeholder="Full Name" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="userAddress" class="form-control user-address" [value]="user.address" placeholder="Shipping Address" required>
+                                    <input type="text" id="userAddress" class="form-control user-address" [(ngModel)]="user.address" name="address" placeholder="Shipping Address" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="userCity" class="form-control user-address" [value]="user.city" maxlength="32" placeholder="City" required>
+                                    <input type="text" id="userCity" class="form-control user-address" [(ngModel)]="user.city" name="city" maxlength="32" placeholder="City" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="userState" class="form-control user-address" [value]="user.state" maxlength="2" placeholder="State" required>
+                                    <input type="text" id="userState" class="form-control user-address" [(ngModel)]="user.state" name="state" minlength="2" maxlength="2" placeholder="State" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="number" id="userZip" class="form-control user-address" [value]="user.zip" max="99999" placeholder="Zip" required>
+                                    <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip" max="99999" placeholder="Zip" required>
                                 </div>
+                                <input type="submit" id="submit-form" class="hidden" />
                             </form>
 
                         </div>
@@ -78,9 +72,11 @@
         </div>
         <div class="col-sm-2 col-xs-12 orders-col">
             <div class="checkout-container">
-                <button (click)="checkoutConfirm()" type="button" class="btn btn-default btn-lg">
-                    <span style="font-size: 14px">Place your order</span>
-                </button>
+                    
+                        <button id="submit-btn" type="button" class="btn btn-default btn-lg">
+                            <label id="submit-label" for="submit-form">Place your order</label></button>
+                    
+                    <!--<span style="font-size: 14px">Place your order</span>-->
                 <hr>
                 <div class="checkout-subtotal">
                     <span class="cart-product-price">Order total: ${{_cartTotal}}</span>

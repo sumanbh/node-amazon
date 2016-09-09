@@ -14,6 +14,7 @@ export class CartComponent implements OnInit {
     private _cartContent: Array<Object>;
     private _cartSum: number = 0;
     private _cartTotal: string;
+    private _buttonDisabled: boolean = true;
 
     constructor(
         private cartService: CartService,
@@ -31,6 +32,8 @@ export class CartComponent implements OnInit {
                 let productToRemove = this._cartContent.find(findProduct);
                 this._cartSum -= parseFloat(productToRemove.price * productToRemove.product_quantity);
                 this._cartTotal = this._cartSum.toFixed(2);
+                if (this._cartSum) this._buttonDisabled = false
+                else this._buttonDisabled = true;
             })
     }
 
@@ -39,6 +42,8 @@ export class CartComponent implements OnInit {
             .subscribe(response => {
                 this._cartContent = response.data;
                 if (!response.userLog) this.router.navigate(['']);
+                else if (!this._cartContent || this._cartContent.length) this._buttonDisabled = false;
+                else this._buttonDisabled = true;
                 for (var prop in this._cartContent) {
                     this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
                 }

@@ -16,18 +16,11 @@ export class CheckoutService {
             .map((res: Response) => res.json());
     }
 
-    sendCheckout(): Observable<Object[]> {
-        let userInfo = {
-            userName: document.getElementById('userName').value,
-            userAddress: document.getElementById('userAddress').value,
-            userCity: document.getElementById('userCity').value,
-            userState: document.getElementById('userState').value,
-            userZip: document.getElementById('userZip').value
-        }
+    sendCheckout(value: any): Observable<Object[]> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
         const checkoutUrl = `api/user/checkout/confirm`;
-        return this.http.post(checkoutUrl, userInfo, {headers: headers})
+        return this.http.post(checkoutUrl, value, {headers: headers})
             .map((res: Response) => res.json());
     }
 }

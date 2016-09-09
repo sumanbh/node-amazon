@@ -108,10 +108,7 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     border-radius: 0px;
-}
-
-.address-extend {
-    min-width: 300px;
+    width: 100%;
 }
 
 .ship-info {
@@ -126,11 +123,19 @@
     text-overflow: ellipsis;
 }
 
+#submit-btn {
+    padding: 10px 0px !important;
+}
+
+#submit-label {
+    margin-top: -10px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+}
 
 @media (max-width: 767px) {
-    .address-extend {
-        min-width: 0px;
-    }
     .orders-container .row .col-sm-10 {
         width: 100%;
     }

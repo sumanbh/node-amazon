@@ -92,28 +92,35 @@ module.exports = {
         }
     },
     checkoutConfirm: (req, res, next) => {
-        const userName = req.body.userName;
-        const userAddress = req.body.userAddress;
-        const userCity = req.body.userCity;
-        const userState = req.body.userState;
-        const userZip = req.body.userZip;
+        const userName = req.body.fullname;
+        const userAddress = req.body.address;
+        const userCity = req.body.city;
+        const userState = req.body.state;
+        const userZip = req.body.zip;
 
         if (!req.user) res.json({ userLog: false })
         else {
-            db.sum_orderline(req.user.id, function (err, sumCart) {
-                db.orderline.insert({ customer_id: req.user.id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
-                    db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
-                        for (var idx = 0; idx < cartRes.length; idx++) {
-                            db.orders.insert({orderline_id: orderlineRes.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, fullname: userName, address: userAddress, city: userCity, state: userState, zip: userZip}, function (err, response) {
-                                db.cart.destroy({ customer_id: req.user.id })
-                            })
-                        }
-                        res.json({
-                            orderSuccess: true
-                        })
-                    })
-
+            db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
+                //check is cart is empty
+                if (!cartRes.length) res.json({
+                    orderSuccess: false
                 })
+                else {
+                    db.sum_orderline(req.user.id, function (err, sumCart) {
+                        db.orderline.insert({ customer_id: req.user.id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
+                            for (var idx = 0; idx < cartRes.length; idx++) {
+                                db.orders.insert({ orderline_id: orderlineRes.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, fullname: userName, address: userAddress, city: userCity, state: userState, zip: userZip }, function (err, response) {
+                                    db.cart.destroy({ customer_id: req.user.id })
+                                })
+                            }
+                            res.json({
+                                orderSuccess: true
+                            })
+                        })
+
+                    })
+                }
+
             })
         }
     },

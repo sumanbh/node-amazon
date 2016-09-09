@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router'
+import {Router} from '@angular/router';
 
-import { CheckoutService } from './checkout.service'
+import { CheckoutService } from './checkout.service';
 
 @Component({
     selector: 'checkout',
@@ -18,7 +18,7 @@ export class CheckoutComponent implements OnInit {
 
     constructor(
         private checkoutService: CheckoutService,
-        private router: Router
+        private router: Router,
     ) { }
 
     ngOnInit() {
@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit {
                 this._userInfo = response.userInfo;
                 if (!this._userInfo) this.router.navigate(['']);
                 this._cartContent = response.data;
+                if (!this._cartContent || !this._cartContent.length) this.router.navigate(['user/cart'])
                 for (var prop in this._cartContent) {
                     this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
                 }
@@ -38,11 +39,12 @@ export class CheckoutComponent implements OnInit {
             })
     }
 
-    checkoutConfirm() {
+    checkoutConfirm(value: any) {
         if (this._userInfo) {
-            this.checkoutService.sendCheckout()
+            this.checkoutService.sendCheckout(value)
                 .subscribe(response => {
-                    this.router.navigate(['/user/orders']);
+                    if (response.orderSuccess) this.router.navigate(['user/orders'])
+                    else this.router.navigate(['user/cart'])
                 })
         }
     }

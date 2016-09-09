@@ -27,7 +27,6 @@ export class OrdersComponent implements OnInit {
                 this._ordersContent = _(response).groupBy(function (response) {
                     return response.id;
                 })
-                console.log(this._ordersContent)
             })
     }
 }

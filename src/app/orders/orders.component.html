@@ -11,9 +11,7 @@
             <hr>
             <div class="row" *ngFor="let item of _ordersContent | keys ">
 
-                <!--<div *ngFor="let new of item.value">{{new.id}}</div>-->
                 <div class="col-xs-12">
-
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="orderdate-container hidden-sm hidden-xs">
@@ -60,7 +58,7 @@
                                 <img class="orders-img" [src]="new.img">
                             </div>
                             <div class="col-sm-6 col-xs-12 name-container">
-                                <a [routerLink]="['/product', new.laptops_id]">{{new.laptop_name}}</a>
+                                <a [routerLink]="['/product', new.laptop_id]">{{new.laptop_name}}</a>
                             </div>
                             <div class="col-sm-2 price-container hidden-xs">
                                 <span class="orders-product-price">${{new.price}}</span>
