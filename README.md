@@ -1,5 +1,5 @@
 # Angular 2 e-commerce website: Personal project
-Heavily inspired by Amazon.
+Heavily inspired by Amazon. Demo at: http://sumanb.com/#/
 
 ## Build (with cli)
 
