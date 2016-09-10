@@ -10,8 +10,8 @@ import { CheckoutService } from './checkout.service';
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    private _cartContent: Array<Object>;
-    private _userInfo: Object;
+    private _cartContent: any;
+    private _userInfo: any;
     private _loginStatus: boolean = false;
     private _cartSum: number = 0;
     private _cartTotal: string;
@@ -36,6 +36,9 @@ export class CheckoutComponent implements OnInit {
                     this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
                 }
                 this._cartTotal = this._cartSum.toFixed(2);
+            },
+            error => {
+                if (error) this.router.navigate(['user/cart']);
             })
     }
 
@@ -43,8 +46,10 @@ export class CheckoutComponent implements OnInit {
         if (this._userInfo) {
             this.checkoutService.sendCheckout(value)
                 .subscribe(response => {
-                    if (response.orderSuccess) this.router.navigate(['user/orders'])
-                    else this.router.navigate(['user/cart'])
+                    if (response) this.router.navigate(['user/orders']);
+                },
+                error => {
+                    if (error) this.router.navigate(['user/cart']);
                 })
         }
     }

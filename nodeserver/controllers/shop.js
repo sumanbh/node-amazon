@@ -43,7 +43,7 @@ module.exports = {
         const id = parseInt(req.body.productId);
         const quantity = parseInt(req.body.productQuantity);
 
-        if (!req.user) res.json({ userLog: false })
+        if (!req.user) res.sendStatus(401);
         else {
             db.cart.find({ product_id: id }, function (err, response) {
                 if (!response || response.length === 0) {
@@ -66,18 +66,15 @@ module.exports = {
 
     },
     getFromCart: (req, res, next) => {
-        if (!req.user) res.json({ userLog: false });
+        if (!req.user) res.sendStatus(401);
         else {
             db.cartview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
-                res.json({
-                    userLog: true,
-                    data: response
-                })
+                res.json(response);
             })
         }
     },
-    getInfo: (req, res, next) => {
-        if (!req.user) res.json({ userLog: false })
+    getCheckoutInfo: (req, res, next) => {
+        if (!req.user) res.sendStatus(401);
         else {
             db.cartview.find({ customer_id: req.user.id }, { order: "date_added desc" }, function (err, response) {
                 req.session.cart = response;
@@ -98,13 +95,11 @@ module.exports = {
         const userState = req.body.state;
         const userZip = req.body.zip;
 
-        if (!req.user) res.json({ userLog: false })
+        if (!req.user) res.sendStatus(401);
         else {
             db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
                 //check is cart is empty
-                if (!cartRes.length) res.json({
-                    orderSuccess: false
-                })
+                if (!cartRes.length) res.sendStatus(204);
                 else {
                     db.sum_orderline(req.user.id, function (err, sumCart) {
                         db.orderline.insert({ customer_id: req.user.id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
@@ -113,9 +108,7 @@ module.exports = {
                                     db.cart.destroy({ customer_id: req.user.id })
                                 })
                             }
-                            res.json({
-                                orderSuccess: true
-                            })
+                            res.send('success');
                         })
 
                     })
@@ -125,7 +118,7 @@ module.exports = {
         }
     },
     getUserOrders: (req, res, next) => {
-        if (!req.user) res.json({ userLog: false })
+        if (!req.user) res.sendStatus(401);
         else {
             db.get_all_orders(req.user.id, function (err, response) {
                 res.json(response);
@@ -133,10 +126,9 @@ module.exports = {
         }
     },
     removeFromCart: (req, res, next) => {
-        const uniqueId = parseInt(req.params.id);
-
-        if (!req.user) res.json({ userLog: false })
+        if (!req.user) res.sendStatus(401);
         else {
+            const uniqueId = parseInt(req.params.id);
             db.cart.destroy({ customer_id: req.user.id, id: uniqueId }, function (err, response) {
                 res.json(response);
             })

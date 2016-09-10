@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
@@ -15,12 +16,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
+import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
 
 import { GlobalEvent } from './shared/global.event';
 
 @NgModule({
   declarations: [
     AppComponent,
+    PageNotFoundComponent,
     HomeComponent,
     ShopComponent,
     ProductComponent,
@@ -28,12 +31,13 @@ import { GlobalEvent } from './shared/global.event';
     CartComponent,
     CheckoutComponent,
     OrdersComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes),
     HttpModule,
     JsonpModule,
     NgbModule

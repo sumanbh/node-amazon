@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { ProductService } from './product.service';
@@ -48,8 +48,10 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.productService.addToCart(id, quantity)
             .subscribe(response => {
                 window.scrollTo(0,0);
-                this._loginState = response.userLog;
-                if (this._loginState) this._addedToCart = true;
+                this._addedToCart = true;
+            },
+            error => {
+                if (error) this._loginState = false;
             })
     }
 

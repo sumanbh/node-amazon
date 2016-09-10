@@ -1,9 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { Observable }     from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-
 @Injectable()
 export class ShopService {
     private _brand: string = '';
@@ -27,7 +24,7 @@ export class ShopService {
         private http: Http
     ) { }
 
-    getAllProducts(page: number, _queryParam: string): Observable<Object[]> {
+    getAllProducts(page: number, _queryParam: string) {
         // For insert/remove on checkbox
         function _without(value) {
             return value != _queryParam;

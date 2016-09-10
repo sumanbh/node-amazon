@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { GlobalEvent } from '../shared/global.event'
 
 import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
 
 @Component({
     selector: 'navbar',
@@ -29,7 +28,7 @@ export class NavbarComponent implements OnInit {
      }
 
     private onLoginSuccess() :void{
-        this._login = `login/state?location='${window.location.hash.replace(/[#]/g, '')}'`;  //so that login returns back to where the user was.
+        this._login = `login/state?location=${window.location.pathname}`;  //so that login returns back to where the user was.
         this.http.get(`/user/status/`)
             .map(res => res.json())
             .subscribe(

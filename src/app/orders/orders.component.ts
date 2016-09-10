@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
-import { KeysPipe } from './groupBy';
+import { GroupByPipe } from './groupby.pipe';
 
 import 'underscore';
 
@@ -10,13 +11,14 @@ import 'underscore';
     providers: [OrdersService],
     templateUrl: 'orders.component.html',
     styleUrls: ['orders.component.css'],
-    pipes: [KeysPipe]
+    pipes: [GroupByPipe]
 })
 export class OrdersComponent implements OnInit {
     private _ordersContent: Array<Object>;
 
     constructor(
-        private ordersService: OrdersService
+        private ordersService: OrdersService,
+        private router: Router
     ) { }
 
     ngOnInit() { this.getOrdersInfo() }
@@ -27,6 +29,9 @@ export class OrdersComponent implements OnInit {
                 this._ordersContent = _(response).groupBy(function (response) {
                     return response.id;
                 })
+            },
+            error => {
+                if (error) this.router.navigate(['user/cart'])
             })
     }
 }

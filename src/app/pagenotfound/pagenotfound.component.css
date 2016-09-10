@@ -1,0 +1,15 @@
+.error-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.main-error {
+    font-size: 36px;
+    padding: 10px;
+}
+
+.child-error {
+    margin-top: 15px;
+    font-size: 16px;
+    padding: 10px;
+}

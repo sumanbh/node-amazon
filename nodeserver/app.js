@@ -69,12 +69,12 @@ app.get('/auth',
 app.get('/auth/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     function (req, res) {
-        // Successful authentication, redirect shop.
-        res.redirect(`/#${req.session.location.replace(/[']/g, '')}`);
+        // Successful authentication, redirect to last user page.
+        res.redirect(`${req.session.location}`);
     });
 
 app.get('/login/:param', (req, res) => {
-    req.session.location = req.query.location;
+    req.session.location = req.query.location; //store user's last page
     return res.redirect('/auth/');
 });
 
@@ -93,7 +93,7 @@ app.get('/user/status/', (req, res) => {
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);
 app.get('/api/user/cart', shopCtrl.getFromCart);
-app.get('/api/user/checkout', shopCtrl.getInfo);
+app.get('/api/user/checkout', shopCtrl.getCheckoutInfo);
 app.get('/api/user/orders', shopCtrl.getUserOrders);
 app.delete('/api/user/cart/remove/:id', shopCtrl.removeFromCart);
 app.post('/api/user/checkout/confirm', shopCtrl.checkoutConfirm);
@@ -104,7 +104,14 @@ app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   })
-})
+});
+
+// Wildcard for all possible routes
+app.get('*', function(request, response) {
+    response.sendFile(path.resolve('./dist/index.html'))
+});
+
+
 
 passport.serializeUser(function (user, cb) {
     cb(null, user);

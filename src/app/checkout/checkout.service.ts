@@ -1,8 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
-import { Observable }     from 'rxjs/Observable';
-
 @Injectable()
 export class CheckoutService {
 
@@ -10,17 +8,17 @@ export class CheckoutService {
         private http: Http
     ) { }
 
-    getCartById(): Observable<Object[]> {
+    getCartById() {
         const productUrl = `api/user/checkout`;  //api url
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }
 
-    sendCheckout(value: any): Observable<Object[]> {
+    sendCheckout(value: any) {
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
         const checkoutUrl = `api/user/checkout/confirm`;
         return this.http.post(checkoutUrl, value, {headers: headers})
-            .map((res: Response) => res.json());
+            .map((res: Response) => res.status);
     }
 }
