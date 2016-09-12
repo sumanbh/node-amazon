@@ -9,7 +9,7 @@ export class OrdersService {
     ) { }
 
     getOrdersById(){
-        const ordersUrl = `api/user/orders`;  //api url
+        const ordersUrl = `/api/user/orders`;  //api url
         return this.http.get(ordersUrl)
             .map((res: Response) => res.json());
     }

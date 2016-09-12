@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
      }
 
     private onLoginSuccess() :void{
-        this._login = `login/state?location=${window.location.pathname}`;  //so that login returns back to where the user was.
+        this._login = `/login/state?location=${window.location.pathname}`;  //so that login returns back to where the user was.
         this.http.get(`/user/status/`)
             .map(res => res.json())
             .subscribe(

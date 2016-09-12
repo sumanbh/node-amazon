@@ -9,7 +9,7 @@ export class ProductService {
     ) { }
 
     getProductById(id: string) {
-        const productUrl = `api/product/${id}`;  //api url
+        const productUrl = `/api/product/${id}`;  //api url
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }
@@ -17,7 +17,7 @@ export class ProductService {
         let cartInfo = JSON.stringify({ productId: id, productQuantity: quantity });
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return this.http.post(`api/cart/add`, cartInfo, {headers: headers})
+        return this.http.post(`/api/cart/add`, cartInfo, {headers: headers})
             .map((res:Response) => res.json())
     }
 }

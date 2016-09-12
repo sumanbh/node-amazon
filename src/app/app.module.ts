@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
-import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -24,7 +23,6 @@ import { GlobalEvent } from './shared/global.event';
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    HomeComponent,
     ShopComponent,
     ProductComponent,
     NavbarComponent,

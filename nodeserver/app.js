@@ -111,8 +111,6 @@ app.get('*', function(request, response) {
     response.sendFile(path.resolve('./dist/index.html'))
 });
 
-
-
 passport.serializeUser(function (user, cb) {
     cb(null, user);
 });

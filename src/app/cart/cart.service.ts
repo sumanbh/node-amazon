@@ -9,7 +9,7 @@ export class CartService {
     ) { }
 
     getCartById() {
-        const productUrl = `api/user/cart`;  //api url
+        const productUrl = `/api/user/cart`;  //api url
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }
