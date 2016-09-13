@@ -71,12 +71,6 @@
     text-align: center;
 }
 
-.checkout-container > .btn {
-    height: 42px;
-    width: 100%;
-    background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
-}
-
 .checkout-subtotal {
     text-align: center;
     margin-bottom: 10px;
@@ -111,11 +105,6 @@
     width: 100%;
 }
 
-/*.ship-info {
-    padding-left: 5px;
-    padding-right: 5px;
-}*/
-
 .billing-info {
     font-size: 12px;
     white-space: nowrap;
@@ -123,16 +112,15 @@
     text-overflow: ellipsis;
 }
 
-#submit-btn {
-    padding: 10px 0px !important;
-}
-
 #submit-label {
-    margin-top: -10px;
     margin-bottom: 0px;
     cursor: pointer;
     width: 100%;
     padding: 10px;
+    background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+    border: 1px solid grey;
+    border-radius: 4px;
+    font-weight: 400;
 }
 
 @media (max-width: 767px) {
