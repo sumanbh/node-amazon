@@ -49,7 +49,7 @@
                                     <div>Order # {{item.prop}}</div>
                                 </div>
                                 <div class="child-one">
-                                    <a>Order Details</a>
+                                    <a [routerLink]="['/user/orders', item.prop]">Order Details</a>
                                 </div>
                             </div>
                         </div>

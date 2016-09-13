@@ -29,15 +29,18 @@ module.exports = {
     },
 
     getSimilarById: (req, res, next) => {
-        const price = parseInt(req.session.data.productInfo[0].price);
-        const id = parseInt(req.params.productId);
+        if (req.session.data.productInfo.length < 1) res.sendStatus(404);
+        else {
+            const price = parseInt(req.session.data.productInfo[0].price);
+            const id = parseInt(req.params.productId);
 
-        db.get_similar_product(price, id, (err, product) => {
-            res.json({
-                product: req.session.data.productInfo,
-                similar: product.splice(0, 3)
-            });
-        })
+            db.get_similar_product(price, id, (err, product) => {
+                res.json({
+                    product: req.session.data.productInfo,
+                    similar: product.splice(0, 3)
+                });
+            })
+        }
     },
     addToCart: (req, res, next) => {
         const id = parseInt(req.body.productId);
@@ -133,6 +136,20 @@ module.exports = {
                 res.json(response);
             })
         }
+    },
+    getOrderById: (req, res, next) => {
+        if (!req.user) res.sendStatus(401);
+        else {
+            const orderId = req.params.id;
+            db.get_order_by_id(req.user.id, orderId, function(err, response) {
+                if (response){
+                    res.json({
+                    data: response,
+                    one: response.slice(0, 1)
+                })
+                }
+                else res.sendStatus(404);
+            })
+        }
     }
 }
-

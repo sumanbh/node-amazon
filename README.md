@@ -3,7 +3,7 @@ Heavily inspired by Amazon. Voted best overall project at DevMountain. Demo at: 
 
 ## Build (with cli)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. `-prod` flag is broken for now. Server files are located at `nodeserver/`.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. To use `-prod` flag, change webpack-build-production.ts from `mangle: { screw_ie8 : true }` to `mangle: { screw_ie8 : true, keep_fnames:true }`. Server files are located at `nodeserver/`.
 
 ## Code scaffolding
 

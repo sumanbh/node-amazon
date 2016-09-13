@@ -23,6 +23,7 @@
     -ms-flex-direction: column;
     flex-direction: column;
     border: 1px solid #eee;
+    margin-left: -1px;   /*safari seems to break first row without it*/
 }
 
 .boxception {

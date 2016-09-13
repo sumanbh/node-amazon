@@ -181,7 +181,7 @@
                     <div [ngClass]="{ 'hidden': !_loading }" class="loader"></div>
 
                     <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
-                        <div><img [src]="item.img"></div>
+                        <div><a [routerLink]="['/product', item.id]" class="main-content-name"><img [src]="item.img"></a></div>
                         <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
                         <div class="main-content-price">${{item.price}}</div>
                         <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>

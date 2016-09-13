@@ -95,6 +95,7 @@ app.get('/api/shop/:page', shopCtrl.getAllProducts);
 app.get('/api/user/cart', shopCtrl.getFromCart);
 app.get('/api/user/checkout', shopCtrl.getCheckoutInfo);
 app.get('/api/user/orders', shopCtrl.getUserOrders);
+app.get('/api/user/order/:id', shopCtrl.getOrderById);
 app.delete('/api/user/cart/remove/:id', shopCtrl.removeFromCart);
 app.post('/api/user/checkout/confirm', shopCtrl.checkoutConfirm);
 app.post('/api/cart/add', shopCtrl.addToCart);

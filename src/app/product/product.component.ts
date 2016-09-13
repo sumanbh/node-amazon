@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { ProductService } from './product.service';
@@ -22,6 +22,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private productService: ProductService
     ) { }
 
@@ -41,6 +42,9 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this._currentQuantity = 1;
                 this._product = response.product;
                 this._similar = response.similar;
+            },
+            error => {
+                if (error) this.router.navigate(['404'])
             })
     }
 
@@ -51,12 +55,11 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this._addedToCart = true;
             },
             error => {
+                window.scrollTo(0,0);
                 if (error) this._loginState = false;
             })
     }
-
     ngOnDestroy() {
         this._param.unsubscribe();
     }
-
 }
