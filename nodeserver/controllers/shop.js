@@ -48,7 +48,7 @@ module.exports = {
 
         if (!req.user) res.sendStatus(401);
         else {
-            db.cart.find({ product_id: id }, function (err, response) {
+            db.cart.find({ product_id: id, customer_id: req.user.id }, function (err, response) {
                 if (!response || response.length === 0) {
                     db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
                         res.json({
@@ -101,7 +101,7 @@ module.exports = {
         if (!req.user) res.sendStatus(401);
         else {
             db.cart.find({ customer_id: req.user.id }, function (err, cartRes) {
-                //check is cart is empty
+                //check if cart is empty
                 if (!cartRes.length) res.sendStatus(204);
                 else {
                     db.sum_orderline(req.user.id, function (err, sumCart) {
