@@ -18,6 +18,9 @@ export class ShopComponent implements OnInit {
     private _total: number;
     public _page: number = 1;
     private _loading:boolean;
+    public rate:number;
+    public readonly:boolean;
+    public max:number = 5;
 
     constructor(
         private shopService: ShopService

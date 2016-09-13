@@ -1,6 +1,5 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
-import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './product/product.component';
@@ -10,9 +9,9 @@ import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
 
 export const routes: RouterConfig = [
-  { 
-    path: '', 
-    component: ShopComponent //replace with HomeComponent 
+  {
+    path: '',
+    component: ShopComponent
   },
   {
     path: 'shop',
