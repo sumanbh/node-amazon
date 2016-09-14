@@ -44,6 +44,7 @@
 
 .image-container {
     width: 120px;
+    margin-left: -1px;  /*safari*/
 }
 
 .name-container {
@@ -54,7 +55,7 @@
     height: auto;
     width: auto;
     max-width: 100%;
-    margin-bottom: -10px;
+    margin-top: -10px;
 }
 
 .cart-product-price {
@@ -89,6 +90,10 @@
 .payment-container {
     margin-left: 12px;
     margin-top: 10px;
+}
+
+.ship-info {
+    margin-left: -1px;  /*safari*/
 }
 
 .checkout-head {

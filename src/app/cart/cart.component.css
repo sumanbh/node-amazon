@@ -44,6 +44,9 @@
 
 .image-container {
     width: 120px;
+    padding-right: 7px;
+    padding-left: 7px;
+    margin-left: -1px; /*safari*/
 }
 
 .name-container {
@@ -95,15 +98,15 @@
     .checkout-col {
         width: 100%;
     }
-    .col-sm-10 {
+    .col-sm-10, .col-xs-12 {
         padding-left: 7px;
         padding-right: 7px;
     }
     .image-container {
-        width: 100px;
+        width: 75px;
     }
     .name-container {
-        width: calc(100% - 100px);
+        width: calc(100% - 75px);
     }
     .price-container {
         margin-top: 5px;
