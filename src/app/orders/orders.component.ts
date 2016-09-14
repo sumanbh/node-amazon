@@ -15,6 +15,7 @@ import 'underscore';
 })
 export class OrdersComponent implements OnInit {
     private _ordersContent: Array<Object>;
+    private _testContent: Array<Object>;
 
     constructor(
         private ordersService: OrdersService,
@@ -23,12 +24,30 @@ export class OrdersComponent implements OnInit {
 
     ngOnInit() { this.getOrdersInfo() }
 
+    transformArr(orig) {
+        var newArr = [],
+            types = {},
+            newItem, i, j, cur;
+        for (i = 0, j = orig.length; i < j; i++) {
+            cur = orig[i];
+            var temp = cur.id;
+            if (!(cur.id in types)) {
+                types[cur.id] = { [cur.id]: [] };
+                newArr.push(types[cur.id]);
+            }
+            types[cur.id][temp].push(cur)
+        }
+        return newArr;
+    }
+
     getOrdersInfo() {
         this.ordersService.getOrdersById()
             .subscribe(response => {
-                this._ordersContent = _(response).groupBy(function (response) {
-                    return response.id;
-                })
+                this._ordersContent = this.transformArr(response).reduce(function (result, item) {
+                    var key = Object.keys(item)[0]; 
+                    result[key] = item[key];
+                    return result;
+                }, {});;
             },
             error => {
                 if (error) this.router.navigate(['user/cart'])
