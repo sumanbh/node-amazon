@@ -51,17 +51,13 @@ module.exports = {
             db.cart.find({ product_id: id, customer_id: req.user.id }, function (err, response) {
                 if (!response || response.length === 0) {
                     db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id }, function (err, response) {
-                        res.json({
-                            userLog: true
-                        })
+                        res.sendStatus(200);
                     })
                 }
                 else {
                     const newLength = response[0].product_quantity + quantity;
                     db.update_cart(newLength, req.user.id, id, function (err, response) {
-                        res.json({
-                            userLog: true
-                        })
+                        res.sendStatus(200);
                     })
                 }
             })

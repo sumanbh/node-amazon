@@ -1,4 +1,4 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { ShopComponent } from './shop/shop.component';
@@ -8,7 +8,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
 
-export const routes: RouterConfig = [
+export const routes: Routes = [
   {
     path: '',
     component: ShopComponent

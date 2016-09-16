@@ -2,16 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
-import { GroupByPipe } from './groupby.pipe';
-
-import 'underscore';
 
 @Component({
     selector: 'orders',
     providers: [OrdersService],
     templateUrl: 'orders.component.html',
-    styleUrls: ['orders.component.css'],
-    pipes: [GroupByPipe]
+    styleUrls: ['orders.component.css']
 })
 export class OrdersComponent implements OnInit {
     private _ordersContent: Array<Object>;

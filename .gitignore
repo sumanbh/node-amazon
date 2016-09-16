@@ -4,6 +4,10 @@
 /dist
 /tmp
 
+# compiled output
+/dist
+/tmp
+
 #config
 nodeserver/config.json
 

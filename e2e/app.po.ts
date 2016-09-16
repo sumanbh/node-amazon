@@ -1,4 +1,6 @@
-export class AmazonV2Page {
+import { browser, element, by } from 'protractor/globals';
+
+export class CyranoPage {
   navigateTo() {
     return browser.get('/');
   }

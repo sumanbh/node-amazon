@@ -1,14 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EllipsisPipe } from './ellipsis.pipe'
-import { PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance } from 'ng2-pagination';
 import { ShopService } from './shop.service';
 
 @Component({
     selector: 'shop',
     templateUrl: 'shop.component.html',
-    providers: [PaginationService, ShopService],
-    directives: [PaginationControlsCmp],
-    pipes: [EllipsisPipe, PaginatePipe],
+    providers: [ShopService],
     styleUrls: ['shop.component.css']
 })
 
@@ -16,8 +12,8 @@ export class ShopComponent implements OnInit {
     private _data: Array<Object>;
     private _itemsPerPage: number = 24;
     private _total: number;
-    public _page: number = 1;
     private _loading:boolean;
+    public _page: number = 1;
     public rate:number;
     public readonly:boolean;
     public max:number = 5;

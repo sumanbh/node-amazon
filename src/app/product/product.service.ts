@@ -18,6 +18,6 @@ export class ProductService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(`/api/cart/add`, cartInfo, {headers: headers})
-            .map((res:Response) => res.json())
+            .map((res:Response) => res.status)
     }
 }

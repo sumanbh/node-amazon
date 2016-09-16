@@ -17,7 +17,12 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
 
+import { GroupByPipe } from './orders/groupby.pipe';
+import { EllipsisPipe } from './shop/ellipsis.pipe';
+import { Ng2PaginationModule } from 'ng2-pagination';
+
 import { GlobalEvent } from './shared/global.event';
+import 'rxjs/add/operator/map';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,9 @@ import { GlobalEvent } from './shared/global.event';
     CartComponent,
     CheckoutComponent,
     OrdersComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    GroupByPipe,
+    EllipsisPipe
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,8 @@ import { GlobalEvent } from './shared/global.event';
     RouterModule.forRoot(routes),
     HttpModule,
     JsonpModule,
-    NgbRatingModule
+    NgbRatingModule,
+    Ng2PaginationModule
   ],
   providers: [],
   entryComponents: [AppComponent],

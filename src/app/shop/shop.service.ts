@@ -3,11 +3,11 @@ import { Http, Response } from '@angular/http';
 
 @Injectable()
 export class ShopService {
-    private _brand: string = '';
-    private _os: string = '';
-    private _ram: string = '';
-    private _processor: string = '';
-    private _storage: string = '';
+    public _brand: string = '';
+    public _os: string = '';
+    public _ram: string = '';
+    public _processor: string = '';
+    public _storage: string = '';
 
     private _brandName: string[] = ['Asus', 'Acer', 'Apple', 'HP', 'Microsoft', 'Lenovo', 'Dell', 'Samsung'];
     private _osName: string[] = ['Mac OS X', 'Windows 10', 'Chrome OS', 'Windows 8.1', 'Windows 7 Home'];
