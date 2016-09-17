@@ -24,14 +24,14 @@ export class OrderDetailsComponent implements OnInit {
 
     ngOnInit() {
         this._param = this.route.snapshot.params['id'];
-        console.log(this._param);
+        // console.log(this._param);
         this.getOrder(this._param)
      }
 
     getOrder(order: number) {
         this.orderDetailsService.getOrdersById(order)
             .subscribe(response => {
-                console.log(response)
+                // console.log(response)
                 this._temp = response.one;
                 this._orderInfo = response.data;
             },

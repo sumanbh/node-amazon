@@ -10,6 +10,7 @@ var session = require('express-session');
 var google = require('googleapis');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var FacebookStrategy = require('passport-facebook');
 
 var config = require('./config.json');
 
@@ -42,16 +43,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
-passport.use(new GoogleStrategy({
-    clientID: config.googClientId,
-    clientSecret: config.googSecret,
-    callbackURL: config.googCallback
+// Facebook auth begins
+passport.use(new FacebookStrategy({
+    clientID: config.fbClientId,
+    clientSecret: config.fbSecret,
+    callbackURL: config.fbCallback,
+    profileFields: ['id','email', 'displayName', 'name', 'gender']
 },
     function (accessToken, refreshToken, profile, cb) {
-        db.customers.findOne({google_id: profile.id}, function (err, foundUser){
-            if(foundUser === undefined) {
+        if (!profile.emails) profile.emails = null;     //rare? cases where facebook does not send user email
+        db.auth_facebook([profile.id, profile.emails[0].value], function (err, foundUser) {
+            if (foundUser === undefined) {
                 console.log("DID NOT FIND USER. Creating...", err);
-                db.customers.insert({google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName}, function (err, newUser){
+                db.customers.insert({ facebook_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
                     return cb(null, newUser);
                 })
             }
@@ -63,20 +67,49 @@ passport.use(new GoogleStrategy({
     }
 ));
 
-app.get('/auth',
+app.get('/facebook-auth', passport.authenticate('facebook', { scope: ['public_profile', 'email']}));
+
+app.get('/facebook-auth/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    function (req, res) {
+        console.log('Successful Login')
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    });
+
+
+// Google auth begins
+
+passport.use(new GoogleStrategy({
+    clientID: config.googClientId,
+    clientSecret: config.googSecret,
+    callbackURL: config.googCallback
+},
+    function (accessToken, refreshToken, profile, cb) {
+        db.auth_google([profile.id, profile.emails[0].value], function (err, foundUser) {
+            if (foundUser === undefined) {
+                console.log("DID NOT FIND USER. Creating...", err);
+                db.customers.insert({ google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
+                    return cb(null, newUser);
+                })
+            }
+            else {
+                // console.log("FOUND USER: ", foundUser);
+                return cb(null, foundUser);
+            }
+        });
+    }
+));
+
+app.get('/google-auth',
     passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/auth/callback',
+app.get('/google-auth/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     function (req, res) {
         // Successful authentication, redirect to last user page.
-        res.redirect(`${req.session.location}`);
+        res.redirect('/');
     });
-
-app.get('/login/:param', (req, res) => {
-    req.session.location = req.query.location; //store user's last page
-    return res.redirect('/auth/');
-});
 
 app.get('/user/status/', (req, res) => {
     if (!req.isAuthenticated()) {
@@ -84,10 +117,11 @@ app.get('/user/status/', (req, res) => {
             status: false
         });
     }
-    res.status(200).json({
-        userName: req.user.given_name,
-        status: true
+    else {res.status(200).json({
+        userName: req.user[0].given_name,
+        status: true,
     });
+    }
 })
 
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
@@ -101,14 +135,14 @@ app.post('/api/user/checkout/confirm', shopCtrl.checkoutConfirm);
 app.post('/api/cart/add', shopCtrl.addToCart);
 
 app.get('/logout', (req, res) => {
-  req.session.destroy((e)=>{
-    req.logout();
-    res.redirect('/');
-  })
+    req.session.destroy((e) => {
+        req.logout();
+        res.redirect('/');
+    })
 });
 
 // Wildcard for all possible routes
-app.get('*', function(request, response) {
+app.get('*', function (request, response) {
     response.sendFile(path.resolve('./dist/index.html'))
 });
 

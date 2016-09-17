@@ -2,10 +2,12 @@ CREATE EXTENSION citext;
 
 create table customers (
     id serial primary key not null,
-    google_id varchar(100) not null,
+    google_id varchar(100),
+    facebook_id varchar(100),
     given_name varchar(70),
     fullname varchar(70),
     email citext UNIQUE,
+    password varchar(100),
     phone varchar(20),
     address varchar(32),
     city varchar(32),
