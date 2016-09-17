@@ -48,15 +48,15 @@ module.exports = {
 
         if (!req.user) res.sendStatus(401);
         else {
-            db.cart.find({ product_id: id, customer_id: req.user[0].id }, function (err, response) {
+            db.cart.find({ product_id: id, customer_id: req.user.id || req.user[0].id }, function (err, response) {
                 if (!response || response.length === 0) {
-                    db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user[0].id }, function (err, response) {
+                    db.cart.insert({ product_id: id, product_quantity: quantity, customer_id: req.user.id || req.user[0].id }, function (err, response) {
                         res.sendStatus(200);
                     })
                 }
                 else {
                     const newLength = response[0].product_quantity + quantity;
-                    db.update_cart(newLength, req.user[0].id, id, function (err, response) {
+                    db.update_cart(newLength, req.user.id || req.user[0].id, id, function (err, response) {
                         res.sendStatus(200);
                     })
                 }
@@ -67,7 +67,7 @@ module.exports = {
     getFromCart: (req, res, next) => {
         if (!req.user) res.sendStatus(401);
         else {
-            db.cartview.find({ customer_id: req.user[0].id }, { order: "date_added desc" }, function (err, response) {
+            db.cartview.find({ customer_id: req.user.id || req.user[0].id }, { order: "date_added desc" }, function (err, response) {
                 res.json(response);
             })
         }
@@ -75,9 +75,9 @@ module.exports = {
     getCheckoutInfo: (req, res, next) => {
         if (!req.user) res.sendStatus(401);
         else {
-            db.cartview.find({ customer_id: req.user[0].id }, { order: "date_added desc" }, function (err, response) {
+            db.cartview.find({ customer_id: req.user.id || req.user[0].id }, { order: "date_added desc" }, function (err, response) {
                 req.session.cart = response;
-                db.customers.find({ id: req.user[0].id }, function (err, response) {
+                db.customers.find({ id: req.user.id || req.user[0].id }, function (err, response) {
                     req.session.userInfo = response;
                     res.json({
                         data: req.session.cart,
@@ -96,15 +96,15 @@ module.exports = {
 
         if (!req.user) res.sendStatus(401);
         else {
-            db.cart.find({ customer_id: req.user[0].id }, function (err, cartRes) {
+            db.cart.find({ customer_id: req.user.id || req.user[0].id }, function (err, cartRes) {
                 //check if cart is empty
                 if (!cartRes.length) res.sendStatus(204);
                 else {
-                    db.sum_orderline(req.user[0].id, function (err, sumCart) {
-                        db.orderline.insert({ customer_id: req.user[0].id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
+                    db.sum_orderline(req.user.id || req.user[0].id, function (err, sumCart) {
+                        db.orderline.insert({ customer_id: req.user.id || req.user[0].id, order_total: sumCart[0].sum }, function (err, orderlineRes) {
                             for (var idx = 0; idx < cartRes.length; idx++) {
                                 db.orders.insert({ orderline_id: orderlineRes.id, product_id: cartRes[idx].product_id, quantity: cartRes[idx].product_quantity, fullname: userName, address: userAddress, city: userCity, state: userState, zip: userZip }, function (err, response) {
-                                    db.cart.destroy({ customer_id: req.user[0].id })
+                                    db.cart.destroy({ customer_id: req.user.id || req.user[0].id })
                                 })
                             }
                             res.send('success');
@@ -119,7 +119,7 @@ module.exports = {
     getUserOrders: (req, res, next) => {
         if (!req.user) res.sendStatus(401);
         else {
-            db.get_all_orders(req.user[0].id, function (err, response) {
+            db.get_all_orders(req.user.id || req.user[0].id, function (err, response) {
                 res.json(response);
             })
         }
@@ -128,7 +128,7 @@ module.exports = {
         if (!req.user) res.sendStatus(401);
         else {
             const uniqueId = parseInt(req.params.id);
-            db.cart.destroy({ customer_id: req.user[0].id, id: uniqueId }, function (err, response) {
+            db.cart.destroy({ customer_id: req.user.id || req.user[0].id, id: uniqueId }, function (err, response) {
                 res.json(response);
             })
         }
@@ -137,7 +137,7 @@ module.exports = {
         if (!req.user) res.sendStatus(401);
         else {
             const orderId = req.params.id;
-            db.get_order_by_id(req.user[0].id, orderId, function(err, response) {
+            db.get_order_by_id(req.user.id || req.user[0].id, orderId, function(err, response) {
                 if (response){
                     res.json({
                     data: response,
