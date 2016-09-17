@@ -51,9 +51,12 @@ passport.use(new FacebookStrategy({
     profileFields: ['id','email', 'displayName', 'name', 'gender']
 },
     function (accessToken, refreshToken, profile, cb) {
+        console.log('profile: ', profile);
+        console.log('given name: ', profile.name.givenName);
         if (!profile.emails) profile.emails = null;     //rare? cases where facebook does not send user email
         db.auth_facebook([profile.id, profile.emails[0].value], function (err, foundUser) {
-            if (foundUser === undefined) {
+            console.log('FOUND: ', foundUser)
+            if (foundUser.length < 1 || foundUser === undefined) {
                 console.log("DID NOT FIND USER. Creating...", err);
                 db.customers.insert({ facebook_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
                     return cb(null, newUser);
@@ -87,7 +90,7 @@ passport.use(new GoogleStrategy({
 },
     function (accessToken, refreshToken, profile, cb) {
         db.auth_google([profile.id, profile.emails[0].value], function (err, foundUser) {
-            if (foundUser === undefined) {
+            if (foundUser.length < 1 || foundUser === undefined) {
                 console.log("DID NOT FIND USER. Creating...", err);
                 db.customers.insert({ google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
                     return cb(null, newUser);
@@ -117,8 +120,9 @@ app.get('/user/status/', (req, res) => {
             status: false
         });
     }
+
     else {res.status(200).json({
-        userName: req.user[0].given_name,
+        userName: req.user.given_name || req.user[0].given_name,
         status: true,
     });
     }
