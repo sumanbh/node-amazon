@@ -46,7 +46,7 @@ import 'rxjs/add/operator/map';
     HttpModule,
     JsonpModule,
     NgbRatingModule,
-    Ng2PaginationModule
+    Ng2PaginationModule,
   ],
   providers: [],
   entryComponents: [AppComponent],

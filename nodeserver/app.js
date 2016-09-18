@@ -1,33 +1,36 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var massive = require('massive');
-var cors = require('cors');
-var session = require('express-session');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const massive = require('massive');
+const cors = require('cors');
+const session = require('express-session');
 
-var google = require('googleapis');
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var FacebookStrategy = require('passport-facebook');
+const bcrypt = require('bcrypt-nodejs');
+const google = require('googleapis');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
-var config = require('./config.json');
+const config = require('./config.json');
 
-var connection = config.postgresPath;
+// Postgres path for massivejs connection
+const connection = config.postgresPath;
 
-var app = module.exports = express();
+const app = module.exports = express();
 
-var massiveInstance = massive.connectSync({
+const massiveInstance = massive.connectSync({
     connectionString: connection,
     scripts: "./nodeserver/db"   //location of db folder for massive
 });
 
 app.set('db', massiveInstance);
 
-var db = app.get('db');
+const db = app.get('db');
 
-var shopCtrl = require('./controllers/shop.js');
+const shopCtrl = require('./controllers/shop.js');
 
 app.use(session({
     secret: config.sessionSecret,
@@ -51,18 +54,18 @@ passport.use(new FacebookStrategy({
     profileFields: ['id','email', 'displayName', 'name', 'gender']
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log('profile: ', profile);
-        console.log('given name: ', profile.name.givenName);
-        if (!profile.emails) profile.emails = null;     //rare? cases where facebook does not send user email
+        // console.log('profile: ', profile);
+        if (!profile.emails) profile.emails = [{value: null}];     //rare? cases where facebook does not send user email
         db.auth_facebook([profile.id, profile.emails[0].value], function (err, foundUser) {
-            console.log('FOUND: ', foundUser)
             if (foundUser.length < 1 || foundUser === undefined) {
-                console.log("DID NOT FIND USER. Creating...", err);
-                db.customers.insert({ facebook_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
+                // console.log("DID NOT FIND USER. Creating...", err);
+                db.customers.insert({ facebook_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName, local: false }, function (err, newUser) {
+                    // console.log('New User: ', newUser);
                     return cb(null, newUser);
                 })
             }
             else {
+                foundUser = foundUser[0];
                 // console.log("FOUND USER: ", foundUser);
                 return cb(null, foundUser);
             }
@@ -91,12 +94,13 @@ passport.use(new GoogleStrategy({
     function (accessToken, refreshToken, profile, cb) {
         db.auth_google([profile.id, profile.emails[0].value], function (err, foundUser) {
             if (foundUser.length < 1 || foundUser === undefined) {
-                console.log("DID NOT FIND USER. Creating...", err);
-                db.customers.insert({ google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName }, function (err, newUser) {
+                // console.log("DID NOT FIND USER. Creating...", err);
+                db.customers.insert({ google_id: profile.id, given_name: profile.name.givenName, email: profile.emails[0].value, fullname: profile.displayName, local: false }, function (err, newUser) {
                     return cb(null, newUser);
                 })
             }
             else {
+                foundUser = foundUser[0];
                 // console.log("FOUND USER: ", foundUser);
                 return cb(null, foundUser);
             }
@@ -114,19 +118,67 @@ app.get('/google-auth/callback',
         res.redirect('/');
     });
 
+// Local auth begins
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true,
+    session: false
+  },
+  function(req, email, password, cb) {
+      db.auth_local_check(email, function(err, response){
+          if (response.length <1 || response === undefined) return cb(null, false, { message: 'Incorrect email.' })
+          let hash = response[0].password;
+        //   bcrypt.genSalt(10, function (err, salt) {
+        //     bcrypt.hash('', null, null, function (err, hash) {
+        //         console.log('hash generated: ', hash);
+        // // var hash = '$2a$10$P0DyhANivkUaeNqjGx8LNuQQKbUEIhwx4yFf/twfl/L6YXNRFF4b.';
+        //         bcrypt.compare('', hash, function (err, res) {
+        //             console.log('is hash the same? :', res);
+        //         });
+        //     });
+        // });
+          bcrypt.compare(password, hash, function (err, res) {
+              if (res) {
+                  db.auth_local(email, function (err, foundUser){
+                      foundUser = foundUser[0];
+                      return cb(null, foundUser);
+                  })
+              }
+              else return cb(null, false, { message: 'Incorrect password.' })
+            });
+      })
+  }
+));
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.json(false); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.json(true);
+    });
+  })(req, res, next);
+});
+
+// app.get('/login', authCtrl.localAuth);
+
 app.get('/user/status/', (req, res) => {
+    // console.log('req.user: ', req.user);
     if (!req.isAuthenticated()) {
         return res.status(200).json({
             status: false
         });
     }
-
     else {res.status(200).json({
-        userName: req.user.given_name || req.user[0].given_name,
+        userName: req.user.given_name,
         status: true,
     });
     }
 })
+
+//Api calls begin 
 
 app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
 app.get('/api/shop/:page', shopCtrl.getAllProducts);

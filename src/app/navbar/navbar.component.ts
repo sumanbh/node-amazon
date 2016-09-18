@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalEvent } from '../shared/global.event'
 
-import { Http, Response } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 
 @Component({
     selector: 'nav-bar',
@@ -12,7 +12,7 @@ import { Http, Response } from '@angular/http';
 export class NavbarComponent implements OnInit {
     public showLogin: boolean;
     public userGivenName: string;
-    public _login:string;
+    public _login:boolean = true;
 
     constructor(
         private globalEvent: GlobalEvent,
@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
      }
 
     private onLoginSuccess() :void{
-        this._login = `/login/state?location=${window.location.pathname}`;  //so that login returns back to where the user was.
+        // this._login = `/login/state?location=${window.location.pathname}`;
         this.http.get(`/user/status/`)
             .map(res => res.json())
             .subscribe(
@@ -39,5 +39,20 @@ export class NavbarComponent implements OnInit {
                     }
                 }
             )
+    }
+    localAuth(email, password) {
+        let user = JSON.stringify({ email, password });
+        console.log('User info: ', user);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+
+        return this.http.post(`/login`, user, {headers: headers})
+            .map((res:Response) => res.json())
+            .subscribe(response => {
+                if (response === true){
+                    this._login = true;
+                    location.reload();
+                } 
+                else this._login = false;
+            })
     }
 }

@@ -12,8 +12,25 @@ create table customers (
     address varchar(32),
     city varchar(32),
     state char(2),
-    zip char(5)
+    zip char(5),
+    password varchar(200),
+    local boolean
 );
+
+-- create table google_account (
+--     customer_id int not null primary key references customers(id),
+--     google_id varchar (100)
+-- );
+
+-- create table facebook_account (
+--     customer_id int not null primary key references customers(id),
+--     google_id varchar (100)
+-- );
+
+-- create table user_account (
+--     customer_id int not null primary key references customers(id),
+--     password varchar(200)
+-- );
 
 create table os (
     id serial not null primary key,
