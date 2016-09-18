@@ -7,13 +7,12 @@ create table customers (
     given_name varchar(70),
     fullname varchar(70),
     email citext UNIQUE,
-    password varchar(100),
+    password varchar(200),
     phone varchar(20),
     address varchar(32),
     city varchar(32),
     state char(2),
     zip char(5),
-    password varchar(200),
     local boolean
 );
 

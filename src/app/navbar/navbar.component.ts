@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
     }
     localAuth(email, password) {
         let user = JSON.stringify({ email, password });
-        console.log('User info: ', user);
+        // console.log('User info: ', user);
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(`/login`, user, {headers: headers})
