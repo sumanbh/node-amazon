@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.getProfile()
     }
+    // get initial data to populate form
     getProfile(){
         this.profileService.getUserProfile()
             .subscribe(response => {

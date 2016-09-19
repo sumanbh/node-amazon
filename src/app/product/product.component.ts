@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this._param = this.route.params.subscribe(params => {
             this._loginState = true;
             this._addedToCart = false;
-            window.scrollTo(0,0);
+            window.scrollTo(0,0);    //so that browser scrolls to top when state changes
             this._id = params['id'];
             this.getById(this._id);
         });
