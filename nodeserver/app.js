@@ -205,7 +205,8 @@ app.get('*', function (request, response) {
 });
 
 passport.serializeUser(function (user, cb) {
-    cb(null, user);
+    const newUser = {id: user.id, given_name: user.given_name};
+    cb(null, newUser);
 });
 
 passport.deserializeUser(function (obj, cb) {
