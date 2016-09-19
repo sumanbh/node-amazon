@@ -148,5 +148,33 @@ module.exports = {
                 else res.sendStatus(404);
             })
         }
+    },
+    getUserInfo: (req, res, next) => {
+        if (!req.user) res.sendStatus(401);
+        else {
+            db.get_user_info(req.user.id, function(err, response){
+                res.json(response);
+            })
+        }
+    },
+    updateProfile: (req, res, next) => {
+        if (!req.user) res.sendStatus(401);
+        else {
+            const given_name = req.body.given_name;
+            const fullname = req.body.fullname;
+            const address = req.body.address;
+            const city = req.body.city;
+            const state = req.body.state;
+            const zip = req.body.zip;
+            if (given_name && fullname && address && city && state && zip) {
+                db.update_user_profile(given_name, fullname, address, city, state, zip, req.user.id, function (err, response){
+                    if (response) {
+                        req.user.given_name = given_name;
+                        res.sendStatus(200)
+                    }
+                    else res.sendStatus(500)
+                })
+            }
+        }
     }
 }

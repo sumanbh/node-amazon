@@ -1,7 +1,6 @@
 <div class="orders-container">
     <ol class="breadcrumb">
         <li><a [routerLink]="['/']">Home</a></li>
-        <li><a [routerLink]="['/shop']">Laptops</a></li>
         <li class="active bread-name">Your orders</li>
     </ol>
     <!--<h2> Your Shopping orders is empty.</h2>-->
@@ -47,9 +46,9 @@
                                 <div class="main-one">
                                     <div>Order # {{item.prop}}</div>
                                 </div>
-                                <div class="child-one">
+                                <!--<div class="child-one">
                                      <a [routerLink]="['/user/orders', item.prop]">Order Details</a>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                         <div class="panel-body" *ngFor="let new of item.value">

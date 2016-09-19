@@ -186,9 +186,11 @@ app.get('/api/user/cart', shopCtrl.getFromCart);
 app.get('/api/user/checkout', shopCtrl.getCheckoutInfo);
 app.get('/api/user/orders', shopCtrl.getUserOrders);
 app.get('/api/user/order/:id', shopCtrl.getOrderById);
+app.get('/api/user/settings', shopCtrl.getUserInfo);
 app.delete('/api/user/cart/remove/:id', shopCtrl.removeFromCart);
 app.post('/api/user/checkout/confirm', shopCtrl.checkoutConfirm);
 app.post('/api/cart/add', shopCtrl.addToCart);
+app.post('/api/user/update', shopCtrl.updateProfile);
 
 app.get('/logout', (req, res) => {
     req.session.destroy((e) => {

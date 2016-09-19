@@ -115,7 +115,7 @@
     margin-top: 15px;
 }
 .table>tbody>tr>td {
-    position: relative;
+    position: relative;  /*otherwise ngb-rating breaks responsive table on safari (it uses position absolute)*/
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th {

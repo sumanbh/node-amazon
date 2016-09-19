@@ -15,7 +15,8 @@ import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
-import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
+// import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './shop/ellipsis.pipe';
@@ -34,7 +35,8 @@ import 'rxjs/add/operator/map';
     CartComponent,
     CheckoutComponent,
     OrdersComponent,
-    OrderDetailsComponent,
+    // OrderDetailsComponent,
+    ProfileComponent,
     GroupByPipe,
     EllipsisPipe
   ],

@@ -1,0 +1,39 @@
+<div class="profile-container">
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/']">Home</a></li>
+        <li class="active bread-name">Your account</li>
+    </ol>
+    <h2 class="text-center">Your Account</h2>
+    <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+        <div class="profile-box" *ngFor="let item of _userInfo">
+            <div class="row">
+                <div class="username col-sm-8 col-xs-7">{{item.fullname}}</div>
+                <div class="col-sm-4 col-xs-5">
+                    <a href="#" class="edit-profile" data-toggle="modal" data-target="#user-modal">Edit Profile</a>
+
+                    <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="usermodal-container">
+                                <form>
+                                    <input #display type="name" name="fullname" id="givenId" placeholder="Display Name" maxlength="32" [value]="item.given_name"
+                                        required>
+                                    <input #fullname type="name" name="fullname" placeholder="Full name" maxlength="50" [value]="item.fullname" required>
+                                    <input #address type="text" name="address" placeholder="Address" maxlength="32" [value]="item.address" required>
+                                    <input #city type="text" name="city" placeholder="City" maxlength="32" [value]="item.city" required>
+                                    <input #state type="text" name="state" placeholder="State" minlength="2" maxlength="2" [value]="item.state" required>
+                                    <input #zip type="number" name="zip" placeholder="Zip Code" max="99999" [value]="item.zip" required>
+                                    <div *ngIf="_error" class="alert alert-danger" role="alert">Error. Please try again later.</div>
+                                    <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" (click)="userSubmit(display.value, fullname.value, address.value, city.value, state.value, zip.value)">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-info">{{item.email}}</div>
+            <div class="user-info">Member since {{item.date_added | date}}</div>
+            <div class="user-info">{{item.address}}</div>
+            <div class="user-info">{{item.city}}, {{item.state}}, {{item.zip}}</div>
+        </div>
+    </div>
+</div>

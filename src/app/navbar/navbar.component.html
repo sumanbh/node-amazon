@@ -2,11 +2,13 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" [routerLink]="['']">Cyrano</a>
-      <a class="nav-shop" [routerLink]="['/shop']">Shop</a>
+      <!--<a class="nav-shop" href="http://sumanb.com">by Suman</a>-->
 
       <a *ngIf="showLogin" class="dropdown user-welcome">
         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}<span class="caret"></span></a>
         <ul class="dropdown-menu">
+          <li><a class="drop-link" [routerLink]="['/user/settings']">Your Account</a></li>
+          <li role="separator" class="divider"></li>
           <li><a class="drop-link" [routerLink]="['/user/orders']">Your Orders</a></li>
           <li role="separator" class="divider"></li>
           <li><a class="drop-link" href="/logout">Sign Out</a></li>

@@ -20,6 +20,7 @@ export class OrdersComponent implements OnInit {
 
     ngOnInit() { this.getOrdersInfo() }
 
+    // To group by order id. The server gives us a list of arrays. This code groups the array into smaller chunks by id.
     transformArr(orig) {
         var newArr = [],
             types = {},

@@ -12,7 +12,7 @@ import { Http, Headers, Response } from '@angular/http';
 export class NavbarComponent implements OnInit {
     public showLogin: boolean;
     public userGivenName: string;
-    public _login:boolean = true;
+    public _login: boolean = true;
 
     constructor(
         private globalEvent: GlobalEvent,
@@ -21,38 +21,43 @@ export class NavbarComponent implements OnInit {
         this.globalEvent.showLogin.subscribe((mode: boolean) => {
             this.showLogin = mode;
         })
-     }
+    }
 
     ngOnInit() {
         this.onLoginSuccess();
-     }
+    }
 
-    private onLoginSuccess() :void{
+    private onLoginSuccess(): void {
         // this._login = `/login/state?location=${window.location.pathname}`;
         this.http.get(`/user/status/`)
             .map(res => res.json())
             .subscribe(
-                data => {
-                    if (data.status) {
-                        this.userGivenName = data.userName;
-                        this.globalEvent.showLogin.emit(true);
-                    }
+            data => {
+                if (data.status) {
+                    this.userGivenName = data.userName;
+                    this.globalEvent.showLogin.emit(true);
                 }
+            }
             )
     }
     localAuth(email, password) {
-        let user = JSON.stringify({ email, password });
-        // console.log('User info: ', user);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        if (email && password) {
+            let user = JSON.stringify({ email, password });
+            // console.log('User info: ', user);
+            let headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return this.http.post(`/login`, user, {headers: headers})
-            .map((res:Response) => res.json())
-            .subscribe(response => {
-                if (response === true){
-                    this._login = true;
-                    location.reload();
-                } 
-                else this._login = false;
-            })
+            return this.http.post(`/login`, user, { headers: headers })
+                .map((res: Response) => res.json())
+                .subscribe(response => {
+                    if (response === true) {
+                        this._login = true;
+                        location.reload();
+                    }
+                    else this._login = false;
+                })
+        }
+        else {
+            this._login = false;
+        }
     }
 }

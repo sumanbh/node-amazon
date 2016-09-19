@@ -13,7 +13,8 @@ create table customers (
     city varchar(32),
     state char(2),
     zip char(5),
-    local boolean
+    local boolean,
+    date_added timestamp with time zone default current_timestamp
 );
 
 -- create table google_account (

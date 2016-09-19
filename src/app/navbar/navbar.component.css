@@ -1,4 +1,4 @@
-.nav-shop {
+/*.nav-shop {
   float: left;
   height: 50px;
   padding: 15px 0px;
@@ -10,7 +10,7 @@
 .nav-shop:hover, .nav-shop:focus {
   text-decoration: none;
   color: #fff;
-}
+}*/
 
 .navbar-default {
   border-radius: 0px;
@@ -60,7 +60,6 @@ a {
 
 .login-cyrano {
   position: absolute;
-  margin-top: 1px;
   right: 20px;
   font-size: 16px;
   padding: 15px 0px;
@@ -219,15 +218,21 @@ a {
 } 
 
 @media (max-width: 767px) {
-  .nav-shop {
+  /*.nav-shop {
     padding: 16px 0px;
     font-size: 14px;
-  }
+  }*/
   .user-welcome {
     padding: 16px 0px;
     font-size: 14px;
   }
 }
+
+/*@media (max-width: 350px){
+  .nav-shop {
+    display: none;
+  }
+}*/
 
 .alert {
   margin-bottom: 10px;
