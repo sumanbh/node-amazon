@@ -43,7 +43,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     checkoutConfirm(value: any) {
-        if (this._userInfo) {
+        if (this._userInfo && value.fullname && value.address && value.city && value.state && value.zip) {
             this.checkoutService.sendCheckout(value)
                 .subscribe(response => {
                     if (response) this.router.navigate(['user/orders']);

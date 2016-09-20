@@ -159,3 +159,23 @@
         margin-top: 5px;
     }
 }
+
+.invalid input:required:invalid {
+    background: #BE4C54;
+}
+.invalid textarea:required:invalid {
+    background: #BE4C54;
+}
+.invalid select:required:invalid {
+    background: #BE4C54;
+}
+/* Mark valid inputs during .invalid state */
+.invalid input:required:valid {
+    background: #17D654 ;
+}
+.invalid textarea:required:valid {
+    background: #17D654 ;
+}
+.invalid select:required:valid {
+    background: #17D654 ;
+}
