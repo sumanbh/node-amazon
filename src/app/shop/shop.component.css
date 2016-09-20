@@ -133,3 +133,9 @@
     color: #EAA500;
     font-size: 16px;
 }
+
+.no-results {
+    width: 100%;
+    min-height: 200px;
+    margin-top: 50px;
+}

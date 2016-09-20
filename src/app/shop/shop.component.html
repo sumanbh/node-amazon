@@ -179,7 +179,7 @@
             <div class="col-sm-10 col-xs-12 tab-pane fade in active" id="products">
                 <div class="center-block text-center row is-flex">
                     <div [ngClass]="{ 'hidden': !_loading }" class="loader"></div>
-
+                    <div class="no-results" *ngIf="!searchResult">There are no results that match your search filter. Please try something else.</div>
                     <div [ngClass]="{ 'hidden' : _loading}" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 big-display boxception" *ngFor="let item of _data | paginate: { id: 'server', itemsPerPage: _itemsPerPage, currentPage: _page, totalItems: _total }">
                         <div><a [routerLink]="['/product', item.id]" class="main-content-name"><img [src]="item.img"></a></div>
                         <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
@@ -187,7 +187,7 @@
                         <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>
                     </div>
                 </div>
-                <div [ngClass]="{ 'hidden' : _loading}" class="text-center">
+                <div [ngClass]="{ 'hidden' : _loading}" *ngIf="searchResult" class="text-center">
                     <pagination-controls (pageChange)="getPage($event)" id="server">
 
                     </pagination-controls>

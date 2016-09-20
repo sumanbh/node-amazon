@@ -118,3 +118,11 @@
 .alert {
   margin-bottom: 10px;
 }
+
+.add-address:hover {
+  text-decoration: none !important;
+}
+
+.add-address:focus {
+  text-decoration: none !important;
+}

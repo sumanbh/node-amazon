@@ -32,8 +32,9 @@
             </div>
             <div class="user-info">{{item.email}}</div>
             <div class="user-info">Member since {{item.date_added | date}}</div>
-            <div class="user-info">{{item.address}}</div>
-            <div class="user-info">{{item.city}}, {{item.state}}, {{item.zip}}</div>
+            <div class="user-info" *ngIf="addressExist">{{item.address}}</div>
+            <div class="user-info" *ngIf="addressExist">{{item.city}}, {{item.state}}, {{item.zip}}</div>
+            <a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a>
         </div>
     </div>
 </div>

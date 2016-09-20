@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
     private _userInfo: Array<Object>;
     private _error: boolean = false;
+    public addressExist: boolean = true;
+
     constructor(
         private profileService: ProfileService,
         private router: Router
@@ -23,6 +25,8 @@ export class ProfileComponent implements OnInit {
     getProfile(){
         this.profileService.getUserProfile()
             .subscribe(response => {
+                if (!response[0].address) this.addressExist = false; //to trigger ngif 'add address' 
+                else this.addressExist = true;
                 this._userInfo = response;
             },
             error => {

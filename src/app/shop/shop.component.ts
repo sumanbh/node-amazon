@@ -13,10 +13,11 @@ export class ShopComponent implements OnInit {
     private _itemsPerPage: number = 24;
     private _total: number;
     private _loading:boolean;
-    public _page: number = 1;
+    private _page: number = 1;
     public rate:number;
     public readonly:boolean;
     public max:number = 5;
+    public searchResult: boolean = true;
 
     constructor(
         private shopService: ShopService
@@ -32,6 +33,8 @@ export class ShopComponent implements OnInit {
 
         this.shopService.getAllProducts(page, _queryParam)
             .subscribe(result => {
+                if (result.data.length === 0) this.searchResult = false;
+                else this.searchResult = true;
                 this._loading = false;
                 this._data = result.data;
                 this._total = result.total;
