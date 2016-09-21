@@ -10,8 +10,10 @@ module.exports = {
         const ram = req.query.ram;
         const processor = req.query.processor;
         const storage = req.query.storage;
+        const min = parseInt(req.query.min) || 0; //default price values
+        const max = parseInt(req.query.max) || 20000;
 
-        db.get_all_products(brand, os, ram, processor, storage, (err, products) => {
+        db.get_all_products(brand, os, ram, processor, storage, min, max, (err, products) => {
             res.json({
                 total: products.length,
                 data: products.splice(offset, limit) //for pagination 

@@ -91,6 +91,43 @@
                     </label>
                     </div>
 
+                    <h3>Price</h3>
+                    <div class="checkbox">
+                        <label>
+                        <input #under500 type="checkbox" class="left-check" [(ngModel)]="under500.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 0, 500)">Under $500
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #fivetosix type="checkbox" class="left-check" [(ngModel)]="fivetosix.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 500, 600)">$500 to $600
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #sixtoseven type="checkbox" class="left-check" [(ngModel)]="sixtoseven.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 600, 700)">$600 to $700
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #seventoeight type="checkbox" class="left-check" [(ngModel)]="seventoeight.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 700, 800)">$700 to $800
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #eighttonine type="checkbox" class="left-check" [(ngModel)]="eighttonine.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 800, 900)">$800 to $900
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #ninetoten type="checkbox" class="left-check" [(ngModel)]="ninetoten.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 900, 1000)">$900 to $1000
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                        <input #above1000 type="checkbox" class="left-check" [(ngModel)]="above1000.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 1000, 20000)">Above $1000
+                    </label>
+                    </div>
+
                     <h3>RAM Size</h3>
                     <div class="checkbox">
                         <label>

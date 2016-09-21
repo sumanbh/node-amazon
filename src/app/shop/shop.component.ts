@@ -14,9 +14,6 @@ export class ShopComponent implements OnInit {
     private _total: number;
     private _loading:boolean;
     private _page: number = 1;
-    public rate:number;
-    public readonly:boolean;
-    public max:number = 5;
     public searchResult: boolean = true;
 
     constructor(
@@ -24,14 +21,14 @@ export class ShopComponent implements OnInit {
         ) { }
 
     ngOnInit() {
-        this.getPage(1, '');
+        this.getPage(1, '', null, null);
     }
 
-    getPage(page: number, _queryParam: string) {
+    getPage(page: number, _queryParam: string, min: number, max: number) {
         this._loading = true;
         if(window.innerWidth >= 768) window.scrollTo(0,0);
 
-        this.shopService.getAllProducts(page, _queryParam)
+        this.shopService.getAllProducts(page, _queryParam, min, max)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;
