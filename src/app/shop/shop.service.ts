@@ -27,6 +27,8 @@ export class ShopService {
     ) { }
 
     getAllProducts(page: number, _queryParam: string, min: number, max: number) {
+        min = parseInt(min);
+        max = parseInt(max);
         // For insert/remove on checkbox
         function _without(value) { return value != _queryParam;}
         function _withoutMin(value) { return value != min;}
@@ -74,8 +76,7 @@ export class ShopService {
             else this.maxCollector.push(max);
         }
 
-        // console.log('Min and max: ', min, max);
-        if (this.minCollector.length >= 1 && this.maxCollector.length >= 1) {
+        if (this.minCollector.length >= 1 || this.maxCollector.length >= 1) {
             min = Math.min(...this.minCollector);
             max = Math.max(...this.maxCollector);
         }

@@ -12,6 +12,10 @@
   color: #fff;
 }*/
 
+.dropdown-menu {
+  margin-left: -10px;
+}
+
 .navbar-default {
   border-radius: 0px;
   margin-bottom: 0px;
