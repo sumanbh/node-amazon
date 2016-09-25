@@ -27,8 +27,8 @@ export class ShopService {
     ) { }
 
     getAllProducts(page: number, _queryParam: string, min: number, max: number, customMin: number, customMax:number) {
-        min = parseInt(min);
-        max = parseInt(max);
+        // min = parseInt(min);
+        // max = parseInt(max);
         // For insert/remove on checkbox
         function _without(value) { return value != _queryParam;}
         function _withoutMin(value) { return value != min;}

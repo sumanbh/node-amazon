@@ -97,7 +97,7 @@
 
 .price-custom {
     width: 50px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 3px;
 }
 
@@ -105,7 +105,13 @@
     cursor: pointer;
     border: 1px solid #ddd;
     border-radius: 100%;
-    padding: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-weight: 400;
+}
+
+.custom-container {
+    font-size: 13px;
 }
 
 @media (min-width: 1780px) {
@@ -153,5 +159,8 @@
     }
     .price-custom {
         width: 100px;
+    }
+    .custom-container {
+        font-size: 14px;
     }
 }
