@@ -21,14 +21,14 @@ export class ShopComponent implements OnInit {
         ) { }
 
     ngOnInit() {
-        this.getPage(1, '', null, null);
+        this.getPage(1, '', null, null, null, null);
     }
 
-    getPage(page: number, _queryParam: string, min: number, max: number) {
+    getPage(page: number, _queryParam: string, min: number, max: number, customMin:number, customMax: number) {
         this._loading = true;
         if(window.innerWidth >= 768) window.scrollTo(0,0);
 
-        this.shopService.getAllProducts(page, _queryParam, min, max)
+        this.shopService.getAllProducts(page, _queryParam, min, max, customMin, customMax)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;

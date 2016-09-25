@@ -26,7 +26,7 @@ export class ShopService {
         private http: Http
     ) { }
 
-    getAllProducts(page: number, _queryParam: string, min: number, max: number) {
+    getAllProducts(page: number, _queryParam: string, min: number, max: number, customMin: number, customMax:number) {
         min = parseInt(min);
         max = parseInt(max);
         // For insert/remove on checkbox
@@ -85,8 +85,14 @@ export class ShopService {
             max = 20000;
         }
 
-        // console.log('Temp Min and max array: ', this.minCollector, this.maxCollector);
-        // console.log(' Min and max: ', min, max);
+        if (customMin && customMax) {
+            min = customMin;
+            max = customMax;
+        }
+
+        console.log('Temp Min and max array: ', this.minCollector, this.maxCollector);
+        console.log(' Min and max: ', min, max);
+        console.log('Custom Min and Max ', customMin, customMax);
 
         this._brand = this.queryCollector.join(',');
         this._os = this.osCollector.join(',');
