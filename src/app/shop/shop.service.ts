@@ -90,9 +90,9 @@ export class ShopService {
             max = customMax;
         }
 
-        console.log('Temp Min and max array: ', this.minCollector, this.maxCollector);
-        console.log(' Min and max: ', min, max);
-        console.log('Custom Min and Max ', customMin, customMax);
+        // console.log('Temp Min and max array: ', this.minCollector, this.maxCollector);
+        // console.log(' Min and max: ', min, max);
+        // console.log('Custom Min and Max ', customMin, customMax);
 
         this._brand = this.queryCollector.join(',');
         this._os = this.osCollector.join(',');
