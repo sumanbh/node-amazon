@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
                 this._cartContent = response.data;
                 if (!this._cartContent || !this._cartContent.length) this.router.navigate(['user/cart'])
                 for (var prop in this._cartContent) {
-                    this._cartSum += parseFloat(this._cartContent[prop].price * this._cartContent[prop].product_quantity);
+                    this._cartSum += parseFloat(this._cartContent[prop].price) * parseFloat(this._cartContent[prop].product_quantity);
                 }
                 this._cartTotal = this._cartSum.toFixed(2);
             },
