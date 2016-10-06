@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const massive = require('massive');
 const cors = require('cors');
 const session = require('express-session');
+const compress = require('compression');
 
 const bcrypt = require('bcrypt-nodejs');
 const google = require('googleapis');
@@ -44,6 +45,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(compress());
 app.use(express.static(__dirname + '/../dist')); //location of index.html for node to serve
 
 // Facebook auth begins
