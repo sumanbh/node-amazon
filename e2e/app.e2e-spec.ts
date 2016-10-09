@@ -1,10 +1,10 @@
-import { CyranoPage } from './app.po';
+import { AmazonV2Page } from './app.po';
 
-describe('cyrano App', function() {
-  let page: CyranoPage;
+describe('amazon-v2 App', function() {
+  let page: AmazonV2Page;
 
   beforeEach(() => {
-    page = new CyranoPage();
+    page = new AmazonV2Page();
   });
 
   it('should display message saying app works', () => {
