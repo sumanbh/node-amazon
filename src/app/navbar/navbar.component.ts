@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalEvent } from '../shared/global.event'
 
 import { Http, Headers, Response } from '@angular/http';
+import { NavbarService } from './navbar.service';
+
 
 @Component({
     selector: 'nav-bar',
     templateUrl: 'navbar.component.html',
-    providers: [GlobalEvent],
+    providers: [GlobalEvent, NavbarService],
     styleUrls: ['navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
@@ -16,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         private globalEvent: GlobalEvent,
-        private http: Http
+        private http: Http,
+        private navbarService: NavbarService
     ) {
         this.globalEvent.showLogin.subscribe((mode: boolean) => {
             this.showLogin = mode;
@@ -27,12 +30,10 @@ export class NavbarComponent implements OnInit {
         this.onLoginSuccess();
     }
 
-    private onLoginSuccess(): void {
+    onLoginSuccess() {
         // this._login = `/login/state?location=${window.location.pathname}`;
-        this.http.get(`/user/status/`)
-            .map(res => res.json())
-            .subscribe(
-            data => {
+        this.navbarService.onLogin()
+            .subscribe( data => {
                 if (data.status) {
                     this.userGivenName = data.userName;
                     this.globalEvent.showLogin.emit(true);
@@ -42,12 +43,7 @@ export class NavbarComponent implements OnInit {
     }
     localAuth(email, password) {
         if (email && password) {
-            let user = JSON.stringify({ email, password });
-            // console.log('User info: ', user);
-            let headers = new Headers({ 'Content-Type': 'application/json' });
-
-            return this.http.post(`/login`, user, { headers: headers })
-                .map((res: Response) => res.json())
+            this.navbarService.sendLogin(email, password)
                 .subscribe(response => {
                     if (response === true) {
                         this._login = true;

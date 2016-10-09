@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class ShopService {
@@ -26,7 +27,7 @@ export class ShopService {
         private http: Http
     ) { }
 
-    getAllProducts(page: number, _queryParam: string, min: number, max: number, customMin: number, customMax:number) {
+    getAllProducts(page: number, _queryParam: string, min: number, max: number, customMin: number, customMax:number): Observable<any> {
         // min = parseInt(min);
         // max = parseInt(max);
         // For insert/remove on checkbox

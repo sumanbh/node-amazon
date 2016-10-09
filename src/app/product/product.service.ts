@@ -1,5 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class ProductService {
@@ -8,12 +9,12 @@ export class ProductService {
         private http: Http
     ) { }
 
-    getProductById(id: string) {
+    getProductById(id: string): Observable<any> {
         const productUrl = `/api/product/${id}`;  //api url
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }
-    addToCart(id, quantity) {
+    addToCart(id, quantity): Observable<any> {
         let cartInfo = JSON.stringify({ productId: id, productQuantity: quantity });
         let headers = new Headers({ 'Content-Type': 'application/json' });
 

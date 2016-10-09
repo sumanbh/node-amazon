@@ -30,7 +30,7 @@
     "express-session": "^1.14.1",
     "googleapis": "^13.0.0",
     "massive": "^2.5.0",
-    "ng2-pagination": "^0.4.1",
+    "ng2-pagination": "^0.5.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
-    "angular-cli": "^1.0.0-beta.16",
+    "angular-cli": "^1.0.0-beta.17",
     "codelyzer": "~0.0.26",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",
