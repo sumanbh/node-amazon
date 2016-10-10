@@ -3,11 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { ProductService } from './product.service';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'product',
     templateUrl: 'product.component.html',
-    providers: [ProductService],
+    providers: [ProductService, NgbRatingConfig],
     styleUrls: ['product.component.css']
 })
 export class ProductComponent implements OnInit, OnDestroy {
@@ -23,14 +24,18 @@ export class ProductComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private productService: ProductService
-    ) { }
+        private productService: ProductService,
+        private config: NgbRatingConfig
+    ) {
+        config.max = 5;
+        config.readonly = true;
+    }
 
     ngOnInit() {
         this._param = this.route.params.subscribe(params => {
             this._loginState = true;
             this._addedToCart = false;
-            window.scrollTo(0,0);    //so that browser scrolls to top when state changes
+            window.scrollTo(0, 0);    //so that browser scrolls to top when state changes
             this._id = params['id'];
             this.getById(this._id);
         });
@@ -48,14 +53,14 @@ export class ProductComponent implements OnInit, OnDestroy {
             })
     }
 
-    addToCart(id, quantity) :void {
+    addToCart(id, quantity): void {
         this.productService.addToCart(id, quantity)
             .subscribe(response => {
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
                 this._addedToCart = true;
             },
             error => {
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
                 if (error) this._loginState = false;
             })
     }
