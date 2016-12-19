@@ -1,6 +1,13 @@
 # Angular 2 Amazon
 Amazon lookalike with Angular 2, node, and Postgresql. Demo at: http://cyrano.website
 
-## Build (with angular-cli)
+## Setup
 
-Run `ng build` to build the project in development mode. The build artifacts will be stored in the `dist/` directory. Run `ng build --prod --aot` for production. Server files are located at `nodeserver/`.
+```
+npm install --global angular-cli
+git clone https://github.com/sumanbh/ng2-amazon.git
+cd ng2-amazon
+npm install
+ng build --prod --aot
+node nodeserver/
+```
