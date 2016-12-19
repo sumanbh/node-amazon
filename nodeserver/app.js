@@ -131,15 +131,6 @@ passport.use(new LocalStrategy({
       db.auth_local_check(email, function(err, response){
           if (response.length <1 || response === undefined) return cb(null, false, { message: 'Incorrect email.' })
           let hash = response[0].password;
-        //   bcrypt.genSalt(10, function (err, salt) {
-        //     bcrypt.hash('', null, null, function (err, hash) {
-        //         console.log('hash generated: ', hash);
-        // // var hash = '$2a$10$P0DyhANivkUaeNqjGx8LNuQQKbUEIhwx4yFf/twfl/L6YXNRFF4b.';
-        //         bcrypt.compare('', hash, function (err, res) {
-        //             console.log('is hash the same? :', res);
-        //         });
-        //     });
-        // });
           bcrypt.compare(password, hash, function (err, res) {
               if (res) {
                   db.auth_local(email, function (err, foundUser){
