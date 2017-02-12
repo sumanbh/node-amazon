@@ -12,14 +12,14 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['product.component.css']
 })
 export class ProductComponent implements OnInit, OnDestroy {
-    private _product: Array<Object>;
-    private _similar: Array<Object>;
-    private _param: any;
-    private _id: any;
-    private _currentQuantity: number = 1;
+    _product: Array<Object>;
+    _similar: Array<Object>;
+    _param: any;
+    _id: any;
+    _currentQuantity: number = 1;
 
-    private _addedToCart: boolean = false;
-    private _loginState: boolean = true;
+    _addedToCart: boolean = false;
+    _loginState: boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -35,7 +35,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this._param = this.route.params.subscribe(params => {
             this._loginState = true;
             this._addedToCart = false;
-            window.scrollTo(0, 0);    //so that browser scrolls to top when state changes
+            window.scrollTo(0, 0);    // browser scrolls to top when state changes
             this._id = params['id'];
             this.getById(this._id);
         });
@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             },
             error => {
                 if (error) this.router.navigate(['404'])
-            })
+            });
     }
 
     addToCart(id, quantity): void {
@@ -62,7 +62,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             error => {
                 window.scrollTo(0, 0);
                 if (error) this._loginState = false;
-            })
+            });
     }
     ngOnDestroy() {
         this._param.unsubscribe();

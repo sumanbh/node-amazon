@@ -10,11 +10,11 @@ import { CheckoutService } from './checkout.service';
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    private _cartContent: any;
-    private _userInfo: any;
-    private _loginStatus: boolean = false;
-    private _cartSum: number = 0;
-    private _cartTotal: string;
+    _cartContent: any;
+    _userInfo: any;
+    _loginStatus: boolean = false;
+    _cartSum: number = 0;
+    _cartTotal: string;
 
     constructor(
         private checkoutService: CheckoutService,
@@ -39,7 +39,7 @@ export class CheckoutComponent implements OnInit {
             },
             error => {
                 if (error) this.router.navigate(['user/cart']);
-            })
+            });
     }
 
     checkoutConfirm(value: any) {
@@ -50,7 +50,7 @@ export class CheckoutComponent implements OnInit {
                 },
                 error => {
                     if (error) this.router.navigate(['user/cart']);
-                })
+                });
         }
     }
 }

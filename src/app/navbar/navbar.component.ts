@@ -12,9 +12,9 @@ import { NavbarService } from './navbar.service';
     styleUrls: ['navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-    public showLogin: boolean;
-    public userGivenName: string;
-    public _login: boolean = true;
+    showLogin: boolean;
+    userGivenName: string;
+    _login: boolean = true;
 
     constructor(
         private globalEvent: GlobalEvent,
@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     ) {
         this.globalEvent.showLogin.subscribe((mode: boolean) => {
             this.showLogin = mode;
-        })
+        });
     }
 
     ngOnInit() {
@@ -38,8 +38,7 @@ export class NavbarComponent implements OnInit {
                     this.userGivenName = data.userName;
                     this.globalEvent.showLogin.emit(true);
                 }
-            }
-            )
+            });
     }
     localAuth(email, password) {
         if (email && password) {
@@ -48,12 +47,8 @@ export class NavbarComponent implements OnInit {
                     if (response === true) {
                         this._login = true;
                         location.reload();
-                    }
-                    else this._login = false;
+                    } else this._login = false;
                 })
-        }
-        else {
-            this._login = false;
-        }
+        } else this._login = false;
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable }     from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 
@@ -15,11 +15,11 @@ export class NavbarService {
     }
 
     sendLogin(email, password): Observable<any> {
-        let user = JSON.stringify({ email, password });
-            // console.log('User info: ', user);
-            let headers = new Headers({ 'Content-Type': 'application/json' });
+        const user = JSON.stringify({ email, password });
+        // console.log('User info: ', user);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
-            return this.http.post(`/login`, user, { headers: headers })
-                .map((res: Response) => res.json())
+        return this.http.post(`/login`, user, { headers: headers })
+            .map((res: Response) => res.json())
     }
 }

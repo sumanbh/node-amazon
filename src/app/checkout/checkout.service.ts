@@ -16,8 +16,7 @@ export class CheckoutService {
     }
 
     sendCheckout(value: any): Observable<any> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         const checkoutUrl = `/api/user/checkout/confirm`;
         return this.http.post(checkoutUrl, value, {headers: headers})
             .map((res: Response) => res.status);

@@ -10,12 +10,12 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class ShopComponent implements OnInit {
-    private _data: Array<Object>;
-    private _itemsPerPage: number = 24;
-    private _total: number;
-    private _loading: boolean;
-    private _page: number = 1;
-    public searchResult: boolean = true;
+    _data: Array<Object>;
+    _itemsPerPage: number = 24;
+    _total: number;
+    _loading: boolean;
+    _page: number = 1;
+    searchResult: boolean = true;
 
     constructor(
         private shopService: ShopService,
