@@ -15,8 +15,8 @@ export class ProductService {
             .map((res: Response) => res.json());
     }
     addToCart(id, quantity): Observable<any> {
-        let cartInfo = JSON.stringify({ productId: id, productQuantity: quantity });
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const cartInfo = JSON.stringify({ productId: id, productQuantity: quantity });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(`/api/cart/add`, cartInfo, {headers: headers})
             .map((res:Response) => res.status)

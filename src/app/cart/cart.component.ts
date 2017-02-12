@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
     styleUrls: ['cart.component.css']
 })
 export class CartComponent implements OnInit {
-    private _cartContent: any;
-    private _cartSum: number = 0;
-    private _cartTotal: string;
-    private _buttonDisabled: boolean = true;
-    private _loginState: boolean = true;
+    _cartContent: any;
+    _cartSum: number = 0;
+    _cartTotal: string;
+    _buttonDisabled: boolean = true;
+    _loginState: boolean = true;
 
     constructor(
         private cartService: CartService,
@@ -27,26 +27,27 @@ export class CartComponent implements OnInit {
     removeProduct(id) {
         this.cartService.removeFromCart(id)
             .subscribe(response => {
-                function findProduct(product) {
-                    return product.unique_id === response[0].id;
-                }
-                let productToRemove = this._cartContent.find(findProduct);
-                this._cartSum -= parseFloat(productToRemove.price) * parseFloat(productToRemove.product_quantity);
-                this._cartTotal = this._cartSum.toFixed(2);
-                this._cartSum ? this._buttonDisabled = false : this._buttonDisabled = true;
-            })
+                this.getCartInfo();
+            },
+            error => {
+                this._loginState = false;
+            });
     }
 
     getCartInfo() {
         this.cartService.getCartById()
             .subscribe(response => {
+                let tempTotal = 0;
                 this._cartContent = response;
                 if (!this._cartContent || this._cartContent.length) this._buttonDisabled = false;
                 else this._buttonDisabled = true;
-                for (var prop in this._cartContent) {
-                    this._cartSum += parseFloat(this._cartContent[prop].price) * parseFloat(this._cartContent[prop].product_quantity);
-                }
-                this._cartTotal = this._cartSum.toFixed(2);
+                if (!this._buttonDisabled) {
+                    for (var prop in this._cartContent) {
+                        tempTotal += parseFloat(this._cartContent[prop].price) * parseFloat(this._cartContent[prop].product_quantity);
+                    }
+                    this._cartSum = tempTotal;
+                    this._cartTotal = this._cartSum.toFixed(2);
+                } else this._cartTotal = '0.00';
             },
             error => {
                 this._loginState = false;

@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
     providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
-    private _userInfo: Array<Object>;
-    private _error: boolean = false;
-    public addressExist: boolean = true;
+    _userInfo: Array<Object>;
+    _error: boolean = false;
+    addressExist: boolean = true;
 
     constructor(
         private profileService: ProfileService,
@@ -31,17 +31,17 @@ export class ProfileComponent implements OnInit {
             },
             error => {
                 if (error) this.router.navigate(['user/cart'])
-            })
+            });
     }
-    userSubmit(given_name, fullname, address, city, state, zip){
-        if (given_name && fullname && address && city && state && zip) {
-            this.profileService.updateUserProfile(given_name, fullname, address, city, state, zip)
+    userSubmit(givenName, fullName, address, city, state, zip){
+        if (givenName && fullName && address && city && state && zip) {
+            this.profileService.updateUserProfile(givenName, fullName, address, city, state, zip)
                 .subscribe(response => {
                     if (response) location.reload();
                 },
                 error => {
                     this._error = true;
-                })
+                });
         }
     }
 }
