@@ -11,5 +11,6 @@ yarn install or npm install
 ng build --prod --aot
 node server/server.js
 ```
+You can find Postgresql schema and inserts inside ```server/db/schema```
 ## Note
 A lot of the code was written when I was learning Angular and JS in general, so many things I do *is* not optimal and needs to be re-written.
