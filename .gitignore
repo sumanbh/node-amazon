@@ -9,10 +9,10 @@
 /tmp
 
 #config
-nodeserver/config.json
+server/config.json
 
 #db stuff
-/nodeserver/info.sql
+/server/info.sql
 
 # dependencies
 /node_modules
