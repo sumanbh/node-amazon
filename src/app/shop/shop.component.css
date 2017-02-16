@@ -41,6 +41,10 @@
     border-right: 1px solid #ddd;
 }
 
+.more-results {
+    cursor: pointer !important;
+}
+
 @media (min-width:768px) {
     #filter {
         display: block !important;

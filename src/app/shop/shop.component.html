@@ -127,7 +127,7 @@
                         <input #above1000 type="checkbox" class="left-check" [(ngModel)]="above1000.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 1000, 20000)">Above $1000
                     </label>
                     </div>
-                    <div class="custom-container"> <!--Has several bugs. Need to make it more intuitive and "better"-->
+                    <div class="custom-container"> <!--Has some bugs. Need to make it better-->
                         <!--<label>
                         <input #custom type="checkbox" class="left-check" [(ngModel)]="custom.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', min.value, max.value)">
                         </label> Note: if label is closed after input boxes inside input, the checkbox is triggered in Safari when user tries to input-->
@@ -235,7 +235,7 @@
                     </div>
                 </div>
                 <div [ngClass]="{ 'hidden' : _loading}" *ngIf="searchResult" class="text-center">
-                    <pagination-controls (pageChange)="getPage($event)" id="server">
+                    <pagination-controls class="more-results" (pageChange)="getPage($event)" id="server">
 
                     </pagination-controls>
                 </div>

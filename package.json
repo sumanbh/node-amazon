@@ -30,7 +30,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.1",
     "massive": "^2.5.0",
-    "ng2-pagination": "^0.5.1",
+    "ng2-pagination": "^2.0.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
