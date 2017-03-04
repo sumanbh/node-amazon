@@ -9,6 +9,7 @@
 /tmp
 
 #config
+config/amazon.json
 server/config.json
 
 #db stuff

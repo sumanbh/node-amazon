@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
     _cartContent: any;
-    _cartSum: number = 0;
     _cartTotal: string;
     _buttonDisabled: boolean = true;
     _loginState: boolean = true;
@@ -37,17 +36,15 @@ export class CartComponent implements OnInit {
     getCartInfo() {
         this.cartService.getCartById()
             .subscribe(response => {
-                let tempTotal = 0;
-                this._cartContent = response;
-                if (!this._cartContent || this._cartContent.length) this._buttonDisabled = false;
-                else this._buttonDisabled = true;
-                if (!this._buttonDisabled) {
-                    for (var prop in this._cartContent) {
-                        tempTotal += parseFloat(this._cartContent[prop].price) * parseFloat(this._cartContent[prop].product_quantity);
-                    }
-                    this._cartSum = tempTotal;
-                    this._cartTotal = this._cartSum.toFixed(2);
-                } else this._cartTotal = '0.00';
+                this._cartContent = response.data;
+                if (this._cartContent) {
+                    const totalArr = response.total;
+                    this._buttonDisabled = false;
+                    this._cartTotal = totalArr[0].total;
+                } else {
+                    this._buttonDisabled = true;
+                    this._cartTotal = '0.00';
+                }
             },
             error => {
                 this._loginState = false;

@@ -5,14 +5,12 @@ const massive = require('massive');
 const cors = require('cors');
 const session = require('express-session');
 const compress = require('compression');
-
+const config = require('./config.json');
 const bcrypt = require('bcrypt-nodejs');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-
-const config = require('./config.json');
 
 // Postgres path for massivejs connection
 const connection = config.postgresPath;
@@ -25,10 +23,9 @@ const massiveInstance = massive.connectSync({
 });
 
 app.set('db', massiveInstance);
+const routes = require('./routes.js');
 
 const db = app.get('db');
-
-const shopCtrl = require('./controllers/shop.js');
 
 app.use(session({
     secret: config.sessionSecret,
@@ -165,17 +162,17 @@ app.get('/user/status/', (req, res) => {
 
 // Api calls
 
-app.get('/api/product/:productId', shopCtrl.getProductById, shopCtrl.getSimilarById);
-app.get('/api/shop/:page', shopCtrl.getAllProducts);
-app.get('/api/user/cart', shopCtrl.getFromCart);
-app.get('/api/user/checkout', shopCtrl.getCheckoutInfo);
-app.get('/api/user/orders', shopCtrl.getUserOrders);
-app.get('/api/user/order/:id', shopCtrl.getOrderById);
-app.get('/api/user/settings', shopCtrl.getUserInfo);
-app.delete('/api/user/cart/remove/:id', shopCtrl.removeFromCart);
-app.post('/api/user/checkout/confirm', shopCtrl.checkoutConfirm);
-app.post('/api/cart/add', shopCtrl.addToCart);
-app.post('/api/user/update', shopCtrl.updateProfile);
+app.get('/api/product/:productId', routes.getProductById, routes.getSimilarById);
+app.get('/api/shop/:page', routes.getAllProducts);
+app.get('/api/user/cart', routes.getFromCart);
+app.get('/api/user/checkout', routes.getCheckoutInfo);
+app.get('/api/user/orders', routes.getUserOrders);
+app.get('/api/user/order/:id', routes.getOrderById);
+app.get('/api/user/settings', routes.getUserInfo);
+app.delete('/api/user/cart/remove/:id', routes.removeFromCart);
+app.post('/api/user/checkout/confirm', routes.checkoutConfirm);
+app.post('/api/cart/add', routes.addToCart);
+app.post('/api/user/update', routes.updateProfile);
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
@@ -184,7 +181,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// Wildcard for all possible routes
+// Catch all routes
 app.get('*', function (request, response) {
     response.sendFile(path.resolve('./dist/index.html'));
 });

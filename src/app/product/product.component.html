@@ -5,7 +5,7 @@
             <li><a [routerLink]="['/shop']">Laptops</a></li>
             <li class="active bread-name">{{item.laptop_name}}</li>
         </ol>
-        <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please log in before adding!</div>
+        <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please login before doing that!</div>
         <div *ngIf="_addedToCart" class="alert alert-success login-reminder" role="alert">Product added to cart!</div>
 
         <div class="col-sm-10 xs-12">
@@ -18,8 +18,9 @@
                 <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                 <hr>
                 <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
-                <div class="finance-master"><span class="glyphicon glyphicon-info-sign"></span> Pay <b>${{(item.price/12) | number:'.1-2'}}/month</b>                    for <b>12</b> months (<b>${{item.price}}</b> total) with <b>Equal Pay Financing</b> on your nice store
-                    card.
+                <div class="finance-master">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    Item is eligible: <b>No interest if paid in full within 12 months</b> with the nice Store Card.
                 </div>
                 <div id="availability">In Stock.</div>
                 <div class="product-desc" *ngFor="let desc of item.description">
@@ -39,7 +40,7 @@
                 <hr>
                 <!--Dummy Ship to information-->
                 <b>Ship to:</b>
-                <p>Suman Bhattarai- Fort Worth - Texas</p>
+                <p>Suman Bhattarai- Seattle - Washington</p>
             </div>
         </div>
     </div>

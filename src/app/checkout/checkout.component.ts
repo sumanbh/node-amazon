@@ -31,11 +31,11 @@ export class CheckoutComponent implements OnInit {
                 this._userInfo = response.userInfo;
                 if (!this._userInfo) this.router.navigate(['']);
                 this._cartContent = response.data;
-                if (!this._cartContent || !this._cartContent.length) this.router.navigate(['user/cart'])
-                for (var prop in this._cartContent) {
-                    this._cartSum += parseFloat(this._cartContent[prop].price) * parseFloat(this._cartContent[prop].product_quantity);
-                }
-                this._cartTotal = this._cartSum.toFixed(2);
+                if (this._cartContent) {
+                    const totalArr = response.total;
+                    this._cartTotal = totalArr[0].total;
+                } else this.router.navigate(['user/cart']);
+                this._cartSum = parseFloat(this._cartTotal);
             },
             error => {
                 if (error) this.router.navigate(['user/cart']);

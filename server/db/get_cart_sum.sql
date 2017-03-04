@@ -1,0 +1,1 @@
+SELECT SUM(price * product_quantity) as total from cartview where customer_id = $1;

@@ -1,4 +1,4 @@
-const app = require('../server.js');
+const app = require('./index.js');
 
 const db = app.get('db');
 
@@ -69,7 +69,16 @@ module.exports = {
         if (!req.user) res.sendStatus(401);
         else {
             db.cartview.find({ customer_id: req.user.id }, { order: 'date_added desc' }, function (err, response) {
-                res.json(response);
+                const cart = response;
+                if (response.length > 0) {
+                    db.get_cart_sum(req.user.id, function (error, sum) {
+                        const total = sum;
+                        res.json({
+                            total,
+                            data: cart,
+                        });
+                    });
+                } else res.json(cart);
             });
         }
     },
@@ -77,14 +86,20 @@ module.exports = {
         if (!req.user) res.sendStatus(401);
         else {
             db.cartview.find({ customer_id: req.user.id }, { order: 'date_added desc' }, function (err, response) {
-                req.session.cart = response;
-                db.customers.find({ id: req.user.id }, function (error, resp) {
-                    req.session.userInfo = resp;
-                    res.json({
-                        data: req.session.cart,
-                        userInfo: req.session.userInfo,
+                const cart = response;
+                if (response.length > 0) {
+                    db.get_cart_sum(req.user.id, function (error, sum) {
+                        const total = sum;
+                        db.customers.find({ id: req.user.id }, function (errr, resp) {
+                            const userInfo = resp;
+                            res.json({
+                                total,
+                                userInfo,
+                                data: cart,
+                            });
+                        });
                     });
-                });
+                } else res.json(cart);
             });
         }
     },
