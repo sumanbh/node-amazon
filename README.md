@@ -1,4 +1,6 @@
 # Angular 2 Amazon
+[![Build Status](https://travis-ci.org/sumanbh/amazon-angular.svg?branch=master)](https://travis-ci.org/sumanbh/amazon-angular)
+
 Amazon lookalike with Angular v2, node, and Postgresql. Demo at: http://cyrano.website
 
 ## Setup
