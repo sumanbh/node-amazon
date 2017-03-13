@@ -16,49 +16,49 @@
                     <h3>Featured Brands</h3>
                     <div class="checkbox">
                         <label>
-                        <input #applecb type="checkbox" class="left-check" [(ngModel)]="applecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Apple')">Apple
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isApple" (ngModelChange)="getPage(_page, _queryParam = 'Apple')">Apple
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #asuscb type="checkbox" class="left-check" [(ngModel)]="asuscb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Asus')">Asus
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isAsus" (ngModelChange)="getPage(_page, _queryParam = 'Asus')">Asus
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #microsoftcb type="checkbox" class="left-check" [(ngModel)]="microsoftcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Microsoft')">Microsoft
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isMicrosoft" (ngModelChange)="getPage(_page, _queryParam = 'Microsoft')">Microsoft
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #dellcb type="checkbox" class="left-check" [(ngModel)]="dellcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Dell')">Dell
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isDell" (ngModelChange)="getPage(_page, _queryParam = 'Dell')">Dell
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #hpcb type="checkbox" class="left-check" [(ngModel)]="hpcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'HP')">HP
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isHP" (ngModelChange)="getPage(_page, _queryParam = 'HP')">HP
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #acercb type="checkbox" class="left-check" [(ngModel)]="acercb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Acer
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isAcer" (ngModelChange)="getPage(_page, _queryParam = 'Acer')">Acer
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #samsungcb type="checkbox" class="left-check" [(ngModel)]="samsungcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Samsung')">Samsung
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isSamsung" (ngModelChange)="getPage(_page, _queryParam = 'Samsung')">Samsung
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #lenovocb type="checkbox" class="left-check" [(ngModel)]="lenovocb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
+                        <input type="checkbox" class="left-check" [(ngModel)]="brand.isLenovo" (ngModelChange)="getPage(_page, _queryParam = 'Lenovo')">Lenovo
                     </label>
                     </div>
 
@@ -66,110 +66,110 @@
 
                     <div class="checkbox">
                         <label>
-                        <input #maccb type="checkbox" class="left-check" [(ngModel)]="maccb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Mac OS X')">Mac OS X
+                        <input type="checkbox" class="left-check" [(ngModel)]="os.isMac" (ngModelChange)="getPage(_page, _queryParam = 'Mac OS X')">Mac OS X
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #win10cb type="checkbox" class="left-check" [(ngModel)]="win10cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 10')">Windows 10
+                        <input type="checkbox" class="left-check" [(ngModel)]="os.isWin10" (ngModelChange)="getPage(_page, _queryParam = 'Windows 10')">Windows 10
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #win81cb type="checkbox" class="left-check" [(ngModel)]="win81cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 8.1')">Windows 8.1
+                        <input type="checkbox" class="left-check" [(ngModel)]="os.isWin8" (ngModelChange)="getPage(_page, _queryParam = 'Windows 8.1')">Windows 8.1
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #win7hmcb type="checkbox" class="left-check" [(ngModel)]="win7hmcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Windows 7 Home')">Windows 7 Home
+                        <input type="checkbox" class="left-check" [(ngModel)]="os.isWin7" (ngModelChange)="getPage(_page, _queryParam = 'Windows 7 Home')">Windows 7 Home
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #chromecb type="checkbox" class="left-check" [(ngModel)]="chromecb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Chrome OS')">Chrome OS
+                        <input type="checkbox" class="left-check" [(ngModel)]="os.isChrome" (ngModelChange)="getPage(_page, _queryParam = 'Chrome OS')">Chrome OS
                     </label>
                     </div>
 
                     <h3>Price</h3>
                     <div class="checkbox">
                         <label>
-                        <input #under500 type="checkbox" class="left-check" [(ngModel)]="under500.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 0, 500)">Under $500
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.isUnder500" (ngModelChange)="getPage(_page, _queryParam = 'price')">Under $500
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #fivetosix type="checkbox" class="left-check" [(ngModel)]="fivetosix.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 500, 600)">$500 to $600
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.is500to600" (ngModelChange)="getPage(_page, _queryParam = 'price')">$500 to $600
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #sixtoseven type="checkbox" class="left-check" [(ngModel)]="sixtoseven.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 600, 700)">$600 to $700
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.is600to700" (ngModelChange)="getPage(_page, _queryParam = 'price')">$600 to $700
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #seventoeight type="checkbox" class="left-check" [(ngModel)]="seventoeight.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 700, 800)">$700 to $800
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.is700to800" (ngModelChange)="getPage(_page, _queryParam = 'price')">$700 to $800
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #eighttonine type="checkbox" class="left-check" [(ngModel)]="eighttonine.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 800, 900)">$800 to $900
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.is800to900" (ngModelChange)="getPage(_page, _queryParam = 'price')">$800 to $900
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ninetoten type="checkbox" class="left-check" [(ngModel)]="ninetoten.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 900, 1000)">$900 to $1000
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.is900to1000" (ngModelChange)="getPage(_page, _queryParam = 'price')">$900 to $1000
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #above1000 type="checkbox" class="left-check" [(ngModel)]="above1000.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', 1000, 20000)">Above $1000
+                        <input type="checkbox" class="left-check" [(ngModel)]="price.isAbove1000" (ngModelChange)="getPage(_page, _queryParam = 'price')">Above $1000
                     </label>
                     </div>
                     <div class="custom-container"> <!--Has some bugs. Need to make it better-->
                         <!--<label>
-                        <input #custom type="checkbox" class="left-check" [(ngModel)]="custom.checked" (ngModelChange)="getPage(_page, _queryParam = 'price', min.value, max.value)">
+                        <input #custom type="checkbox" class="left-check" [(ngModel)]="custom" (ngModelChange)="getPage(_page, _queryParam = 'price')">
                         </label> Note: if label is closed after input boxes inside input, the checkbox is triggered in Safari when user tries to input-->
                         $ <input #min class="price-custom" type="text" value="" id="low-price" name="min" maxlength="9" placeholder="Min">
                         to $ <input #max class="price-custom" type="text" value="" id="high-price" name="max" maxlength="7" placeholder="Max">
-                        <label id="custom-label" (click) = "getPage(_page, _queryParam = 'price', null, null, min.value, max.value)">Go</label>
+                        <label id="custom-label" (click) = "getPage(_page, _queryParam = 'price', min.value, max.value)">Go</label>
                     </div>
 
                     <h3>RAM Size</h3>
                     <div class="checkbox">
                         <label>
-                        <input #ram64cb type="checkbox" class="left-check" [(ngModel)]="ram64cb.checked" (ngModelChange)="getPage(_page, _queryParam = '64')">64 GB & Above
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is64andAbove" (ngModelChange)="getPage(_page, _queryParam = '64')">64 GB & Above
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram32cb type="checkbox" class="left-check" [(ngModel)]="ram32cb.checked" (ngModelChange)="getPage(_page, _queryParam = '32')">32 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is32" (ngModelChange)="getPage(_page, _queryParam = '32')">32 GB
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram16cb type="checkbox" class="left-check" [(ngModel)]="ram16cb.checked" (ngModelChange)="getPage(_page, _queryParam = '16')">16 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is16" (ngModelChange)="getPage(_page, _queryParam = '16')">16 GB
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram12cb type="checkbox" class="left-check" [(ngModel)]="ram12cb.checked" (ngModelChange)="getPage(_page, _queryParam = '12')">12 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is12" (ngModelChange)="getPage(_page, _queryParam = '12')">12 GB
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram8cb type="checkbox" class="left-check" [(ngModel)]="ram8cb.checked" (ngModelChange)="getPage(_page, _queryParam = '8')">8 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is8" (ngModelChange)="getPage(_page, _queryParam = '8')">8 GB
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram4cb type="checkbox" class="left-check" [(ngModel)]="ram4cb.checked" (ngModelChange)="getPage(_page, _queryParam = '4')">4 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is4" (ngModelChange)="getPage(_page, _queryParam = '4')">4 GB
                     </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                        <input #ram2cb type="checkbox" class="left-check" [(ngModel)]="ram2cb.checked" (ngModelChange)="getPage(_page, _queryParam = '2')">2 GB
+                        <input type="checkbox" class="left-check" [(ngModel)]="ram.is2" (ngModelChange)="getPage(_page, _queryParam = '2')">2 GB
                     </label>
                     </div>
 
@@ -178,44 +178,44 @@
 
                     <div class="checkbox">
                         <label>
-                        <input #i7cb type="checkbox" class="left-check" [(ngModel)]="i7cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i7')">Intel Core i7
+                        <input type="checkbox" class="left-check" [(ngModel)]="processor.isInteli7" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i7')">Intel Core i7
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #i5cb type="checkbox" class="left-check" [(ngModel)]="i5cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i5')">Intel Core i5
+                        <input type="checkbox" class="left-check" [(ngModel)]="processor.isInteli5" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i5')">Intel Core i5
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #i3cb type="checkbox" class="left-check" [(ngModel)]="i3cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i3')">Intel Core i3
+                        <input type="checkbox" class="left-check" [(ngModel)]="processor.isInteli3" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core i3')">Intel Core i3
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #core2cb type="checkbox" class="left-check" [(ngModel)]="core2cb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core 2')">Intel Core 2
+                        <input type="checkbox" class="left-check" [(ngModel)]="processor.isIntelCore2" (ngModelChange)="getPage(_page, _queryParam = 'Intel Core 2')">Intel Core 2
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #amdcb type="checkbox" class="left-check" [(ngModel)]="amdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'AMD')">AMD Athlon
+                        <input type="checkbox" class="left-check" [(ngModel)]="processor.isAMDAthlon" (ngModelChange)="getPage(_page, _queryParam = 'AMD')">AMD Athlon
                     </label>
                     </div>
 
                     <h3>Hard Drive Type</h3>
                     <div class="checkbox">
                         <label>
-                        <input #ssdcb type="checkbox" class="left-check" [(ngModel)]="ssdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'SSD')">Solid State Drive
+                        <input type="checkbox" class="left-check" [(ngModel)]="hardDrive.isSSD" (ngModelChange)="getPage(_page, _queryParam = 'SSD')">Solid State Drive
                     </label>
                     </div>
 
                     <div class="checkbox">
                         <label>
-                        <input #hdcb type="checkbox" class="left-check" [(ngModel)]="hdcb.checked" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Drive
+                        <input type="checkbox" class="left-check" [(ngModel)]="hardDrive.isHardDrive" (ngModelChange)="getPage(_page, _queryParam = 'Hard Disk')">Hard Drive
                     </label>
                     </div>
 

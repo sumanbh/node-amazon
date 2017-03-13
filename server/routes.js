@@ -1,18 +1,105 @@
 const app = require('./index.js');
 
 const db = app.get('db');
+const brandName = {
+    isAsus: 'Asus',
+    isAcer: 'Acer',
+    isApple: 'Apple',
+    isHP: 'HP',
+    isMicrosoft: 'Microsoft',
+    isLenovo: 'Lenovo',
+    isDell: 'Dell',
+    isSamsung: 'Samsung',
+};
+const osName = {
+    isMac: 'Mac OS X',
+    isWin10: 'Windows 10',
+    isChrome: 'Chrome OS',
+    isWin8: 'Windows 8.1',
+    isWin7: 'Windows 7 Home',
+};
+const processorName = {
+    isInteli7: 'Intel Core i7',
+    isInteli5: 'Intel Core i5',
+    isInteli3: 'Intel Core i3',
+    isIntelCore2: 'Intel Core 2',
+    isAMDAthlon: 'AMD',
+};
+const storageName = {
+    isSSD: 'SSD',
+    isHardDrive: 'Hard Disk',
+};
+const priceName = {
+    isUnder500: { min: 0, max: 500 },
+    is500to600: { min: 500, max: 600 },
+    is600to700: { min: 600, max: 700 },
+    is700to800: { min: 700, max: 800 },
+    is800to900: { min: 800, max: 900 },
+    is900to1000: { min: 900, max: 1000 },
+    isAbove1000: { min: 1000, max: 20000 },
+};
+const ramName = {
+    is64andAbove: '64', is32: '32', is16: '16', is8: '8', is4: '4', is2: '2', is12: '12',
+};
 
 module.exports = {
     getAllProducts: (req, res) => {
         const offset = (parseInt(req.params.page, 10) - 1) * 24;
         const limit = 24;
-        const brand = req.query.brand;
-        const os = req.query.os;
-        const ram = req.query.ram;
-        const processor = req.query.processor;
-        const storage = req.query.storage;
-        const min = parseInt(req.query.min, 10) || 0; // default price values
-        const max = parseInt(req.query.max, 10) || 20000;
+        const obj = JSON.parse(req.query.obj);
+        const brandCollector = [];
+        const osCollector = [];
+        const processorCollector = [];
+        const storageCollector = [];
+        const ramCollector = [];
+        const minCollector = [];
+        const maxCollector = [];
+        let min;
+        let max;
+
+        const keys = Object.keys(obj);
+        const filtered = keys.filter(key => obj[key]);
+
+        filtered.forEach((value) => {
+            switch (value) {
+            case (brandName[value] !== undefined ? value : false):
+                brandCollector.push(brandName[value]);
+                break;
+            case (osName[value] !== undefined ? value : false):
+                osCollector.push(osName[value]);
+                break;
+            case (processorName[value] !== undefined ? value : false):
+                processorCollector.push(processorName[value]);
+                break;
+            case (storageName[value] !== undefined ? value : false):
+                storageCollector.push(storageName[value]);
+                break;
+            case (priceName[value] !== undefined ? value : false):
+                minCollector.push(priceName[value].min);
+                maxCollector.push(priceName[value].max);
+                break;
+            case (ramName[value] !== undefined ? value : false):
+                ramCollector.push(ramName[value]);
+                break;
+            default:
+            }
+        });
+
+        if (req.query.min && req.query.max) {
+            min = parseInt(req.query.min, 10);
+            max = parseInt(req.query.max, 10);
+        } else if (minCollector.length >= 1 || maxCollector.length >= 1) {
+            min = Math.min(...minCollector);
+            max = Math.max(...maxCollector);
+        } else {
+            min = 0; // default values
+            max = 20000;
+        }
+        const brand = brandCollector.join(',');
+        const os = osCollector.join(',');
+        const ram = ramCollector.join(',');
+        const processor = processorCollector.join(',');
+        const storage = storageCollector.join(',');
 
         db.get_all_products(brand, os, ram, processor, storage, min, max, (err, products) => {
             res.json({
