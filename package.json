@@ -29,6 +29,7 @@
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "joi": "^10.2.2",
     "massive": "^2.5.0",
     "ng2-pagination": "^2.0.0",
     "passport": "^0.3.2",
