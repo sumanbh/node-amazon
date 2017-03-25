@@ -1,7 +1,7 @@
-# Angular 2 Amazon
+# Angular - Amazon
 [![Build Status](https://travis-ci.org/sumanbh/amazon-angular.svg?branch=master)](https://travis-ci.org/sumanbh/amazon-angular)
 
-Amazon lookalike with Angular v2, node, and Postgresql. Demo at: http://cyrano.website
+Amazon lookalike with Angular v4, node, and Postgresql. Demo at: http://cyrano.website
 
 ## Setup
 1. Clone and install dependencies
@@ -32,4 +32,4 @@ Amazon lookalike with Angular v2, node, and Postgresql. Demo at: http://cyrano.w
 5. You can find Postgresql schema and mock inserts inside ```server/db/schema```
 
 ## Note
-A lot of this was written when I was learning Angular and JS in general, so many things I do may not be optimal.
+A lot of this was written when I was learning Angular (which I hope to slowly rewrite), so many things I do may not be optimal.

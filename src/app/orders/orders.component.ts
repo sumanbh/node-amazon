@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
 
 @Component({
-    selector: 'orders',
+    selector: 'app-orders',
     providers: [OrdersService],
     templateUrl: 'orders.component.html',
     styleUrls: ['orders.component.css']
@@ -18,7 +18,9 @@ export class OrdersComponent implements OnInit {
         private router: Router
     ) { }
 
-    ngOnInit() { this.getOrdersInfo() }
+    ngOnInit() {
+        this.getOrdersInfo();
+    }
 
     // To group by order id. The server gives us a list of arrays. This code groups the array into smaller chunks by id.
     transformArr(orig) {
@@ -42,14 +44,14 @@ export class OrdersComponent implements OnInit {
     getOrdersInfo() {
         this.ordersService.getOrdersById()
             .subscribe(response => {
-                this._ordersContent = this.transformArr(response).reduce(function (result, item) {
+                this._ordersContent = this.transformArr(response).reduce((result, item) => {
                     const key = Object.keys(item)[0];
                     result[key] = item[key];
                     return result;
                 }, {});
             },
             error => {
-                if (error) this.router.navigate(['user/cart'])
-            })
+                if (error) this.router.navigate(['user/cart']);
+            });
     }
 }

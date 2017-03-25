@@ -10,7 +10,7 @@ import { RAM } from './interfaces/ram.interface';
 import { HardDrive } from './interfaces/harddrive.interface';
 
 @Component({
-    selector: 'shop',
+    selector: 'app-shop',
     templateUrl: 'shop.component.html',
     providers: [ShopService, NgbRatingConfig],
     styleUrls: ['shop.component.css']
@@ -24,6 +24,8 @@ export class ShopComponent implements OnInit {
     ram: RAM;
     hardDrive: HardDrive;
     searchResult = true;
+    minCustom: number;
+    maxCustom: number;
     _page = 1;
     _itemsPerPage = 24;
     _data: Array<Object>;
@@ -45,21 +47,22 @@ export class ShopComponent implements OnInit {
         this.processor = {};
         this.ram = {};
         this.hardDrive = {};
-        this.getPage(1, '', null, null);
+        this.getPage(1, '');
     }
 
-    getPage(page: number, _queryParam: string, customMin: number, customMax: number) {
+    getPage(page: number, _queryParam: string) {
         this._loading = true;
-        if (customMin && customMax) {
-            Object.keys(this.price).forEach((value) => {
-                this.price[value] = false;
-            });
+        if (_queryParam === 'customPrice') {
+            this.price = {};
+        } else if (this.minCustom && this.maxCustom && _queryParam === 'price') {
+            this.minCustom = null;
+            this.maxCustom = null;
         }
         const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.hardDrive);
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
         if (_queryParam && _queryParam !== '') page = 1;
 
-        this.shopService.getAllProducts(page, customMin, customMax, tempObj)
+        this.shopService.getAllProducts(page, this.minCustom, this.maxCustom, tempObj)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;

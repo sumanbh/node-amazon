@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ProfileService {
@@ -11,7 +11,7 @@ export class ProfileService {
 
     getUserProfile(): Observable<any> {
         return this.http.get(`/api/user/settings`)
-            .map((res: Response) => res.json())
+            .map((res: Response) => res.json());
     }
 
     updateUserProfile(givenName, fullName, address, city, state, zip): Observable<any> {
@@ -19,6 +19,6 @@ export class ProfileService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(`/api/user/update`, userInfo, { headers: headers })
-            .map((res: Response) => res.status)
+            .map((res: Response) => res.status);
     }
 }

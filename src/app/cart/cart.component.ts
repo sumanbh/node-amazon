@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'cart',
+    selector: 'app-cart',
     providers: [CartService],
     templateUrl: 'cart.component.html',
     styleUrls: ['cart.component.css']
@@ -13,15 +13,15 @@ import { Router } from '@angular/router';
 export class CartComponent implements OnInit {
     _cartContent: any;
     _cartTotal: string;
-    _buttonDisabled: boolean = true;
-    _loginState: boolean = true;
+    _buttonDisabled = true;
+    _loginState = true;
 
     constructor(
         private cartService: CartService,
         private router: Router
     ) { }
 
-    ngOnInit() { this.getCartInfo() }
+    ngOnInit() { this.getCartInfo(); }
 
     removeProduct(id) {
         this.cartService.removeFromCart(id)
@@ -48,6 +48,6 @@ export class CartComponent implements OnInit {
             },
             error => {
                 this._loginState = false;
-            })
+            });
     }
 }

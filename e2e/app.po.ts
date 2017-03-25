@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class AmazonV2Page {
+export class AmazonPage {
   navigateTo() {
     return browser.get('/');
   }

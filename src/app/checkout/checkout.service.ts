@@ -1,6 +1,6 @@
-import { Injectable }     from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CheckoutService {
@@ -10,7 +10,7 @@ export class CheckoutService {
     ) { }
 
     getCartById(): Observable<any> {
-        const productUrl = `/api/user/checkout`;  //api url
+        const productUrl = `/api/user/checkout`;  // api url
         return this.http.get(productUrl)
             .map((res: Response) => res.json());
     }

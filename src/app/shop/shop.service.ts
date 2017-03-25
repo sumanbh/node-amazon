@@ -8,10 +8,10 @@ export class ShopService {
         private http: Http
     ) { }
 
-    getAllProducts(page: number, customMin: number, customMax: number, obj: Object): Observable<any> {
+    getAllProducts(page: number, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
         let productUrl = `/api/shop/${page}?obj=${JSON.stringify(obj)}`;  // api url
-        if (customMin && customMax) {
-            productUrl += `&min=${customMin}&max=${customMax}`;
+        if (minCustom && maxCustom) {
+            productUrl += `&min=${minCustom}&max=${maxCustom}`;
         }
         return this.http.get(productUrl)
             .map((res: Response) => res.json());

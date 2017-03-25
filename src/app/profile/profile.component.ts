@@ -3,15 +3,15 @@ import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'profile',
+    selector: 'app-profile',
     templateUrl: 'profile.component.html',
     styleUrls: ['profile.component.css'],
     providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
     _userInfo: Array<Object>;
-    _error: boolean = false;
-    addressExist: boolean = true;
+    _error = false;
+    addressExist = true;
 
     constructor(
         private profileService: ProfileService,
@@ -19,18 +19,18 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getProfile()
+        this.getProfile();
     }
     // get initial data to populate form
-    getProfile(){
+    getProfile() {
         this.profileService.getUserProfile()
             .subscribe(response => {
-                if (!response[0].address) this.addressExist = false; //to trigger ngif 'add address' 
+                if (!response[0].address) this.addressExist = false; // to trigger ngif 'add address'
                 else this.addressExist = true;
                 this._userInfo = response;
             },
             error => {
-                if (error) this.router.navigate(['user/cart'])
+                if (error) this.router.navigate(['user/cart']);
             });
     }
     userSubmit(givenName, fullName, address, city, state, zip){

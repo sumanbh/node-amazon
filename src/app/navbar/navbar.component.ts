@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalEvent } from '../shared/global.event'
+import { GlobalEvent } from '../shared/global.event';
 
 import { Http, Headers, Response } from '@angular/http';
 import { NavbarService } from './navbar.service';
 
 
 @Component({
-    selector: 'nav-bar',
+    selector: 'app-nav-bar',
     templateUrl: 'navbar.component.html',
     providers: [GlobalEvent, NavbarService],
     styleUrls: ['navbar.component.css'],
@@ -14,7 +14,7 @@ import { NavbarService } from './navbar.service';
 export class NavbarComponent implements OnInit {
     showLogin: boolean;
     userGivenName: string;
-    _login: boolean = true;
+    _login = true;
 
     constructor(
         private globalEvent: GlobalEvent,
@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit {
                         this._login = true;
                         location.reload();
                     } else this._login = false;
-                })
+                });
         } else this._login = false;
     }
 }

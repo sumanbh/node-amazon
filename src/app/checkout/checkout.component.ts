@@ -4,17 +4,17 @@ import {Router} from '@angular/router';
 import { CheckoutService } from './checkout.service';
 
 @Component({
-    selector: 'checkout',
+    selector: 'app-checkout',
     providers: [CheckoutService],
     styleUrls: ['checkout.component.css'],
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    _cartContent: any;
+    _cartContent: any; // TODO
     _userInfo: any;
-    _loginStatus: boolean = false;
-    _cartSum: number = 0;
     _cartTotal: string;
+    _loginStatus = false;
+    _cartSum = 0;
 
     constructor(
         private checkoutService: CheckoutService,
@@ -22,7 +22,7 @@ export class CheckoutComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getCartInfo()
+        this.getCartInfo();
     }
 
     getCartInfo() {

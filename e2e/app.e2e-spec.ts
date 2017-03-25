@@ -1,10 +1,10 @@
-import { AmazonV2Page } from './app.po';
+import { AmazonPage } from './app.po';
 
 describe('amazon-v2 App', function() {
-  let page: AmazonV2Page;
+  let page: AmazonPage;
 
   beforeEach(() => {
-    page = new AmazonV2Page();
+    page = new AmazonPage();
   });
 
   it('should display message saying app works', () => {

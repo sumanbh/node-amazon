@@ -1,6 +1,6 @@
-import { Injectable }     from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrdersService {
@@ -9,8 +9,8 @@ export class OrdersService {
         private http: Http
     ) { }
 
-    getOrdersById(): Observable<any>{
-        const ordersUrl = `/api/user/orders`;  //api url
+    getOrdersById(): Observable<any> {
+        const ordersUrl = `/api/user/orders`;  // api url
         return this.http.get(ordersUrl)
             .map((res: Response) => res.json());
     }

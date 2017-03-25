@@ -6,7 +6,7 @@ import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'product',
+    selector: 'app-product',
     templateUrl: 'product.component.html',
     providers: [ProductService, NgbRatingConfig],
     styleUrls: ['product.component.css']
@@ -16,10 +16,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     _similar: Array<Object>;
     _param: any;
     _id: any;
-    _currentQuantity: number = 1;
+    _currentQuantity = 1;
 
-    _addedToCart: boolean = false;
-    _loginState: boolean = true;
+    _addedToCart = false;
+    _loginState = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
 
-    addToCart(id, quantity): void {
+    addToCart(id, quantity) {
         this.productService.addToCart(id, quantity)
             .subscribe(response => {
                 window.scrollTo(0, 0);
