@@ -14,10 +14,9 @@ export class ProfileService {
             .map((res: Response) => res.json());
     }
 
-    updateUserProfile(givenName, fullName, address, city, state, zip): Observable<any> {
-        const userInfo = JSON.stringify({ givenName, fullName, address, city, state, zip });
+    updateUserProfile(userObj): Observable<any> {
+        const userInfo = JSON.stringify(userObj);
         const headers = new Headers({ 'Content-Type': 'application/json' });
-
         return this.http.post(`/api/user/update`, userInfo, { headers: headers })
             .map((res: Response) => res.status);
     }

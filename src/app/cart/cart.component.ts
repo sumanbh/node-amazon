@@ -47,6 +47,7 @@ export class CartComponent implements OnInit {
                 }
             },
             error => {
+                this._cartTotal = '0.00';
                 this._loginState = false;
             });
     }

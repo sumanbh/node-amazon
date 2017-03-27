@@ -259,7 +259,7 @@ module.exports = {
     updateProfile: (req, res) => {
         if (!req.user) res.sendStatus(401);
         else {
-            const givenName = req.body.givenName;
+            const givenName = req.body.given_name;
             const fullname = req.body.fullname;
             const address = req.body.address;
             const city = req.body.city;
