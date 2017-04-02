@@ -1,7 +1,7 @@
 # Angular - Amazon
 [![Build Status](https://travis-ci.org/sumanbh/amazon-angular.svg?branch=master)](https://travis-ci.org/sumanbh/amazon-angular)
 
-Amazon lookalike with Angular v4, node, and Postgresql. Demo at: http://cyrano.website
+Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.com
 
 ## Setup
 1. Clone and install dependencies
