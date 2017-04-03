@@ -22,10 +22,9 @@
 }
 
 .product-img {
-    max-width: 90%;
+    max-width: 400px;
     height: auto;
-    width: auto;
-    margin-bottom: -20px;
+    width: 100%;
 }
 
 .bread-name {
@@ -79,7 +78,7 @@
     display: initial;
     width: 50px;
     height: 25px;
-    padding: 0px;
+    padding: 5px;
 }
 
 .current-total {
@@ -172,7 +171,7 @@
 
 @media (max-width: 767px) {
     .product-img {
-        max-width: 70% !important;
+        max-width: 240px !important;
     }
     .product-container .row .col-md-10 {
         max-width: 100%;

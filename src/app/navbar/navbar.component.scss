@@ -37,6 +37,9 @@ a {
 .dropdown-item {
   color: #483C32 !important;
   font-weight: 500 !important;
+  &:active {
+    background-color: #fff !important;
+  }
 }
 
 #login-io {

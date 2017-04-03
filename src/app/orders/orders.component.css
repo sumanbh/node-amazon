@@ -77,7 +77,6 @@
 .dropdown-menu {
     top: initial;
     left: initial;
-    padding: 15px;
 }
 
 @media (max-width: 767px) {

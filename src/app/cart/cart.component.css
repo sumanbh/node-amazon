@@ -44,7 +44,7 @@
 }
 
 .image-container {
-    width: 120px;
+    max-width: 160px;
     padding-right: 7px;
     padding-left: 7px;
     margin-left: -1px; /*safari*/
@@ -56,8 +56,8 @@
 
 .cart-img {
     height: auto;
-    width: auto;
-    max-width: 100%;
+    width: 100%;
+    max-width: 140px;
     margin-top: -10px;
 }
 
