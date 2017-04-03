@@ -10,11 +10,6 @@
                 <div class="row">
                     <div class="col-md-8 col-7">
                         <div class="username">{{item.fullname}}</div>
-                        <div class="user-info">{{item.email}}</div>
-                        <div class="user-info">Member since {{item.date_added | date}}</div>
-                        <div class="user-info" *ngIf="addressExist">{{item.address}}</div>
-                        <div class="user-info" *ngIf="addressExist">{{item.city}}, {{item.state}}, {{item.zip}}</div>
-                        <a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a>
                     </div>
                     <div class="col-md-4 col-5">
                         <a href="#" class="edit-profile" data-toggle="modal" data-target="#user-modal">Edit Profile</a>
@@ -59,6 +54,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="user-info">{{item.email}}</div>
+                <div class="user-info">Member since {{item.date_added | date}}</div>
+                <div class="user-info" *ngIf="addressExist">{{item.address}}</div>
+                <div class="user-info" *ngIf="addressExist">{{item.city}}, {{item.state}}, {{item.zip}}</div>
+                <div class="user-info"><a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a></div>
             </div>
         </div>
     </div>
