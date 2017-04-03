@@ -13,7 +13,7 @@ import { HardDrive } from './interfaces/harddrive.interface';
     selector: 'app-shop',
     templateUrl: 'shop.component.html',
     providers: [ShopService, NgbRatingConfig],
-    styleUrls: ['shop.component.css']
+    styleUrls: ['shop.component.scss']
 })
 
 export class ShopComponent implements OnInit {
@@ -30,7 +30,7 @@ export class ShopComponent implements OnInit {
     _itemsPerPage = 24;
     _data: Array<Object>;
     _total: number;
-    _loading: boolean;
+    loading = true;
 
     constructor(
         private shopService: ShopService,
@@ -51,7 +51,6 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
-        this._loading = true;
         if (_queryParam === 'customPrice') {
             this.price = {};
         } else if (this.minCustom && this.maxCustom && _queryParam === 'price') {
@@ -66,7 +65,7 @@ export class ShopComponent implements OnInit {
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;
-                this._loading = false;
+                this.loading = false;
                 this._data = result.data;
                 this._total = result.total;
                 this._page = page;

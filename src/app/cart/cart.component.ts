@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
     _cartContent: any;
-    _cartTotal: string;
+    _cartTotal = '0.00';
     _buttonDisabled = true;
     _loginState = true;
 

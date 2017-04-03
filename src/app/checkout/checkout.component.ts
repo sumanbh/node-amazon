@@ -12,7 +12,7 @@ import { CheckoutService } from './checkout.service';
 export class CheckoutComponent implements OnInit {
     _cartContent: any; // TODO
     _userInfo: any;
-    _cartTotal: string;
+    _cartTotal = '0.00';
     _loginStatus = false;
     _cartSum = 0;
 

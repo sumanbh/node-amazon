@@ -25,6 +25,10 @@
     flex-direction: column;
 }
 
+.card {
+    margin-bottom: 15px;
+}
+
 .orders-img {
     height: auto;
     width: auto;
@@ -34,11 +38,11 @@
 }
 
 .image-container {
-    width: 120px;
+    max-width: 120px;
 }
 
 .name-container {
-    width: calc((100% - 120px) - 33.33333333%);
+    max-width: calc((100% - 120px) - 33.33333333%);
 }
 
 .orders-product-price {
@@ -79,14 +83,14 @@
 @media (max-width: 767px) {
     .name-container {
         text-align: center;
-        width: 100%;
+        max-width: 100%;
     }
     .image-container {
-        width: 100%;
+        max-width: 100%;
         text-align: center;
     }
     .image-container img {
-        width: 100px;
+        max-width: 100px;
     }
     .price-container {
         margin-top: 5px;

@@ -15,7 +15,7 @@ export const routes: Routes = [
     component: ShopComponent
   },
   {
-    path: 'shop',
+    path: 'laptops',
     component: ShopComponent
   },
   {

@@ -3,12 +3,13 @@
 }
 
 .cart-title {
-    margin-bottom: 15px;
     font-size: 20px;
+    padding: 15px;
 }
 
 .orders-col{
-    width: 260px ;
+    min-width: 260px;
+    max-width: 260px;
 }
 
 .row.is-flex {
@@ -33,8 +34,8 @@
     flex-direction: column;
 }
 
-.orders-container .row .col-sm-10 {
-    width: calc(100% - 260px);
+.orders-container .row .col-md-10 {
+    max-width: calc(100% - 260px);
 }
 
 .row {
@@ -43,12 +44,12 @@
 }
 
 .image-container {
-    width: 120px;
+    max-width: 120px;
     margin-left: -1px;  /*safari*/
 }
 
 .name-container {
-    width: calc((100% - 120px) - 33.33333333%);
+    max-width: calc((100% - 120px) - 33.33333333%);
 }
 
 .cart-img {
@@ -129,41 +130,40 @@
 }
 
 @media (max-width: 767px) {
-    .orders-container .row .col-sm-10 {
-        width: 100%;
+    .orders-container .row .col-md-10 {
+        max-width: 100%;
     }
     .orders-col {
-        width: 100%;
+        max-width: 100%;
     }
-    .col-xs-12 {
+    .col-12 {
         padding-left: 7px;
         padding-right: 7px;
     }
 
-    .col-sm-10 {
+    .col-md-10 {
         padding-left: 7px;
         padding-right: 7px;
     }
 
-    .col-xs-8 {
+    .col-8 {
         padding-right: 7px;
         padding-left: 7px;
     }
     .name-container {
-        width: calc(100% - 100px);
+        min-width: calc(100% - 100px);
+        max-width: calc(100% - 100px);
     }
     .image-container {
-        width: 100px;
+        max-width: 100px;
     }
     .checkout-container {
         margin-top: 5px;
     }
 }
 
-.form-inline .form-group {
-    display: block;
-    max-width: 300px;
-    margin-bottom: 15px;
+.form-group {
+    max-width: 400px;
 }
 
 .ng-valid[required], .ng-valid.required  {

@@ -1,19 +1,18 @@
 <div class="orders-container">
     <ol class="breadcrumb">
-        <li><a [routerLink]="['/']">Home</a></li>
-        <li class="active bread-name">Your orders</li>
+        <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item active bread-name">Your orders</li>
     </ol>
     <!--<h2> Your Shopping orders is empty.</h2>-->
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
             <div class="row" *ngFor="let item of _ordersContent | groupby ">
-
-                <div class="col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="orderdate-container hidden-sm hidden-xs">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="orderdate-container hidden-md-down">
                                 <div class="main-one">
                                     <div>Order Placed</div>
                                 </div>
@@ -29,7 +28,7 @@
                                     <div>${{item.total}}</div>
                                 </div>
                             </div>
-                            <div class="shipto-container hidden-sm hidden-xs">
+                            <div class="shipto-container hidden-md-down">
                                 <div class="main-one">
                                     <div>Ship to</div>
                                 </div>
@@ -51,18 +50,20 @@
                                 </div>-->
                             </div>
                         </div>
-                        <div class="panel-body" *ngFor="let new of item.value">
-                            <div class="col-sm-2 col-xs-12 image-container">
-                                <img class="orders-img" [src]="new.img">
-                            </div>
-                            <div class="col-sm-6 col-xs-12 name-container">
-                                <a [routerLink]="['/product', new.laptop_id]">{{new.laptop_name}}</a>
-                            </div>
-                            <div class="col-sm-2 price-container hidden-xs">
-                                <span class="orders-product-price">${{new.price}}</span>
-                            </div>
-                            <div class="col-sm-2 quantity-container hidden-xs">
-                                <b>Qty: {{new.quantity}}</b>
+                        <div class="card-block" *ngFor="let new of item.value">
+                            <div class="row">
+                                <div class="col-md-2 col-12 image-container">
+                                    <img class="orders-img" [src]="new.img">
+                                </div>
+                                <div class="col-md-6 col-12 name-container">
+                                    <a [routerLink]="['/product', new.laptop_id]">{{new.laptop_name}}</a>
+                                </div>
+                                <div class="col-md-2 col-6 price-container">
+                                    <span class="orders-product-price">${{new.price}}</span>
+                                </div>
+                                <div class="col-md-2 col-6 quantity-container">
+                                    <b>Qty: {{new.quantity}}</b>
+                                </div>
                             </div>
                         </div>
                     </div>

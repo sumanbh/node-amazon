@@ -53,5 +53,5 @@ import 'rxjs/add/operator/map';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
 }

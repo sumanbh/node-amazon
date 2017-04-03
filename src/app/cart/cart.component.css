@@ -3,12 +3,13 @@
 }
 
 .cart-title {
-    margin-bottom: 15px;
+    padding-top: 15px;
     font-size: 20px;
 }
 
 .checkout-col{
-    width: 260px ;
+    min-width: 250px;
+    max-width: 250px ;
 }
 
 .row.is-flex {
@@ -33,8 +34,8 @@
     flex-direction: column;
 }
 
-.cart-container .row .col-sm-10 {
-    width: calc(100% - 260px);
+.cart-container .row .col-md-10 {
+    max-width: calc(100% - 250px);
 }
 
 .row {
@@ -50,7 +51,7 @@
 }
 
 .name-container {
-    width: calc((100% - 120px) - 33.33333333%);
+    max-width: calc((100% - 120px) - 33.33333333%);
 }
 
 .cart-img {
@@ -76,8 +77,10 @@
 }
 
 .checkout-container > .btn {
+    cursor: pointer !important;
     height: 42px;
     width: 100%;
+    font-size: 14px;
     background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
 }
 
@@ -87,26 +90,28 @@
 }
 
 .cart-remove {
+    color: #0275d8 !important;
     cursor: pointer;
     width: 30px;
 }
 
 @media (max-width: 767px) {
-    .cart-container .row .col-sm-10 {
-        width: 100%;
+    .cart-container .row .col-md-10 {
+        max-width: 100%;
     }
     .checkout-col {
-        width: 100%;
+        max-width: 100%;
     }
-    .col-sm-10, .col-xs-12 {
+    .col-md-10, .col-12 {
         padding-left: 7px;
         padding-right: 7px;
     }
     .image-container {
-        width: 75px;
+        max-width: 100px;
     }
     .name-container {
-        width: calc(100% - 75px);
+        min-width: calc(100% - 100px);
+        max-width: calc(100% - 100px);
     }
     .price-container {
         margin-top: 5px;

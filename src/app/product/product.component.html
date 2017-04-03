@@ -1,40 +1,41 @@
 <div class="product-container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item"><a [routerLink]="['/laptops']">Laptops</a></li>
+        <li class="breadcrumb-item active bread-name" *ngFor="let item of _product">{{item.laptop_name}}</li>
+    </ol>
+    <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please login before doing that!
+    </div>
+    <div *ngIf="_addedToCart" class="alert alert-success login-reminder" role="alert">Product added to cart!</div>
     <div class="row" *ngFor="let item of _product">
-        <ol class="breadcrumb">
-            <li><a [routerLink]="['/']">Home</a></li>
-            <li><a [routerLink]="['/shop']">Laptops</a></li>
-            <li class="active bread-name">{{item.laptop_name}}</li>
-        </ol>
-        <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please login before doing that!</div>
-        <div *ngIf="_addedToCart" class="alert alert-success login-reminder" role="alert">Product added to cart!</div>
-
-        <div class="col-sm-10 xs-12">
-            <div class="col-lg-4 col-md-4 col-sm-5 text-center">
-                <img class="product-img" [src]="item.img_big">
-            </div>
-            <div class="col-lg-8 col-md-8 col-sm-7">
-                <h1 class="xs-display">{{ item.laptop_name }}</h1>
-                <div>by <a [routerLink]="['/shop']">{{ item.brand_name }}</a></div>
-                <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
-                <hr>
-                <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
-                <div class="finance-master">
-                    <span class="glyphicon glyphicon-info-sign"></span>
-                    Item is eligible: <b>No interest if paid in full within 12 months</b> with the nice Store Card.
+        <div class="col-md-10 col-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-5 text-center">
+                    <img class="product-img" [src]="item.img_big">
                 </div>
-                <div id="availability">In Stock.</div>
-                <div class="product-desc" *ngFor="let desc of item.description">
-                    <li>{{desc}}</li>
+                <div class="col-lg-8 col-md-7">
+                    <h1 class="sm-display">{{ item.laptop_name }}</h1>
+                    <div>by <a [routerLink]="['/laptops']">{{ item.brand_name }}</a></div>
+                    <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                    <hr>
+                    <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
+                    <div class="finance-master">
+                        Item is eligible: <b>No interest if paid in full within 12 months</b> with the nice Store Card.
+                    </div>
+                    <div id="availability">In Stock.</div>
+                    <div class="product-desc" *ngFor="let desc of item.description">
+                        <li>{{desc}}</li>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-2 col-xs-12">
+        <div class="col-md-2 col-12">
             <div class="product-cartbox">
-                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity" min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'></div>
+                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity"
+                        min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'></div>
                 <div class="current-total text-center">${{_currentQuantity * item.price | number:'.2'}}</div>
                 <div class="cart-container">
-                    <button (click) = "addToCart(item.id, _currentQuantity)" type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> <span style="font-size: 14px">Add to Cart</span>
+                    <button (click)="addToCart(item.id, _currentQuantity)" type="button" class="btn btn-lg">Add to Cart
                     </button>
                 </div>
                 <hr>
@@ -54,11 +55,13 @@
                 <tr>
                     <th class="first-table-td"></th>
                     <th><img class="similar-img" [src]="item.img"></th>
-                    <th *ngFor="let product of _similar"><img class="similar-img" [src]="product.img"></th>
+                    <th *ngFor="let product of _similar">
+                        <a [routerLink]="['/product', product.id]"><img class="similar-img" [src]="product.img"></a>
+                    </th>
                 </tr>
                 <tr>
-                    <td class="active">Name</td>
-                    <td class="warning">
+                    <td class="table-active">Name</td>
+                    <td class="table-warning">
                         <table class="fixed-table">
                             <tr>
                                 <td><b>This item:</b> {{item.laptop_name}}</td>
@@ -74,33 +77,37 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="active">Customer Rating</td>
-                    <td class="warning"><ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating></td>
-                    <td *ngFor="let product of _similar"><ngb-rating id="shop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating></td>
+                    <td class="table-active">Customer Rating</td>
+                    <td class="table-warning">
+                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                    </td>
+                    <td *ngFor="let product of _similar">
+                        <ngb-rating id="shop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="active">Price</td>
-                    <td class="warning sim-container-price">${{item.price}}</td>
+                    <td class="table-active">Price</td>
+                    <td class="table-warning sim-container-price">${{item.price}}</td>
                     <td class="sim-container-price" *ngFor="let product of _similar">${{product.price}}</td>
                 </tr>
                 <tr>
-                    <td class="active">Operating System</td>
-                    <td class="warning">{{item.os_name}}</td>
+                    <td class="table-active">Operating System</td>
+                    <td class="table-warning">{{item.os_name}}</td>
                     <td *ngFor="let product of _similar">{{product.os_name}}</td>
                 </tr>
                 <tr>
-                    <td class="active">Memory</td>
-                    <td class="warning">{{item.ram}} GB DDR3</td>
+                    <td class="table-active">Memory</td>
+                    <td class="table-warning">{{item.ram}} GB DDR3</td>
                     <td *ngFor="let product of _similar">{{product.ram}} GB DDR3</td>
                 </tr>
                 <tr>
-                    <td class="active">Storage</td>
-                    <td class="warning">{{item.storage}} GB</td>
+                    <td class="table-active">Storage</td>
+                    <td class="table-warning">{{item.storage}} GB</td>
                     <td *ngFor="let product of _similar">{{product.storage}} GB</td>
                 </tr>
                 <tr>
-                    <td class="active">Hard Drive Type</td>
-                    <td class="warning">{{item.storage_name}}</td>
+                    <td class="table-active">Hard Drive Type</td>
+                    <td class="table-warning">{{item.storage_name}}</td>
                     <td *ngFor="let product of _similar">{{product.storage_name}}</td>
                 </tr>
             </table>

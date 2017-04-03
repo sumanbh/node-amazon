@@ -11,9 +11,9 @@ import { User } from './user.interface';
     providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
-    _error = false;
+    error = false;
     addressExist = true;
-    _userInfo: Array<Object>;
+    userInfo: Array<Object>;
     userForm: User;
 
     constructor(
@@ -30,9 +30,8 @@ export class ProfileComponent implements OnInit {
             .subscribe(response => {
                 if (!response[0].address) this.addressExist = false; // to trigger ngif 'add address'
                 else this.addressExist = true;
-                this._userInfo = response;
-                this.userForm = response[0];
-                console.log(this.userForm);
+                this.userInfo = response;
+                this.userForm = { ...response[0] };
             },
             error => {
                 if (error) this.router.navigate(['user/cart']);
@@ -44,7 +43,7 @@ export class ProfileComponent implements OnInit {
                 if (response) location.reload();
             },
             error => {
-                this._error = true;
+                this.error = true;
             });
     }
 }

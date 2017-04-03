@@ -9,7 +9,7 @@ import { NavbarService } from './navbar.service';
     selector: 'app-nav-bar',
     templateUrl: 'navbar.component.html',
     providers: [GlobalEvent, NavbarService],
-    styleUrls: ['navbar.component.css'],
+    styleUrls: ['navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
     showLogin: boolean;
