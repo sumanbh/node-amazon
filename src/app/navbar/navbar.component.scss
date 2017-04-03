@@ -165,8 +165,6 @@ a {
 .loginmodal-container input[type=email]:hover, input[type=password]:hover {
   border: 1px solid #b9b9b9;
   border-top: 1px solid #a0a0a0;
-  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
@@ -200,14 +198,9 @@ a {
   text-align: center;
   display: inline-block;
   opacity: 0.6;
+  -webkit-transition: opacity ease 0.5s;
   transition: opacity ease 0.5s;
 } 
-
-@media (max-width: 767px) {
-  .user-welcome {
-    /*font-size: 14px;*/
-  }
-}
 
 .alert {
   margin-bottom: 10px;

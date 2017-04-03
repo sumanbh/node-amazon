@@ -14,22 +14,18 @@
 
 .row.is-flex {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 
 .row.is-flex > [class*='col-'] {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
 }
@@ -105,7 +101,6 @@
     border-top: none;
     border-left: none;
     border-right: none;
-    -webkit-box-shadow: none;
     box-shadow: none;
     border-radius: 0px;
     width: 100%;
@@ -123,6 +118,7 @@
     cursor: pointer;
     width: 100%;
     padding: 10px;
+    background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);
     background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
     border: 1px solid grey;
     border-radius: 4px;

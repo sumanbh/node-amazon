@@ -98,6 +98,7 @@
     height: 42px;
     font-size: 14px;
     width: 100%;
+    background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);
     background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
 }
 

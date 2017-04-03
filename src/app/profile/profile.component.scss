@@ -148,6 +148,8 @@ input {
 }
 
 .form-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   position: relative;
   margin-bottom: 5px;
@@ -160,6 +162,7 @@ input {
     pointer-events: none;
     z-index: 1;
     font-weight: normal;
+    -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     visibility: hidden;
     opacity: 0;
