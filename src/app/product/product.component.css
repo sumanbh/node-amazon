@@ -27,6 +27,11 @@
     width: 100%;
 }
 
+#product-info {
+    position: relative;
+    top: 5px;
+}
+
 .bread-name {
     text-overflow: ellipsis;
     white-space: nowrap;
