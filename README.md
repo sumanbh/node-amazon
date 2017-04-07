@@ -16,14 +16,24 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
 3. Add the following:
     ```
     {
-      "sessionSecret": "YOUR_SESSION_SECRET",
-      "postgresPath": "POSTGRES_URL",
-      "googClientId": "GOOGLE_CLIENT",
-      "googSecret": "GOOGLE_CLIENT_SECRET",
-      "googCallback": "GOOGLE_AUTH_CALLBACK",
-      "fbClientId": "FACEBOOK_CLIENT",
-      "fbSecret": "FACEBOOK_CLIENT_SECRET",
-      "fbCallback": "FACEBOOK_CLIENT_CALLBACK"
+      "session": {
+        "secret": "SESSION_SECRET"
+      },
+      "postgresql": {
+        "host": "URL"
+      },
+      "oauth": {
+        "google": {
+          "client": "ID",
+          "secret": "SECRET",
+          "callback": "URL"
+        },
+        "facebook": {
+          "client": "ID",
+          "secret": "SECRET",
+          "callback": "URL"
+        }
+      }
     }
     ```
     
@@ -32,4 +42,4 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
 5. You can find Postgresql schema and mock inserts inside ```server/db/schema```
 
 ## Note
-A lot of this was written when I was learning Angular (which I hope to slowly rewrite), so many things I do may not be optimal.
+A lot of this is me learning Angular and trying out new things, so many things I do may not be optimal.
