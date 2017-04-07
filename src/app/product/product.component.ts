@@ -49,7 +49,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this._similar = response.similar;
             },
             error => {
-                if (error) this.router.navigate(['404'])
+                if (error) this.router.navigate(['404']);
             });
     }
 

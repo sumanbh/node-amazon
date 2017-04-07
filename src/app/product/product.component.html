@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-lg-8 col-md-7">
                     <h1 class="sm-display">{{ item.laptop_name }}</h1>
-                    <div>by <a [routerLink]="['/laptops']">{{ item.brand_name }}</a></div>
+                    <div>by <a [routerLink]="['/laptops']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a></div>
                     <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     <hr>
                     <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>

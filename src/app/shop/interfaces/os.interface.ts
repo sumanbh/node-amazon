@@ -1,7 +1,7 @@
 export interface OS {
-  isMac?: boolean;
-  isWin10?: boolean;
-  isWin8?: boolean;
-  isWin7?: boolean;
-  isChrome?: boolean;
+  Mac?: boolean;
+  Win10?: boolean;
+  Win8?: boolean;
+  Win7?: boolean;
+  Chrome?: boolean;
 };

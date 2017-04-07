@@ -2,32 +2,32 @@ const app = require('./index.js');
 
 const db = app.get('db');
 const brandName = {
-    isAsus: 'Asus',
-    isAcer: 'Acer',
-    isApple: 'Apple',
-    isHP: 'HP',
-    isMicrosoft: 'Microsoft',
-    isLenovo: 'Lenovo',
-    isDell: 'Dell',
-    isSamsung: 'Samsung',
+    Asus: 'Asus',
+    Acer: 'Acer',
+    Apple: 'Apple',
+    HP: 'HP',
+    Microsoft: 'Microsoft',
+    Lenovo: 'Lenovo',
+    Dell: 'Dell',
+    Samsung: 'Samsung',
 };
 const osName = {
-    isMac: 'Mac OS X',
-    isWin10: 'Windows 10',
-    isChrome: 'Chrome OS',
-    isWin8: 'Windows 8.1',
-    isWin7: 'Windows 7 Home',
+    Mac: 'Mac OS X',
+    Win10: 'Windows 10',
+    Chrome: 'Chrome OS',
+    Win8: 'Windows 8.1',
+    Win7: 'Windows 7 Home',
 };
 const processorName = {
-    isInteli7: 'Intel Core i7',
-    isInteli5: 'Intel Core i5',
-    isInteli3: 'Intel Core i3',
-    isIntelCore2: 'Intel Core 2',
-    isAMDAthlon: 'AMD',
+    i7: 'Intel Core i7',
+    i5: 'Intel Core i5',
+    i3: 'Intel Core i3',
+    Core2: 'Intel Core 2',
+    Athlon: 'AMD',
 };
 const storageName = {
-    isSSD: 'SSD',
-    isHardDrive: 'Hard Disk',
+    SSD: 'SSD',
+    HardDrive: 'Hard Disk',
 };
 const priceName = {
     isUnder500: { min: 0, max: 500 },
@@ -86,8 +86,8 @@ module.exports = {
         });
 
         if (req.query.min && req.query.max) {
-            min = parseInt(req.query.min, 10);
-            max = parseInt(req.query.max, 10);
+            min = parseInt(req.query.min, 10) || 0;
+            max = parseInt(req.query.max, 10) || 20000;
         } else if (minCollector.length >= 1 || maxCollector.length >= 1) {
             min = Math.min(...minCollector);
             max = Math.max(...maxCollector);

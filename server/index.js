@@ -13,7 +13,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
 // Postgres path for massivejs connection
-const connection = config.postgresPath;
+const connection = config.postgresql.host;
 
 const app = module.exports = express(); // eslint-disable-line
 
@@ -28,7 +28,7 @@ const routes = require('./routes.js');
 const db = app.get('db');
 
 app.use(session({
-    secret: config.sessionSecret,
+    secret: config.session.secret,
     saveUninitialized: false,
     resave: true,
 }));
@@ -43,9 +43,9 @@ app.use(express.static(`${__dirname}/../dist`)); // location of index.html
 
 // Facebook auth begins
 passport.use(new FacebookStrategy({
-    clientID: config.fbClientId,
-    clientSecret: config.fbSecret,
-    callbackURL: config.fbCallback,
+    clientID: config.oauth.facebook.client,
+    clientSecret: config.oauth.facebook.secret,
+    callbackURL: config.oauth.facebook.callback,
     profileFields: ['id', 'email', 'displayName', 'name', 'gender'] // eslint-disable-line
 },
     function (accessToken, refreshToken, profile, cb) {
@@ -81,9 +81,9 @@ app.get('/facebook-auth/callback',
 // Google auth begins
 
 passport.use(new GoogleStrategy({
-    clientID: config.googClientId,
-    clientSecret: config.googSecret,
-    callbackURL: config.googCallback // eslint-disable-line
+    clientID: config.oauth.google.client,
+    clientSecret: config.oauth.google.secret,
+    callbackURL: config.oauth.google.callback // eslint-disable-line
 },
     function (accessToken, refreshToken, profile, cb) {
         db.auth_google([profile.id, profile.emails[0].value], function (err, foundUser) {
@@ -134,7 +134,7 @@ passport.use(new LocalStrategy({
     } // eslint-disable-line
 ));
 
-app.post('/login', function (req, res, next) {
+app.post('/login', (req, res, next) => {
     passport.authenticate('local', function (err, user) {
         if (err) { return next(err); }
         if (!user) { return res.json(false); }
@@ -182,8 +182,8 @@ app.get('/logout', (req, res) => {
 });
 
 // Catch all routes
-app.get('*', function (request, response) {
-    response.sendFile(path.resolve('./dist/index.html'));
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve('./dist/index.html'));
 });
 
 passport.serializeUser(function (user, cb) {

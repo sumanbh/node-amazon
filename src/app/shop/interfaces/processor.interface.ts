@@ -1,7 +1,7 @@
 export interface Processor {
-  isInteli7?: boolean;
-  isInteli5?: boolean;
-  isInteli3?: boolean;
-  isIntelCore2?: boolean;
-  isAMDAthlon?: boolean;
+  i7?: boolean;
+  i5?: boolean;
+  i3?: boolean;
+  Core2?: boolean;
+  Athlon?: boolean;
 };

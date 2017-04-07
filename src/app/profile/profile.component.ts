@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     userSubmit() {
         this.profileService.updateUserProfile(this.userForm)
             .subscribe(response => {
-                if (response) location.reload();
+                if (response) this.getProfile();
             },
             error => {
                 this.error = true;

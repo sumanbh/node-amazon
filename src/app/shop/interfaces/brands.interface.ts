@@ -1,10 +1,10 @@
 export interface Brand {
-  isApple?: boolean;
-  isMicrosoft?: boolean;
-  isAsus?: boolean;
-  isDell?: boolean;
-  isHP?: boolean;
-  isSamsung?: boolean;
-  isAcer?: boolean;
-  isLenovo?: boolean;
+  Apple?: boolean;
+  Microsoft?: boolean;
+  Asus?: boolean;
+  Dell?: boolean;
+  HP?: boolean;
+  Samsung?: boolean;
+  Acer?: boolean;
+  Lenovo?: boolean;
 };
