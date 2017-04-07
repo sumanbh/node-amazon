@@ -16,7 +16,7 @@ export class ShopService {
     };
     storageName = {
         SSD: 'ssd',
-        HardDrive: 'harddisk',
+        HardDrive: 'harddrive',
     };
     ramName = {
         is64andAbove: '64', is32: '32', is16: '16', is8: '8', is4: '4', is2: '2', is12: '12',
