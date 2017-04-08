@@ -10,10 +10,10 @@
     <div class="row" *ngFor="let item of _product">
         <div class="col-md-10 col-12">
             <div class="row">
-                <div class="col-lg-4 col-md-5 text-center">
+                <div class="col-lg-4 col-12 text-center">
                     <img class="product-img" [src]="item.img_big">
                 </div>
-                <div class="col-lg-8 col-md-7">
+                <div class="col-lg-8 col-12">
                     <h1 class="sm-display">{{ item.laptop_name }}</h1>
                     <div>by <a [routerLink]="['/laptops']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a></div>
                     <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>

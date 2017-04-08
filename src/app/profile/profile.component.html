@@ -17,7 +17,7 @@
                             <div class="modal-dialog">
                                 <div class="usermodal-container">
                                     <div class="usermodal-title">Edit Profile</div>
-                                    <form name="userForm" #theForm="ngForm" (ngSubmit)="userSubmit()">
+                                    <form name="userForm" #theForm="ngForm">
                                         <div class="form-group">
                                             <input id="givenname" #givenname="ngModel" type="name" name="given_name" placeholder="Display Name" [(ngModel)]="userForm.given_name"
                                                 maxlength="32" required>
@@ -47,7 +47,7 @@
                                             <label for="zip" class="control-label">Zip Code</label>
                                         </div>
                                         <div *ngIf="error" class="alert alert-danger" role="alert">Error. Please try again later.</div>
-                                        <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" [disabled]="!theForm.form.valid">
+                                        <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" data-dismiss="modal" (click)="userSubmit()" [disabled]="!theForm.form.valid">
                                     </form>
                                 </div>
                             </div>

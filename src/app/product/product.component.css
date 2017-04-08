@@ -175,6 +175,12 @@
     padding: 0px !important;
 }
 
+@media (max-width: 992px) {
+    .product-img {
+        max-width: 240px !important;
+    }
+}
+
 @media (max-width: 767px) {
     .product-img {
         max-width: 240px !important;
@@ -184,8 +190,5 @@
     }
     .product-container .row .col-md-2 {
         max-width: 100%;
-    }
-    .sm-display {
-        font-size: 17px !important;
     }
 }
