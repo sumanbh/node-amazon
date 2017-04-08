@@ -122,8 +122,8 @@ export class ShopService {
                     price.forEach(value => allFilters.price[this.getKeyByValue(this.priceName, value)] = true);
                     break;
                 }
-                case 'cpu': {
-                    let obj = queryObj.params.cpu;
+                case 'processor': {
+                    let obj = queryObj.params.processor;
                     const result = [];
                     if (Array.isArray(obj)) obj = obj.join(',');
                     const processor = this.intersection(obj.toLowerCase().split(','), Object.values(this.processorName));

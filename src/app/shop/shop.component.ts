@@ -9,6 +9,7 @@ import { Price } from './interfaces/price.interface';
 import { Processor } from './interfaces/processor.interface';
 import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
+import { QueryParam } from './interfaces/queryparam.interface';
 
 @Component({
     selector: 'app-shop',
@@ -32,7 +33,7 @@ export class ShopComponent implements OnInit {
     data: Array<Object>;
     totalItems: number;
     loading = true;
-    queryParams: any;
+    queryParams: QueryParam;
     currentPrice: string;
 
     constructor(
@@ -62,8 +63,8 @@ export class ShopComponent implements OnInit {
             // get custom min and max from url if it exists
             if (this.queryParams.params.customprice) {
                 const price = this.queryParams.params.customprice.split(',');
-                this.minCustom = price[0];
-                this.maxCustom = price[1];
+                this.minCustom = parseInt(price[0], 10);
+                this.maxCustom = parseInt(price[1], 10);
             }
             // get results based on the filter(s)
             this.getResults();
