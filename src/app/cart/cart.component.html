@@ -1,10 +1,8 @@
 <div class="cart-container">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-        <li class="breadcrumb-item bread-name"><a [routerLink]="['/laptops']">Laptops</a></li>
         <li class="breadcrumb-item active bread-name">Cart</li>
     </ol>
-    <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">You are not logged in!</div>
     <div class="row">
         <div class="col-md-10 col-12">
             <h2 class="cart-title text-center"> Shopping Cart</h2>

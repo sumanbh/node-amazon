@@ -1,12 +1,9 @@
 <div class="product-container">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-        <li class="breadcrumb-item"><a [routerLink]="['/laptops']">Laptops</a></li>
         <li class="breadcrumb-item active bread-name" *ngFor="let item of _product">{{item.laptop_name}}</li>
     </ol>
-    <div *ngIf="!_loginState" class="alert alert-danger login-reminder" role="alert">Oh snap! Please login before doing that!
-    </div>
-    <div *ngIf="_addedToCart" class="alert alert-success login-reminder" role="alert">Product added to cart!</div>
+    <simple-notifications [options]="options"></simple-notifications>
     <div class="row" *ngFor="let item of _product">
         <div class="col-md-10 col-12">
             <div class="row">
@@ -15,7 +12,7 @@
                 </div>
                 <div class="col-lg-8 col-12">
                     <h1 class="sm-display">{{ item.laptop_name }}</h1>
-                    <div>by <a [routerLink]="['/laptops']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a></div>
+                    <div>by <a [routerLink]="['/']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a></div>
                     <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     <hr>
                     <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>

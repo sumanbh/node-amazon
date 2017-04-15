@@ -1,0 +1,16 @@
+<div class="loginmodal-container">
+  <a href="/google-auth" class="btn btn-google"><img class="google-g" src="../../assets/images/google-g.png"> <span>Log in with Google</span> </a>
+  <a href="/facebook-auth" class="btn btn-facebook"><img class="facebook-f" src="../../assets/images/facebook-f.png"> <span>Log in with Facebook</span> </a>
+  <div class="login-seperator">
+    <span class="login-seperator-text">or</span>
+    <hr>
+  </div>
+  <form>
+    <div *ngIf="!_login" class="alert alert-danger" role="alert">Invalid email and or password.</div>
+    <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
+    <!--Demo Login info-->
+    <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
+    <!--For demo only. All passwords are hashed with bcrypt-->
+    <input type="submit" name="login" class="login loginmodal-submit" value="Log in" (click)="localAuth(email.value, pass.value)">
+  </form>
+</div>

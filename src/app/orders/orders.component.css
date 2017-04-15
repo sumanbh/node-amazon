@@ -3,6 +3,10 @@
     margin-left: 0px;
 }
 
+a {
+    cursor: pointer;
+}
+
 .row.is-flex {
     display: -webkit-box;
     display: -ms-flexbox;

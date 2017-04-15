@@ -3,7 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ShopService {
+export class HomeService {
+    isNumber = Number.isFinite;
     brandName = {
         Asus: 'asus', Acer: 'acer', Apple: 'apple', HP: 'hp',
         Microsoft: 'microsoft', Lenovo: 'lenovo', Dell: 'dell', Samsung: 'samsung',
@@ -146,6 +147,10 @@ export class ShopService {
                     storage.forEach(value => allFilters.storage[this.getKeyByValue(this.storageName, value)] = true);
                     break;
                 }
+                case 'callback': {
+                    localStorage.setItem('id_token', queryObj.params.callback);
+                    break;
+                }
                 default:
                 /* do nothing */
             }
@@ -155,7 +160,7 @@ export class ShopService {
 
     getAllProducts(page: number, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
         let productUrl = `/api/shop/${page}?obj=${JSON.stringify(obj)}`;  // api url
-        if (minCustom && maxCustom) {
+        if (this.isNumber(minCustom) && this.isNumber(maxCustom)) {
             productUrl += `&min=${minCustom}&max=${maxCustom}`;
         }
         return this.http.get(productUrl)

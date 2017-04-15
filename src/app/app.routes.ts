@@ -1,22 +1,28 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
-import { ShopComponent } from './shop/shop.component';
+import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
-// import { OrderDetailsComponent } from './orderdetails/orderdetails.component';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+import { ValidateComponent } from './validate/validate.component';
+import { AuthGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: ShopComponent
+    component: HomeComponent
   },
   {
-    path: 'laptops',
-    component: ShopComponent
+    path: 'validate',
+    component: ValidateComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'product/:id',
@@ -24,23 +30,19 @@ export const routes: Routes = [
   },
   {
     path: 'user/cart',
-    component: CartComponent
+    component: CartComponent, canActivate: [AuthGuard]
   },
   {
     path: 'user/checkout',
-    component: CheckoutComponent
+    component: CheckoutComponent, canActivate: [AuthGuard]
   },
   {
     path: 'user/orders',
-    component: OrdersComponent
+    component: OrdersComponent, canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'user/orders/:id',
-  //   component: OrderDetailsComponent
-  // },
   {
     path: 'user/settings',
-    component: ProfileComponent
+    component: ProfileComponent, canActivate: [AuthGuard]
   },
   {
     path: '**',

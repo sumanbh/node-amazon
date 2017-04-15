@@ -4,12 +4,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
     selector: 'app-product',
     templateUrl: 'product.component.html',
-    providers: [ProductService, NgbRatingConfig],
-    styleUrls: ['product.component.css']
+    providers: [ProductService, NgbRatingConfig, NotificationsService],
+    styleUrls: ['product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
     _product: Array<Object>;
@@ -17,15 +18,21 @@ export class ProductComponent implements OnInit, OnDestroy {
     _param: any;
     _id: any;
     _currentQuantity = 1;
-
-    _addedToCart = false;
-    _loginState = true;
+    options = {
+        position: ['top', 'right'],
+        timeOut: 5000,
+        lastOnBottom: true,
+        pauseOnHover: true,
+        clickToClose: true,
+        maxLength: 0,
+    };
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private productService: ProductService,
-        private config: NgbRatingConfig
+        private config: NgbRatingConfig,
+        private toastService: NotificationsService,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -33,12 +40,25 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._param = this.route.params.subscribe(params => {
-            this._loginState = true;
-            this._addedToCart = false;
             window.scrollTo(0, 0);    // browser scrolls to top when state changes
             this._id = params['id'];
             this.getById(this._id);
         });
+    }
+
+    popToast(isTrue, quantity) {
+        if (isTrue) {
+            this.toastService.success(
+                `${quantity} added!`,
+                `${this._product[0]['laptop_name'].substring(0, 45)}...`,
+            );
+        } else this.toastService.error(
+            'Unauthorized',
+            'You have to be logged in to do that!',
+            {
+                timeOut: 4000,
+            }
+        );
     }
 
     getById(id: any) {
@@ -57,11 +77,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.productService.addToCart(id, quantity)
             .subscribe(response => {
                 window.scrollTo(0, 0);
-                this._addedToCart = true;
+                this.popToast(true, quantity);
             },
             error => {
                 window.scrollTo(0, 0);
-                if (error) this._loginState = false;
+                if (error) this.popToast(false, null);
             });
     }
     ngOnDestroy() {

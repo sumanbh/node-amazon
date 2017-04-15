@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ShopService } from './shop.service';
+import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { Brand } from './interfaces/brands.interface';
@@ -12,13 +12,14 @@ import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
 
 @Component({
-    selector: 'app-shop',
-    templateUrl: 'shop.component.html',
-    providers: [ShopService, NgbRatingConfig],
-    styleUrls: ['shop.component.scss']
+    selector: 'app-home',
+    templateUrl: 'home.component.html',
+    providers: [HomeService, NgbRatingConfig],
+    styleUrls: ['home.component.scss']
 })
 
-export class ShopComponent implements OnInit {
+export class HomeComponent implements OnInit {
+    isNumber = Number.isFinite;
     brand: Brand;
     os: OS;
     price: Price;
@@ -39,7 +40,7 @@ export class ShopComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private shopService: ShopService,
+        private homeService: HomeService,
         private config: NgbRatingConfig
     ) {
         config.max = 5;
@@ -50,7 +51,7 @@ export class ShopComponent implements OnInit {
         this.route.queryParamMap.subscribe((params) => {
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values
-            const queryObj = this.shopService.parseQueryParams(this.queryParams);
+            const queryObj = this.homeService.parseQueryParams(this.queryParams);
             this.brand = queryObj.brand;
             this.os = queryObj.os;
             this.price = queryObj.price;
@@ -72,6 +73,7 @@ export class ShopComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
+        const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
         // page is always 1 when filter is added/removed
@@ -80,7 +82,7 @@ export class ShopComponent implements OnInit {
         // you can only choose one of the price filter
         if (_queryParam === 'customPrice') {
             this.price = {};
-        } else if (this.minCustom && this.maxCustom && _queryParam === 'price') {
+        } else if (isMinCustom && this.maxCustom && _queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
         }
@@ -95,19 +97,19 @@ export class ShopComponent implements OnInit {
         // collect all the checked values
         const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
         // returns only truthy checked checkboxes which are formatted correctly
-        const serializeQuery = this.shopService.serializeQueryParams(tempObj);
+        const serializeQuery = this.homeService.serializeQueryParams(tempObj);
         // prepare query param
         const param = { ...serializeQuery, page };
         // add custom price option if it exists to the query param
-        if (this.minCustom && this.maxCustom) param['customprice'] = `${this.minCustom},${this.maxCustom}`;
-        this.router.navigate(['laptops'], {
+        if (isMinCustom && this.maxCustom) param['customprice'] = `${this.minCustom},${this.maxCustom}`;
+        this.router.navigate([''], {
             queryParams: param
         });
     }
 
     getResults() {
         const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
-        this.shopService.getAllProducts(this.page, this.minCustom, this.maxCustom, tempObj)
+        this.homeService.getAllProducts(this.page, this.minCustom, this.maxCustom, tempObj)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;

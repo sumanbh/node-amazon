@@ -1,1 +1,0 @@
-UPDATE cart SET product_quantity = ($1) WHERE customer_id = ($2) and product_id = ($3);

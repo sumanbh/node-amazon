@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { CartService } from './cart.service';
 import { Router } from '@angular/router';
 
-
 @Component({
     selector: 'app-cart',
     providers: [CartService],
@@ -14,7 +13,6 @@ export class CartComponent implements OnInit {
     _cartContent: any;
     _cartTotal = '0.00';
     _buttonDisabled = true;
-    _loginState = true;
 
     constructor(
         private cartService: CartService,
@@ -29,7 +27,7 @@ export class CartComponent implements OnInit {
                 this.getCartInfo();
             },
             error => {
-                this._loginState = false;
+                console.log(error);
             });
     }
 
@@ -38,9 +36,8 @@ export class CartComponent implements OnInit {
             .subscribe(response => {
                 this._cartContent = response.data;
                 if (this._cartContent) {
-                    const totalArr = response.total;
                     this._buttonDisabled = false;
-                    this._cartTotal = totalArr[0].total;
+                    this._cartTotal = response.sum.total;
                 } else {
                     this._buttonDisabled = true;
                     this._cartTotal = '0.00';
@@ -48,7 +45,6 @@ export class CartComponent implements OnInit {
             },
             error => {
                 this._cartTotal = '0.00';
-                this._loginState = false;
             });
     }
 }

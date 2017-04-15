@@ -1,23 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { AuthHttp } from 'angular2-jwt';
+import { NavService } from '../shared/nav.service';
 
 @Injectable()
 export class CartService {
-
     constructor(
-        private http: Http
+        public authHttp: AuthHttp,
+        private navService: NavService,
     ) { }
 
     getCartById(): Observable<any> {
         const productUrl = `/api/user/cart`;  // api url
-        return this.http.get(productUrl)
-            .map((res: Response) => res.json());
+        return this.authHttp.get(productUrl)
+            .map((res: Response) => res.json())
+            .map(res => {
+                localStorage.setItem('id_cart', res.cart || 0);
+                this.navService.changeCart(res.cart || 0);
+                return res;
+            });
     }
 
     removeFromCart(id): Observable<any> {
         const productUrl = `/api/user/cart/remove/${id}`;
-        return this.http.delete(productUrl)
-            .map((res: Response) => res.json());
+        return this.authHttp.delete(productUrl)
+            .map((res: Response) => res.json())
+            .map(res => {
+                if (res.success) {
+                    localStorage.setItem('id_cart', res.cart);
+                    this.navService.changeCart(res.cart);
+                    return true;
+                }
+                return false;
+            });
     }
 }

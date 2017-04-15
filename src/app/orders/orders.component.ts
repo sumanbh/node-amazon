@@ -12,6 +12,7 @@ import { OrdersService } from './orders.service';
 export class OrdersComponent implements OnInit {
     _ordersContent: Array<Object>;
     _testContent: Array<Object>;
+    noResults = false;
 
     constructor(
         private ordersService: OrdersService,
@@ -44,6 +45,7 @@ export class OrdersComponent implements OnInit {
     getOrdersInfo() {
         this.ordersService.getOrdersById()
             .subscribe(response => {
+                if (response.length === 0) this.noResults = true;
                 this._ordersContent = this.transformArr(response).reduce((result, item) => {
                     const key = Object.keys(item)[0];
                     result[key] = item[key];
@@ -51,7 +53,7 @@ export class OrdersComponent implements OnInit {
                 }, {});
             },
             error => {
-                if (error) this.router.navigate(['user/cart']);
+                if (error) this.router.navigate(['login']);
             });
     }
 }

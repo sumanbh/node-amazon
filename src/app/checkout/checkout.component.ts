@@ -29,16 +29,15 @@ export class CheckoutComponent implements OnInit {
         this.checkoutService.getCartById()
             .subscribe(response => {
                 this._userInfo = response.userInfo;
-                if (!this._userInfo) this.router.navigate(['']);
+                if (!this._userInfo) this.router.navigate(['login']);
                 this._cartContent = response.data;
                 if (this._cartContent) {
-                    const totalArr = response.total;
-                    this._cartTotal = totalArr[0].total;
+                    this._cartTotal = response.sum.total;
                 } else this.router.navigate(['user/cart']);
                 this._cartSum = parseFloat(this._cartTotal);
             },
             error => {
-                if (error) this.router.navigate(['user/cart']);
+                if (error) this.router.navigate(['login']);
             });
     }
 
@@ -49,7 +48,7 @@ export class CheckoutComponent implements OnInit {
                     if (response) this.router.navigate(['user/orders']);
                 },
                 error => {
-                    if (error) this.router.navigate(['user/cart']);
+                    if (error) this.router.navigate(['login']);
                 });
         }
     }

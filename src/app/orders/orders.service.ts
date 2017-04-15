@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class OrdersService {
 
     constructor(
-        private http: Http
+        private authHttp: AuthHttp
     ) { }
 
     getOrdersById(): Observable<any> {
         const ordersUrl = `/api/user/orders`;  // api url
-        return this.http.get(ordersUrl)
+        return this.authHttp.get(ordersUrl)
             .map((res: Response) => res.json());
     }
 }

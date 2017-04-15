@@ -8,13 +8,14 @@
 
 a {
   text-decoration: none !important;
+  cursor: pointer !important;
 }
 
 .user-welcome {
   position: absolute;
-  right: 10px;
+  right: 15px;
   height: 50px;
-  top: .50rem;
+  top: .40rem;
   padding-top: .30rem;
   padding-right: 0px;
   font-size: 1.0rem;
@@ -30,13 +31,25 @@ a {
 }
 
 .user-welcome a:focus {
-  color: #fff;
   text-decoration: none;
 }
 
 #user-cart {
-  position: relative;
-  top: 0.2rem;
+  margin-left: 2px;
+  &:hover {
+    path {
+      fill: #fff;
+    }
+  }
+  #cart-svg {
+    position: relative;
+    top: 0.2rem;
+  }
+  #cart-size {
+    font-size: 15px;
+    display: inline-block;
+    min-width: 20px;
+  }
 }
 
 .dropdown-item {

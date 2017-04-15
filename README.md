@@ -12,15 +12,23 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
     node_modules/@angular/cli/bin/ng build --prod --aot
     ```
     
-2. Create the config file: ``nano config/amazon.json``
+2. Config goes in: ``nano config/amazon.json``
 3. Add the following:
     ```
     {
       "session": {
         "secret": "SESSION_SECRET"
       },
+      "jwt": {
+        "secret": "JWT_SECRET"
+      },
       "postgresql": {
-        "host": "URL"
+        "user": "USER",
+        "password": "PASSWORD",
+        "host": "localhost",
+        "database": "DB",
+        "max": 10,
+        "idleTimeoutMillis": 1000
       },
       "oauth": {
         "google": {
@@ -39,7 +47,7 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
     
 4. Start server: ```node server/```
 
-5. You can find Postgresql schema and mock inserts inside ```server/db/schema```
+5. You can find Postgresql schema and mock inserts inside ```server/schema```
 
 ## Note
 A lot of this is me learning Angular and trying out new things, so many things I do may not be optimal.

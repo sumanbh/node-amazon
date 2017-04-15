@@ -1,54 +1,83 @@
-import { Component, OnInit } from '@angular/core';
-import { GlobalEvent } from '../shared/global.event';
-
-import { Http, Headers, Response } from '@angular/http';
-import { NavbarService } from './navbar.service';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { UserService } from '../shared/user.service';
+import { Subscription } from 'rxjs/Subscription';
+import { NavService } from '../shared/nav.service';
 
 @Component({
     selector: 'app-nav-bar',
     templateUrl: 'navbar.component.html',
-    providers: [GlobalEvent, NavbarService],
+    providers: [],
     styleUrls: ['navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
-    showLogin: boolean;
+export class NavbarComponent implements OnInit, OnDestroy {
+    hideLogin: boolean;
     userGivenName: string;
     _login = true;
+    cart = 0;
+    subscription: Subscription;
+    cartSubscription: Subscription;
+    loginState: boolean;
 
     constructor(
-        private globalEvent: GlobalEvent,
-        private http: Http,
-        private navbarService: NavbarService
+        private userService: UserService,
+        private navService: NavService
     ) {
-        this.globalEvent.showLogin.subscribe((mode: boolean) => {
-            this.showLogin = mode;
-        });
     }
 
     ngOnInit() {
+        this.loginSub();
         this.onLoginSuccess();
+        this.cartSub();
+    }
+
+    ngOnDestroy() {
+        // prevent memory leak when component is destroyed
+        this.subscription.unsubscribe();
+    }
+
+    cartSub() {
+        this.cartSubscription = this.navService.navCart$
+            .subscribe(newValue => {
+                this.cart = newValue;
+            });
+    }
+
+    loginSub() {
+        this.subscription = this.navService.navLogin$
+            .subscribe(isTrue => {
+                this.loginState = isTrue;
+                if (this.loginState) {
+                    this.onLoginSuccess();
+                }
+            }, error => console.log(error));
     }
 
     onLoginSuccess() {
-        // this._login = `/login/state?location=${window.location.pathname}`;
-        this.navbarService.onLogin()
-            .subscribe( data => {
-                if (data.status) {
-                    this.userGivenName = data.userName;
-                    this.globalEvent.showLogin.emit(true);
-                }
-            });
+        const state = this.userService.isLoggedIn();
+        if (state) {
+            this.subscription.unsubscribe();
+            this.userGivenName = state.name;
+            this.hideLogin = true;
+        }
     }
+
     localAuth(email, password) {
         if (email && password) {
-            this.navbarService.sendLogin(email, password)
+            this.userService.login(email, password)
                 .subscribe(response => {
-                    if (response === true) {
+                    if (response) {
                         this._login = true;
                         location.reload();
                     } else this._login = false;
                 });
         } else this._login = false;
+    }
+
+    sendLogout() {
+        this.userService.logout()
+            .subscribe(response => {
+                this.hideLogin = false;
+                location.reload();
+            }, error => console.log(error));
     }
 }
