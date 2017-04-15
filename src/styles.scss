@@ -9,11 +9,18 @@
     }
 } 
 
+simple-notifications {
+    .simple-notification-wrapper {
+        right: 15px !important;
+        top: 60px !important;
+    }
+}
+
 .simple-notification.success { 
-    background: #323232 !important; 
+    background: #263238 !important; 
     .sn-progress-loader {
         span { 
-            background: #BDBDBD !important; 
+            background: #78909c !important; 
         }
     }
 }
