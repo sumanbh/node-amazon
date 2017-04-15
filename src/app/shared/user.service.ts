@@ -53,12 +53,14 @@ export class UserService {
     isLoggedIn() {
         this.checkLocalStorage();
         if (this.loggedIn) {
-            const cart = localStorage.getItem('id_cart') || 0;
+            const cart: Number = parseInt(localStorage.getItem('id_cart'), 10) || 0;
             this.navService.changeCart(cart);
             try {
                 this.jwt = localStorage.getItem('id_token');
                 return this.jwtHelper.decodeToken(this.jwt);
             } catch (err) {
+                localStorage.removeItem('id_token');
+                localStorage.removeItem('id_cart');
                 return false;
             }
         }
