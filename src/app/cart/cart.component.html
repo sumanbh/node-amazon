@@ -4,7 +4,7 @@
         <li class="breadcrumb-item active bread-name">Cart</li>
     </ol>
     <div class="row">
-        <div class="col-md-10 col-12">
+        <div class="col-lg-10 col-12">
             <h2 class="cart-title text-center"> Shopping Cart</h2>
             <hr>
             <div [hidden]="!_buttonDisabled" class="col-12">
@@ -13,17 +13,17 @@
             <div class="row" *ngFor="let item of _cartContent">
                 <div *ngIf="!item.hideme" class="col-12">
                     <div class="row is-flex">
-                        <div class="col-md-2 col-4 image-container">
+                        <div class="col-lg-2 col-4 image-container">
                             <img class="cart-img" [src]="item.img">
                         </div>
-                        <div class="col-md-6 col-8 name-container">
+                        <div class="col-lg-6 col-8 name-container">
                             <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
                             <a class="cart-remove"><span (click)="item.hideme = !item.hideme" (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</span></a>
                         </div>
-                        <div class="col-md-2 col-6 price-container">
+                        <div class="col-lg-2 col-6 price-container">
                             <span class="cart-product-price">${{item.price}}</span>
                         </div>
-                        <div class="col-md-2 col-6 quantity-container">
+                        <div class="col-lg-2 col-6 quantity-container">
                             <b>Qty: {{item.product_quantity}}</b>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 col-12 checkout-col">
+        <div class="col-lg-2 col-12 checkout-col">
             <div class="checkout-container">
                 <div class="checkout-subtotal">
                     <span>Subtotal: </span><span class="cart-product-price">${{_cartTotal}}</span>

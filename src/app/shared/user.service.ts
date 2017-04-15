@@ -29,7 +29,7 @@ export class UserService {
             .map((res) => {
                 if (res.success) {
                     localStorage.setItem('id_token', res.token);
-                    localStorage.setItem('id_cart', res.cart);
+                    localStorage.setItem('id_cart', res.cart || 0);
                     this.navService.changeNav(true);
                     this.navService.changeCart(res.cart);
                     return true;
@@ -55,8 +55,12 @@ export class UserService {
         if (this.loggedIn) {
             const cart = localStorage.getItem('id_cart') || 0;
             this.navService.changeCart(cart);
-            this.jwt = localStorage.getItem('id_token');
-            return this.jwtHelper.decodeToken(this.jwt) || false;
+            try {
+                this.jwt = localStorage.getItem('id_token');
+                return this.jwtHelper.decodeToken(this.jwt);
+            } catch (err) {
+                return false;
+            }
         }
         return false;
     }

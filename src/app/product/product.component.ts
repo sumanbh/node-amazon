@@ -20,7 +20,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     _currentQuantity = 1;
     options = {
         position: ['top', 'right'],
-        timeOut: 5000,
+        timeOut: 4500,
         lastOnBottom: true,
         pauseOnHover: true,
         clickToClose: true,
@@ -49,8 +49,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     popToast(isTrue, quantity) {
         if (isTrue) {
             this.toastService.success(
-                `${quantity} added!`,
-                `${this._product[0]['laptop_name'].substring(0, 45)}...`,
+                `${quantity} Added`,
+                `${this._product[0]['laptop_name'].substring(0, 40)}...`,
             );
         } else this.toastService.error(
             'Unauthorized',

@@ -147,10 +147,6 @@ export class HomeService {
                     storage.forEach(value => allFilters.storage[this.getKeyByValue(this.storageName, value)] = true);
                     break;
                 }
-                case 'callback': {
-                    localStorage.setItem('id_token', queryObj.params.callback);
-                    break;
-                }
                 default:
                 /* do nothing */
             }

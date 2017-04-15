@@ -28,8 +28,8 @@ export class CartService {
             .map((res: Response) => res.json())
             .map(res => {
                 if (res.success) {
-                    localStorage.setItem('id_cart', res.cart);
-                    this.navService.changeCart(res.cart);
+                    localStorage.setItem('id_cart', res.cart || 0);
+                    this.navService.changeCart(res.cart || 0);
                     return true;
                 }
                 return false;

@@ -113,7 +113,7 @@ module.exports = () => {
                     name: user.rows[0].given_name,
                     id: user.rows[0].id,
                 };
-                return cb(null, { cart: cartCount.total, token: createToken(tokenObj) });
+                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
             });
         } // eslint-disable-line
     ));
@@ -163,7 +163,7 @@ module.exports = () => {
                                     name: user.given_name,
                                     id: user.id,
                                 };
-                                return cb(null, { cart: cartCount.total, token: createToken(tokenObj) });
+                                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
                             });
                         } else return cb(null, false, { message: 'Incorrect password.' });
                     });
