@@ -28,8 +28,9 @@ export class CartService {
             .map((res: Response) => res.json())
             .map(res => {
                 if (res.success) {
-                    localStorage.setItem('id_cart', res.cart || 0);
-                    this.navService.changeCart(res.cart || 0);
+                    const cart = res.cart || 0;
+                    localStorage.setItem('id_cart', cart);
+                    this.navService.changeCart(cart);
                     return true;
                 }
                 return false;

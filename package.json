@@ -1,6 +1,6 @@
 {
   "name": "amazon-angular",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "author": "Suman Bhattarai",
   "scripts": {
@@ -46,6 +46,7 @@
     "pg-format": "^1.0.4",
     "rxjs": "^5.1.0",
     "ts-helpers": "^1.1.1",
+    "web-animations-js": "^2.2.4",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

@@ -20,7 +20,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     _currentQuantity = 1;
     options = {
         position: ['top', 'right'],
-        timeOut: 4500,
+        timeOut: 4000,
         lastOnBottom: true,
         pauseOnHover: true,
         clickToClose: true,

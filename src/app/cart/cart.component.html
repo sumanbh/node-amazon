@@ -11,7 +11,7 @@
                 <h2 class="cart-title text-center">Your cart is empty. It is not meant to be!</h2>
             </div>
             <div class="row" *ngFor="let item of _cartContent">
-                <div *ngIf="!item.hideme" class="col-12">
+                <div [@signal]="animate" *ngIf="!item.hideme" class="col-12">
                     <div class="row is-flex">
                         <div class="col-lg-2 col-4 image-container">
                             <img class="cart-img" [src]="item.img">
