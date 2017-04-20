@@ -5,11 +5,16 @@
 
 .product-container .row .col-md-2 {
     min-width: 240px;
-    max-width: 240px;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 240px;
+            flex: 0 0 240px;
 }
 
 .product-container .row .col-md-10 {
     max-width: calc(100% - 240px);
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc(100% - 240px);
+            flex: 0 0 calc(100% - 240px);
 }
 
 .login-reminder {
@@ -186,8 +191,10 @@
     }
     .product-container .row .col-md-10 {
         max-width: 100%;
+        flex: 0 0 100%;
     }
     .product-container .row .col-md-2 {
         max-width: 100%;
+        flex: 0 0 100%;
     }
 }

@@ -10,6 +10,9 @@
 .orders-col{
     min-width: 260px;
     max-width: 260px;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 260px;
+            flex: 0 0 260px;
 }
 
 .row.is-flex {
@@ -32,6 +35,9 @@
 
 .orders-container .row .col-md-10 {
     max-width: calc(100% - 260px);
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc(100% - 260px);
+            flex: 0 0 calc(100% - 260px);
 }
 
 .row {
@@ -42,10 +48,16 @@
 .image-container {
     max-width: 120px;
     margin-left: -1px;  /*safari*/
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 120px;
+            flex: 0 0 120px;
 }
 
 .name-container {
     max-width: calc((100% - 120px) - 33.33333333%);
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc((100% - 120px) - 33.33333333%);
+            flex: 0 0 calc((100% - 120px) - 33.33333333%);
 }
 
 .cart-img {
@@ -128,9 +140,15 @@
 @media (max-width: 767px) {
     .orders-container .row .col-md-10 {
         max-width: 100%;
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
     }
     .orders-col {
         max-width: 100%;
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
     }
     .col-12 {
         padding-left: 7px;
@@ -149,9 +167,15 @@
     .name-container {
         min-width: calc(100% - 100px);
         max-width: calc(100% - 100px);
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 calc(100% - 100px);
+                flex: 0 0 calc(100% - 100px);
     }
     .image-container {
         max-width: 100px;
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 100px;
+                flex: 0 0 100px;
     }
     .checkout-container {
         margin-top: 5px;
