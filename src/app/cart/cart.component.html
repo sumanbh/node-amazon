@@ -13,10 +13,10 @@
             <div class="row" *ngFor="let item of _cartContent">
                 <div [@signal]="animate" *ngIf="!item.hideme" class="col-12">
                     <div class="row is-flex">
-                        <div class="col-lg-2 col-4 image-container">
+                        <div class="col-lg-2 col-sm-4 col-12 image-container">
                             <img class="cart-img" [src]="item.img">
                         </div>
-                        <div class="col-lg-6 col-8 name-container">
+                        <div class="col-lg-6 col-sm-8 col-12 name-container">
                             <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
                             <a class="cart-remove"><span (click)="item.hideme = !item.hideme" (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</span></a>
                         </div>
