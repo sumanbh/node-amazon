@@ -175,7 +175,7 @@ const routes = {
                 // checks to see if the product already exists in the cart
                 const query = `
                     SELECT * FROM cart WHERE product_id = $1 AND customer_id = $2;
-                `;
+                    `;
                 results.push(pool.query(query, [id, req.user.id]), routes.getCartCount(req.user.id));
                 results = yield Promise.all(results);
                 // insert the product if it doesn't already exist

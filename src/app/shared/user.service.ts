@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
+import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { NavService } from '../shared/nav.service';
 
@@ -17,7 +18,11 @@ export class UserService {
     }
 
     checkLocalStorage() {
-        this.loggedIn = !!localStorage.getItem('id_token');
+        if (tokenNotExpired()) {
+            this.loggedIn = true;
+        } else {
+            this.loggedIn = false;
+        }
     }
 
     login(email, password): Observable<any> {
