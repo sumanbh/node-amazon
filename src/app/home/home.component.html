@@ -96,40 +96,10 @@
                     </div>
 
                     <h3>Price</h3>
-                    <div class="checkbox">
+                    <div *ngFor="let entry of filterPrice" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="price.isUnder500" (ngModelChange)="getPage(page, 'price')"> Under $500
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.is500to600" (ngModelChange)="getPage(page, 'price')"> $500 to $600
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.is600to700" (ngModelChange)="getPage(page, 'price')"> $600 to $700
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.is700to800" (ngModelChange)="getPage(page, 'price')"> $700 to $800
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.is800to900" (ngModelChange)="getPage(page, 'price')"> $800 to $900
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.is900to1000" (ngModelChange)="getPage(page, 'price')"> $900 to $1000
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="price.isAbove1000" (ngModelChange)="getPage(page, 'price')"> Above $1000
-                    </label>
+                        <input type="radio" (click)="isPrice.options = entry.value" (click)="getPage(page, 'price')" [checked]="entry.value === isPrice.options" name="price"> {{entry.name}}
+                        </label>
                     </div>
                     <div class="custom-container">
                         <!--Has some bugs. Need to make it better-->

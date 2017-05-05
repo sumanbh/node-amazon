@@ -19,7 +19,6 @@ import { QueryParam } from './interfaces/queryparam.interface';
 })
 
 export class HomeComponent implements OnInit {
-    isNumber = Number.isFinite;
     brand: Brand;
     os: OS;
     price: Price;
@@ -35,7 +34,17 @@ export class HomeComponent implements OnInit {
     totalItems: number;
     loading = true;
     queryParams: QueryParam;
-    currentPrice: string;
+    isPrice: any = { options: '' };
+    filterPrice = [
+        { name: 'Under $500', value: 'isUnder500' },
+        { name: '$500 to $600', value: 'is500to600' },
+        { name: '$600 to $700', value: 'is600to700' },
+        { name: '$700 to $800', value: 'is700to800' },
+        { name: '$800 to $900', value: 'is800to900' },
+        { name: '$900 to $1000', value: 'is900to1000' },
+        { name: 'Above $1000', value: 'isAbove1000' },
+        { name: 'All Results', value: 'isAllResults' }
+    ];
 
     constructor(
         private route: ActivatedRoute,
@@ -54,7 +63,7 @@ export class HomeComponent implements OnInit {
             const queryObj = this.homeService.parseQueryParams(this.queryParams);
             this.brand = queryObj.brand;
             this.os = queryObj.os;
-            this.price = queryObj.price;
+            this.isPrice.options = queryObj.price || '';
             this.processor = queryObj.processor;
             this.ram = queryObj.ram;
             this.storage = queryObj.storage;
@@ -73,6 +82,9 @@ export class HomeComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
+        // reset price filter
+        this.price = {};
+        if (this.isPrice.options) this.price[this.isPrice.options] = true;
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
@@ -81,19 +93,12 @@ export class HomeComponent implements OnInit {
 
         // you can only choose one of the price filter
         if (_queryParam === 'customPrice') {
+            this.isPrice.options = '';
             this.price = {};
         } else if (isMinCustom && this.maxCustom && _queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
         }
-        // uncheck the previous price filter
-        if (!this.currentPrice && Object.keys(this.price).length === 1) this.currentPrice = Object.keys(this.price)[0];
-        if (Object.keys(this.price).length === 0) this.currentPrice = null;
-        if (Object.keys(this.price).length > 1 && Object.keys(this.price).includes(this.currentPrice)) {
-            delete this.price[this.currentPrice];
-            this.currentPrice = Object.keys(this.price)[0];
-        }
-
         // collect all the checked values
         const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
         // returns only truthy checked checkboxes which are formatted correctly
@@ -108,6 +113,10 @@ export class HomeComponent implements OnInit {
     }
 
     getResults() {
+        // for direct links
+        this.price = {}; // reset price filter
+        if (typeof this.isPrice.options === 'string') this.price[this.isPrice.options] = true;
+
         const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
         this.homeService.getAllProducts(this.page, this.minCustom, this.maxCustom, tempObj)
             .subscribe(result => {

@@ -10,7 +10,7 @@ export class HomeService {
         Microsoft: 'microsoft', Lenovo: 'lenovo', Dell: 'dell', Samsung: 'samsung',
     };
     osName = {
-        Mac: 'mac', Win10: 'win10', Chrome: 'chrome', Win8: 'win8.1', Win7: 'win7',
+        Mac: 'mac', Win10: 'win10', Chrome: 'chrome', Win8: 'win8', Win7: 'win7',
     };
     processorName = {
         i7: 'i7', i5: 'i5', i3: 'i3', Core2: 'core2', Athlon: 'athlon',
@@ -26,7 +26,7 @@ export class HomeService {
         isUnder500: '{"min":0,"max":500}', is500to600: '{"min":500,"max":600}',
         is600to700: '{"min":600,"max":700}', is700to800: '{"min":700,"max":800}',
         is800to900: '{"min":800,"max":900}', is900to1000: '{"min":900,"max":1000}',
-        isAbove1000: '{"min":1000,"max":20000}',
+        isAbove1000: '{"min":1000,"max":20000}', isAllResults: '{"min":0,"max":20000}',
     };
 
     constructor(
@@ -58,27 +58,19 @@ export class HomeService {
         let max: number;
 
         filtered.forEach((value) => {
-            switch (value) {
-                case (this.brandName[value] !== undefined ? value : false):
-                    brands.push(value);
-                    break;
-                case (this.osName[value] !== undefined ? value : false):
-                    os.push(value);
-                    break;
-                case (this.processorName[value] !== undefined ? value : false):
-                    processor.push(value);
-                    break;
-                case (this.storageName[value] !== undefined ? value : false):
-                    storage.push(value);
-                    break;
-                case (this.ramName[value] !== undefined ? value : false):
-                    ram.push(this.ramName[value]);
-                    break;
-                case (this.priceName[value] !== undefined ? value : false):
-                    if (JSON.parse(this.priceName[value]).min < min || !min) min = JSON.parse(this.priceName[value]).min;
-                    if (JSON.parse(this.priceName[value]).max < max || !max) max = JSON.parse(this.priceName[value]).max;
-                    break;
-                default:
+            if (this.brandName[value]) {
+                brands.push(value);
+            } else if (this.osName[value]) {
+                os.push(value);
+            } else if (this.processorName[value]) {
+                processor.push(value);
+            } else if (this.storageName[value]) {
+                storage.push(value);
+            } else if (this.ramName[value]) {
+                ram.push(this.ramName[value]);
+            } else if (this.priceName[value]) {
+                if (JSON.parse(this.priceName[value]).min < min || !min) min = JSON.parse(this.priceName[value]).min;
+                if (JSON.parse(this.priceName[value]).max < max || !max) max = JSON.parse(this.priceName[value]).max;
             }
         });
 
@@ -120,7 +112,7 @@ export class HomeService {
                     const priceArr = obj.split(',');
                     obj = [JSON.stringify({ min: parseInt(priceArr[0], 10), max: parseInt(priceArr[1], 10) })];
                     const price = this.intersection(obj, Object.values(this.priceName));
-                    price.forEach(value => allFilters.price[this.getKeyByValue(this.priceName, value)] = true);
+                    price.forEach(value => allFilters.price = this.getKeyByValue(this.priceName, value));
                     break;
                 }
                 case 'processor': {

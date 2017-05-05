@@ -55,8 +55,6 @@ const routes = {
         const processorCollector = [];
         const storageCollector = [];
         const ramCollector = [];
-        const minCollector = [];
-        const maxCollector = [];
         let min;
         let max;
 
@@ -64,38 +62,27 @@ const routes = {
         const filtered = keys.filter(key => obj[key]);
 
         filtered.forEach((value) => {
-            switch (value) {
-            case (brandName[value] !== undefined ? value : false):
+            if (brandName[value]) {
                 brandCollector.push(brandName[value]);
-                break;
-            case (osName[value] !== undefined ? value : false):
+            } else if (osName[value]) {
                 osCollector.push(osName[value]);
-                break;
-            case (processorName[value] !== undefined ? value : false):
+            } else if (processorName[value]) {
                 processorCollector.push(processorName[value]);
-                break;
-            case (storageName[value] !== undefined ? value : false):
+            } else if (storageName[value]) {
                 storageCollector.push(storageName[value]);
-                break;
-            case (priceName[value] !== undefined ? value : false):
-                minCollector.push(priceName[value].min);
-                maxCollector.push(priceName[value].max);
-                break;
-            case (ramName[value] !== undefined ? value : false):
+            } else if (ramName[value]) {
                 ramCollector.push(ramName[value]);
-                break;
-            default:
+            } else if (priceName[value]) {
+                min = priceName[value].min;
+                max = priceName[value].max;
             }
         });
 
         if (req.query.min && req.query.max) {
             min = parseInt(req.query.min, 10) || 0;
             max = parseInt(req.query.max, 10) || 20000;
-        } else if (minCollector.length >= 1 || maxCollector.length >= 1) {
-            min = Math.min(...minCollector);
-            max = Math.max(...maxCollector);
-        } else {
-            min = 0; // default values
+        } else if (!min && !max) {
+            min = 0;
             max = 20000;
         }
         const brand = brandCollector.join(',');
