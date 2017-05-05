@@ -1,7 +1,7 @@
 export interface Processor {
-  i7?: boolean;
-  i5?: boolean;
-  i3?: boolean;
-  Core2?: boolean;
-  Athlon?: boolean;
+  'Intel Core i7'?: boolean;
+  'Intel Core i5'?: boolean;
+  'Intel Core i3'?: boolean;
+  'Intel Core 2'?: boolean;
+  'AMD'?: boolean;
 };

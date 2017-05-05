@@ -18,87 +18,23 @@
                 <div>
                     <div class="selection-header">Refine by</div>
                     <h3>Featured Brands</h3>
-                    <div class="checkbox">
+                    <div *ngFor="let item of brandOptions" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="brand.Apple" (ngModelChange)="getPage(page, 'Apple')"> Apple
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Asus" (ngModelChange)="getPage(page, 'Asus')"> Asus
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Microsoft" (ngModelChange)="getPage(page, 'Microsoft')"> Microsoft
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Dell" (ngModelChange)="getPage(page, 'Dell')"> Dell
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.HP" (ngModelChange)="getPage(page, 'HP')"> HP
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Acer" (ngModelChange)="getPage(page, 'Acer')"> Acer
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Samsung" (ngModelChange)="getPage(page, 'Samsung')"> Samsung
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="brand.Lenovo" (ngModelChange)="getPage(page, 'Lenovo')"> Lenovo
-                    </label>
+                            <input type="checkbox" [(ngModel)]="brand[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                        </label>
                     </div>
 
                     <h3>Operating System</h3>
-
-                    <div class="checkbox">
+                    <div *ngFor="let item of osOptions" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="os.Mac" (ngModelChange)="getPage(page, 'Mac OS X')"> Mac OS X
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="os.Win10" (ngModelChange)="getPage(page, 'Windows 10')"> Windows 10
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="os.Win8" (ngModelChange)="getPage(page, 'Windows 8.1')"> Windows 8.1
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="os.Win7" (ngModelChange)="getPage(page, 'Windows 7 Home')"> Windows 7 Home
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="os.Chrome" (ngModelChange)="getPage(page, 'Chrome OS')"> Chrome OS
-                    </label>
+                            <input type="checkbox" [(ngModel)]="os[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                        </label>
                     </div>
 
                     <h3>Price</h3>
-                    <div *ngFor="let entry of filterPrice" class="checkbox">
+                    <div *ngFor="let item of priceOptions" class="checkbox">
                         <label>
-                        <input type="radio" (click)="isPrice.options = entry.value" (click)="getPage(page, 'price')" [checked]="entry.value === isPrice.options" name="price"> {{entry.name}}
+                        <input type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice" name="price"> {{item.name}}
                         </label>
                     </div>
                     <div class="custom-container">
@@ -110,86 +46,25 @@
                     </div>
 
                     <h3>RAM Size</h3>
-                    <div class="checkbox">
+                    <div *ngFor="let item of ramOptions" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="ram.is64andAbove" (ngModelChange)="getPage(page, '64')"> 64 GB & Above
-                    </label>
+                            <input type="checkbox" [(ngModel)]="ram[item]" (ngModelChange)="getPage(page, item)"> {{item}} GB
+                        </label>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is32" (ngModelChange)="getPage(page, '32')"> 32 GB
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is16" (ngModelChange)="getPage(page, '16')"> 16 GB
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is12" (ngModelChange)="getPage(page, '12')"> 12 GB
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is8" (ngModelChange)="getPage(page, '8')"> 8 GB
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is4" (ngModelChange)="getPage(page, '4')"> 4 GB
-                    </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="ram.is2" (ngModelChange)="getPage(page, '2')"> 2 GB
-                    </label>
-                    </div>
-
 
                     <h3>Processor Type</h3>
 
-                    <div class="checkbox">
+                    <div *ngFor="let item of processorOptions" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="processor.i7" (ngModelChange)="getPage(page, 'Intel Core i7')"> Intel Core i7
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="processor.i5" (ngModelChange)="getPage(page, 'Intel Core i5')"> Intel Core i5
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="processor.i3" (ngModelChange)="getPage(page, 'Intel Core i3')"> Intel Core i3
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="processor.Core2" (ngModelChange)="getPage(page, 'Intel Core 2')"> Intel Core 2
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="processor.Athlon" (ngModelChange)="getPage(page, 'AMD')"> AMD Athlon
-                    </label>
+                            <input type="checkbox" [(ngModel)]="processor[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                        </label>
                     </div>
 
                     <h3>Hard Drive Type</h3>
-                    <div class="checkbox">
+                    <div *ngFor="let item of storageOptions" class="checkbox">
                         <label>
-                        <input type="checkbox" [(ngModel)]="storage.SSD" (ngModelChange)="getPage(page, 'SSD')"> Solid State Drive
-                    </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                        <input type="checkbox" [(ngModel)]="storage.HardDrive" (ngModelChange)="getPage(page, 'Hard Disk')"> Hard Drive
-                    </label>
+                            <input type="checkbox" [(ngModel)]="storage[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                        </label>
                     </div>
 
                 </div>

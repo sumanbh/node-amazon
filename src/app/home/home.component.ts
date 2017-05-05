@@ -5,7 +5,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { Brand } from './interfaces/brands.interface';
 import { OS } from './interfaces/os.interface';
-import { Price } from './interfaces/price.interface';
+// import { Price } from './interfaces/price.interface';
 import { Processor } from './interfaces/processor.interface';
 import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
@@ -21,10 +21,10 @@ import { QueryParam } from './interfaces/queryparam.interface';
 export class HomeComponent implements OnInit {
     brand: Brand;
     os: OS;
-    price: Price;
     processor: Processor;
     ram: RAM;
     storage: Storage;
+    queryParams: QueryParam;
     searchResult = true;
     minCustom: number;
     maxCustom: number;
@@ -33,18 +33,13 @@ export class HomeComponent implements OnInit {
     data: Array<Object>;
     totalItems: number;
     loading = true;
-    queryParams: QueryParam;
-    isPrice: any = { options: '' };
-    filterPrice = [
-        { name: 'Under $500', value: 'isUnder500' },
-        { name: '$500 to $600', value: 'is500to600' },
-        { name: '$600 to $700', value: 'is600to700' },
-        { name: '$700 to $800', value: 'is700to800' },
-        { name: '$800 to $900', value: 'is800to900' },
-        { name: '$900 to $1000', value: 'is900to1000' },
-        { name: 'Above $1000', value: 'isAbove1000' },
-        { name: 'All Results', value: 'isAllResults' }
-    ];
+    isPrice = '';
+    brandOptions = this.homeService.brandOptions;
+    osOptions = this.homeService.osOptions;
+    ramOptions = this.homeService.ramOptions;
+    processorOptions = this.homeService.processorOptions;
+    storageOptions = this.homeService.storageOptions;
+    priceOptions = this.homeService.priceOptions;
 
     constructor(
         private route: ActivatedRoute,
@@ -63,7 +58,7 @@ export class HomeComponent implements OnInit {
             const queryObj = this.homeService.parseQueryParams(this.queryParams);
             this.brand = queryObj.brand;
             this.os = queryObj.os;
-            this.isPrice.options = queryObj.price || '';
+            this.isPrice = queryObj.price;
             this.processor = queryObj.processor;
             this.ram = queryObj.ram;
             this.storage = queryObj.storage;
@@ -82,9 +77,6 @@ export class HomeComponent implements OnInit {
     }
 
     getPage(page: number, _queryParam: string) {
-        // reset price filter
-        this.price = {};
-        if (this.isPrice.options) this.price[this.isPrice.options] = true;
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
@@ -93,14 +85,20 @@ export class HomeComponent implements OnInit {
 
         // you can only choose one of the price filter
         if (_queryParam === 'customPrice') {
-            this.isPrice.options = '';
-            this.price = {};
+            this.isPrice = '';
         } else if (isMinCustom && this.maxCustom && _queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
         }
         // collect all the checked values
-        const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
+        const tempObj = {
+            brand: this.brand,
+            os: this.os,
+            price: this.isPrice ? [this.isPrice] : [],
+            processor: this.processor,
+            ram: this.ram,
+            storage: this.storage,
+        };
         // returns only truthy checked checkboxes which are formatted correctly
         const serializeQuery = this.homeService.serializeQueryParams(tempObj);
         // prepare query param
@@ -113,11 +111,15 @@ export class HomeComponent implements OnInit {
     }
 
     getResults() {
-        // for direct links
-        this.price = {}; // reset price filter
-        if (typeof this.isPrice.options === 'string') this.price[this.isPrice.options] = true;
-
-        const tempObj = Object.assign({}, this.brand, this.os, this.price, this.processor, this.ram, this.storage);
+        // collect all the checked values
+        const tempObj = {
+            brand: this.brand,
+            os: this.os,
+            price: this.isPrice ? [this.isPrice] : [],
+            processor: this.processor,
+            ram: this.ram,
+            storage: this.storage,
+        };
         this.homeService.getAllProducts(this.page, this.minCustom, this.maxCustom, tempObj)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;

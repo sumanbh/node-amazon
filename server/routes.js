@@ -4,35 +4,7 @@ const format = require('pg-format');
 const config = require('../config/amazon.json');
 
 const pool = new Pool(config.postgresql);
-const brandName = {
-    Asus: 'Asus',
-    Acer: 'Acer',
-    Apple: 'Apple',
-    HP: 'HP',
-    Microsoft: 'Microsoft',
-    Lenovo: 'Lenovo',
-    Dell: 'Dell',
-    Samsung: 'Samsung',
-};
-const osName = {
-    Mac: 'Mac OS X',
-    Win10: 'Windows 10',
-    Chrome: 'Chrome OS',
-    Win8: 'Windows 8.1',
-    Win7: 'Windows 7 Home',
-};
-const processorName = {
-    i7: 'Intel Core i7',
-    i5: 'Intel Core i5',
-    i3: 'Intel Core i3',
-    Core2: 'Intel Core 2',
-    Athlon: 'AMD',
-};
-const storageName = {
-    SSD: 'SSD',
-    HardDrive: 'Hard Disk',
-};
-const priceName = {
+const priceOptions = {
     isUnder500: { min: 0, max: 500 },
     is500to600: { min: 500, max: 600 },
     is600to700: { min: 600, max: 700 },
@@ -40,9 +12,7 @@ const priceName = {
     is800to900: { min: 800, max: 900 },
     is900to1000: { min: 900, max: 1000 },
     isAbove1000: { min: 1000, max: 20000 },
-};
-const ramName = {
-    is64andAbove: '64', is32: '32', is16: '16', is8: '8', is4: '4', is2: '2', is12: '12',
+    isAllResults: { min: 0, max: 20000 },
 };
 
 const routes = {
@@ -50,31 +20,51 @@ const routes = {
         const offset = (parseInt(req.params.page, 10) - 1) * 24;
         const limit = 24;
         const obj = JSON.parse(req.query.obj);
-        const brandCollector = [];
-        const osCollector = [];
-        const processorCollector = [];
-        const storageCollector = [];
-        const ramCollector = [];
+        const list = Object.keys(obj);
+        let brands = [];
+        let os = [];
+        let processor = [];
+        let storage = [];
+        let ram = [];
         let min;
         let max;
-
-        const keys = Object.keys(obj);
-        const filtered = keys.filter(key => obj[key]);
-
-        filtered.forEach((value) => {
-            if (brandName[value]) {
-                brandCollector.push(brandName[value]);
-            } else if (osName[value]) {
-                osCollector.push(osName[value]);
-            } else if (processorName[value]) {
-                processorCollector.push(processorName[value]);
-            } else if (storageName[value]) {
-                storageCollector.push(storageName[value]);
-            } else if (ramName[value]) {
-                ramCollector.push(ramName[value]);
-            } else if (priceName[value]) {
-                min = priceName[value].min;
-                max = priceName[value].max;
+        list.forEach((value) => {
+            switch (value) {
+            case 'brand': {
+                const keys = Object.keys(obj[value]);
+                brands = keys.filter(key => obj[value][key]);
+                break;
+            }
+            case 'os': {
+                const keys = Object.keys(obj[value]);
+                os = keys.filter(key => obj[value][key]);
+                break;
+            }
+            case 'price': {
+                const val = obj[value];
+                if (val.length > 0) {
+                    if (priceOptions[val[0]].min < min || !min) min = priceOptions[val[0]].min;
+                    if (priceOptions[val[0]].max < max || !max) max = priceOptions[val[0]].max;
+                }
+                break;
+            }
+            case 'processor': {
+                const keys = Object.keys(obj[value]);
+                processor = keys.filter(key => obj[value][key]);
+                break;
+            }
+            case 'ram': {
+                const keys = Object.keys(obj[value]);
+                ram = keys.filter(key => obj[value][key]);
+                break;
+            }
+            case 'storage': {
+                const keys = Object.keys(obj[value]);
+                storage = keys.filter(key => obj[value][key]);
+                break;
+            }
+            default:
+                /* do nothing */
             }
         });
 
@@ -85,11 +75,6 @@ const routes = {
             min = 0;
             max = 20000;
         }
-        const brand = brandCollector.join(',');
-        const os = osCollector.join(',');
-        const ram = ramCollector.join(',');
-        const processor = processorCollector.join(',');
-        const storage = storageCollector.join(',');
 
         co(function* generator() {
             const query = `
@@ -106,7 +91,7 @@ const routes = {
                 AND laptops.price >= ($6) 
                 AND laptops.price < ($7);
                 `;
-            const result = yield pool.query(query, [brand, os, ram, processor, storage, min, max]);
+            const result = yield pool.query(query, [brands.join(','), os.join(','), ram.join(','), processor.join(','), storage.join(','), min, max]);
             res.json({
                 total: result.rowCount,
                 data: result.rows.splice(offset, limit), // pagination
