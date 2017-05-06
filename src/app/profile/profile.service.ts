@@ -17,7 +17,7 @@ export class ProfileService {
 
     updateUserProfile(userObj): Observable<any> {
         const userInfo = JSON.stringify(userObj);
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
         return this.authHttp.post(`/api/user/update`, userInfo, { headers })
             .map((res: Response) => res.status);
     }

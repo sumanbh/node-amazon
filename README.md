@@ -1,13 +1,11 @@
-# Angular - Amazon
+# Node - Amazon
 [![Build Status](https://travis-ci.org/sumanbh/amazon-angular.svg?branch=master)](https://travis-ci.org/sumanbh/amazon-angular)
 
-Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.com
+Amazon lookalike with Node, Angular v4, and Postgresql. Demo at: https://sumanb.com
 
 ## Setup
-1. Clone and install dependencies
+1. Install dependecies and build
     ```
-    git clone https://github.com/sumanbh/amazon-angular.git
-    cd amazon-angular
     yarn install or npm install
     node_modules/@angular/cli/bin/ng build --prod --aot
     ```
@@ -17,16 +15,16 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
     ```
     {
       "session": {
-        "secret": "SESSION_SECRET"
+        "secret": "SECRET"
       },
       "jwt": {
-        "secret": "JWT_SECRET"
+        "secret": "SECRET"
       },
       "postgresql": {
-        "user": "USER",
-        "password": "PASSWORD",
+        "user": "postgres",
+        "password": "postgres",
         "host": "localhost",
-        "database": "DB",
+        "database": "node_amazon_dev",
         "max": 10,
         "idleTimeoutMillis": 1000
       },
@@ -45,9 +43,6 @@ Amazon lookalike with Angular v4, node, and Postgresql. Demo at: https://sumanb.
     }
     ```
     
-4. Start server: ```node server/```
+4. You can find the database schema and initial inserts/seed in ```server/schema```
 
-5. You can find Postgresql schema and mock inserts inside ```server/schema```
-
-## Note
-A lot of this is me learning Angular and trying out new things, so many things I do may not be optimal.
+5. Start server: ```node server/index.js``` 

@@ -213,7 +213,7 @@ const routes = {
                     // sum the cart
                     const sumQuery = 'SELECT SUM(price * product_quantity) AS total FROM cartview WHERE customer_id = $1;';
                     // get user information
-                    const userQuery = 'SELECT * FROM customers WHERE id = $1;';
+                    const userQuery = 'SELECT address, city, fullname, state, zip FROM customers WHERE id = $1;';
                     // run the query
                     results.push(pool.query(sumQuery, [req.user.id]), pool.query(userQuery, [req.user.id]));
                     results = yield Promise.all(results);

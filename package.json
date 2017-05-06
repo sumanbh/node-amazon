@@ -54,7 +54,7 @@
     "@angular/compiler-cli": "^4.0.2",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
-    "angular2-jwt": "^0.2.0",
+    "angular2-jwt": "^0.2.3",
     "codelyzer": "~2.0.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",

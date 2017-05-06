@@ -25,7 +25,7 @@ export class ValidateComponent implements OnInit {
       .map((res: Response) => res.json())
       .subscribe((res) => {
         if (res.success) {
-          localStorage.setItem('id_token', res.token);
+          localStorage.setItem('token', res.token);
           localStorage.setItem('id_cart', res.cart || 0);
           this.navService.changeNav(true);
           this.navService.changeCart(res.cart || 0);

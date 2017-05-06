@@ -27,13 +27,13 @@ export class UserService {
 
     login(email, password): Observable<any> {
         const user = JSON.stringify({ email, password });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
 
         return this.http.post(`/login`, user, { headers: headers })
             .map((res: Response) => res.json())
             .map((res) => {
                 if (res.success) {
-                    localStorage.setItem('id_token', res.token);
+                    localStorage.setItem('token', res.token);
                     localStorage.setItem('id_cart', res.cart || 0);
                     this.navService.changeNav(true);
                     this.navService.changeCart(res.cart);
@@ -49,7 +49,7 @@ export class UserService {
     }
 
     logout(): Observable<any> {
-        localStorage.removeItem('id_token');
+        localStorage.removeItem('token');
         localStorage.removeItem('id_cart');
         return this.http.get('/logout')
             .map((res: Response) => res.status);
@@ -61,10 +61,10 @@ export class UserService {
             const cart: Number = parseInt(localStorage.getItem('id_cart'), 10) || 0;
             this.navService.changeCart(cart);
             try {
-                this.jwt = localStorage.getItem('id_token');
+                this.jwt = localStorage.getItem('token');
                 return this.jwtHelper.decodeToken(this.jwt);
             } catch (err) {
-                localStorage.removeItem('id_token');
+                localStorage.removeItem('token');
                 localStorage.removeItem('id_cart');
                 return false;
             }

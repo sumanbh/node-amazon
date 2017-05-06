@@ -20,7 +20,7 @@ export class ProductService {
     }
     addToCart(id, quantity): Observable<any> {
         const cartInfo = JSON.stringify({ productId: id, productQuantity: quantity });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
 
         return this.authHttp.post(`/api/user/cart/add`, cartInfo, { headers })
             .map((res: Response) => res.json())
