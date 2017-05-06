@@ -1,5 +1,5 @@
 # Node - Amazon
-[![Build Status](https://travis-ci.org/sumanbh/amazon-angular.svg?branch=master)](https://travis-ci.org/sumanbh/amazon-angular)
+[![Build Status](https://travis-ci.org/sumanbh/node-amazon.svg?branch=master)](https://travis-ci.org/sumanbh/node-amazon)
 
 Amazon lookalike with Node, Angular v4, and Postgresql. Demo at: https://sumanb.com
 
