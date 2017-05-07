@@ -58,18 +58,20 @@ export class HomeComponent implements OnInit {
             const queryObj = this.homeService.parseQueryParams(this.queryParams);
             this.brand = queryObj.brand;
             this.os = queryObj.os;
-            this.isPrice = queryObj.price;
+            this.isPrice = `${queryObj.min ? queryObj.min : ''},${queryObj.max ? queryObj.max : ''}`;
+            // default to empty if no min or max
+            if (this.isPrice === ',') this.isPrice = '';
             this.processor = queryObj.processor;
             this.ram = queryObj.ram;
             this.storage = queryObj.storage;
             // parseInt page otherwise ng2-pagination does not function correctly
             if (this.queryParams.params.page) this.page = parseInt(this.queryParams.params.page, 10);
             else this.page = 1;
-            // get custom min and max from url if it exists
-            if (this.queryParams.params.customprice) {
-                const price = this.queryParams.params.customprice.split(',');
-                this.minCustom = parseInt(price[0], 10);
-                this.maxCustom = parseInt(price[1], 10);
+            // populate custom min and max
+            if (this.isPrice && !this.homeService.defaultPrices.includes(this.isPrice)) {
+                const price = this.isPrice.split(',');
+                if (price[0]) this.minCustom = parseInt(price[0], 10);
+                if (price[1]) this.maxCustom = parseInt(price[1], 10);
             }
             // get results based on the filter(s)
             this.getResults();
@@ -85,7 +87,8 @@ export class HomeComponent implements OnInit {
 
         // you can only choose one of the price filter
         if (_queryParam === 'customPrice') {
-            this.isPrice = '';
+            this.isPrice = `${this.minCustom ? this.minCustom : ''},${this.maxCustom ? this.maxCustom : ''}`;
+            if (this.isPrice === ',') this.isPrice = '';
         } else if (isMinCustom && this.maxCustom && _queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
@@ -94,7 +97,7 @@ export class HomeComponent implements OnInit {
         const tempObj = {
             brand: this.brand,
             os: this.os,
-            price: this.isPrice ? [this.isPrice] : [],
+            price: this.isPrice,
             processor: this.processor,
             ram: this.ram,
             storage: this.storage,
@@ -104,7 +107,10 @@ export class HomeComponent implements OnInit {
         // prepare query param
         const param = { ...serializeQuery, page };
         // add custom price option if it exists to the query param
-        if (isMinCustom && this.maxCustom) param['customprice'] = `${this.minCustom},${this.maxCustom}`;
+        if (isMinCustom && this.maxCustom) {
+            param['min'] = `${this.minCustom}`;
+            param['max'] = `${this.maxCustom}`;
+        }
         this.router.navigate([''], {
             queryParams: param
         });
@@ -115,12 +121,11 @@ export class HomeComponent implements OnInit {
         const tempObj = {
             brand: this.brand,
             os: this.os,
-            price: this.isPrice ? [this.isPrice] : [],
             processor: this.processor,
             ram: this.ram,
             storage: this.storage,
         };
-        this.homeService.getAllProducts(this.page, this.minCustom, this.maxCustom, tempObj)
+        this.homeService.getAllProducts(this.page, this.isPrice, this.minCustom, this.maxCustom, tempObj)
             .subscribe(result => {
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;

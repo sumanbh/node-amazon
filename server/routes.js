@@ -4,16 +4,6 @@ const format = require('pg-format');
 const config = require('../config/amazon.json');
 
 const pool = new Pool(config.postgresql);
-const priceOptions = {
-    isUnder500: { min: 0, max: 500 },
-    is500to600: { min: 500, max: 600 },
-    is600to700: { min: 600, max: 700 },
-    is700to800: { min: 700, max: 800 },
-    is800to900: { min: 800, max: 900 },
-    is900to1000: { min: 900, max: 1000 },
-    isAbove1000: { min: 1000, max: 20000 },
-    isAllResults: { min: 0, max: 20000 },
-};
 
 const routes = {
     getAllProducts: (req, res) => {
@@ -26,8 +16,13 @@ const routes = {
         let processor = [];
         let storage = [];
         let ram = [];
-        let min;
-        let max;
+        let min = 0;
+        let max = 20000;
+
+        // get min and max if they exist
+        if (req.query.min) min = parseInt(req.query.min, 10) || 0;
+        if (req.query.max) max = parseInt(req.query.max, 10) || 20000;
+        // get rest of the filter variables
         list.forEach((value) => {
             switch (value) {
             case 'brand': {
@@ -38,14 +33,6 @@ const routes = {
             case 'os': {
                 const keys = Object.keys(obj[value]);
                 os = keys.filter(key => obj[value][key]);
-                break;
-            }
-            case 'price': {
-                const val = obj[value];
-                if (val.length > 0) {
-                    if (priceOptions[val[0]].min < min || !min) min = priceOptions[val[0]].min;
-                    if (priceOptions[val[0]].max < max || !max) max = priceOptions[val[0]].max;
-                }
                 break;
             }
             case 'processor': {
@@ -67,14 +54,6 @@ const routes = {
                 /* do nothing */
             }
         });
-
-        if (req.query.min && req.query.max) {
-            min = parseInt(req.query.min, 10) || 0;
-            max = parseInt(req.query.max, 10) || 20000;
-        } else if (!min && !max) {
-            min = 0;
-            max = 20000;
-        }
 
         co(function* generator() {
             const query = `
@@ -272,7 +251,7 @@ const routes = {
         else {
             co(function* generator() {
                 const query = `
-                    SELECT laptops.id AS laptop_id, laptops.name AS laptop_name, laptops.img, laptops.price, orderline.id, orderline.order_total, orderline.date_added, orderline.order_total, orderline.date_added, orders.quantity, orders.fullname, orders.address, orders.city, orders.state, orders.zip
+                    SELECT laptops.id AS laptop_id, laptops.name AS laptop_name, laptops.img, laptops.price, orderline.id, orderline.order_total, orderline.date_added, orders.quantity, orders.fullname, orders.address, orders.city, orders.state, orders.zip
                     FROM orders
                     JOIN laptops on laptops.id = orders.product_id
                     JOIN orderline on orderline.id = orders.orderline_id

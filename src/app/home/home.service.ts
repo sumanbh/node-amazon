@@ -5,25 +5,19 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class HomeService {
     isNumber = Number.isFinite;
-    priceName = {
-        isUnder500: '{"min":0,"max":500}', is500to600: '{"min":500,"max":600}',
-        is600to700: '{"min":600,"max":700}', is700to800: '{"min":700,"max":800}',
-        is800to900: '{"min":800,"max":900}', is900to1000: '{"min":900,"max":1000}',
-        isAbove1000: '{"min":1000,"max":20000}', isAllResults: '{"min":0,"max":20000}',
-    };
     brandOptions = [
         'Apple', 'Microsoft', 'Asus', 'Dell', 'HP',
         'Samsung', 'Acer', 'Lenovo',
     ];
+    defaultPrices = ['0,500', '500,600', '600,700', '700,800', '800,900', '900,1000', '1000,20000'];
     priceOptions = [
-        { name: 'Under $500', value: 'isUnder500' },
-        { name: '$500 to $600', value: 'is500to600' },
-        { name: '$600 to $700', value: 'is600to700' },
-        { name: '$700 to $800', value: 'is700to800' },
-        { name: '$800 to $900', value: 'is800to900' },
-        { name: '$900 to $1000', value: 'is900to1000' },
-        { name: 'Above $1000', value: 'isAbove1000' },
-        { name: 'All Results', value: 'isAllResults' }
+        { name: 'Under $500', value: '0,500' },
+        { name: '$500 to $600', value: '500,600' },
+        { name: '$600 to $700', value: '600,700' },
+        { name: '$700 to $800', value: '700,800' },
+        { name: '$800 to $900', value: '800,900' },
+        { name: '$900 to $1000', value: '900,1000' },
+        { name: 'Above $1000', value: '1000,20000' },
     ];
     osOptions = [
         'Mac OS X', 'Windows 10', 'Windows 8.1',
@@ -43,18 +37,6 @@ export class HomeService {
     constructor(
         private http: Http
     ) { }
-
-    getKeyByValue(object, value) {
-        let res;
-        Object.keys(object).some((key) => {
-            if (object[key] === value) {
-                res = key;
-                return true;
-            }
-            return false;
-        });
-        return res;
-    }
 
     serializeQueryParams(queryObj) {
         const serializedObj = {};
@@ -80,10 +62,11 @@ export class HomeService {
                     break;
                 }
                 case 'price': {
-                    const val = queryObj.price;
-                    if (val.length > 0) {
-                        if (JSON.parse(this.priceName[val[0]]).min < min || !min) min = JSON.parse(this.priceName[val[0]]).min;
-                        if (JSON.parse(this.priceName[val[0]]).max < max || !max) max = JSON.parse(this.priceName[val[0]]).max;
+                    let price = queryObj.price;
+                    if (price) {
+                        price = price.split(',');
+                        min = price[0];
+                        max = price[1];
                     }
                     break;
                 }
@@ -112,13 +95,14 @@ export class HomeService {
         if (processor.length > 0) serializedObj['processor'] = processor.join(',');
         if (storage.length > 0) serializedObj['storage'] = storage.join(',');
         if (ram.length > 0) serializedObj['ram'] = ram.join(',');
-        if (max) serializedObj['price'] = `${min},${max}`;
+        if (min) serializedObj['min'] = `${min}`;
+        if (max) serializedObj['max'] = `${max}`;
         return serializedObj;
     }
 
     parseQueryParams(queryObj) {
         const allFilters = {
-            brand: {}, os: {}, processor: {}, ram: {}, storage: {}, price: '',
+            brand: {}, os: {}, processor: {}, ram: {}, storage: {}, min: '', max: '',
         };
         queryObj.keys.forEach(element => {
             switch (element) {
@@ -134,12 +118,16 @@ export class HomeService {
                     arr.forEach(value => allFilters.os[value] = true);
                     break;
                 }
-                case 'price': {
-                    let str = queryObj.params.price;
+                case 'min': {
+                    const str = queryObj.params.min;
                     if (Array.isArray(str)) break;
-                    const priceArr = str.split(',');
-                    str = JSON.stringify({ min: parseInt(priceArr[0], 10), max: parseInt(priceArr[1], 10) });
-                    allFilters.price = this.getKeyByValue(this.priceName, str);
+                    if (str) allFilters.min = str;
+                    break;
+                }
+                case 'max': {
+                    const str = queryObj.params.max;
+                    if (Array.isArray(str)) break;
+                    if (str) allFilters.max = str;
                     break;
                 }
                 case 'processor': {
@@ -167,10 +155,13 @@ export class HomeService {
         return allFilters;
     }
 
-    getAllProducts(page: number, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
+    getAllProducts(page: number, price: string, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
         let productUrl = `/api/shop/${page}?obj=${JSON.stringify(obj)}`;  // api url
-        if (this.isNumber(minCustom) && this.isNumber(maxCustom)) {
-            productUrl += `&min=${minCustom}&max=${maxCustom}`;
+        if (this.isNumber(minCustom)) productUrl += `&min=${minCustom}`;
+        if (this.isNumber(maxCustom)) productUrl += `&max=${maxCustom}`;
+        if (!minCustom && !maxCustom && price) {
+            const value = price.split(',');
+            productUrl += `&min=${value[0]}&max=${value[1]}`;
         }
         return this.http.get(productUrl)
             .map((res: Response) => res.json());

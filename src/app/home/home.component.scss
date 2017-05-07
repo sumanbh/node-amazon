@@ -10,6 +10,15 @@
     }
 }
 
+#allprices {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    color: #0275d8;
+    cursor: pointer;
+    padding: 0 5px 5px 0px;
+}
+
 .row.is-flex > [class*='col-'] {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -42,6 +51,13 @@
 
 #filter {
     border-right: 1px solid #ddd;
+    min-width: 210px;
+    max-width: 210px;
+    h3 {
+        font-size: 13px;
+        color: #000;
+        font-weight: bold;
+    }
 }
 
 .checkbox label {
@@ -64,12 +80,6 @@
     }
 }
 
-#filter h3 {
-    font-size: 13px;
-    color: #000;
-    font-weight: bold;
-}
-
 .main-content-name {
     text-align: left;
     color: #0066c0;
@@ -83,11 +93,6 @@
     text-align: left;
     color: #b12704;
     font-weight: bold;
-}
-
-#filter {
-    min-width: 210px;
-    max-width: 210px;
 }
 
 #products {

@@ -37,6 +37,7 @@
                         <input type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice" name="price"> {{item.name}}
                         </label>
                     </div>
+                    <a id="allprices" *ngIf="isPrice" (click)="isPrice = ''" (click)="getPage(page, 'price')">Back to all results</a>
                     <div class="custom-container">
                         <!--Has some bugs. Need to make it better-->
                         $ <input [(ngModel)]="minCustom" class="price-custom" type="text" id="low-price" name="min" maxlength="9"
