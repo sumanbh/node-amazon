@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
         if (_queryParam === 'customPrice') {
             this.isPrice = `${this.minCustom ? this.minCustom : ''},${this.maxCustom ? this.maxCustom : ''}`;
             if (this.isPrice === ',') this.isPrice = '';
-        } else if (isMinCustom && this.maxCustom && _queryParam === 'price') {
+        } else if ((isMinCustom || this.maxCustom) && _queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
         }
