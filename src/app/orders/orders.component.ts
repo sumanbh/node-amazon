@@ -10,8 +10,7 @@ import { OrdersService } from './orders.service';
     styleUrls: ['orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-    _ordersContent: Array<Object>;
-    _testContent: Array<Object>;
+    ordersContent: Array<Object>;
     noResults = false;
 
     constructor(
@@ -46,7 +45,7 @@ export class OrdersComponent implements OnInit {
         this.ordersService.getOrdersById()
             .subscribe(response => {
                 if (response.length === 0) this.noResults = true;
-                this._ordersContent = this.transformArr(response).reduce((result, item) => {
+                this.ordersContent = this.transformArr(response).reduce((result, item) => {
                     const key = Object.keys(item)[0];
                     result[key] = item[key];
                     return result;

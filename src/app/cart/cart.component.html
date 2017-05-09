@@ -7,10 +7,10 @@
         <div class="col-lg-10 col-12">
             <h2 class="cart-title text-center"> Shopping Cart</h2>
             <hr>
-            <div [hidden]="!_buttonDisabled" class="col-12">
+            <div [hidden]="!buttonDisabled" class="col-12">
                 <h2 class="cart-title text-center">Your cart is empty. It is not meant to be!</h2>
             </div>
-            <div class="row" *ngFor="let item of _cartContent">
+            <div class="row" *ngFor="let item of cartContent">
                 <div [@signal]="animate" *ngIf="!item.hideme" class="col-12">
                     <div class="row is-flex">
                         <div class="col-lg-2 col-sm-4 col-12 image-container">
@@ -34,9 +34,9 @@
         <div class="col-lg-2 col-12 checkout-col">
             <div class="checkout-container">
                 <div class="checkout-subtotal">
-                    <span>Subtotal: </span><span class="cart-product-price">${{_cartTotal}}</span>
+                    <span>Subtotal: </span><span class="cart-product-price">${{cartTotal}}</span>
                 </div>
-                <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="_buttonDisabled">Proceed to Checkout</button>
+                <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="buttonDisabled">Proceed to Checkout</button>
             </div>
         </div>
     </div>

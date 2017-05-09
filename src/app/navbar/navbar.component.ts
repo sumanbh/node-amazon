@@ -12,7 +12,7 @@ import { NavService } from '../shared/nav.service';
 export class NavbarComponent implements OnInit, OnDestroy {
     hideLogin: boolean;
     userGivenName: string;
-    _login = true;
+    login = true;
     cart = 0;
     subscription: Subscription;
     cartSubscription: Subscription;
@@ -67,11 +67,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.userService.login(email, password)
                 .subscribe(response => {
                     if (response) {
-                        this._login = true;
+                        this.login = true;
                         location.reload();
-                    } else this._login = false;
+                    } else this.login = false;
                 });
-        } else this._login = false;
+        } else this.login = false;
     }
 
     sendLogout() {

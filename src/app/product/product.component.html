@@ -1,10 +1,10 @@
 <div class="product-container">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-        <li class="breadcrumb-item active bread-name" *ngFor="let item of _product">{{item.laptop_name}}</li>
+        <li class="breadcrumb-item active bread-name" *ngFor="let item of product">{{item.laptop_name}}</li>
     </ol>
     <simple-notifications [options]="options"></simple-notifications>
-    <div class="row" *ngFor="let item of _product">
+    <div class="row" *ngFor="let item of product">
         <div class="col-md-10 col-12">
             <div class="row">
                 <div class="col-lg-4 col-12 text-center">
@@ -31,11 +31,11 @@
         </div>
         <div class="col-md-2 col-12">
             <div class="product-cartbox">
-                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="_currentQuantity" class="form-control" type="number" name="quantity"
+                <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="currentQuantity" class="form-control" type="number" name="quantity"
                         min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'></div>
-                <div class="current-total text-center">${{_currentQuantity * item.price | number:'.2'}}</div>
+                <div class="current-total text-center">${{currentQuantity * item.price | number:'.2'}}</div>
                 <div class="cart-container">
-                    <button (click)="addToCart(item.id, _currentQuantity)" type="button" class="btn btn-lg">Add to Cart
+                    <button (click)="addToCart(item.id, currentQuantity)" type="button" class="btn btn-lg">Add to Cart
                     </button>
                 </div>
                 <hr>
@@ -51,11 +51,11 @@
     <div class="product-compare">
         <div class="compare-title">Compare to Similar Items</div>
         <div class="table-responsive">
-            <table class="table table-bordered" *ngFor="let item of _product">
+            <table class="table table-bordered" *ngFor="let item of product">
                 <tr>
                     <th class="first-table-td"></th>
                     <th><img class="similar-img" [src]="item.img"></th>
-                    <th *ngFor="let product of _similar">
+                    <th *ngFor="let product of similar">
                         <a [routerLink]="['/product', product.id]"><img class="similar-img" [src]="product.img"></a>
                     </th>
                 </tr>
@@ -68,7 +68,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td *ngFor="let product of _similar">
+                    <td *ngFor="let product of similar">
                         <table class="fixed-table">
                             <tr>
                                 <td><a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a></td>
@@ -81,34 +81,34 @@
                     <td class="table-warning">
                         <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     </td>
-                    <td *ngFor="let product of _similar">
+                    <td *ngFor="let product of similar">
                         <ngb-rating id="shop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     </td>
                 </tr>
                 <tr>
                     <td class="table-active">Price</td>
                     <td class="table-warning sim-container-price">${{item.price}}</td>
-                    <td class="sim-container-price" *ngFor="let product of _similar">${{product.price}}</td>
+                    <td class="sim-container-price" *ngFor="let product of similar">${{product.price}}</td>
                 </tr>
                 <tr>
                     <td class="table-active">Operating System</td>
                     <td class="table-warning">{{item.os_name}}</td>
-                    <td *ngFor="let product of _similar">{{product.os_name}}</td>
+                    <td *ngFor="let product of similar">{{product.os_name}}</td>
                 </tr>
                 <tr>
                     <td class="table-active">Memory</td>
                     <td class="table-warning">{{item.ram}} GB DDR3</td>
-                    <td *ngFor="let product of _similar">{{product.ram}} GB DDR3</td>
+                    <td *ngFor="let product of similar">{{product.ram}} GB DDR3</td>
                 </tr>
                 <tr>
                     <td class="table-active">Storage</td>
                     <td class="table-warning">{{item.storage}} GB</td>
-                    <td *ngFor="let product of _similar">{{product.storage}} GB</td>
+                    <td *ngFor="let product of similar">{{product.storage}} GB</td>
                 </tr>
                 <tr>
                     <td class="table-active">Hard Drive Type</td>
                     <td class="table-warning">{{item.storage_name}}</td>
-                    <td *ngFor="let product of _similar">{{product.storage_name}}</td>
+                    <td *ngFor="let product of similar">{{product.storage_name}}</td>
                 </tr>
             </table>
         </div>

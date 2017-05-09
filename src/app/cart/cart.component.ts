@@ -27,9 +27,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ],
 })
 export class CartComponent implements OnInit {
-    _cartContent: any;
-    _cartTotal = '0.00';
-    _buttonDisabled = true;
+    cartContent: any;
+    cartTotal = '0.00';
+    buttonDisabled = true;
     isFirst = true;
     animate = 'initial';
 
@@ -55,21 +55,21 @@ export class CartComponent implements OnInit {
             .subscribe(response => {
                 // initial load should be asap
                 if (this.isFirst) {
-                    this._cartContent = response.data;
+                    this.cartContent = response.data;
                     this.isFirst = false;
                 }
                 if (response.data) {
                     // because the delete animation takes 400ms
-                    setTimeout(() => this._cartContent = response.data, 400);
-                    this._buttonDisabled = false;
-                    this._cartTotal = response.sum.total;
+                    setTimeout(() => this.cartContent = response.data, 400);
+                    this.buttonDisabled = false;
+                    this.cartTotal = response.sum.total;
                 } else {
-                    this._buttonDisabled = true;
-                    this._cartTotal = '0.00';
+                    this.buttonDisabled = true;
+                    this.cartTotal = '0.00';
                 }
             },
             error => {
-                this._cartTotal = '0.00';
+                this.cartTotal = '0.00';
             });
     }
 }

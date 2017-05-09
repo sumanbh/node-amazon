@@ -10,11 +10,9 @@ import { CheckoutService } from './checkout.service';
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    _cartContent: any; // TODO
-    _userInfo: any;
-    _cartTotal = '0.00';
-    _loginStatus = false;
-    _cartSum = 0;
+    cartContent: any; // TODO
+    userInfo: any;
+    cartTotal = '0.00';
 
     constructor(
         private checkoutService: CheckoutService,
@@ -28,13 +26,12 @@ export class CheckoutComponent implements OnInit {
     getCartInfo() {
         this.checkoutService.getCartById()
             .subscribe(response => {
-                this._userInfo = response.userInfo;
-                if (!this._userInfo) this.router.navigate(['login']);
-                this._cartContent = response.data;
-                if (this._cartContent) {
-                    this._cartTotal = response.sum.total;
+                this.userInfo = response.userInfo;
+                if (!this.userInfo) this.router.navigate(['login']);
+                this.cartContent = response.data;
+                if (this.cartContent) {
+                    this.cartTotal = response.sum.total;
                 } else this.router.navigate(['user/cart']);
-                this._cartSum = parseFloat(this._cartTotal);
             },
             error => {
                 if (error) this.router.navigate(['login']);
@@ -42,7 +39,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     checkoutConfirm(value: any) {
-        if (this._userInfo && value.fullname && value.address && value.city && value.state && value.zip) {
+        if (this.userInfo && value.fullname && value.address && value.city && value.state && value.zip) {
             this.checkoutService.sendCheckout(value)
                 .subscribe(response => {
                     if (response) this.router.navigate(['user/orders']);

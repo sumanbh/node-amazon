@@ -13,11 +13,11 @@ import { NotificationsService } from 'angular2-notifications';
     styleUrls: ['product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
-    _product: Array<Object>;
-    _similar: Array<Object>;
-    _param: any;
-    _id: any;
-    _currentQuantity = 1;
+    product: Array<Object>;
+    similar: Array<Object>;
+    param: any;
+    id: any;
+    currentQuantity = 1;
     options = {
         position: ['top', 'right'],
         timeOut: 4000,
@@ -39,10 +39,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this._param = this.route.params.subscribe(params => {
+        this.param = this.route.params.subscribe(params => {
             window.scrollTo(0, 0);    // browser scrolls to top when state changes
-            this._id = params['id'];
-            this.getById(this._id);
+            this.id = params['id'];
+            this.getById(this.id);
         });
     }
 
@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         if (isTrue) {
             this.toastService.success(
                 `${quantity} Added`,
-                `${this._product[0]['laptop_name'].substring(0, 40)}...`,
+                `${this.product[0]['laptop_name'].substring(0, 40)}...`,
             );
         } else this.toastService.error(
             'Unauthorized',
@@ -64,9 +64,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     getById(id: any) {
         this.productService.getProductById(id)
             .subscribe(response => {
-                this._currentQuantity = 1;
-                this._product = response.product;
-                this._similar = response.similar;
+                this.currentQuantity = 1;
+                this.product = response.product;
+                this.similar = response.similar;
             },
             error => {
                 if (error) this.router.navigate(['404']);
@@ -85,6 +85,6 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
     ngOnDestroy() {
-        this._param.unsubscribe();
+        this.param.unsubscribe();
     }
 }

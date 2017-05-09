@@ -78,18 +78,18 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    getPage(page: number, _queryParam: string) {
+    getPage(page: number, queryParam: string) {
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
         // page is always 1 when filter is added/removed
-        if (_queryParam && _queryParam !== '') page = 1;
+        if (queryParam && queryParam !== '') page = 1;
 
         // you can only choose one of the price filter
-        if (_queryParam === 'customPrice') {
+        if (queryParam === 'customPrice') {
             this.isPrice = `${this.minCustom ? this.minCustom : ''},${this.maxCustom ? this.maxCustom : ''}`;
             if (this.isPrice === ',') this.isPrice = '';
-        } else if ((isMinCustom || this.maxCustom) && _queryParam === 'price') {
+        } else if ((isMinCustom || this.maxCustom) && queryParam === 'price') {
             this.minCustom = null;
             this.maxCustom = null;
         }

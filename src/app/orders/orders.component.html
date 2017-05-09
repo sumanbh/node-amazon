@@ -9,7 +9,7 @@
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
             <h5 *ngIf="noResults" class="text-center">You have no orders yet. Pick your favorite from <a [routerLink]="['/']">here!</a></h5>
-            <div class="row" *ngFor="let item of _ordersContent | groupby ">
+            <div class="row" *ngFor="let item of ordersContent | groupby ">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">

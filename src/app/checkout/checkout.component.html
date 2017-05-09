@@ -5,7 +5,7 @@
             <hr>
             <div class="row">
                 <div class="col-12">
-                    <div class="row is-flex" *ngFor="let user of _userInfo">
+                    <div class="row is-flex" *ngFor="let user of userInfo">
                         <div class="col-4 ship-info">
                             <h5 class="checkout-head">Shipping address</h5>
                         </div>
@@ -53,7 +53,7 @@
 
             <h2 class="cart-title text-center">Review Items</h2>
             <hr>
-            <div class="row" *ngFor="let item of _cartContent">
+            <div class="row" *ngFor="let item of cartContent">
                 <div class="col-12">
                     <div class="row is-flex">
                         <div class="col-md-2 col-4 image-container">
@@ -79,7 +79,7 @@
                 <label id="submit-label" for="submit-form">Place your order</label>
                 <hr>
                 <div class="checkout-subtotal">
-                    <span class="cart-product-price">Order total: ${{_cartTotal}}</span>
+                    <span class="cart-product-price">Order total: ${{cartTotal}}</span>
                 </div>
             </div>
         </div>
