@@ -57,7 +57,7 @@ CREATE TABLE laptops
      processor_id    INT NOT NULL REFERENCES processor(id), 
      brand_id        INT NOT NULL REFERENCES brand(id), 
      img             VARCHAR(200), 
-     ram             INT NOT NULL, 
+     ram             VARCHAR (3), 
      storage_type_id INT NOT NULL REFERENCES storage_type(id), 
      STORAGE         INT, 
      rating          DECIMAL(2, 1), 
@@ -155,8 +155,6 @@ AS
            ON laptops.id = cart.product_id 
          JOIN brand 
            ON laptops.brand_id = brand.id;
-
-ALTER TABLE laptops ALTER COLUMN ram type VARCHAR (3);
 
 -- CREATE TABLE google_account 
 --   ( 
