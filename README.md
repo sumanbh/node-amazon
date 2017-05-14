@@ -1,7 +1,10 @@
 # Node - Amazon
 [![Build Status](https://travis-ci.org/sumanbh/node-amazon.svg?branch=master)](https://travis-ci.org/sumanbh/node-amazon)
 
-Amazon lookalike with Node, Angular v4, and Postgresql. Demo at: https://sumanb.com
+Amazon lookalike with Node, and Angular v4. Demo at: https://sumanb.com
+
+## Requirements
+You need to have **Node** and **PostgreSQL** installed.
 
 ## Setup
 1. Install dependecies and build
@@ -32,12 +35,12 @@ Amazon lookalike with Node, Angular v4, and Postgresql. Demo at: https://sumanb.
         "google": {
           "client": "ID",
           "secret": "SECRET",
-          "callback": "URL"
+          "callback": "http://localhost:3000/auth/google/callback"
         },
         "facebook": {
           "client": "ID",
           "secret": "SECRET",
-          "callback": "URL"
+          "callback": "http://localhost:3000/auth/facebook/callback"
         }
       }
     }
