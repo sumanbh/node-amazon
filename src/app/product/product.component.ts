@@ -84,7 +84,9 @@ export class ProductComponent implements OnInit, OnDestroy {
                 if (error) this.popToast(false, null);
             });
     }
+
     ngOnDestroy() {
+        // prevent memory leaks
         this.param.unsubscribe();
     }
 }

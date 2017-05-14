@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,8 @@ import { QueryParam } from './interfaces/queryparam.interface';
     styleUrls: ['home.component.scss']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+    param: any;
     brand: Brand;
     os: OS;
     processor: Processor;
@@ -52,7 +53,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParamMap.subscribe((params) => {
+        this.param = this.route.queryParamMap.subscribe((params) => {
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values
             const queryObj = this.homeService.parseQueryParams(this.queryParams);
@@ -133,5 +134,10 @@ export class HomeComponent implements OnInit {
                 this.data = result.data;
                 this.totalItems = result.total;
             });
+    }
+
+    ngOnDestroy() {
+        // prevent memory leaks
+        this.param.unsubscribe();
     }
 }

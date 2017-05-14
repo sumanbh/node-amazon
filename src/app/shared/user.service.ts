@@ -29,7 +29,7 @@ export class UserService {
         const user = JSON.stringify({ email, password });
         const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
 
-        return this.http.post(`/login`, user, { headers: headers })
+        return this.http.post(`/auth/login`, user, { headers: headers })
             .map((res: Response) => res.json())
             .map((res) => {
                 if (res.success) {
@@ -51,7 +51,7 @@ export class UserService {
     logout(): Observable<any> {
         localStorage.removeItem('token');
         localStorage.removeItem('id_cart');
-        return this.http.get('/logout')
+        return this.http.get('/auth/logout')
             .map((res: Response) => res.status);
     }
 

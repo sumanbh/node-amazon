@@ -34,7 +34,8 @@ app.use(cors());
 app.use(compress());
 app.use(express.static(`${__dirname}/../dist`)); // location of index.html
 app.use('/api/user', jwtCheck);
-app.use('/', authentication());
+// Authentication routes for local, google and facebook
+app.use('/auth', authentication());
 
 // Api calls
 

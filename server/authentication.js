@@ -68,15 +68,13 @@ module.exports = () => {
         } // eslint-disable-line
     ));
 
-    router.get('/facebook-auth', passport.authenticate('facebook', { session: false, scope: ['public_profile', 'email'] }));
+    router.get('/facebook', passport.authenticate('facebook', { session: false, scope: ['public_profile', 'email'] }));
 
-    router.get('/facebook-auth/callback',
+    router.get('/facebook/callback',
         passport.authenticate('facebook', { session: false, failureRedirect: '/login' }),
         function (req, res) {
-            req.session.tempToken = req.user.token;
-            req.session.tempCart = req.user.cart;
             // Successful authentication, redirect.
-            res.redirect('/validate');
+            res.redirect(`/validate?cart=${req.user.cart}&token=${req.user.token}`);
         });
 
     // Google auth begins
@@ -118,16 +116,14 @@ module.exports = () => {
         } // eslint-disable-line
     ));
 
-    router.get('/google-auth',
+    router.get('/google',
         passport.authenticate('google', { session: false, scope: ['profile', 'email'] }));
 
-    router.get('/google-auth/callback',
+    router.get('/google/callback',
         passport.authenticate('google', { session: false, failureRedirect: '/login' }),
         function (req, res) {
-            req.session.tempToken = req.user.token;
-            req.session.tempCart = req.user.cart;
             // Successful authentication, redirect.
-            res.redirect('/validate');
+            res.redirect(`/validate?cart=${req.user.cart}&token=${req.user.token}`);
         });
 
     // Local auth begins
@@ -183,22 +179,6 @@ module.exports = () => {
             };
             return res.status(200).json(success);
         })(req, res, next);
-    });
-
-    router.get('/user/status/', (req, res) => {
-        if (req.session.tempToken) {
-            const success = {
-                cart: req.session.tempCart,
-                token: req.session.tempToken,
-                success: true,
-            };
-            delete req.session.tempToken;
-            delete req.session.tempCart;
-            return res.status(200).json(success);
-        }
-        return res.status(401).json({
-            success: false,
-        });
     });
 
     router.get('/logout', (req, res) => {
