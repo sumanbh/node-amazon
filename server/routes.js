@@ -62,11 +62,11 @@ const routes = {
                 join os ON laptops.os_id = os.id
                 join processor ON laptops.processor_id = processor.id
                 join storage_type ON laptops.storage_type_id = storage_type.id
-                WHERE ($1 = '' OR brand.name = ANY(STRING_TO_ARRAY($1, ',')))
-                AND ($2 = '' OR os.name = ANY(STRING_TO_ARRAY($2, ',')))
+                WHERE ($1 = '' OR LOWER(brand.name) = ANY(STRING_TO_ARRAY(LOWER($1), ',')))
+                AND ($2 = '' OR LOWER(os.name) = ANY(STRING_TO_ARRAY(LOWER($2), ',')))
                 AND ($3 = '' OR laptops.ram = ANY(STRING_TO_ARRAY($3, ',')))
-                AND ($4 = '' OR processor.name = ANY(STRING_TO_ARRAY($4, ',')))
-                AND ($5 = '' OR storage_type.name = ANY(STRING_TO_ARRAY($5, ',')))
+                AND ($4 = '' OR LOWER(processor.name) = ANY(STRING_TO_ARRAY(LOWER($4), ',')))
+                AND ($5 = '' OR LOWER(storage_type.name) = ANY(STRING_TO_ARRAY(LOWER($5), ',')))
                 AND laptops.price >= ($6) 
                 AND laptops.price < ($7);
                 `;

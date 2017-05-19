@@ -109,13 +109,13 @@ export class HomeService {
                 case 'brand': {
                     let arr = queryObj.params.brand;
                     if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.brand[value] = true);
+                    arr.forEach(value => allFilters.brand[value.toLowerCase()] = true);
                     break;
                 }
                 case 'os': {
                     let arr = queryObj.params.os;
                     if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.os[value] = true);
+                    arr.forEach(value => allFilters.os[value.toLowerCase()] = true);
                     break;
                 }
                 case 'min': {
@@ -133,7 +133,7 @@ export class HomeService {
                 case 'processor': {
                     let arr = queryObj.params.processor;
                     if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.processor[value] = true);
+                    arr.forEach(value => allFilters.processor[value.toLowerCase()] = true);
                     break;
                 }
                 case 'ram': {
@@ -145,7 +145,7 @@ export class HomeService {
                 case 'storage': {
                     let arr = queryObj.params.storage;
                     if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.storage[value] = true);
+                    arr.forEach(value => allFilters.storage[value.toLowerCase()] = true);
                     break;
                 }
                 default:

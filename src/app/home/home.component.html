@@ -20,14 +20,14 @@
                     <h3>Featured Brands</h3>
                     <div *ngFor="let item of brandOptions" class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="brand[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                            <input type="checkbox" [(ngModel)]="brand[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
                         </label>
                     </div>
 
                     <h3>Operating System</h3>
                     <div *ngFor="let item of osOptions" class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="os[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                            <input type="checkbox" [(ngModel)]="os[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
                         </label>
                     </div>
 
@@ -57,14 +57,14 @@
 
                     <div *ngFor="let item of processorOptions" class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="processor[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                            <input type="checkbox" [(ngModel)]="processor[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
                         </label>
                     </div>
 
                     <h3>Hard Drive Type</h3>
                     <div *ngFor="let item of storageOptions" class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="storage[item]" (ngModelChange)="getPage(page, item)"> {{item}}
+                            <input type="checkbox" [(ngModel)]="storage[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
                         </label>
                     </div>
 
