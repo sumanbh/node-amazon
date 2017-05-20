@@ -38,7 +38,7 @@ module.exports = () => {
             if (!profile.emails) profile.emails = [{ value: null }]; // cases where facebook does not send user email
             co(function* () {
                 let query = `
-                    SELECT customers.id, customers.given_name, customers.fullname, customers.address, customers.city, customers.state, customers.zip FROM customers
+                    SELECT customers.id, customers.given_name FROM customers
                     WHERE customers.facebook_id = $1 OR customers.email = $2
                     LIMIT 1;
                     `;
@@ -87,7 +87,7 @@ module.exports = () => {
         function (accessToken, refreshToken, profile, cb) {
             co(function* generator() {
                 let query = `
-                    SELECT customers.id, customers.given_name, customers.fullname, customers.address, customers.city, customers.state, customers.zip from customers
+                    SELECT customers.id, customers.given_name from customers
                     WHERE customers.google_id = $1 OR customers.email = $2
                     LIMIT 1;
                     `;
@@ -148,7 +148,7 @@ module.exports = () => {
                         if (res) {
                             co(function* gen() {
                                 query = `
-                                    SELECT customers.id, customers.given_name, customers.fullname, customers.address, customers.city, customers.state, customers.zip FROM customers
+                                    SELECT customers.id, customers.given_name FROM customers
                                     WHERE customers.email = $1
                                     AND customers.local = true
                                     LIMIT 1;
