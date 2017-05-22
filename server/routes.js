@@ -58,10 +58,10 @@ const routes = {
         co(function* generator() {
             const query = `
                 SELECT laptops.id, laptops.img, laptops.price, laptops.rating, laptops.name FROM laptops
-                join brand ON laptops.brand_id = brand.id
-                join os ON laptops.os_id = os.id
-                join processor ON laptops.processor_id = processor.id
-                join storage_type ON laptops.storage_type_id = storage_type.id
+                JOIN brand ON laptops.brand_id = brand.id
+                JOIN os ON laptops.os_id = os.id
+                JOIN processor ON laptops.processor_id = processor.id
+                JOIN storage_type ON laptops.storage_type_id = storage_type.id
                 WHERE ($1 = '' OR LOWER(brand.name) = ANY(STRING_TO_ARRAY(LOWER($1), ',')))
                 AND ($2 = '' OR LOWER(os.name) = ANY(STRING_TO_ARRAY(LOWER($2), ',')))
                 AND ($3 = '' OR laptops.ram = ANY(STRING_TO_ARRAY($3, ',')))
@@ -88,7 +88,7 @@ const routes = {
         co(function* generator() {
             // get the main product
             let query = `
-                SELECT laptops.id, laptops.name AS laptop_name, laptops.img, laptops.ram, laptops.storage, laptops.img_big, laptops.price, laptops.rating, laptops.description, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name from laptops
+                SELECT laptops.id, laptops.name AS laptop_name, laptops.img, laptops.ram, laptops.storage, laptops.img_big, laptops.price, laptops.rating, laptops.description, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
                 JOIN brand ON laptops.brand_id = brand.id
                 JOIN os ON laptops.os_id = os.id
                 JOIN storage_type ON laptops.storage_type_id = storage_type.id
@@ -102,7 +102,7 @@ const routes = {
             const price = parseInt(mainProduct[0].price, 10);
             const mainId = parseInt(mainProduct[0].id, 10);
             query = `
-                SELECT laptops.id, laptops.name AS laptop_name, laptops.rating, laptops.img, laptops.price, laptops.ram, laptops.storage, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name from laptops
+                SELECT laptops.id, laptops.name AS laptop_name, laptops.rating, laptops.img, laptops.price, laptops.ram, laptops.storage, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
                 JOIN brand ON laptops.brand_id = brand.id
                 JOIN os ON laptops.os_id = os.id
                 JOIN storage_type ON laptops.storage_type_id = storage_type.id
@@ -156,7 +156,7 @@ const routes = {
             co(function* generator() {
                 // returns everything in the cart if any
                 const query = `
-                    SELECT * from cartview WHERE customer_id = $1 ORDER BY date_added DESC;
+                    SELECT * FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;
                     `;
                 const cart = yield pool.query(query, [req.user.id]);
                 if (cart.rowCount > 0) {
@@ -184,7 +184,7 @@ const routes = {
             co(function* generator() {
                 // get cart information
                 const query = `
-                    SELECT * from cartview WHERE customer_id = $1 ORDER BY date_added DESC;
+                    SELECT * FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;
                     `;
                 const cart = yield pool.query(query, [req.user.id]);
                 if (cart.rowCount > 0) {
@@ -305,7 +305,7 @@ const routes = {
         else {
             co(function* generator() {
                 const query = `
-                    SELECT customers.given_name, customers.fullname, customers.address, customers.city, customers.state, customers.zip, customers.phone, customers.date_added from customers
+                    SELECT customers.given_name, customers.fullname, customers.address, customers.city, customers.state, customers.zip, customers.phone, customers.date_added FROM customers
                     WHERE customers.id = $1
                     LIMIT 1;
                     `;

@@ -18,7 +18,7 @@
                                     <div>Order Placed</div>
                                 </div>
                                 <div class="child-one">
-                                    <div>{{item.date | date: 'longDate'}}</div>
+                                    <div>{{item.date_added | date: 'longDate'}}</div>
                                 </div>
                             </div>
                             <div class="total-container">
@@ -26,7 +26,7 @@
                                     <div>Total</div>
                                 </div>
                                 <div class="child-one">
-                                    <div>${{item.total}}</div>
+                                    <div>${{item.order_total}}</div>
                                 </div>
                             </div>
                             <div class="shipto-container hidden-md-down">
