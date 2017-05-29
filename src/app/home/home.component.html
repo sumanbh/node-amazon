@@ -16,56 +16,49 @@
         <div class="tab-content">
             <div class="col-md-2 tab-pane fade" id='filter' role="tabpanel">
                 <div>
-                    <div class="selection-header">Refine by</div>
-                    <h3>Featured Brands</h3>
-                    <div *ngFor="let item of brandOptions" class="checkbox">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="brand[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
-                        </label>
+                    <div id="selection-header">Refine by</div>
+                    <div class = "filter-header">Featured Brands</div>
+                    <div *ngFor="let item of brandOptions" class="filters">
+                        <input [id]="item" type="checkbox" [(ngModel)]="brand[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
+                        <label [for]="item">{{item}}</label>
                     </div>
 
-                    <h3>Operating System</h3>
-                    <div *ngFor="let item of osOptions" class="checkbox">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="os[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
-                        </label>
+                    <div class = "filter-header">Operating System</div>
+                    <div *ngFor="let item of osOptions" class="filters">
+                        <input [id]="item" type="checkbox" [(ngModel)]="os[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
+                        <label [for]="item"> {{item}}</label>
                     </div>
 
-                    <h3>Price</h3>
-                    <div *ngFor="let item of priceOptions" class="checkbox">
-                        <label>
-                        <input type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice" name="price"> {{item.name}}
-                        </label>
+                    <div class = "filter-header">Price</div>
+                    <div *ngFor="let item of priceOptions" class="filters">
+                        <input [id]="item.name" type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice" name="price">
+                        <label [for]="item.name"> {{item.name}}</label>
                     </div>
                     <a id="allprices" *ngIf="isPrice" (click)="isPrice = ''" (click)="getPage(page, 'price')">Back to all results</a>
-                    <div class="custom-container">
-                        <!--Has some bugs. Need to make it better-->
+                    <div id="custom-container">
                         $ <input [(ngModel)]="minCustom" class="price-custom" type="text" id="low-price" name="min" maxlength="9"
                             placeholder="Min"> to $ <input [(ngModel)]="maxCustom" class="price-custom" type="text" value=""
                             id="high-price" name="max" maxlength="7" placeholder="Max">
                         <label id="custom-label" (click)="getPage(page, 'customPrice')">Go</label>
                     </div>
 
-                    <h3>RAM Size</h3>
-                    <div *ngFor="let item of ramOptions" class="checkbox">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="ram[item]" (ngModelChange)="getPage(page, item)"> {{item}} GB
-                        </label>
+                    <div class = "filter-header">RAM Size</div>
+                    <div *ngFor="let item of ramOptions" class="filters">
+                        <input [id]="item" type="checkbox" [(ngModel)]="ram[item]" (ngModelChange)="getPage(page, item)">
+                        <label [for]="item"> {{item}} GB</label>
                     </div>
 
-                    <h3>Processor Type</h3>
+                    <div class = "filter-header">Processor Type</div>
 
-                    <div *ngFor="let item of processorOptions" class="checkbox">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="processor[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
-                        </label>
+                    <div *ngFor="let item of processorOptions" class="filters">
+                        <input [id]="item" type="checkbox" [(ngModel)]="processor[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
+                        <label [for]="item"> {{item}}</label>
                     </div>
 
-                    <h3>Hard Drive Type</h3>
-                    <div *ngFor="let item of storageOptions" class="checkbox">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="storage[item.toLowerCase()]" (ngModelChange)="getPage(page, item)"> {{item}}
-                        </label>
+                    <div class = "filter-header">Hard Drive Type</div>
+                    <div *ngFor="let item of storageOptions" class="filters">
+                        <input [id]="item" type="checkbox" [(ngModel)]="storage[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
+                        <label [for]="item"> {{item}}</label>
                     </div>
 
                 </div>
