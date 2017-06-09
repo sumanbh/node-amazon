@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(compress());
 app.use(express.static(`${__dirname}/../dist`)); // location of index.html
+// check jwt token for these routes
 app.use('/api/user', jwtCheck);
 // Authentication routes for local, google and facebook
 app.use('/auth', authentication());

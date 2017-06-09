@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap/rating/rating.module';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpModule, Http, RequestOptions, JsonpModule } from '@angular/http';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -59,8 +60,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HttpModule,
     JsonpModule,
     NgbRatingModule,
-    Ng2PaginationModule,
+    NgxPaginationModule,
     SimpleNotificationsModule,
+    BrowserAnimationsModule,
   ],
   providers: [AuthGuard, {
     provide: AuthHttp,

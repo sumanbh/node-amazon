@@ -1,5 +1,4 @@
 const Pool = require('pg').Pool;
-const co = require('co');
 const bcrypt = require('bcrypt-nodejs');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -17,11 +16,9 @@ function createToken(user) {
 }
 
 function getCart(id) {
-    return new Promise((resolve) => {
-        co(function* generator() {
-            const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
-            resolve((yield pool.query(query, [id])).rows[0]);
-        });
+    const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
+    return new Promise(async function (resolve) {
+        resolve((await pool.query(query, [id])).rows[0]);
     });
 }
 module.exports = () => {
@@ -34,37 +31,35 @@ module.exports = () => {
         callbackURL: config.oauth.facebook.callback,
         profileFields: ['id', 'email', 'displayName', 'name', 'gender'] // eslint-disable-line
     },
-        function (accessToken, refreshToken, profile, cb) {
+        async function (accessToken, refreshToken, profile, cb) {
             if (!profile.emails) profile.emails = [{ value: null }]; // cases where facebook does not send user email
-            co(function* () {
-                let query = `
+            let query = `
                     SELECT customers.id, customers.given_name FROM customers
                     WHERE customers.facebook_id = $1 OR customers.email = $2
                     LIMIT 1;
                     `;
-                const result = yield pool.query(query, [profile.id, profile.emails[0].value]);
-                if (result.rowCount === 1) {
-                    // user already exists
-                    const tokenObj = {
-                        name: result.rows[0].given_name,
-                        id: result.rows[0].id,
-                    };
-                    const cartCount = yield getCart(result.rows[0].id);
-                    // User already exists in the database
-                    return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-                }
-                // create new user
-                query = `
+            const result = await pool.query(query, [profile.id, profile.emails[0].value]);
+            if (result.rowCount === 1) {
+                // user already exists
+                const tokenObj = {
+                    name: result.rows[0].given_name,
+                    id: result.rows[0].id,
+                };
+                const cartCount = await getCart(result.rows[0].id);
+                // User already exists in the database
+                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+            }
+            // create new user
+            query = `
                     INSERT INTO customers(facebook_id, given_name, email, fullname, local) VALUES ($1, $2, $3, $4, $5) RETURNING *;
                     `;
-                const user = yield pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
-                const cartCount = yield getCart(user.rows[0].id);
-                const tokenObj = {
-                    name: user.rows[0].given_name,
-                    id: user.rows[0].id,
-                };
-                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-            });
+            const user = await pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
+            const cartCount = await getCart(user.rows[0].id);
+            const tokenObj = {
+                name: user.rows[0].given_name,
+                id: user.rows[0].id,
+            };
+            return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
         } // eslint-disable-line
     ));
 
@@ -84,35 +79,33 @@ module.exports = () => {
         clientSecret: config.oauth.google.secret,
         callbackURL: config.oauth.google.callback // eslint-disable-line
     },
-        function (accessToken, refreshToken, profile, cb) {
-            co(function* generator() {
-                let query = `
+        async function (accessToken, refreshToken, profile, cb) {
+            let query = `
                     SELECT customers.id, customers.given_name from customers
                     WHERE customers.google_id = $1 OR customers.email = $2
                     LIMIT 1;
                     `;
-                const result = yield pool.query(query, [profile.id, profile.emails[0].value]);
-                if (result.rowCount === 1) {
-                    // User already exists in the database
-                    const tokenObj = {
-                        name: result.rows[0].given_name,
-                        id: result.rows[0].id,
-                    };
-                    const cartCount = yield getCart(result.rows[0].id);
-                    return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-                }
-                // insert new user
-                query = `
+            const result = await pool.query(query, [profile.id, profile.emails[0].value]);
+            if (result.rowCount === 1) {
+                // User already exists in the database
+                const tokenObj = {
+                    name: result.rows[0].given_name,
+                    id: result.rows[0].id,
+                };
+                const cartCount = await getCart(result.rows[0].id);
+                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+            }
+            // insert new user
+            query = `
                     INSERT INTO customers(google_id, given_name, email, fullname, local) VALUES ($1, $2, $3, $4, $5) RETURNING *;
                     `;
-                const user = yield pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
-                const cartCount = yield getCart(user.rows[0].id);
-                const tokenObj = {
-                    name: user.rows[0].given_name,
-                    id: user.rows[0].id,
-                };
-                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-            });
+            const user = await pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
+            const cartCount = await getCart(user.rows[0].id);
+            const tokenObj = {
+                name: user.rows[0].given_name,
+                id: user.rows[0].id,
+            };
+            return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
         } // eslint-disable-line
     ));
 
@@ -133,38 +126,37 @@ module.exports = () => {
         passReqToCallback: true,
         session: false // eslint-disable-line
     },
-        function (req, email, password, cb) {
-            co(function* generator() {
-                let query = `
+        async function (req, email, password, cb) {
+            let query = `
                     SELECT customers.password FROM customers
                     WHERE customers.email = $1
                     AND customers.local = true
                     LIMIT 1;
                     `;
-                const result = (yield pool.query(query, [email]));
-                if (result.rowCount > 0) {
-                    const hash = result.rows[0].password;
-                    bcrypt.compare(password, hash, function (error, res) {
-                        if (res) {
-                            co(function* gen() {
-                                query = `
+            const result = await pool.query(query, [email]);
+            if (result.rowCount > 0) {
+                const hash = result.rows[0].password;
+                bcrypt.compare(password, hash, async function (error, res) {
+                    if (res) {
+                        query = `
                                     SELECT customers.id, customers.given_name FROM customers
                                     WHERE customers.email = $1
                                     AND customers.local = true
                                     LIMIT 1;
                                     `;
-                                const user = (yield pool.query(query, [email])).rows[0];
-                                const cartCount = yield getCart(user.id);
-                                const tokenObj = {
-                                    name: user.given_name,
-                                    id: user.id,
-                                };
-                                return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-                            });
-                        } else return cb(null, false, { message: 'Incorrect password.' });
-                    });
-                } else return cb(null, false, { message: 'Incorrect email.' });
-            });
+                        const user = (await pool.query(query, [email])).rows[0];
+                        const cartCount = await getCart(user.id);
+                        const tokenObj = {
+                            name: user.given_name,
+                            id: user.id,
+                        };
+                        return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+                    }
+                    return cb(null, false, { message: 'Incorrect password.' });
+                });
+            } else {
+                return cb(null, false, { message: 'Incorrect email.' });
+            }
         } // eslint-disable-line
     ));
 
