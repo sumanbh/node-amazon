@@ -58,7 +58,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve('./dist/index.html'));
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { // eslint-disable-line
     if (err.name === 'UnauthorizedError') {
         res.status(401).send(err.inner);
     }

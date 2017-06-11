@@ -17,7 +17,7 @@ function createToken(user) {
 
 function getCart(id) {
     const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
-    return new Promise(async function (resolve) {
+    return new Promise(async (resolve) => {
         resolve((await pool.query(query, [id])).rows[0]);
     });
 }
@@ -32,7 +32,7 @@ module.exports = () => {
         profileFields: ['id', 'email', 'displayName', 'name', 'gender'] // eslint-disable-line
     },
         async function (accessToken, refreshToken, profile, cb) {
-            if (!profile.emails) profile.emails = [{ value: null }]; // cases where facebook does not send user email
+            if (!profile.emails) profile.emails = [{ value: null }]; // cases where facebook does not send back user email
             let query = `
                     SELECT customers.id, customers.given_name FROM customers
                     WHERE customers.facebook_id = $1 OR customers.email = $2
@@ -128,42 +128,41 @@ module.exports = () => {
     },
         async function (req, email, password, cb) {
             let query = `
-                    SELECT customers.password FROM customers
-                    WHERE customers.email = $1
-                    AND customers.local = true
-                    LIMIT 1;
-                    `;
+                SELECT customers.password FROM customers
+                WHERE customers.email = $1
+                AND customers.local = true
+                LIMIT 1;
+                `;
             const result = await pool.query(query, [email]);
-            if (result.rowCount > 0) {
-                const hash = result.rows[0].password;
-                bcrypt.compare(password, hash, async function (error, res) {
-                    if (res) {
-                        query = `
-                                    SELECT customers.id, customers.given_name FROM customers
-                                    WHERE customers.email = $1
-                                    AND customers.local = true
-                                    LIMIT 1;
-                                    `;
-                        const user = (await pool.query(query, [email])).rows[0];
-                        const cartCount = await getCart(user.id);
-                        const tokenObj = {
-                            name: user.given_name,
-                            id: user.id,
-                        };
-                        return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
-                    }
-                    return cb(null, false, { message: 'Incorrect password.' });
-                });
-            } else {
-                return cb(null, false, { message: 'Incorrect email.' });
-            }
+            if (result.rowCount === 0) return cb(null, false, 'The email you entered is incorrect.');
+            const hash = result.rows[0].password;
+            bcrypt.compare(password, hash, async function (error, res) {
+                if (res) {
+                    query = `
+                        SELECT customers.id, customers.given_name FROM customers
+                        WHERE customers.email = $1
+                        AND customers.local = true
+                        LIMIT 1;
+                        `;
+                    const user = (await pool.query(query, [email])).rows[0];
+                    const cartCount = await getCart(user.id);
+                    const tokenObj = {
+                        name: user.given_name,
+                        id: user.id,
+                    };
+                    return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+                }
+                return cb(null, false, 'The password you entered is incorrect.');
+            });
         } // eslint-disable-line
     ));
 
     router.post('/login', (req, res, next) => {
-        passport.authenticate('local', { session: false }, function (err, user) {
+        passport.authenticate('local', { session: false }, function (err, user, message) {
             if (err) { return next(err); }
-            if (!user) { return res.json(false); }
+            if (!user) {
+                return res.status(200).json({ success: false, err: message });
+            }
             const success = {
                 cart: user.cart || 0,
                 token: user.token,

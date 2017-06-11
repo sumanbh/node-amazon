@@ -3,36 +3,40 @@ import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  login = true;
+    login = true;
+    loginErr = 'Invalid email and or password.';
 
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) { }
+    constructor(
+        private userService: UserService,
+        private router: Router
+    ) { }
 
-  ngOnInit() {
-    this.checkLogin();
-  }
+    ngOnInit() {
+        this.checkLogin();
+    }
 
-  checkLogin() {
-    const state = this.userService.isLoggedIn();
-    if (state) this.router.navigate(['/']);
-  }
+    checkLogin() {
+        const state = this.userService.isLoggedIn();
+        if (state) this.router.navigate(['/']);
+    }
 
-  localAuth(email, password) {
-    if (email && password) {
-      this.userService.login(email, password)
-        .subscribe(response => {
-          if (response) {
-            this.login = true;
-            this.router.navigate(['/']);
-          } else this.login = false;
-        });
-    } else this.login = false;
-  }
+    localAuth(email, password) {
+        if (email && password) {
+            this.userService.login(email, password)
+                .subscribe(response => {
+                    if (response.success) {
+                        this.login = true;
+                        this.router.navigate(['/']);
+                    } else {
+                        this.loginErr = response.err;
+                        this.login = false;
+                    }
+                });
+        } else this.login = false;
+    }
 }

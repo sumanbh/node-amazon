@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     hideLogin: boolean;
     userGivenName: string;
     login = true;
+    loginErr = 'Invalid email and or password.';
     cart = 0;
     subscription: Subscription;
     cartSubscription: Subscription;
@@ -66,10 +67,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (email && password) {
             this.userService.login(email, password)
                 .subscribe(response => {
-                    if (response) {
+                    if (response.success) {
                         this.login = true;
                         location.reload();
-                    } else this.login = false;
+                    } else {
+                        this.loginErr = response.err;
+                        this.login = false;
+                    }
                 });
         } else this.login = false;
     }

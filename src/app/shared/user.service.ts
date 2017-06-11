@@ -37,9 +37,9 @@ export class UserService {
                     localStorage.setItem('id_cart', res.cart || 0);
                     this.navService.changeNav(true);
                     this.navService.changeCart(res.cart);
-                    return true;
+                    return { success: true };
                 }
-                return false;
+                return res;
             });
     }
 

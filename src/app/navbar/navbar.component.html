@@ -28,7 +28,7 @@
           <hr>
         </div>
         <form>
-          <div *ngIf="!login" class="alert alert-danger" role="alert">Invalid email and or password.</div>
+          <div *ngIf="!login" class="alert alert-danger loginerr" role="alert">{{loginErr}}</div>
           <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
           <!--Demo Login info-->
           <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
