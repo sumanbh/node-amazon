@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-product',
@@ -33,6 +34,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         private productService: ProductService,
         private config: NgbRatingConfig,
         private toastService: NotificationsService,
+        private titleService: Title,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -53,12 +55,22 @@ export class ProductComponent implements OnInit, OnDestroy {
                 `${this.product[0]['laptop_name'].substring(0, 40)}...`,
             );
         } else this.toastService.error(
-            'Unauthorized',
-            'You have to be logged in to do that!',
+            'Please login!',
+            'You have to be logged in before doing that.',
             {
                 timeOut: 4000,
             }
         );
+    }
+
+    popToastInvalid() {
+        this.toastService.info(
+            'Missing Quantity',
+            'Did you mean to add 1?',
+            {
+                timeOut: 3000,
+            }
+        )
     }
 
     getById(id: any) {
@@ -67,6 +79,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.currentQuantity = 1;
                 this.product = response.product;
                 this.similar = response.similar;
+                this.titleService.setTitle(`${this.product[0]['laptop_name']}`);
             },
             error => {
                 if (error) this.router.navigate(['404']);
@@ -74,15 +87,19 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     addToCart(id, quantity) {
-        this.productService.addToCart(id, quantity)
-            .subscribe(response => {
-                window.scrollTo(0, 0);
-                this.popToast(true, quantity);
-            },
-            error => {
-                window.scrollTo(0, 0);
-                if (error) this.popToast(false, null);
-            });
+        if ((parseInt(quantity, 10) || 0) <= 0) {
+            this.popToastInvalid();
+        } else {
+            this.productService.addToCart(id, quantity)
+                .subscribe(response => {
+                    window.scrollTo(0, 0);
+                    this.popToast(true, quantity);
+                },
+                error => {
+                    window.scrollTo(0, 0);
+                    if (error) this.popToast(false, null);
+                });
+        }
     }
 
     ngOnDestroy() {

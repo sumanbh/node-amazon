@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-orders',
@@ -15,10 +16,12 @@ export class OrdersComponent implements OnInit {
 
     constructor(
         private ordersService: OrdersService,
-        private router: Router
+        private router: Router,
+        private titleService: Title,
     ) { }
 
     ngOnInit() {
+        this.titleService.setTitle('Your Orders');
         this.getOrdersInfo();
     }
 

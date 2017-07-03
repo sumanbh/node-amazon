@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { User } from './user.interface';
 
@@ -18,10 +19,12 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private titleService: Title,
     ) { }
 
     ngOnInit() {
+        this.titleService.setTitle('Your Account');
         this.getProfile();
     }
     // get initial data to populate form

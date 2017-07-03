@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { CartService } from './cart.service';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-cart',
@@ -35,10 +36,14 @@ export class CartComponent implements OnInit {
 
     constructor(
         private cartService: CartService,
-        private router: Router
+        private router: Router,
+        private titleService: Title,
     ) { }
 
-    ngOnInit() { this.getCartInfo(); }
+    ngOnInit() {
+        this.titleService.setTitle('Shopping Cart');
+        this.getCartInfo();
+    }
 
     removeProduct(id) {
         this.cartService.removeFromCart(id)

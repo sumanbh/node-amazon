@@ -10,6 +10,7 @@ import { Processor } from './interfaces/processor.interface';
 import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-home',
@@ -46,13 +47,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private homeService: HomeService,
-        private config: NgbRatingConfig
+        private config: NgbRatingConfig,
+        private titleService: Title,
     ) {
         config.max = 5;
         config.readonly = true;
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Node Amazon: Home');
         this.param = this.route.queryParamMap.subscribe((params) => {
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values

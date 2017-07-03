@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { CheckoutService } from './checkout.service';
 
@@ -17,9 +18,11 @@ export class CheckoutComponent implements OnInit {
     constructor(
         private checkoutService: CheckoutService,
         private router: Router,
+        private titleService: Title,
     ) { }
 
     ngOnInit() {
+        this.titleService.setTitle('Checkout');
         this.getCartInfo();
     }
 

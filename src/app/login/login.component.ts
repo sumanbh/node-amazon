@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-login',
@@ -13,10 +14,12 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private titleService: Title,
     ) { }
 
     ngOnInit() {
+        this.titleService.setTitle('Login');
         this.checkLogin();
     }
 
