@@ -32,7 +32,7 @@
         <div class="col-md-2 col-12">
             <div class="product-cartbox">
                 <div class="quantity-container text-center"><label>Qty:</label> <input [(ngModel)]="currentQuantity" class="form-control" type="number" name="quantity"
-                        min="1" max="20" onkeypress='return event.charCode > 48 && event.charCode < 57'></div>
+                        min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'></div>
                 <div class="current-total text-center">${{currentQuantity * item.price | number:'.2'}}</div>
                 <div class="cart-container">
                     <button (click)="addToCart(item.id, currentQuantity)" type="button" class="btn btn-lg">Add to Cart

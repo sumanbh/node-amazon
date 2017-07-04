@@ -63,10 +63,10 @@ export class ProductComponent implements OnInit, OnDestroy {
         );
     }
 
-    popToastInvalid() {
+    popToastInvalid(header, subject) {
         this.toastService.info(
-            'Missing Quantity',
-            'Did you mean to add 1?',
+            header,
+            subject,
             {
                 timeOut: 3000,
             }
@@ -86,9 +86,12 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
 
-    addToCart(id, quantity) {
-        if ((parseInt(quantity, 10) || 0) <= 0) {
-            this.popToastInvalid();
+    addToCart(id, qty) {
+        const quantity = parseInt(qty, 10) || 0;
+        if (quantity <= 0) {
+            this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
+        } else if (quantity > 20) {
+            this.popToastInvalid('Too many added', 'Max of 20 per customer!');
         } else {
             this.productService.addToCart(id, quantity)
                 .subscribe(response => {
@@ -96,7 +99,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                         window.scrollTo(0, 0);
                         this.popToast(true, quantity);
                     } else {
-                        this.popToastInvalid();
+                        this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
                     }
                 },
                 error => {
