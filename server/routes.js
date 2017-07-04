@@ -111,7 +111,7 @@ const routes = {
     addToCart: async (req, res) => {
         const id = parseInt(req.body.productId, 10) || 0;
         const quantity = parseInt(req.body.productQuantity, 10) || 0;
-        if (id === 0 || quantity <= 0) return res.sendStatus(400);
+        if (id === 0 || quantity <= 0) return res.status(200).json({ success: false });
         let results = [];
         // checks to see if the product already exists in the cart
         const query = 'SELECT * FROM cart WHERE product_id = $1 AND customer_id = $2;';

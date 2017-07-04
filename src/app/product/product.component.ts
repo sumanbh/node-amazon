@@ -56,7 +56,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             );
         } else this.toastService.error(
             'Please login!',
-            'You have to be logged in before doing that.',
+            'You have to be logged in before adding to cart.',
             {
                 timeOut: 4000,
             }
@@ -92,8 +92,12 @@ export class ProductComponent implements OnInit, OnDestroy {
         } else {
             this.productService.addToCart(id, quantity)
                 .subscribe(response => {
-                    window.scrollTo(0, 0);
-                    this.popToast(true, quantity);
+                    if (response) {
+                        window.scrollTo(0, 0);
+                        this.popToast(true, quantity);
+                    } else {
+                        this.popToastInvalid();
+                    }
                 },
                 error => {
                     window.scrollTo(0, 0);
