@@ -4,7 +4,7 @@
 Amazon lookalike with Node, and Angular v4. Demo at: https://sumanb.com
 
 ## Requirements
-You need to have **Node** and **PostgreSQL** installed.
+You need to have **Node v7.6.0** or higher and **PostgreSQL** installed.
 
 ## Setup
 1. Install dependencies and build
