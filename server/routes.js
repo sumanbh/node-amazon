@@ -95,13 +95,13 @@ const routes = {
         const price = parseInt(mainProduct[0].price, 10);
         const mainId = parseInt(mainProduct[0].id, 10);
         query = `
-        SELECT laptops.id, laptops.name AS laptop_name, laptops.rating, laptops.img, laptops.price, laptops.ram, laptops.storage, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
-        JOIN brand ON laptops.brand_id = brand.id
-        JOIN os ON laptops.os_id = os.id
-        JOIN storage_type ON laptops.storage_type_id = storage_type.id
-        WHERE laptops.price <= ($1 + 150) AND laptops.price >= ($1 - 250)
-        AND laptops.id <> $2;
-        `;
+            SELECT laptops.id, laptops.name AS laptop_name, laptops.rating, laptops.img, laptops.price, laptops.ram, laptops.storage, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
+            JOIN brand ON laptops.brand_id = brand.id
+            JOIN os ON laptops.os_id = os.id
+            JOIN storage_type ON laptops.storage_type_id = storage_type.id
+            WHERE laptops.price <= ($1 + 150) AND laptops.price >= ($1 - 250)
+            AND laptops.id <> $2;
+            `;
         const similarProducts = (await pool.query(query, [price, mainId])).rows.splice(0, 3);
         res.status(200).json({
             product: mainProduct,

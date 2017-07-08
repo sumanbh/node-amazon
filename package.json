@@ -6,7 +6,9 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build:watch": "ng build -w",
+    "build-prod": "ng build --prod --aot"
   },
   "private": true,
   "dependencies": {

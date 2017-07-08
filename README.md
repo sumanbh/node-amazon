@@ -10,42 +10,11 @@ You need to have **Node** and **PostgreSQL** installed.
 1. Install dependencies and build
     ```
     yarn install or npm install
-    node_modules/@angular/cli/bin/ng build --prod --aot
+    yarn build or npm run build (use build-prod for AOT)
     ```
     
-2. Config goes in: ``nano config/amazon.json``
-3. Add the following:
-    ```
-    {
-      "session": {
-        "secret": "SECRET"
-      },
-      "jwt": {
-        "secret": "SECRET"
-      },
-      "postgresql": {
-        "user": "postgres",
-        "password": "postgres",
-        "host": "localhost",
-        "database": "node_amazon_dev",
-        "max": 10,
-        "idleTimeoutMillis": 1000
-      },
-      "oauth": {
-        "google": {
-          "client": "ID",
-          "secret": "SECRET",
-          "callback": "http://localhost:3000/auth/google/callback"
-        },
-        "facebook": {
-          "client": "ID",
-          "secret": "SECRET",
-          "callback": "http://localhost:3000/auth/facebook/callback"
-        }
-      }
-    }
-    ```
+2. Config is in: ``less config/amazon.json``. Make changes there as you see fit (database user/password, Google/Facebook OAUTH2 app key etc)
     
-4. You can find the database schema and initial inserts/seed in ```server/schema```
+3. You can find the database schema and inserts/seed in ```server/schema```
 
-5. Start server: ```node server/index.js``` 
+4. Start server after creating the database: ```node server/index.js```

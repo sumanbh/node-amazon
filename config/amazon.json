@@ -1,0 +1,28 @@
+{
+  "session": {
+    "secret": "SECRET"
+  },
+  "jwt": {
+    "secret": "SECRET"
+  },
+  "postgresql": {
+    "user": "postgres",
+    "password": "postgres",
+    "host": "localhost",
+    "database": "node_amazon_dev",
+    "max": 10,
+    "idleTimeoutMillis": 1000
+  },
+  "oauth": {
+    "google": {
+      "client": "ID",
+      "secret": "SECRET",
+      "callback": "http://localhost:3000/auth/google/callback"
+    },
+    "facebook": {
+      "client": "ID",
+      "secret": "SECRET",
+      "callback": "http://localhost:3000/auth/facebook/callback"
+    }
+  }
+}
