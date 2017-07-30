@@ -15,6 +15,6 @@ You need to have **Node v7.6.0** or higher and **PostgreSQL** installed.
     
 2. Config is in: ``less config/amazon.json``. Make changes there as you see fit (database user/password, Google/Facebook OAUTH2 app key etc)
     
-3. You can find the database schema and inserts/seed in ```server/schema```
+3. You can find the database schema and inserts/seed in ```config/schema```
 
 4. Start server after creating the database: ```node server/index.js```
