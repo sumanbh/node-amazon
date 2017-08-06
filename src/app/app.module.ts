@@ -12,6 +12,7 @@ import { HttpModule, Http, RequestOptions, JsonpModule } from '@angular/http';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AuthGuard } from './shared/auth.guard';
 import { NavService } from './shared/nav.service';
+import { UserService } from './shared/user.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -26,51 +27,50 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { ValidateComponent } from './validate/validate.component';
 
-import { UserService } from './shared/user.service';
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
 
 import 'rxjs/add/operator/map';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({}), http, options);
+    return new AuthHttp(new AuthConfig({}), http, options);
 }
 
 @NgModule({
-  declarations: [
-    NavbarComponent,
-    AppComponent,
-    PageNotFoundComponent,
-    HomeComponent,
-    ProductComponent,
-    CartComponent,
-    CheckoutComponent,
-    OrdersComponent,
-    ProfileComponent,
-    GroupByPipe,
-    EllipsisPipe,
-    LoginComponent,
-    ValidateComponent
-  ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule,
-    RouterModule.forRoot(routes),
-    HttpModule,
-    JsonpModule,
-    NgbRatingModule,
-    NgxPaginationModule,
-    SimpleNotificationsModule,
-    BrowserAnimationsModule,
-  ],
-  providers: [AuthGuard, {
-    provide: AuthHttp,
-    useFactory: authHttpServiceFactory,
-    deps: [Http, RequestOptions]
-  }, NavService, UserService],
-  entryComponents: [AppComponent],
-  bootstrap: [AppComponent]
+    declarations: [
+        NavbarComponent,
+        AppComponent,
+        PageNotFoundComponent,
+        HomeComponent,
+        ProductComponent,
+        CartComponent,
+        CheckoutComponent,
+        OrdersComponent,
+        ProfileComponent,
+        GroupByPipe,
+        EllipsisPipe,
+        LoginComponent,
+        ValidateComponent
+    ],
+    imports: [
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        RouterModule.forRoot(routes),
+        HttpModule,
+        JsonpModule,
+        NgbRatingModule,
+        NgxPaginationModule,
+        SimpleNotificationsModule,
+        BrowserAnimationsModule,
+    ],
+    providers: [AuthGuard, {
+        provide: AuthHttp,
+        useFactory: authHttpServiceFactory,
+        deps: [Http, RequestOptions]
+    }, NavService, UserService],
+    entryComponents: [AppComponent],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 

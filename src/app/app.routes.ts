@@ -12,40 +12,40 @@ import { ValidateComponent } from './validate/validate.component';
 import { AuthGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'validate',
-    component: ValidateComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'product/:id',
-    component: ProductComponent
-  },
-  {
-    path: 'user/cart',
-    component: CartComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'user/checkout',
-    component: CheckoutComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'user/orders',
-    component: OrdersComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'user/settings',
-    component: ProfileComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: '**',
-    component: PageNotFoundComponent
-  }
+    {
+        path: '',
+        component: HomeComponent
+    },
+    {
+        path: 'validate',
+        component: ValidateComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'product/:id',
+        component: ProductComponent
+    },
+    {
+        path: 'user/cart',
+        component: CartComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'user/checkout',
+        component: CheckoutComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'user/orders',
+        component: OrdersComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'user/settings',
+        component: ProfileComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: '**',
+        component: PageNotFoundComponent
+    }
 ];

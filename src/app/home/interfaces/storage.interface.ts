@@ -1,4 +1,4 @@
 export interface Storage {
-  'Hard Disk'?: boolean;
-  'SSD'?: boolean;
+    'Hard Disk'?: boolean;
+    'SSD'?: boolean;
 };
