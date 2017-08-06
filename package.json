@@ -1,6 +1,6 @@
 {
-  "name": "amazon-angular",
-  "version": "3.1.0",
+  "name": "node-amazon",
+  "version": "0.0.1",
   "license": "MIT",
   "author": "Suman Bhattarai",
   "scripts": {
