@@ -4,4 +4,4 @@ node_js:
 before_script:
   - 'npm install'
 script:
-  - 'node_modules/@angular/cli/bin/ng build --prod --aot'
+  - 'node_modules/@angular/cli/bin/ng build'
