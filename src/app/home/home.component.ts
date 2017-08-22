@@ -86,6 +86,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (window.innerWidth >= 768) window.scrollTo(0, 0);
+        else {
+            try {
+                const resultsTab = document.getElementsByClassName('nav-link')[0] as HTMLElement;
+                resultsTab.click();
+                window.scrollTo(0, 0);
+            } catch (err) {
+                /* do nothing for now */
+            }
+        }
         // page is always 1 when filter is added/removed
         if (queryParam && queryParam !== '') page = 1;
 
