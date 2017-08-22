@@ -13,6 +13,9 @@
 .filters {
     padding-top: 10px;
     margin: auto;
+    label {
+        cursor: pointer;
+    }
 }
 
 #allprices {
