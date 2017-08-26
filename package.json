@@ -7,8 +7,8 @@
     "ng": "ng",
     "dev": "ng build -w",
     "build": "ng build",
-    "lint": "ng lint",
-    "build-prod": "ng build --prod --aot"
+    "build-prod": "ng build --prod --aot",
+    "start": "nodemon server/index.js"
   },
   "private": true,
   "dependencies": {
