@@ -15,18 +15,20 @@ a {
     flex-wrap: wrap;
 }
 
-.row.is-flex > [class*='col-'] {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+.row.is-flex {
+    [class*='col-'] {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
 }
 
 .card {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .orders-img {
@@ -69,7 +71,8 @@ a {
     float: right;
 }
 
-.main-one, .child-one {
+.main-one,
+.child-one {
     font-size: 12px;
     width: 100%;
 }
@@ -80,6 +83,9 @@ a {
 }
 
 @media (max-width: 767px) {
+    .total-container {
+        width: 25%;
+    }
     .name-container {
         text-align: center;
         max-width: 100%;

@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
     selector: 'app-orders',
     providers: [OrdersService],
     templateUrl: 'orders.component.html',
-    styleUrls: ['orders.component.css']
+    styleUrls: ['orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
     ordersContent: Array<Object>;
@@ -26,22 +26,22 @@ export class OrdersComponent implements OnInit {
     }
 
     // To group by order id. The server gives us a list of arrays. This code groups the array into smaller chunks by id.
-    transformArr(orig) {
-        const newArr = [];
+    transformArr(original) {
+        const results = [];
         const types = {};
         let i;
         let j;
         let current;
-        for (i = 0, j = orig.length; i < j; i += 1) {
-            current = orig[i];
-            const temp = current.id;
+        for (i = 0, j = original.length; i < j; i += 1) {
+            current = original[i];
+            const tempId = current.id;
             if (!(current.id in types)) {
                 types[current.id] = { [current.id]: [] };
-                newArr.push(types[current.id]);
+                results.push(types[current.id]);
             }
-            types[current.id][temp].push(current);
+            types[current.id][tempId].push(current);
         }
-        return newArr;
+        return results;
     }
 
     getOrdersInfo() {

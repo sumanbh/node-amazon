@@ -3,9 +3,8 @@
         <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
         <li class="breadcrumb-item active bread-name">Your orders</li>
     </ol>
-    <!--<h2> Your Shopping orders is empty.</h2>-->
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-12">
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
             <h5 *ngIf="noResults" class="text-center">You have no orders yet. Pick your favorite from <a [routerLink]="['/']">here!</a></h5>
@@ -13,7 +12,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="orderdate-container hidden-md-down">
+                            <div class="orderdate-container d-none d-md-inline-block">
                                 <div class="main-one">
                                     <div>Order Placed</div>
                                 </div>
@@ -29,7 +28,7 @@
                                     <div>${{item.order_total}}</div>
                                 </div>
                             </div>
-                            <div class="shipto-container hidden-md-down">
+                            <div class="shipto-container d-none d-md-inline-block">
                                 <div class="main-one">
                                     <div>Ship to</div>
                                 </div>
@@ -51,7 +50,7 @@
                                 </div>-->
                             </div>
                         </div>
-                        <div class="card-block" *ngFor="let new of item.value">
+                        <div class="card-body" *ngFor="let new of item.value">
                             <div class="row">
                                 <div class="col-md-2 col-12 image-container">
                                     <img class="orders-img" [src]="new.img">
@@ -67,6 +66,16 @@
                                 </div>
                             </div>
                         </div>
+                        <ul class="list-group list-group-flush d-md-none">
+                            <li class="list-group-item">
+                                <b>Order Placed</b>
+                                <br> {{item.date_added | date: 'longDate'}}
+                            </li>
+                            <li class="list-group-item">
+                                <b>Shipping to</b>
+                                <br> {{item.fullname}}, {{item.address}}, {{item.city}}, {{item.state}}, {{item.zip}}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -7,57 +7,61 @@
     padding: 15px;
 }
 
-.orders-col{
+.orders-col {
+    margin-bottom: 20px;
     min-width: 260px;
     max-width: 260px;
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 260px;
-            flex: 0 0 260px;
-}
-
-.row.is-flex {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
-.row.is-flex > [class*='col-'] {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-}
-
-.orders-container .row .col-md-10 {
-    max-width: calc(100% - 260px);
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc(100% - 260px);
-            flex: 0 0 calc(100% - 260px);
+    -ms-flex: 0 0 260px;
+    flex: 0 0 260px;
 }
 
 .row {
     margin-right: 0px;
     margin-left: 0px;
+    &.is-flex {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        [class*='col-'] {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+    }
+}
+
+.orders-container {
+    .row {
+        .col-md-10 {
+            max-width: calc(100% - 260px);
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 calc(100% - 260px);
+            flex: 0 0 calc(100% - 260px);
+        }
+    }
 }
 
 .image-container {
     max-width: 120px;
-    margin-left: -1px;  /*safari*/
+    margin-left: -1px;
+    /*safari*/
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 120px;
-            flex: 0 0 120px;
+    -ms-flex: 0 0 120px;
+    flex: 0 0 120px;
 }
 
 .name-container {
     max-width: calc((100% - 120px) - 33.33333333%);
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc((100% - 120px) - 33.33333333%);
-            flex: 0 0 calc((100% - 120px) - 33.33333333%);
+    -ms-flex: 0 0 calc((100% - 120px) - 33.33333333%);
+    flex: 0 0 calc((100% - 120px) - 33.33333333%);
 }
 
 .cart-img {
@@ -102,7 +106,8 @@
 }
 
 .ship-info {
-    margin-left: -1px;  /*safari*/
+    margin-left: -1px;
+    /*safari*/
 }
 
 .checkout-head {
@@ -130,8 +135,8 @@
     cursor: pointer;
     width: 100%;
     padding: 10px;
-    background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);
-    background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+    background: -webkit-linear-gradient(top, #f7dfa5, #f0c14b);
+    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
     border: 1px solid grey;
     border-radius: 4px;
     font-weight: 400;
@@ -141,25 +146,23 @@
     .orders-container .row .col-md-10 {
         max-width: 100%;
         -webkit-box-flex: 0;
-            -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
     }
     .orders-col {
         max-width: 100%;
         -webkit-box-flex: 0;
-            -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
     }
     .col-12 {
         padding-left: 7px;
         padding-right: 7px;
     }
-
     .col-md-10 {
         padding-left: 7px;
         padding-right: 7px;
     }
-
     .col-8 {
         padding-right: 7px;
         padding-left: 7px;
@@ -168,14 +171,14 @@
         min-width: calc(100% - 100px);
         max-width: calc(100% - 100px);
         -webkit-box-flex: 0;
-            -ms-flex: 0 0 calc(100% - 100px);
-                flex: 0 0 calc(100% - 100px);
+        -ms-flex: 0 0 calc(100% - 100px);
+        flex: 0 0 calc(100% - 100px);
     }
     .image-container {
         max-width: 100px;
         -webkit-box-flex: 0;
-            -ms-flex: 0 0 100px;
-                flex: 0 0 100px;
+        -ms-flex: 0 0 100px;
+        flex: 0 0 100px;
     }
     .checkout-container {
         margin-top: 5px;
@@ -186,10 +189,13 @@
     max-width: 400px;
 }
 
-.ng-valid[required], .ng-valid.required  {
-  border-right: 2px solid #42A948; /* green */
+.ng-valid[required],
+.ng-valid.required {
+    border-right: 2px solid #42A948;
+    /* green */
 }
 
-.ng-invalid:not(form)  {
-  border-right: 2px solid #a94442; /* red */
+.ng-invalid:not(form) {
+    border-right: 2px solid #a94442;
+    /* red */
 }
