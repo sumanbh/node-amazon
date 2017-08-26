@@ -9,6 +9,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { ValidateComponent } from './validate/validate.component';
+import { AddNewComponent } from './add-new/add-new.component';
 import { AuthGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
@@ -43,6 +44,10 @@ export const routes: Routes = [
     {
         path: 'user/settings',
         component: ProfileComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'laptop/new',
+        component: AddNewComponent, canActivate: [AuthGuard]
     },
     {
         path: '**',

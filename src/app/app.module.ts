@@ -26,6 +26,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { ValidateComponent } from './validate/validate.component';
+import { AddNewComponent } from './add-new/add-new.component';
 
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
@@ -50,7 +51,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         GroupByPipe,
         EllipsisPipe,
         LoginComponent,
-        ValidateComponent
+        ValidateComponent,
+        AddNewComponent
     ],
     imports: [
         BrowserModule,
