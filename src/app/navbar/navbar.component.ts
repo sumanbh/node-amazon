@@ -17,11 +17,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     cart = 0;
     subscription: Subscription;
     cartSubscription: Subscription;
+    routeSubscription: Subscription;
     loginState: boolean;
+    displayLink: boolean;
 
     constructor(
         private userService: UserService,
-        private navService: NavService
+        private navService: NavService,
     ) {
     }
 
@@ -29,18 +31,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.loginSub();
         this.onLoginSuccess();
         this.cartSub();
+        this.newLaptopSub();
     }
 
     ngOnDestroy() {
         // prevent memory leak when component is destroyed
         this.subscription.unsubscribe();
         this.cartSubscription.unsubscribe();
+        this.routeSubscription.unsubscribe();
     }
 
     cartSub() {
         this.cartSubscription = this.navService.navCart$
             .subscribe(newValue => {
                 this.cart = newValue;
+            });
+    }
+
+    newLaptopSub() {
+        this.routeSubscription = this.navService.routeNew$
+            .subscribe(newValue => {
+                this.displayLink = newValue;
             });
     }
 

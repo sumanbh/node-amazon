@@ -6,6 +6,7 @@ import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
+import { WindowRef } from '../shared/window';
 
 @Component({
     selector: 'app-product',
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         private config: NgbRatingConfig,
         private toastService: NotificationsService,
         private titleService: Title,
+        private windowRef: WindowRef,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -42,7 +44,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.param = this.route.params.subscribe(params => {
-            window.scrollTo(0, 0);    // browser scrolls to top when state changes
+            this.windowRef.nativeWindow.scrollTo(0, 0);    // browser scrolls to top when state changes
             this.id = params['id'];
             this.getById(this.id);
         });
@@ -91,19 +93,19 @@ export class ProductComponent implements OnInit, OnDestroy {
         if (quantity <= 0) {
             this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
         } else if (quantity > 20) {
-            this.popToastInvalid('Too many added', 'Max of 20 per customer!');
+            this.popToastInvalid('Too many added', 'Limit of 20 per customer!');
         } else {
             this.productService.addToCart(id, quantity)
                 .subscribe(response => {
                     if (response) {
-                        window.scrollTo(0, 0);
+                        this.windowRef.nativeWindow.scrollTo(0, 0);
                         this.popToast(true, quantity);
                     } else {
                         this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
                     }
                 },
                 error => {
-                    window.scrollTo(0, 0);
+                    this.windowRef.nativeWindow.scrollTo(0, 0);
                     if (error) this.popToast(false, null);
                 });
         }

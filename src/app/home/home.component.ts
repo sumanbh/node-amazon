@@ -11,6 +11,7 @@ import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
 import { Title } from '@angular/platform-browser';
+import { WindowRef } from '../shared/window';
 
 @Component({
     selector: 'app-home',
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         private homeService: HomeService,
         private config: NgbRatingConfig,
         private titleService: Title,
+        private windowRef: WindowRef,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -85,12 +87,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     getPage(page: number, queryParam: string) {
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
-        if (window.innerWidth >= 768) window.scrollTo(0, 0);
+        if (this.windowRef.nativeWindow.innerWidth >= 768) this.windowRef.nativeWindow.scrollTo(0, 0);
         else {
             try {
                 const resultsTab = document.getElementsByClassName('nav-link')[0] as HTMLElement;
                 resultsTab.click();
-                window.scrollTo(0, 0);
+                this.windowRef.nativeWindow.scrollTo(0, 0);
             } catch (err) {
                 /* do nothing for now */
             }

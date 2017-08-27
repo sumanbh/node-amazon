@@ -17,7 +17,7 @@ export class ValidateComponent implements OnInit, OnDestroy {
         private http: Http,
         private route: ActivatedRoute,
         private router: Router,
-        private navService: NavService
+        private navService: NavService,
     ) {
     }
 

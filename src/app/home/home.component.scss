@@ -18,6 +18,22 @@
     }
 }
 
+.image-container {
+    position: relative;
+    height: 200px;
+    width: 100%;
+    .laptop-image {
+        max-width: 200px;
+        height: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        margin: auto;
+        transform: translateY(-50%);
+    }
+}
+
 #allprices {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -27,7 +43,7 @@
     padding: 5px 5px 5px 0px;
 }
 
-.row.is-flex > [class*='col-'] {
+.row.is-flex>[class*='col-'] {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -36,13 +52,14 @@
     -ms-flex-direction: column;
     flex-direction: column;
     border: 1px solid #eee;
-    margin-left: -1px; /*  safari seems to break first row without it*/
+    margin-left: -1px;
+    /*  safari seems to break first row without it*/
 }
 
 .boxception {
     margin-bottom: 15px;
-    background-image: -webkit-linear-gradient(bottom,#fafafa 0,#fdfdfd 20%,#fff 60%);
-    background-image: linear-gradient(to top,#fafafa 0,#fdfdfd 20%,#fff 60%);
+    background-image: -webkit-linear-gradient(bottom, #fafafa 0, #fdfdfd 20%, #fff 60%);
+    background-image: linear-gradient(to top, #fafafa 0, #fdfdfd 20%, #fff 60%);
 }
 
 #selection-header {
@@ -107,11 +124,8 @@
     max-width: calc(100% - 210px);
 }
 
-#shop-rating {
-    text-align: left;
+.laptop-rating {
     margin-bottom: 5px;
-    color: #EAA500;
-    font-size: 16px;
 }
 
 .no-results {
@@ -143,8 +157,8 @@
 @media (min-width: 1780px) {
     .shop-container .row .big-display {
         -webkit-box-flex: 0 !important;
-            -ms-flex: 0 0 16.66666667% !important;
-                flex: 0 0 16.66666667% !important;
+        -ms-flex: 0 0 16.66666667% !important;
+        flex: 0 0 16.66666667% !important;
         max-width: 16.66666667%;
     }
 }
@@ -152,8 +166,8 @@
 @media (min-width: 2560px) {
     .shop-container .row .big-display {
         -webkit-box-flex: 0 !important;
-            -ms-flex: 0 0 12.5% !important;
-                flex: 0 0 12.5% !important;
+        -ms-flex: 0 0 12.5% !important;
+        flex: 0 0 12.5% !important;
         max-width: 12.5%;
     }
 }
@@ -179,7 +193,7 @@
             margin-bottom: 5px;
         }
     }
-    .selection-header{
+    .selection-header {
         display: none;
     }
     .filters {
@@ -194,7 +208,6 @@
     }
     .price-custom {
         max-width: 100px;
-        
     }
     #custom-container {
         font-size: 14px;
