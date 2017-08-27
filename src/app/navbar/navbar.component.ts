@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NavService } from '../shared/nav.service';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-nav-bar',
@@ -25,7 +24,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     constructor(
         private userService: UserService,
         private navService: NavService,
-        private router: Router,
     ) {
     }
 
