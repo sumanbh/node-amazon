@@ -1,0 +1,55 @@
+.row {
+    margin: 0px;
+}
+
+.row-margin {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.add-container {
+    margin-bottom: 20px;
+    .cursor-pointer {
+        cursor: pointer;
+    }
+}
+
+.laptop-image {
+    max-width: 200px;
+    height: auto;
+}
+
+.inline-margin {
+    margin-left: 0px !important;
+    margin-right: 1.25rem !important;
+}
+
+.laptop-size {
+    min-width: 100px;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+.svg-fixed {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    z-index: 10;
+    fill: red;
+    background: white;
+    fill-opacity: 0.7;
+    &:hover {
+        fill-opacity: 1;
+    }
+}
+
+.form-desc {
+    margin-bottom: 15px;
+}

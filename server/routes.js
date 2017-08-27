@@ -65,10 +65,11 @@ const routes = {
             AND ($4 = '' OR LOWER(processor.name) = ANY(STRING_TO_ARRAY(LOWER($4), ',')))
             AND ($5 = '' OR LOWER(storage_type.name) = ANY(STRING_TO_ARRAY(LOWER($5), ',')))
             AND laptops.price >= ($6) 
-            AND laptops.price < ($7);
+            AND laptops.price < ($7)
+            ORDER BY laptops.rating DESC;
             `;
         const result = await pool.query(query, [brands.join(','), os.join(','), ram.join(','), processor.join(','), storage.join(','), min, max]);
-        res.json({
+        res.status(200).json({
             total: result.rowCount,
             data: result.rows.splice(offset, limit), // pagination
         });

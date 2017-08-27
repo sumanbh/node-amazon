@@ -20,6 +20,19 @@ simple-notifications {
   font-size: 0.8rem;
 }
 
+.laptop-rating {
+    text-align: left;
+    color: #EAA500;
+    font-size: 18px;
+    &:focus {
+        outline: none;
+    }
+}
+
+.no-pad {
+    padding: 0px !important;
+}
+
 .simple-notification.success { 
     background: #263238 !important; 
     .sn-progress-loader {

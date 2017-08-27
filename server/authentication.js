@@ -9,7 +9,7 @@ const express = require('express');
 const config = require('../config/amazon.json');
 
 const router = express.Router();
-const pool = new Pool(config.postgresql);
+const pool = new Pool(Object.assign({}, config.postgresql, { max: 5 }));
 
 function createToken(user) {
     return jwt.sign(user, config.jwt.secret, { expiresIn: 60 * 60 * 24 });

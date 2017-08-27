@@ -13,7 +13,7 @@
                 <div class="col-lg-8 col-12">
                     <h1 class="sm-display">{{ item.laptop_name }}</h1>
                     <div>by <a [routerLink]="['/']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a></div>
-                    <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                    <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     <hr>
                     <div class="price-box">Price: <span class="product-price">${{item.price}}</span></div>
                     <div class="finance-master">
@@ -54,8 +54,8 @@
             <table class="table table-bordered" *ngFor="let item of product">
                 <tr>
                     <th class="first-table-td"></th>
-                    <th><img class="similar-img" [src]="item.img"></th>
-                    <th *ngFor="let product of similar">
+                    <th class="table-image-container"><img class="similar-img" [src]="item.img"></th>
+                    <th class="table-image-container" *ngFor="let product of similar">
                         <a [routerLink]="['/product', product.id]"><img class="similar-img" [src]="product.img"></a>
                     </th>
                 </tr>
@@ -79,10 +79,10 @@
                 <tr>
                     <td class="table-active">Customer Rating</td>
                     <td class="table-warning">
-                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                        <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     </td>
                     <td *ngFor="let product of similar">
-                        <ngb-rating id="shop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
+                        <ngb-rating class="laptop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
                     </td>
                 </tr>
                 <tr>

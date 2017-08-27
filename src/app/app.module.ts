@@ -13,6 +13,7 @@ import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AuthGuard } from './shared/auth.guard';
 import { NavService } from './shared/nav.service';
 import { UserService } from './shared/user.service';
+import { WindowRef } from './shared/window';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -66,11 +67,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         SimpleNotificationsModule,
         BrowserAnimationsModule,
     ],
-    providers: [AuthGuard, {
-        provide: AuthHttp,
-        useFactory: authHttpServiceFactory,
-        deps: [Http, RequestOptions]
-    }, NavService, UserService],
+    providers: [
+        AuthGuard,
+        {
+            provide: AuthHttp,
+            useFactory: authHttpServiceFactory,
+            deps: [Http, RequestOptions]
+        },
+        NavService,
+        UserService,
+        WindowRef,
+    ],
     entryComponents: [AppComponent],
     bootstrap: [AppComponent]
 })

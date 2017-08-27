@@ -68,12 +68,12 @@
                     <div *ngIf="loading" class="loader"></div>
                     <div class="no-results" *ngIf="!searchResult">There are no results that match your search filter. Please try something else.</div>
                     <div [ngClass]="{ 'hidden' : loading}" class="col-xl-3 col-lg-4 col-md-6 col-12 big-display boxception" *ngFor="let item of data | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }">
-                        <div>
-                            <a [routerLink]="['/product', item.id]" class="main-content-name"><img [src]="item.img"></a>
+                        <div class="image-container">
+                            <a [routerLink]="['/product', item.id]" class="main-content-name"><img class="laptop-image" [src]="item.img"></a>
                         </div>
                         <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
                         <div class="main-content-price">${{item.price}}</div>
-                        <ngb-rating id="shop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>
+                        <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>
                     </div>
                 </div>
                 <div *ngIf="!loading" class="text-center">
