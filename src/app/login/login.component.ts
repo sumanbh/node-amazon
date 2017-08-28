@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { NavService } from '../shared/nav.service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
     login = true;
     loginErr = 'Invalid email and or password.';
 
@@ -17,17 +16,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private router: Router,
         private titleService: Title,
-        private navService: NavService,
     ) { }
 
     ngOnInit() {
         this.titleService.setTitle('Login');
-        this.navService.newRoute(true);
         this.checkLogin();
-    }
-
-    ngOnDestroy() {
-        this.navService.newRoute(false);
     }
 
     checkLogin() {

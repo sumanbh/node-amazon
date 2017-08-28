@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NavService } from '../shared/nav.service';
 
 import { Brand } from './interfaces/brands.interface';
 import { OS } from './interfaces/os.interface';
@@ -51,6 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         private config: NgbRatingConfig,
         private titleService: Title,
         private windowRef: WindowRef,
+        private navService: NavService,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -58,6 +60,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.titleService.setTitle('Node Amazon: Home');
+        // display the option to add new laptop
+        this.navService.newRoute(true);
+        // route parameters
         this.param = this.route.queryParamMap.subscribe((params) => {
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values
@@ -85,6 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     getPage(page: number, queryParam: string) {
+        this.loading = true;
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
         // scroll to top on filter change
         if (this.windowRef.nativeWindow.innerWidth >= 768) this.windowRef.nativeWindow.scrollTo(0, 0);
@@ -153,5 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         // prevent memory leaks
         this.param.unsubscribe();
+        // remove the option to add new laptop
+        this.navService.newRoute(false);
     }
 }

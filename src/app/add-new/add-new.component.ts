@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Headers, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
 import { WindowRef } from '../shared/window';
-import { NavService } from '../shared/nav.service';
 import 'rxjs/add/operator/toPromise';
 
 @Component({
@@ -13,7 +12,7 @@ import 'rxjs/add/operator/toPromise';
     styleUrls: ['./add-new.component.scss'],
     providers: [NgbRatingConfig],
 })
-export class AddNewComponent implements OnInit, OnDestroy {
+export class AddNewComponent implements OnInit {
     operatingSystems = ['Mac OS X', 'Chrome OS', 'Windows 10', 'Windows 8.1', 'Windows 7 Home'];
     processors = ['Intel Core i7', 'Intel Core i5', 'Intel Core i3', 'Intel Core 2', 'AMD'];
     brands = ['Apple', 'Microsoft', 'HP', 'Dell', 'Asus', 'Acer', 'Samsung', 'Lenovo', 'Toshiba'];
@@ -44,7 +43,6 @@ export class AddNewComponent implements OnInit, OnDestroy {
         private ratingConfig: NgbRatingConfig,
         private titleService: Title,
         private windowRef: WindowRef,
-        private navService: NavService,
     ) {
         ratingConfig.max = 5;
         ratingConfig.readonly = false;
@@ -52,11 +50,6 @@ export class AddNewComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.titleService.setTitle('Add new laptop');
-        this.navService.newRoute(true);
-    }
-
-    ngOnDestroy() {
-        this.navService.newRoute(false);
     }
 
     trackByFn(index: any, item: any) {
