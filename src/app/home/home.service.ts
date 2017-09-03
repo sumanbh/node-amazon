@@ -110,7 +110,7 @@ export class HomeService {
                 case 'brand': {
                     let arr = queryObj.params.brand;
                     if (typeof arr === 'string') {
-                        title.push(arr);
+                        title.push(arr.replace(/,/g, ', '));
                         arr = arr.split(',');
                         arr.forEach(value => allFilters.brand[value.toLowerCase()] = true);
                     }
@@ -119,7 +119,7 @@ export class HomeService {
                 case 'os': {
                     let arr = queryObj.params.os;
                     if (typeof arr === 'string') {
-                        title.push(arr);
+                        title.push(arr.replace(/,/g, ', '));
                         arr = arr.split(',');
                         arr.forEach(value => allFilters.os[value.toLowerCase()] = true);
                     }
@@ -146,7 +146,7 @@ export class HomeService {
                 case 'processor': {
                     let arr = queryObj.params.processor;
                     if (typeof arr === 'string') {
-                        title.push(arr);
+                        title.push(arr.replace(/,/g, ', '));
                         arr = arr.split(',');
                         arr.forEach(value => allFilters.processor[value.toLowerCase()] = true);
                     }
@@ -155,7 +155,7 @@ export class HomeService {
                 case 'ram': {
                     let arr = queryObj.params.ram;
                     if (typeof arr === 'string') {
-                        title.push(arr);
+                        title.push(`RAM: ${arr.replace(/,/g, ', ')}GB`);
                         arr = arr.split(',');
                         arr.forEach(value => allFilters.ram[value] = true);
                     }
@@ -164,7 +164,7 @@ export class HomeService {
                 case 'storage': {
                     let arr = queryObj.params.storage;
                     if (typeof arr === 'string') {
-                        title.push(arr);
+                        title.push(arr.replace(/,/g, ', '));
                         arr = arr.split(',');
                         arr.forEach(value => allFilters.storage[value.toLowerCase()] = true);
                     }
