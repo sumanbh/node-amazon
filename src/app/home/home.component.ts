@@ -62,7 +62,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.titleService.setTitle('Node Amazon: Home');
         // display the option to add new laptop
         this.navService.newRoute(true);
         // route parameters
@@ -74,7 +73,14 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.slimLoadingBarService.start();
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values
-            const queryObj = this.homeService.parseQueryParams(this.queryParams);
+            const results = this.homeService.parseQueryParams(this.queryParams);
+            const { queryObj, pageTitle } = results;
+            // set the page title dynamically
+            if (pageTitle.length > 0) {
+                this.titleService.setTitle(`Node Amazon: ${pageTitle.join(' / ')}`)
+            } else {
+                this.titleService.setTitle('Node Amazon: Laptops');
+            }
             this.brand = queryObj.brand;
             this.os = queryObj.os;
             this.isPrice = `${queryObj.min ? queryObj.min : ''},${queryObj.max ? queryObj.max : ''}`;

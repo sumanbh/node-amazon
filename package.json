@@ -5,7 +5,7 @@
   "author": "Suman Bhattarai",
   "scripts": {
     "ng": "ng",
-    "dev": "ng build -w",
+    "dev": "concurrently \"ng build -w\" \"nodemon server/index.js\"",
     "build": "ng build",
     "build-prod": "ng build --prod --aot",
     "start": "nodemon server/index.js"
@@ -27,6 +27,7 @@
     "body-parser": "^1.17.2",
     "bootstrap": "4.0.0-beta",
     "compression": "^1.6.2",
+    "concurrently": "^3.5.0",
     "core-js": "^2.4.1",
     "cors": "^2.8.3",
     "express": "^4.15.3",

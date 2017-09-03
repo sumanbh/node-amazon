@@ -104,55 +104,77 @@ export class HomeService {
         const allFilters = {
             brand: {}, os: {}, processor: {}, ram: {}, storage: {}, min: '', max: '',
         };
+        const title = [];
         queryObj.keys.forEach(element => {
             switch (element) {
                 case 'brand': {
                     let arr = queryObj.params.brand;
-                    if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.brand[value.toLowerCase()] = true);
+                    if (typeof arr === 'string') {
+                        title.push(arr);
+                        arr = arr.split(',');
+                        arr.forEach(value => allFilters.brand[value.toLowerCase()] = true);
+                    }
                     break;
                 }
                 case 'os': {
                     let arr = queryObj.params.os;
-                    if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.os[value.toLowerCase()] = true);
+                    if (typeof arr === 'string') {
+                        title.push(arr);
+                        arr = arr.split(',');
+                        arr.forEach(value => allFilters.os[value.toLowerCase()] = true);
+                    }
                     break;
                 }
                 case 'min': {
                     const str = queryObj.params.min;
                     if (Array.isArray(str)) break;
-                    if (str) allFilters.min = str;
+                    if (str) {
+                        allFilters.min = str;
+                        title.push(`min: ${str}`);
+                    }
                     break;
                 }
                 case 'max': {
                     const str = queryObj.params.max;
                     if (Array.isArray(str)) break;
-                    if (str) allFilters.max = str;
+                    if (str) {
+                        allFilters.max = str;
+                        title.push(`max: ${str}`);
+                    }
                     break;
                 }
                 case 'processor': {
                     let arr = queryObj.params.processor;
-                    if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.processor[value.toLowerCase()] = true);
+                    if (typeof arr === 'string') {
+                        title.push(arr);
+                        arr = arr.split(',');
+                        arr.forEach(value => allFilters.processor[value.toLowerCase()] = true);
+                    }
                     break;
                 }
                 case 'ram': {
                     let arr = queryObj.params.ram;
-                    if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.ram[value] = true);
+                    if (typeof arr === 'string') {
+                        title.push(arr);
+                        arr = arr.split(',');
+                        arr.forEach(value => allFilters.ram[value] = true);
+                    }
                     break;
                 }
                 case 'storage': {
                     let arr = queryObj.params.storage;
-                    if (!Array.isArray(arr)) arr = arr.split(',');
-                    arr.forEach(value => allFilters.storage[value.toLowerCase()] = true);
+                    if (typeof arr === 'string') {
+                        title.push(arr);
+                        arr = arr.split(',');
+                        arr.forEach(value => allFilters.storage[value.toLowerCase()] = true);
+                    }
                     break;
                 }
                 default:
                 /* do nothing */
             }
         });
-        return allFilters;
+        return { queryObj: allFilters, pageTitle: title};
     }
 
     getAllProducts(page: number, price: string, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
