@@ -80,8 +80,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    submit() {
+    submit(inputElement: HTMLElement) {
         this.searchSubject.next(this.searchString || '');
+        if (inputElement) {
+            inputElement.blur();
+        }
     }
 
     cartSub() {

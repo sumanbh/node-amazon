@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand nav-name" [routerLink]="['/']">suman.io</a>
-    <input [(ngModel)]="searchString" (keyup.enter)="submit()" id="search-bar" class="form-control" type="text" placeholder="Search" aria-label="Search">
+    <input [(ngModel)]="searchString" #search (keyup.enter)="submit(search)" id="search-bar" class="form-control" type="text" placeholder="Search" aria-label="Search">
     <button id="search-button" class="btn" type="submit" (click)="submit()">
         <img src="../../assets/images/search.svg" alt="Search">
     </button>
