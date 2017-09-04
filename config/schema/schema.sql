@@ -66,6 +66,10 @@ CREATE TABLE laptops
      description     TEXT[] 
   );
 
+CREATE INDEX ON laptops ((lower(name)));
+CREATE INDEX ON laptops (rating);
+CREATE INDEX ON laptops (price);
+
 CREATE SCHEMA shard_1;
 CREATE SEQUENCE shard_1.global_id_sequence;
 CREATE OR REPLACE FUNCTION shard_1.id_generator(OUT result BIGINT) AS $$
