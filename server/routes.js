@@ -79,10 +79,11 @@ const routes = {
         const parameters = [brands.join(','), os.join(','), ram.join(','), processor.join(','), storage.join(','), min, max];
 
         if (search) {
-            query += `AND LOWER(laptops.name) LIKE $8
+            // use translate function to remove dashes from our search for better results
+            query += `AND TRANSLATE(LOWER(laptops.name), '-', ' ') LIKE $8
                     ORDER BY laptops.rating DESC;
                     `;
-            parameters.push(`%${search}%`);
+            parameters.push(`%${search.replace(/-/g, ' ').trim() || ' '}%`);
         } else {
             query += 'ORDER BY laptops.rating DESC;';
         }

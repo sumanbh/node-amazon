@@ -15,6 +15,7 @@ a {
     position: absolute;
     left: 180px;
     width: calc(100% - 520px);
+    padding-right: 40px;
     &:focus {
         outline: none;
         border-color: #343A40;
