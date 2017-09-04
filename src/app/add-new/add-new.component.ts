@@ -125,6 +125,10 @@ export class AddNewComponent implements OnInit {
                     this.updateErrorText();
                     this.windowRef.nativeWindow.scrollTo(0, 0);
                 });
+        } else {
+            this.errorArr.push('Image URL');
+            this.updateErrorText();
+            this.windowRef.nativeWindow.scrollTo(0, 0);
         }
     }
 }

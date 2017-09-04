@@ -67,7 +67,7 @@
             <div class="col-md-10 col-12 tab-pane fade show active" id="products" role="tabpanel">
                 <div class="center-block text-center row is-flex">
                     <div *ngIf="loading" class="loader"></div>
-                    <div class="no-results" *ngIf="!searchResult">There are no results that match your search filter. Please try something else.</div>
+                    <div class="no-results" *ngIf="!searchResult">There are no results that match your search. Please try something else.</div>
                     <div [ngClass]="{ 'hidden' : loading}" class="col-xl-3 col-lg-4 col-md-6 col-12 big-display boxception" *ngFor="let item of data | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }">
                         <div class="image-container">
                             <a [routerLink]="['/product', item.id]" class="main-content-name"><img class="laptop-image" [src]="item.img"></a>

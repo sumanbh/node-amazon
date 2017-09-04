@@ -11,6 +11,34 @@ a {
     cursor: pointer !important;
 }
 
+#search-bar {
+    position: absolute;
+    left: 180px;
+    width: calc(100% - 520px);
+    &:focus {
+        outline: none;
+        border-color: #343A40;
+    }
+}
+
+#search-button {
+    position: absolute;
+    right: 330px;
+    width: 45px;
+    background: #FEBD69;
+    border: none;
+    height: 36px;
+    border-radius: 0px 2px 2px 0px;
+    padding: 0px;
+    &:hover {
+        background: darken(#FEBD69, 8%);
+    }
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
 #add-laptop {
     position: absolute;
     right: 25px;
@@ -22,6 +50,31 @@ a {
     padding: 5px;
     &:hover {
         opacity: 1;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    #search-bar {
+        width: calc(100% - 420px);
+    }
+    #search-button {
+        right: 230px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #search-bar {
+        border: none;
+        width: calc(100% - 40px);
+        left: 15px;
+        top: 62px;
+    }
+    #search-button {
+        right: 15px;
+        top: 62px;
+    }
+    #add-laptop {
+        display: none !important;
     }
 }
 

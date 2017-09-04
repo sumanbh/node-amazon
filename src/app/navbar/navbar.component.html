@@ -1,5 +1,9 @@
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand nav-name" [routerLink]="['/']">suman.io</a>
+    <input [(ngModel)]="searchString" (keyup.enter)="submit()" id="search-bar" class="form-control" type="text" placeholder="Search" aria-label="Search">
+    <button id="search-button" class="btn" type="submit" (click)="submit()">
+        <img src="../../assets/images/search.svg" alt="Search">
+    </button>
     <a *ngIf="hideLogin" class="dropdown user-welcome">
     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}<span class="caret"></span></a>
     <div class="dropdown-menu">
@@ -19,7 +23,7 @@
     </a>
     </a>
     <a *ngIf="!hideLogin" id="login-io" href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-    <a *ngIf="displayLink" id="add-laptop" [routerLink]="['/laptop/new']">New Laptop</a>
+    <a *ngIf="displayLink" id="add-laptop" [routerLink]="['/laptop/new']">Add Laptop</a>
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="loginmodal-container">

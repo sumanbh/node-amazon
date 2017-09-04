@@ -22,6 +22,10 @@ ng2-slim-loading-bar {
     top: 0px;
 }
 
+.breadcrumb {
+    min-height: 48px;
+}
+
 .loginerr {
   font-size: 0.8rem;
 }
@@ -93,5 +97,13 @@ ng2-slim-loading-bar {
     100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .breadcrumb {
+        li {
+            display: none !important;
+        }
     }
 }

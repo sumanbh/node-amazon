@@ -17,10 +17,12 @@ const routes = {
         let ram = [];
         let min = 0;
         let max = 20000;
+        let search = '';
 
         // get min and max if they exist
         if (req.query.min) min = parseInt(req.query.min, 10) || 0;
         if (req.query.max) max = parseInt(req.query.max, 10) || 20000;
+
         // get rest of the filter variables
         list.forEach((value) => {
             switch (value) {
@@ -49,11 +51,18 @@ const routes = {
                     storage = keys.filter(key => obj[value][key]);
                     break;
                 }
+                case 'search': {
+                    const searchTerm = obj[value];
+                    if (searchTerm) {
+                        search = `${searchTerm}`.toLowerCase();
+                    }
+                    break;
+                }
                 default:
                 /* do nothing */
             }
         });
-        const query = `
+        let query = `
             SELECT laptops.id, laptops.img, laptops.price, laptops.rating, laptops.name FROM laptops
             JOIN brand ON laptops.brand_id = brand.id
             JOIN os ON laptops.os_id = os.id
@@ -66,9 +75,19 @@ const routes = {
             AND ($5 = '' OR LOWER(storage_type.name) = ANY(STRING_TO_ARRAY(LOWER($5), ',')))
             AND laptops.price >= ($6) 
             AND laptops.price < ($7)
-            ORDER BY laptops.rating DESC;
             `;
-        const result = await pool.query(query, [brands.join(','), os.join(','), ram.join(','), processor.join(','), storage.join(','), min, max]);
+        const parameters = [brands.join(','), os.join(','), ram.join(','), processor.join(','), storage.join(','), min, max];
+
+        if (search) {
+            query += `AND LOWER(laptops.name) LIKE $8
+                    ORDER BY laptops.rating DESC;
+                    `;
+            parameters.push(`%${search}%`);
+        } else {
+            query += 'ORDER BY laptops.rating DESC;';
+        }
+
+        const result = await pool.query(query, parameters);
         res.status(200).json({
             total: result.rowCount,
             data: result.rows.splice(offset, limit), // pagination

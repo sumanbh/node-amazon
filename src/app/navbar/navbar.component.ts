@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NavService } from '../shared/nav.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
     selector: 'app-nav-bar',
@@ -20,8 +23,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     routeSubscription: Subscription;
     loginState: boolean;
     displayLink: boolean;
+    searchString: string;
+    searchSubject: Subject<string> = new Subject();
+    routeParam: any;
 
     constructor(
+        private router: Router,
+        private route: ActivatedRoute,
         private userService: UserService,
         private navService: NavService,
     ) {
@@ -32,6 +40,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.onLoginSuccess();
         this.cartSub();
         this.newLaptopSub();
+        this.searchLaptop();
+        this.registerSearch();
     }
 
     ngOnDestroy() {
@@ -39,6 +49,39 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
         this.cartSubscription.unsubscribe();
         this.routeSubscription.unsubscribe();
+        this.searchSubject.unsubscribe();
+        this.routeParam.unsubscribe();
+    }
+
+    registerSearch() {
+        this.routeParam = this.route.queryParams.subscribe((params) => {
+            if (params.search) {
+                this.searchString = params.search;
+            }
+        });
+    }
+
+    searchLaptop() {
+        this.searchSubject.debounceTime(300).subscribe(search => {
+            const searchString = search;
+            let param = {};
+            if (searchString) {
+                param = {
+                    search,
+                }
+            } else {
+                param = {
+                    refresh: true,
+                }
+            }
+            this.router.navigate([''], {
+                queryParams: param
+            });
+        });
+    }
+
+    submit() {
+        this.searchSubject.next(this.searchString || '');
     }
 
     cartSub() {

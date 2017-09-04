@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     processorOptions = this.homeService.processorOptions;
     storageOptions = this.homeService.storageOptions;
     priceOptions = this.homeService.priceOptions;
+    searchString: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -81,6 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             } else {
                 this.titleService.setTitle('Node Amazon: Laptops');
             }
+            this.searchString = queryObj.search;
             this.brand = queryObj.brand;
             this.os = queryObj.os;
             this.isPrice = `${queryObj.min ? queryObj.min : ''},${queryObj.max ? queryObj.max : ''}`;
@@ -145,6 +147,9 @@ export class HomeComponent implements OnInit, OnDestroy {
             param['min'] = `${this.minCustom}`;
             param['max'] = `${this.maxCustom}`;
         }
+        if (this.searchString) {
+            param['search'] = this.searchString;
+        }
         this.router.navigate([''], {
             queryParams: param
         });
@@ -158,8 +163,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             processor: this.processor,
             ram: this.ram,
             storage: this.storage,
+            page: this.page,
+            search: this.searchString,
+            isPrice: this.isPrice,
+            minCustom: this.minCustom,
+            maxCustom: this.maxCustom,
         };
-        this.homeService.getAllProducts(this.page, this.isPrice, this.minCustom, this.maxCustom, tempObj)
+
+        // query the database
+        this.homeService.getAllProducts(tempObj)
             .subscribe(result => {
                 this.slimLoadingBarService.complete();
                 if (result.data.length === 0) this.searchResult = false;

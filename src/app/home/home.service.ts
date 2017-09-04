@@ -102,7 +102,7 @@ export class HomeService {
 
     parseQueryParams(queryObj) {
         const allFilters = {
-            brand: {}, os: {}, processor: {}, ram: {}, storage: {}, min: '', max: '',
+            brand: {}, os: {}, processor: {}, ram: {}, storage: {}, min: '', max: '', search: ''
         };
         const title = [];
         queryObj.keys.forEach(element => {
@@ -170,6 +170,14 @@ export class HomeService {
                     }
                     break;
                 }
+                case 'search': {
+                    const str = queryObj.params.search;
+                    if (typeof str === 'string') {
+                        title.push(str);
+                        allFilters.search = str;
+                    }
+                    break;
+                }
                 default:
                 /* do nothing */
             }
@@ -177,12 +185,12 @@ export class HomeService {
         return { queryObj: allFilters, pageTitle: title};
     }
 
-    getAllProducts(page: number, price: string, minCustom: number, maxCustom: number, obj: Object): Observable<any> {
-        let productUrl = `/api/shop/${page}?obj=${JSON.stringify(obj)}`;  // api url
-        if (this.isNumber(minCustom)) productUrl += `&min=${minCustom}`;
-        if (this.isNumber(maxCustom)) productUrl += `&max=${maxCustom}`;
-        if (!minCustom && !maxCustom && price) {
-            const value = price.split(',');
+    getAllProducts(obj: any): Observable<any> {
+        let productUrl = `/api/shop/${obj.page}?obj=${JSON.stringify(obj)}`;  // api url
+        if (this.isNumber(obj.minCustom)) productUrl += `&min=${obj.minCustom}`;
+        if (this.isNumber(obj.maxCustom)) productUrl += `&max=${obj.maxCustom}`;
+        if (!obj.minCustom && !obj.maxCustom && obj.price) {
+            const value = obj.price.split(',');
             productUrl += `&min=${value[0]}&max=${value[1]}`;
         }
         return this.http.get(productUrl)
