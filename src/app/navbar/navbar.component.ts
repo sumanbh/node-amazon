@@ -82,9 +82,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     submit(inputElement: HTMLElement) {
         this.searchSubject.next(this.searchString || '');
-        if (inputElement) {
-            inputElement.blur();
-        }
+        inputElement.blur();
     }
 
     cartSub() {
