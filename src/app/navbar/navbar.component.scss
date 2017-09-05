@@ -16,9 +16,9 @@ a {
     left: 180px;
     width: calc(100% - 520px);
     padding-right: 40px;
+    border: none;
     &:focus {
         outline: none;
-        border-color: #343A40;
     }
 }
 
@@ -42,7 +42,7 @@ a {
 
 #add-laptop {
     position: absolute;
-    right: 25px;
+    right: 18px;
     top: 63px;
     font-size: 15px;
     background: #343A40;
@@ -65,7 +65,6 @@ a {
 
 @media screen and (max-width: 767px) {
     #search-bar {
-        border: none;
         width: calc(100% - 40px);
         left: 15px;
         top: 62px;
@@ -129,7 +128,7 @@ a {
 #login-io {
     position: absolute;
     color: #ddd !important;
-    right: 30px;
+    right: 20px;
     font-size: 1.0rem;
     top: .50rem;
     padding-top: .50rem;

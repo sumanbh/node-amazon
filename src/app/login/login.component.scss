@@ -1,3 +1,9 @@
+@media screen and (min-width: 767px) {
+    .breadcrumb {
+        display: none !important;
+    }
+}
+
 .loginmodal-container {
     padding: 30px;
     max-width: 350px;
@@ -5,7 +11,7 @@
     background-color: #fff;
     margin: 0 auto;
     border-radius: 2px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
     overflow: hidden;
     margin-top: 60px;
     a {

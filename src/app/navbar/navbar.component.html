@@ -2,7 +2,7 @@
     <a class="navbar-brand nav-name" [routerLink]="['/']">suman.io</a>
     <input [(ngModel)]="searchString" #search (keyup.enter)="submit(search)" id="search-bar" class="form-control" type="text" placeholder="Search" aria-label="Search">
     <button #searchBtn id="search-button" class="btn" type="submit" (click)="submit(searchBtn)">
-        <img src="../../assets/images/search.svg" alt="Search">
+        <img src="../../assets/images/search.svg">
     </button>
     <a *ngIf="hideLogin" class="dropdown user-welcome">
     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}<span class="caret"></span></a>
