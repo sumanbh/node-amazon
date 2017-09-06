@@ -13,6 +13,7 @@ a {
 
 #search-bar {
     position: absolute;
+    top: 10px; /* firefox 55.0.3 breaks without it for reasons */
     left: 180px;
     width: calc(100% - 520px);
     padding-right: 40px;
@@ -24,6 +25,7 @@ a {
 
 #search-button {
     position: absolute;
+    top: 10px; /* firefox 55.0.3 breaks without it for reasons */
     right: 330px;
     width: 45px;
     background: #FEBD69;
