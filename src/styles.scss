@@ -22,10 +22,6 @@ ng2-slim-loading-bar {
     top: 0px;
 }
 
-.breadcrumb {
-    min-height: 48px;
-}
-
 .loginerr {
   font-size: 0.8rem;
 }
@@ -100,8 +96,14 @@ ng2-slim-loading-bar {
     }
 }
 
+.breadcrumb {
+    min-height: 48px;
+    border-radius: 0px !important;
+}
+
 @media screen and (max-width: 767px) {
     .breadcrumb {
+        background-color: #343A40 !important;
         li {
             display: none !important;
         }
