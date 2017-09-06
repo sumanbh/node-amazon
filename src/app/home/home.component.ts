@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     itemsPerPage = 24;
     data: Array<Object>;
     totalItems: number;
-    loading = true;
     isPrice = '';
     brandOptions = this.homeService.brandOptions;
     osOptions = this.homeService.osOptions;
@@ -176,7 +175,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.slimLoadingBarService.complete();
                 if (result.data.length === 0) this.searchResult = false;
                 else this.searchResult = true;
-                this.loading = false;
                 this.data = result.data;
                 this.totalItems = result.total;
             });

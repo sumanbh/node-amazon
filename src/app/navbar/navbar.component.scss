@@ -1,5 +1,8 @@
 .nav-name {
     max-width: 100px;
+    &:focus {
+        outline: none !important;
+    }
 }
 
 .dropdown-menu {
