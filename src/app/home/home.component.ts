@@ -70,7 +70,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     routeParams() {
         this.param = this.route.queryParamMap.subscribe((params) => {
+            // start the loading bar animation
             this.slimLoadingBarService.start();
+
             this.queryParams = params;
             // parses and converts back the query params to truthy checkbox values
             const results = this.homeService.parseQueryParams(this.queryParams);
@@ -105,18 +107,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     getPage(page: number, queryParam: string) {
+        // check if the user has input a custom minimum price
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
+
         // scroll to top on filter change
-        if (this.windowRef.nativeWindow.innerWidth >= 768) this.windowRef.nativeWindow.scrollTo(0, 0);
-        else {
+        this.windowRef.nativeWindow.scrollTo(0, 0);
+
+        /**
+         * On width < 768px, click on the Results tab.
+         * This is to ensure the user sees the result(s) when a filter is selected/clicked.
+         */
+        if (this.windowRef.nativeWindow.innerWidth < 768) {
             try {
                 const resultsTab = document.getElementsByClassName('nav-link')[0] as HTMLElement;
                 resultsTab.click();
-                this.windowRef.nativeWindow.scrollTo(0, 0);
             } catch (err) {
                 /* do nothing for now */
             }
         }
+
         // page is always 1 when filter is added/removed
         if (queryParam && queryParam !== '') page = 1;
 
@@ -149,13 +158,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (this.searchString) {
             param['search'] = this.searchString;
         }
+
+        // We are subscribing to route change up top
         this.router.navigate([''], {
             queryParams: param
         });
     }
 
     getResults() {
-        // collect all the checked values
+        // collect all the relevant values
         const tempObj = {
             brand: this.brand,
             os: this.os,
