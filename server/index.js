@@ -15,6 +15,7 @@ const routes = require('./routes.js');
 const insertions = require('./new-insert');
 const authentication = require('./authentication.js');
 const enforce = require('express-sslify');
+const routeCache = require('route-cache');
 
 const app = express();
 
@@ -52,8 +53,8 @@ app.use('/auth', authentication());
 
 // Api calls
 
-app.get('/api/product/:productId', routes.getProductById);
-app.get('/api/shop/:page', routes.getAllProducts);
+app.get('/api/product/:productId', routeCache.cacheSeconds(600000), routes.getProductById);
+app.get('/api/shop/:page', routeCache.cacheSeconds(10000), routes.getAllProducts);
 app.get('/api/user/cart', routes.getFromCart);
 app.get('/api/user/cart/count', routes.getCartCount);
 app.get('/api/user/checkout', routes.getCheckoutInfo);

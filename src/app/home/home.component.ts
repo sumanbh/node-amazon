@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     maxCustom: number;
     page = 1;
     itemsPerPage = 24;
-    data: Array<Object>;
+    data: Array<Object> = [];
     totalItems: number;
     isPrice = '';
     brandOptions = this.homeService.brandOptions;

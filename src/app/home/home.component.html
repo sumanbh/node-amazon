@@ -76,7 +76,7 @@
                         <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="true"></ngb-rating>
                     </div>
                 </div>
-                <div *ngIf="searchResult" class="text-center">
+                <div *ngIf="searchResult && data.length > 0" class="text-center">
                     <pagination-controls class="more-results" (pageChange)="getPage($event)" id="server">
                     </pagination-controls>
                 </div>
