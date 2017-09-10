@@ -53,8 +53,8 @@ app.use('/auth', authentication());
 
 // Api calls
 
-app.get('/api/product/:productId', routeCache.cacheSeconds(600000), routes.getProductById);
-app.get('/api/shop/:page', routeCache.cacheSeconds(10000), routes.getAllProducts);
+app.get('/api/product/:productId', routeCache.cacheSeconds(86400), routes.getProductById); // Cache 24 hours
+app.get('/api/shop/:page', routeCache.cacheSeconds(20), routes.getAllProducts); // Cache 20 seconds
 app.get('/api/user/cart', routes.getFromCart);
 app.get('/api/user/cart/count', routes.getCartCount);
 app.get('/api/user/checkout', routes.getCheckoutInfo);
