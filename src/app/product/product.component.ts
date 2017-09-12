@@ -56,13 +56,9 @@ export class ProductComponent implements OnInit, OnDestroy {
                 `${quantity} Added`,
                 `${this.product[0]['laptop_name'].substring(0, 40)}...`,
             );
-        } else this.toastService.error(
-            'Please login!',
-            'You have to be logged in before adding to cart.',
-            {
-                timeOut: 4000,
-            }
-        );
+        } else {
+            this.router.navigate(['/login'], { queryParams: { returnUrl: `/product/${this.id}` }});
+        }
     }
 
     popToastInvalid(header, subject) {

@@ -6,6 +6,11 @@ const processors = { 'Intel Core i7': 1, 'Intel Core i5': 2, 'Intel Core i3': 3,
 const brands = { Apple: 1, Microsoft: 2, HP: 3, Dell: 4, Asus: 5, Acer: 6, Samsung: 7, Lenovo: 8, Toshiba: 9 };
 const storageTypes = { SSD: 1, 'Hard Disk': 2 };
 
+/**
+ * Returns true is the URL provided is an image
+ * Checks just the extension of the URL for now
+ * @param {string} uri Image URL
+ */
 function isImage(uri) {
     // remove params
     uri = uri.split('?')[0];

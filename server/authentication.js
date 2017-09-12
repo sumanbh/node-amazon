@@ -10,16 +10,25 @@ const pool = require('./connection');
 
 const router = express.Router();
 
+/**
+ * Creates a jwt token that expires in 24 hours
+ * @param {Object} user Object that has user's name and database ID
+ */
 function createToken(user) {
     return jwt.sign(user, config.jwt.secret, { expiresIn: 60 * 60 * 24 });
 }
 
+/**
+ * Returns the number of items in the user's cart
+ * @param {Number} id User ID in the database
+ */
 function getCart(id) {
     const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
     return new Promise(async (resolve) => {
         resolve((await pool.query(query, [id])).rows[0]);
     });
 }
+
 module.exports = () => {
     router.use(passport.initialize());
 

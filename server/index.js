@@ -29,6 +29,7 @@ app.use(session({
     resave: true,
 }));
 
+// For jwt token errors
 app.use((err, req, res, next) => {
     if (err.name === 'StatusError') {
         res.send(err.status, err.message);
@@ -72,6 +73,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve('./dist/index.html'));
 });
 
+// For jwt token errors
 app.use((err, req, res, next) => { // eslint-disable-line
     if (err.name === 'UnauthorizedError') {
         res.status(401).send(err.inner);
