@@ -1,4 +1,3 @@
-const Pool = require('pg').Pool;
 const bcrypt = require('bcrypt-nodejs');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -7,9 +6,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const config = require('../config/amazon.json');
+const pool = require('./connection');
 
 const router = express.Router();
-const pool = new Pool(Object.assign({}, config.postgresql, { max: 5 }));
 
 function createToken(user) {
     return jwt.sign(user, config.jwt.secret, { expiresIn: 60 * 60 * 24 });

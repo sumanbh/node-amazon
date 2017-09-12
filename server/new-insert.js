@@ -1,7 +1,4 @@
-const Pool = require('pg').Pool;
-const config = require('../config/amazon.json');
-
-const pool = new Pool(Object.assign({}, config.postgresql, { max: 5 }));
+const pool = require('./connection');
 
 // Just for demo purpose. You should not be hard-coding IDs here
 const operatingSystems = { 'Mac OS X': 1, 'Chrome OS': 2, 'Windows 10': 3, 'Windows 8.1': 4, 'Windows 7 Home': 5 };

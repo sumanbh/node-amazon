@@ -1,8 +1,5 @@
-const Pool = require('pg').Pool;
 const format = require('pg-format');
-const config = require('../config/amazon.json');
-
-const pool = new Pool(config.postgresql);
+const pool = require('./connection');
 
 const routes = {
     getAllProducts: async (req, res) => {
