@@ -11,8 +11,8 @@ import { CheckoutService } from './checkout.service';
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    cartContent: any; // TODO
-    userInfo: any;
+    cartContent: Array<Object>;
+    userInfo: Object;
     cartTotal = '0.00';
 
     constructor(

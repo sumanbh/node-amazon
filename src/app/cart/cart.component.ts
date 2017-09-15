@@ -28,9 +28,9 @@ import { Title } from '@angular/platform-browser';
     ],
 })
 export class CartComponent implements OnInit {
-    cartContent: any;
+    cartContent = [];
     cartTotal = '0.00';
-    buttonDisabled = true;
+    buttonDisabled = false;
     isFirst = true;
     animate = 'initial';
 
@@ -58,7 +58,7 @@ export class CartComponent implements OnInit {
     getCartInfo() {
         this.cartService.getCartById()
             .subscribe(response => {
-                // initial load should be asap
+                // initial load should be instant
                 if (this.isFirst) {
                     this.cartContent = response.data;
                     this.isFirst = false;

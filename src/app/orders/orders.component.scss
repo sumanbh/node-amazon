@@ -82,27 +82,36 @@ a {
     left: initial;
 }
 
-@media (max-width: 767px) {
-    .total-container {
-        width: 25%;
-    }
+@media (max-width: 900px) {
     .name-container {
         text-align: center;
         max-width: 100%;
+        flex: 0 0 100%;
     }
     .image-container {
         max-width: 100%;
         text-align: center;
-    }
-    .image-container img {
-        max-width: 100px;
+        img {
+            max-width: 100px;
+        }
+        flex: 0 0 100%;
     }
     .price-container {
+        max-width: 50%;
         margin-top: 5px;
         text-align: center;
+        flex: 0 0 50%;
     }
     .quantity-container {
+        max-width: 50%;
         margin-top: 5px;
         text-align: center;
+        flex: 0 0 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .total-container {
+        width: 25%;
     }
 }

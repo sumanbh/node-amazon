@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     displayLink: boolean;
     searchString: string;
     searchSubject: Subject<string> = new Subject();
-    routeParam: any;
+    routeParam: Subscription;
 
     constructor(
         private router: Router,

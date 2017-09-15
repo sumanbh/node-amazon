@@ -95,12 +95,13 @@
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     padding: 14px 18px 14px;
-}
-
-.product-cartbox>.quantity-container>.form-control {
-    display: initial;
-    width: 50px;
-    padding: 5px;
+    .quantity-container {
+        .form-control {
+            display: initial;
+            width: 50px;
+            padding: 5px;
+        }
+    }
 }
 
 .current-total {
@@ -113,15 +114,14 @@
     width: 100%;
     text-align: center;
     margin-top: 10px;
-}
-
-.cart-container>.btn {
-    cursor: pointer !important;
-    height: 42px;
-    font-size: 14px;
-    width: 100%;
-    background: -webkit-linear-gradient(top, #f7dfa5, #f0c14b);
-    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+    .btn {
+        cursor: pointer !important;
+        height: 42px;
+        font-size: 14px;
+        width: 100%;
+        background: -webkit-linear-gradient(top, #f7dfa5, #f0c14b);
+        background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+    }
 }
 
 .compare-title {

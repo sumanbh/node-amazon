@@ -36,7 +36,7 @@
                 <div class="checkout-subtotal">
                     <span>Subtotal: </span><span class="cart-product-price">${{cartTotal}}</span>
                 </div>
-                <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="buttonDisabled">Proceed to Checkout</button>
+                <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="buttonDisabled || cartContent.length === 0">Proceed to Checkout</button>
             </div>
         </div>
     </div>
