@@ -27,6 +27,7 @@
     margin: auto;
     label {
         cursor: pointer;
+        width: calc(100% - 20px);
     }
 }
 
@@ -131,17 +132,21 @@
 
 .price-custom {
     width: 50px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    border: none;
+    border-bottom: 2px solid rgba(17, 17, 17, 0.6);
+    &:focus {
+        outline: none;
+    }
 }
 
 #custom-label {
     cursor: pointer;
     border: 1px solid #ddd;
-    border-radius: 100%;
-    padding-left: 2px;
-    padding-right: 2px;
+    border-radius: 40%;
+    padding-left: 4px;
+    padding-right: 4px;
     font-weight: 400;
+    background: #F7F7F7;
 }
 
 #custom-container {
@@ -192,23 +197,27 @@
         display: none;
     }
     .filters {
-        border-radius: .4rem;
-        border: .1rem #ddd solid;
-        font-size: 18px;
-        padding: 1.3rem 3.8rem 1.2rem 1.7rem;
-        margin-top: -.15rem;
+        border: 1px #ddd solid;
+        font-size: 16px;
+        padding: .5rem 2rem .5rem 1rem;
+        margin-top: -1px;
+        &:nth-last-child(1) {
+            margin-bottom: 10px;
+        }
     }
     .nav {
         margin-top: -5px;
     }
     .price-custom {
-        max-width: 100px;
+        width: 60px;
+    }
+    #custom-label {
+        margin-left: 5px;
     }
     #custom-container {
-        font-size: 14px;
-        border-radius: .4rem;
-        border: .1rem #ddd solid;
-        padding: 1.3rem 3.8rem 1.2rem 1.7rem;
-        margin-top: -.15rem;
+        font-size: 15px;
+        border: 1px #ddd solid;
+        padding: 1rem 1rem 0.5rem 1rem;
+        margin-top: -1px;
     }
 }
