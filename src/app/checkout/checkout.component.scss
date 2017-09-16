@@ -150,6 +150,12 @@
 }
 
 @media (max-width: 767px) {
+    .checkout-elements {
+        width: inherit !important;
+    }
+    .checkout-divider {
+        width: inherit !important;
+    }
     .orders-container .row .col-md-10 {
         max-width: 100%;
         -webkit-box-flex: 0;
@@ -189,6 +195,15 @@
     }
     .checkout-container {
         margin-top: 5px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .checkout-elements {
+        width: calc(100vw - 45px);
+    }
+    .checkout-divider {
+        width: calc(100vw - 45px);
     }
 }
 

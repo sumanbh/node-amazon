@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
 import { Title } from '@angular/platform-browser';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'app-orders',
@@ -18,6 +19,7 @@ export class OrdersComponent implements OnInit {
         private ordersService: OrdersService,
         private router: Router,
         private titleService: Title,
+        private slimLoadingBarService: SlimLoadingBarService,
     ) { }
 
     ngOnInit() {
@@ -45,8 +47,12 @@ export class OrdersComponent implements OnInit {
     }
 
     getOrdersInfo() {
+        // start the loading bar animation
+        this.slimLoadingBarService.start();
+
         this.ordersService.getOrdersById()
             .subscribe(response => {
+                this.slimLoadingBarService.complete();
                 if (response.length === 0) this.noResults = true;
                 this.ordersContent = this.transformArr(response).reduce((result, item) => {
                     const key = Object.keys(item)[0];

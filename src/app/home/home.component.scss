@@ -7,6 +7,18 @@
         display: flex;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+        [class*='col-'] {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            border: 1px solid #eee;
+            margin-left: -1px;
+            /*  safari seems to break first row without it*/
+        }
     }
 }
 
@@ -41,19 +53,6 @@
     color: #0275d8;
     cursor: pointer;
     padding: 5px 5px 5px 0px;
-}
-
-.row.is-flex>[class*='col-'] {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    border: 1px solid #eee;
-    margin-left: -1px;
-    /*  safari seems to break first row without it*/
 }
 
 .boxception {

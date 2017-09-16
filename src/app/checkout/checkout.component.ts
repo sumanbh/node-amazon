@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { CheckoutService } from './checkout.service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'app-checkout',
@@ -11,7 +12,7 @@ import { CheckoutService } from './checkout.service';
     templateUrl: 'checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-    cartContent: Array<Object>;
+    cartContent = [];
     userInfo: Object;
     cartTotal = '0.00';
 
@@ -19,6 +20,7 @@ export class CheckoutComponent implements OnInit {
         private checkoutService: CheckoutService,
         private router: Router,
         private titleService: Title,
+        private slimLoadingBarService: SlimLoadingBarService,
     ) { }
 
     ngOnInit() {
@@ -27,8 +29,13 @@ export class CheckoutComponent implements OnInit {
     }
 
     getCartInfo() {
+        // start the loading bar animation
+        this.slimLoadingBarService.start();
+
+        // get all the items on cart for the user
         this.checkoutService.getCartById()
             .subscribe(response => {
+                this.slimLoadingBarService.complete();
                 this.userInfo = response.userInfo;
                 if (!this.userInfo) this.router.navigate(['login']);
                 this.cartContent = response.data;

@@ -7,6 +7,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
 import { WindowRef } from '../shared/window';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'app-product',
@@ -15,7 +16,7 @@ import { WindowRef } from '../shared/window';
     styleUrls: ['product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
-    product: Array<Object>;
+    product = [];
     similar: Array<Object>;
     param: any;
     id: any;
@@ -37,14 +38,20 @@ export class ProductComponent implements OnInit, OnDestroy {
         private toastService: NotificationsService,
         private titleService: Title,
         private windowRef: WindowRef,
+        private slimLoadingBarService: SlimLoadingBarService,
     ) {
         config.max = 5;
         config.readonly = true;
     }
 
     ngOnInit() {
+        // subscribe to route to get product ID
         this.param = this.route.params.subscribe(params => {
-            this.windowRef.nativeWindow.scrollTo(0, 0);    // browser scrolls to top when state changes
+            // start the loading bar animation
+            this.slimLoadingBarService.start();
+
+            // browser scrolls to top when state changes
+            this.windowRef.nativeWindow.scrollTo(0, 0);
             this.id = params['id'];
             this.getById(this.id);
         });
@@ -57,7 +64,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 `${this.product[0]['laptop_name'].substring(0, 40)}...`,
             );
         } else {
-            this.router.navigate(['/login'], { queryParams: { returnUrl: `/product/${this.id}` }});
+            this.router.navigate(['/login'], { queryParams: { returnUrl: `/product/${this.id}` } });
         }
     }
 
@@ -74,6 +81,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     getById(id: any) {
         this.productService.getProductById(id)
             .subscribe(response => {
+                this.slimLoadingBarService.complete();
                 this.currentQuantity = 1;
                 this.product = response.product;
                 this.similar = response.similar;

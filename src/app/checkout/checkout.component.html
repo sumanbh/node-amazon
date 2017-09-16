@@ -1,7 +1,8 @@
+<ng2-slim-loading-bar [color]="'#528bf5'" [height]="'3px'"></ng2-slim-loading-bar>
 <ol class="breadcrumb">
     <li class="breadcrumb-item active"></li>
 </ol>
-<div class="orders-container col-lg-11 col-12 ml-auto mr-auto">
+<div class="orders-container">
     <div class="row">
         <div class="col-md-10 col-12">
             <h2 class="cart-title text-center"> Checkout</h2>
@@ -34,7 +35,7 @@
                                     <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip" max="99999" placeholder="Zip"
                                         required>
                                 </div>
-                                <input type="submit" id="submit-form" hidden />
+                                <input type="submit" id="submit-form" hidden [disabled]="cartContent.length === 0" />
                             </form>
 
                         </div>
@@ -52,11 +53,11 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr class="checkout-divider" *ngIf="cartContent.length > 0">
 
-            <h2 class="cart-title text-center">Review Items</h2>
-            <hr>
-            <div class="row" *ngFor="let item of cartContent">
+            <h2 class="cart-title text-center" *ngIf="cartContent.length > 0">Review Items</h2>
+            <hr class="checkout-divider" *ngIf="cartContent.length > 0">
+            <div class="row checkout-elements" *ngFor="let item of cartContent">
                 <div class="col-12">
                     <div class="row is-flex">
                         <div class="col-md-2 col-4 image-container">

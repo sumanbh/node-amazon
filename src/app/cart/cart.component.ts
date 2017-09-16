@@ -4,6 +4,7 @@ import { CartService } from './cart.service';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Title } from '@angular/platform-browser';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'app-cart',
@@ -38,6 +39,7 @@ export class CartComponent implements OnInit {
         private cartService: CartService,
         private router: Router,
         private titleService: Title,
+        private slimLoadingBarService: SlimLoadingBarService,
     ) { }
 
     ngOnInit() {
@@ -56,8 +58,12 @@ export class CartComponent implements OnInit {
     }
 
     getCartInfo() {
+        // start the loading bar animation
+        this.slimLoadingBarService.start();
+
         this.cartService.getCartById()
             .subscribe(response => {
+                this.slimLoadingBarService.complete();
                 // initial load should be instant
                 if (this.isFirst) {
                     this.cartContent = response.data;
