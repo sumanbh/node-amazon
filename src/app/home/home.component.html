@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div *ngIf="searchResult && data.length > 0" class="text-center">
-                    <pagination-controls class="more-results" (pageChange)="getPage($event)" id="server">
+                    <pagination-controls (pageChange)="getPage($event)" id="server">
                     </pagination-controls>
                 </div>
             </div>
