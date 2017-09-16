@@ -36,10 +36,10 @@
                         <label [for]="item.name"> {{item.name}}</label>
                     </div>
                     <a id="allprices" *ngIf="isPrice" (click)="isPrice = ''" (click)="getPage(page, 'price')">Back to all results</a>
-                    <div id="custom-container">
-                        $ <input [(ngModel)]="minCustom" class="price-custom" type="text" id="low-price" name="min" maxlength="9"
-                            placeholder="Min"> to $ <input [(ngModel)]="maxCustom" class="price-custom" type="text" value=""
-                            id="high-price" name="max" maxlength="7" placeholder="Max">
+                    <div id="custom-container">$
+                        <input [(ngModel)]="minCustom" class="price-custom" type="number" id="low-price" name="min" step="50" min="1" max="100000" placeholder="Min"> 
+                        to $
+                        <input [(ngModel)]="maxCustom" class="price-custom" type="number" value="" id="high-price" name="max" step="50" min="1" max="100000" placeholder="Max">
                         <label id="custom-label" (click)="getPage(page, 'customPrice')">Go</label>
                     </div>
 
