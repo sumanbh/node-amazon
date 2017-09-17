@@ -23,11 +23,12 @@
 }
 
 .filters {
-    padding-top: 10px;
-    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    cursor: pointer;
     label {
         cursor: pointer;
-        width: calc(100% - 20px);
     }
 }
 
@@ -190,7 +191,7 @@
         border-right: none;
         .filter-header {
             font-size: 1.5rem;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     }
     .selection-header {
@@ -200,7 +201,7 @@
         border: 1px #ddd solid;
         font-size: 16px;
         padding: .5rem 2rem .5rem 1rem;
-        margin-top: -1px;
+        margin-top: -6px;
         &:nth-last-child(1) {
             margin-bottom: 10px;
         }
@@ -218,6 +219,6 @@
         font-size: 15px;
         border: 1px #ddd solid;
         padding: 1rem 1rem 0.5rem 1rem;
-        margin-top: -1px;
+        margin-top: -6px;
     }
 }
