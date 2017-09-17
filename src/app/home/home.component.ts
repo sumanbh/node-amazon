@@ -175,7 +175,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             storage: this.storage,
             page: this.page,
             search: this.searchString,
-            isPrice: this.isPrice,
+            price: this.isPrice,
             minCustom: this.minCustom,
             maxCustom: this.maxCustom,
         };
