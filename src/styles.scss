@@ -26,25 +26,6 @@ ng2-slim-loading-bar {
     padding-left: 0px !important;
 }
 
-.nav-tabs {
-    border: none !important;
-    .nav-link {
-        border: none !important;
-        color: rgba(17, 17, 17, 0.6) !important;
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        &.active {
-            color: rgb(17, 17, 17) !important;
-            border-bottom: 3px solid rgba(17, 17, 17, 0.6) !important;
-        }
-    }
-    .nav-item {
-        &:nth-child(1) {
-            margin-left: 1rem !important;
-        }
-    }
-}
-
 .loginerr {
     font-size: 0.8rem;
 }

@@ -4,15 +4,20 @@
     <li class="breadcrumb-item active">Laptops</li>
 </ol>
 <div class="shop-container">
-    <ul class="nav nav-tabs d-md-none">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" role="tab" href="#products">RESULTS</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" role="tab" href="#filter">FILTERS</a>
-        </li>
-    </ul>
-
+    <div class="mobile-filter">
+        <ul class="nav nav-tabs d-md-none">
+            <li class="nav-item">
+                <a id="back-btn" data-toggle="tab" role="tab" href="#products" [hidden]="showFilter" (click)="showFilter = !showFilter">
+                    <img src="../../assets/images/arrow_left.svg"> BACK
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="filter-btn" data-toggle="tab" role="tab" href="#filter" [hidden]="!showFilter" (click)="showFilter = !showFilter">
+                    FILTERS  <img src="../../assets/images/arrow_right.svg">
+                </a>
+            </li>
+        </ul>
+    </div>
     <div class="row">
         <div class="tab-content">
             <div class="col-md-2 tab-pane fade" id='filter' role="tabpanel">

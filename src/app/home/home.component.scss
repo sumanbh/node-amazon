@@ -22,6 +22,33 @@
     }
 }
 
+.mobile-filter {
+    .nav-tabs {
+        border: none !important;
+    }
+    #back-btn {
+        margin-left: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        color: rgb(17, 17, 17);
+        img {
+            margin-right: -5px;
+            padding-bottom: 2px;
+        }
+    }
+    #filter-btn {
+        position: absolute;
+        right: 8px;
+        color: rgb(17, 17, 17);
+        font-size: 14px;
+        font-weight: 500;
+        img {
+            margin-left: -5px;
+            padding-bottom: 2px;
+        }
+    }
+}
+
 .filters {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -174,6 +201,9 @@
 }
 
 @media (max-width: 767px) {
+    .mobile-filter {
+        height: 30px !important;
+    }
     .tab-content {
         min-width: 100%;
     }

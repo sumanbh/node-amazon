@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     storageOptions = this.homeService.storageOptions;
     priceOptions = this.homeService.priceOptions;
     searchString: string;
+    showFilter = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -119,7 +120,7 @@ export class HomeComponent implements OnInit, OnDestroy {
          */
         if (this.windowRef.nativeWindow.innerWidth < 768) {
             try {
-                const resultsTab = document.getElementsByClassName('nav-link')[0] as HTMLElement;
+                const resultsTab = document.getElementById('back-btn') as HTMLElement;
                 resultsTab.click();
             } catch (err) {
                 /* do nothing for now */

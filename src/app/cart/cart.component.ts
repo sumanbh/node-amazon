@@ -10,7 +10,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
     selector: 'app-cart',
     providers: [CartService],
     templateUrl: 'cart.component.html',
-    styleUrls: ['cart.component.css'],
+    styleUrls: ['cart.component.scss'],
     animations: [
         trigger('signal', [
             state('void',
