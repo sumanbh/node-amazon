@@ -141,8 +141,7 @@
 }
 
 .table>tbody>tr>td {
-    position: relative;
-    /*otherwise ngb-rating breaks responsive table on safari (it uses position absolute)*/
+    position: relative; /* ngb-rating breaks responsive table on safari (it uses position absolute) without it*/
 }
 
 .table>tbody>tr>td,

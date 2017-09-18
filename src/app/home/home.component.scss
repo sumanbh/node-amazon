@@ -204,6 +204,11 @@
     .mobile-filter {
         height: 30px !important;
     }
+    label {
+        input {
+            margin-right: 10px;
+        }
+    }
     .tab-content {
         min-width: 100%;
     }
