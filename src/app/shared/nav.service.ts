@@ -3,15 +3,17 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class NavService {
-    // Observable source
+    // Observable sources
     private navLoginSource = new BehaviorSubject<boolean>(false);
     private navCartSource = new BehaviorSubject<number>(0);
     private routeNewLaptop = new BehaviorSubject<boolean>(false);
-    // Observable stream
+
+    // Observable streams
     navLogin$ = this.navLoginSource.asObservable();
     navCart$ = this.navCartSource.asObservable();
     routeNew$ = this.routeNewLaptop.asObservable();
-    // service command
+
+    // service commands
     changeNav(isTrue) {
         this.navLoginSource.next(isTrue);
     }

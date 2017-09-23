@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit, OnDestroy {
          * On width < 768px, click on the Results tab.
          * This is to ensure the user sees the result(s) when a filter is selected/clicked.
          */
-        if (this.windowRef.nativeWindow.innerWidth < 768) {
+        if (this.windowRef.nativeWindow.innerWidth < 768 && !this.showFilter) {
             try {
                 const resultsTab = document.getElementById('back-btn') as HTMLElement;
                 resultsTab.click();

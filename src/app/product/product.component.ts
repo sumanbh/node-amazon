@@ -50,8 +50,11 @@ export class ProductComponent implements OnInit, OnDestroy {
             // start the loading bar animation
             this.slimLoadingBarService.start();
 
-            // browser scrolls to top when state changes
-            this.windowRef.nativeWindow.scrollTo(0, 0);
+            if (typeof window !== 'undefined') {
+                // browser scrolls to top when route param changes
+                this.windowRef.nativeWindow.scrollTo(0, 0);
+            };
+
             this.id = params['id'];
             this.getById(this.id);
         });

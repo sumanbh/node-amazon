@@ -1,4 +1,4 @@
-const format = require('pg-format');
+const format = require('./pg-format/index');
 const pool = require('./connection');
 
 const routes = {
@@ -107,7 +107,7 @@ const routes = {
             `;
         let mainProduct = (await pool.query(query, [id]));
         // if no result send 404 status
-        if (mainProduct.rowCount === 0) return res.sendStatus(404);
+        if (mainProduct.rowCount === 0) return res.status(404).json({ success: false });
         mainProduct = mainProduct.rows;
         // find similar product based on price
         const price = parseInt(mainProduct[0].price, 10);
