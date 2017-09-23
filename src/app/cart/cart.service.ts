@@ -16,7 +16,9 @@ export class CartService {
         return this.authHttp.get(productUrl)
             .map((res: Response) => res.json())
             .map(res => {
-                localStorage.setItem('id_cart', res.cart || 0);
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('id_cart', res.cart || 0);
+                }
                 this.navService.changeCart(res.cart || 0);
                 return res;
             });
@@ -29,7 +31,9 @@ export class CartService {
             .map(res => {
                 if (res.success) {
                     const cart = res.cart || 0;
-                    localStorage.setItem('id_cart', cart);
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('id_cart', cart);
+                    }
                     this.navService.changeCart(cart);
                     return true;
                 }

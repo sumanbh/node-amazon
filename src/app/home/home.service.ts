@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -33,10 +33,14 @@ export class HomeService {
     storageOptions = [
         'SSD', 'Hard Disk',
     ];
+    baseUrl: string;
 
     constructor(
-        private http: Http
-    ) { }
+        private http: Http,
+        @Inject('BASE_URL') baseUrl: string
+    ) {
+        this.baseUrl = baseUrl;
+    }
 
     serializeQueryParams(queryObj) {
         const serializedObj = {};
@@ -193,7 +197,7 @@ export class HomeService {
             const value = obj.price.split(',');
             productUrl += `&min=${value[0]}&max=${value[1]}`;
         }
-        return this.http.get(productUrl)
+        return this.http.get(this.baseUrl + productUrl)
             .map((res: Response) => res.json());
     }
 }

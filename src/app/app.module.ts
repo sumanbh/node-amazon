@@ -57,7 +57,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         AddNewComponent
     ],
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'amazon' }),
         CommonModule,
         FormsModule,
         RouterModule.forRoot(routes),
@@ -70,6 +70,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         BrowserAnimationsModule,
     ],
     providers: [
+        { provide: 'BASE_URL', useFactory: getBaseUrl },
         AuthGuard,
         {
             provide: AuthHttp,
@@ -85,4 +86,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 })
 export class AppModule {
 
+}
+
+export function getBaseUrl() {
+    return 'http://localhost:3000';
 }

@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 @Component({
     selector: 'app-page-not-found',
     templateUrl: 'pagenotfound.component.html',
-    styleUrls: ['pagenotfound.component.css']
+    styleUrls: ['pagenotfound.component.scss']
 })
 export class PageNotFoundComponent implements OnInit {
     constructor(
