@@ -35,6 +35,9 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
 
 import 'rxjs/add/operator/map';
 
+import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
+import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig({}), http, options);
 }
@@ -58,11 +61,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'amazon' }),
+        BrowserTransferStateModule,
         CommonModule,
         FormsModule,
         RouterModule.forRoot(routes),
         SlimLoadingBarModule.forRoot(),
         HttpModule,
+        TransferHttpModule,
         JsonpModule,
         NgbRatingModule,
         NgxPaginationModule,

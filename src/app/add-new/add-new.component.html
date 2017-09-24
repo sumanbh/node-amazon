@@ -14,7 +14,7 @@
                     <button type="reset" class="btn btn-primary float-right" (click)="clearAll()">Clear All</button>
                     <br>
                     <div class="alert alert-danger" role="alert" *ngIf="errorText" style="margin-top: 20px;">
-                        Error: Missing or incorrect {{errorText}}
+                        Error: {{errorText}}
                     </div>
                     <div class="alert alert-success pos-relative" role="alert" *ngIf="newLaptopId" style="margin-top: 20px;">
                         Success! You can now view your laptop by clicking <a [routerLink]="['/product', newLaptopId]">here!</a>

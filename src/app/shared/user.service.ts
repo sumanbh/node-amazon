@@ -48,11 +48,6 @@ export class UserService {
             });
     }
 
-    onLogin(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/user/status/`)
-            .map((res: Response) => res.json());
-    }
-
     logout(): Observable<any> {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
