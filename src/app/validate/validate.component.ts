@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
 import { NavService } from '../shared/nav.service';
 import { QueryParam } from './queryparam.interface';
 
@@ -14,7 +12,6 @@ export class ValidateComponent implements OnInit, OnDestroy {
     queryParams: QueryParam;
 
     constructor(
-        private http: Http,
         private route: ActivatedRoute,
         private router: Router,
         private navService: NavService,
