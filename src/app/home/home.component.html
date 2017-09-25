@@ -6,13 +6,13 @@
 <div class="shop-container">
     <div class="mobile-filter">
         <ul class="nav nav-tabs d-md-none">
-            <li class="nav-item">
-                <a id="back-btn" data-toggle="tab" role="tab" href="#products" [hidden]="showFilter" (click)="showFilter = !showFilter">
+            <li class="nav-item" [ngStyle]="showFilter ? { 'display': 'none' } : { 'display': 'list-item' }">
+                <a id="back-btn" data-toggle="tab" role="tab" href="#products" (click)="showFilter = !showFilter">
                     <img src="../../assets/images/arrow_left.svg"> BACK
                 </a>
             </li>
-            <li class="nav-item">
-                <a id="filter-btn" data-toggle="tab" role="tab" href="#filter" [hidden]="!showFilter" (click)="showFilter = !showFilter">
+            <li class="nav-item" [hidden]="!showFilter">
+                <a id="filter-btn" data-toggle="tab" role="tab" href="#filter" (click)="showFilter = !showFilter">
                     FILTERS  <img src="../../assets/images/arrow_right.svg">
                 </a>
             </li>
