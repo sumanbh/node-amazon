@@ -1,6 +1,8 @@
 <ng2-slim-loading-bar [color]="'#528bf5'" [height]="'3px'"></ng2-slim-loading-bar>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item">
+        <a [routerLink]="['/']">Home</a>
+    </li>
     <li class="breadcrumb-item active">Laptops</li>
 </ol>
 <div class="shop-container">
@@ -13,7 +15,8 @@
             </li>
             <li class="nav-item" [hidden]="!showFilter">
                 <a id="filter-btn" data-toggle="tab" role="tab" href="#filter" (click)="showFilter = !showFilter">
-                    FILTERS  <img src="../../assets/images/arrow_right.svg">
+                    FILTERS
+                    <img src="../../assets/images/arrow_right.svg">
                 </a>
             </li>
         </ul>
@@ -23,45 +26,47 @@
             <div class="col-md-2 tab-pane fade" id='filter' role="tabpanel">
                 <div>
                     <div id="selection-header">Refine by</div>
-                    <div class = "filter-header">Featured Brands</div>
+                    <div class="filter-header">Featured Brands</div>
                     <label *ngFor="let item of brandOptions" class="filters">
                         <input [id]="item" type="checkbox" [(ngModel)]="brand[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
                         <label [for]="item">{{item}}</label>
                     </label>
 
-                    <div class = "filter-header">Operating System</div>
+                    <div class="filter-header">Operating System</div>
                     <label *ngFor="let item of osOptions" class="filters">
                         <input [id]="item" type="checkbox" [(ngModel)]="os[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
                         <label [for]="item"> {{item}}</label>
                     </label>
 
-                    <div class = "filter-header">Price</div>
+                    <div class="filter-header">Price</div>
                     <label *ngFor="let item of priceOptions" class="filters">
-                        <input [id]="item.name" type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice" name="price">
+                        <input [id]="item.name" type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice"
+                            name="price">
                         <label [for]="item.name"> {{item.name}}</label>
                     </label>
                     <a id="allprices" *ngIf="isPrice" (click)="isPrice = ''" (click)="getPage(page, 'price')">Back to all results</a>
                     <div id="custom-container">$
-                        <input [(ngModel)]="minCustom" class="price-custom" type="number" id="low-price" name="min" step="50" min="1" max="100000" placeholder="Min"> 
-                        to $
-                        <input [(ngModel)]="maxCustom" class="price-custom" type="number" value="" id="high-price" name="max" step="50" min="1" max="100000" placeholder="Max">
+                        <input [(ngModel)]="minCustom" class="price-custom" type="number" id="low-price" name="min" step="50" min="1" max="100000"
+                            placeholder="Min"> to $
+                        <input [(ngModel)]="maxCustom" class="price-custom" type="number" value="" id="high-price" name="max" step="50" min="1" max="100000"
+                            placeholder="Max">
                         <label id="custom-label" (click)="getPage(page, 'customPrice')">Go</label>
                     </div>
 
-                    <div class = "filter-header">RAM Size</div>
+                    <div class="filter-header">RAM Size</div>
                     <label *ngFor="let item of ramOptions" class="filters">
                         <input [id]="item" type="checkbox" [(ngModel)]="ram[item]" (ngModelChange)="getPage(page, item)">
                         <label [for]="item"> {{item}} GB</label>
                     </label>
 
-                    <div class = "filter-header">Processor Type</div>
+                    <div class="filter-header">Processor Type</div>
 
                     <label *ngFor="let item of processorOptions" class="filters">
                         <input [id]="item" type="checkbox" [(ngModel)]="processor[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
                         <label [for]="item"> {{item}}</label>
                     </label>
 
-                    <div class = "filter-header">Hard Drive Type</div>
+                    <div class="filter-header">Hard Drive Type</div>
                     <label *ngFor="let item of storageOptions" class="filters">
                         <input [id]="item" type="checkbox" [(ngModel)]="storage[item.toLowerCase()]" (ngModelChange)="getPage(page, item)">
                         <label [for]="item"> {{item}}</label>
@@ -74,7 +79,9 @@
                     <div class="no-results" *ngIf="!searchResult">There are no results that match your search. Please try something else.</div>
                     <div class="col-xl-3 col-lg-4 col-md-6 col-12 big-display boxception" *ngFor="let item of data | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }">
                         <div class="image-container">
-                            <a [routerLink]="['/product', item.id]" class="main-content-name"><img class="laptop-image" [src]="item.img"></a>
+                            <a [routerLink]="['/product', item.id]" class="main-content-name">
+                                <img class="laptop-image" [src]="item.img">
+                            </a>
                         </div>
                         <a [routerLink]="['/product', item.id]" class="main-content-name">{{item.name | ellipsis: 91}}</a>
                         <div class="main-content-price">${{item.price}}</div>
