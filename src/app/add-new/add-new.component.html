@@ -1,6 +1,8 @@
 <div class="add-container">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/']">Home</a>
+        </li>
         <li class="breadcrumb-item active bread-name">New Laptop</li>
     </ol>
     <h2 class="text-center">Add a laptop</h2>
@@ -17,9 +19,9 @@
                         Error: {{errorText}}
                     </div>
                     <div class="alert alert-success pos-relative" role="alert" *ngIf="newLaptopId" style="margin-top: 20px;">
-                        Success! You can now view your laptop by clicking <a [routerLink]="['/product', newLaptopId]">here!</a>
-                        <svg class="svg-fixed bg-none success-green" (click)="newLaptopId = null" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            version="1.1" width="24" height="24" viewBox="0 0 24 24">
+                        Success! You can now view your laptop by clicking
+                        <a [routerLink]="['/product', newLaptopId]">here!</a>
+                        <svg class="svg-fixed bg-none success-green" (click)="newLaptopId = null" version="1.1" width="24" height="24" viewBox="0 0 24 24">
                             <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"
                             />
                         </svg>
@@ -65,8 +67,7 @@
                             <div class="pos-relative">
                                 <input [attr.data-index]="i" type="text" class="form-control form-desc" [value]="desc" [(ngModel)]="laptop.description[i]"
                                     placeholder="Enter laptop description">
-                                <svg class="svg-fixed" (click)="removeDescription(i)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    version="1.1" width="24" height="24" viewBox="0 0 24 24">
+                                <svg class="svg-fixed" (click)="removeDescription(i)" version="1.1" width="24" height="24" viewBox="0 0 24 24">
                                     <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"
                                     />
                                 </svg>
@@ -74,8 +75,7 @@
                         </div>
                         <div class="alert alert-danger pos-relative" role="alert" *ngIf="laptop.limit">
                             Limit of 8 reached!
-                            <svg class="svg-fixed bg-none" (click)="laptop.limit = !laptop.limit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                version="1.1" width="24" height="24" viewBox="0 0 24 24">
+                            <svg class="svg-fixed bg-none" (click)="laptop.limit = !laptop.limit" version="1.1" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"
                                 />
                             </svg>

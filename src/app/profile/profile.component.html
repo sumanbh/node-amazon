@@ -1,6 +1,8 @@
 <div class="profile-container">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/']">Home</a>
+        </li>
         <li class="breadcrumb-item active bread-name">Your account</li>
     </ol>
     <h2 class="text-center">Your Account</h2>
@@ -15,7 +17,7 @@
                         <a href="#" class="edit-profile" data-toggle="modal" data-target="#user-modal">Edit Profile</a>
                         <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                             <div class="modal-dialog">
-                                <div class="usermodal-container">
+                                <div class="modal-content usermodal-container">
                                     <div class="usermodal-title">Edit Profile</div>
                                     <form name="userForm" #theForm="ngForm">
                                         <div class="form-group">
@@ -47,7 +49,8 @@
                                             <label for="zip" class="control-label">Zip Code</label>
                                         </div>
                                         <div *ngIf="error" class="alert alert-danger" role="alert">Error. Please try again later.</div>
-                                        <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" data-dismiss="modal" (click)="userSubmit()" [disabled]="!theForm.form.valid">
+                                        <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" data-dismiss="modal"
+                                            (click)="userSubmit()" [disabled]="!theForm.form.valid">
                                     </form>
                                 </div>
                             </div>
@@ -58,7 +61,9 @@
                 <div class="user-info">Member since {{item.date_added | date}}</div>
                 <div class="user-info" *ngIf="addressExist">{{item.address}}</div>
                 <div class="user-info" *ngIf="addressExist">{{item.city}}, {{item.state}}, {{item.zip}}</div>
-                <div class="user-info"><a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a></div>
+                <div class="user-info">
+                    <a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a>
+                </div>
             </div>
         </div>
     </div>
