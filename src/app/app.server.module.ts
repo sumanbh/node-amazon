@@ -7,14 +7,15 @@ import { AppComponent } from './app.component';
 import { ServerTransferStateModule } from '../modules/transfer-state/server-transfer-state.module';
 import { TransferState } from '../modules/transfer-state/transfer-state';
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
+import { first, filter } from 'rxjs/operators';
 
 export function onBootstrap(appRef: ApplicationRef, transferState: TransferState) {
     return () => {
         appRef.isStable
-            .filter(stable => stable)
-            .first()
+            .pipe(
+                filter(stable => stable),
+                first()
+            )
             .subscribe(() => {
                 transferState.inject();
             });
