@@ -16,6 +16,4 @@ You need to have **Node v7.6.0** or higher and **PostgreSQL** installed.
     
 3. You can find the database schema and inserts/seed in ```config/schema```
 
-4. Build project after creating the database: ```yarn build:dynamic```
-
-5. Finally, start the server: ```yarn serve:dynamic```
+4. Run the development server after creating the database: ```yarn start```
