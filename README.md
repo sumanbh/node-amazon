@@ -14,6 +14,6 @@ You need to have **Node v7.6.0** or higher and **PostgreSQL** installed.
     
 2. Config is in: ``config/amazon.json``. Make changes there as you see fit (database host, user + password, port, OAUTH etc)
     
-3. Run the migration script: ``yarn migrate``. This creates the database (default is node_amazon_dev), and initializes the tables with the seed data found in ``scripts/schema``
+3. Run the migration script: ``yarn migrate``. This creates the database (default is node_amazon_dev), and initializes the tables with the seed data.
 
 4. We can now run the development server: ```yarn start```
