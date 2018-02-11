@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
 import { Title } from '@angular/platform-browser';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-orders',
-    providers: [OrdersService],
+    providers: [OrdersService, NgbDropdownConfig],
     templateUrl: 'orders.component.html',
     styleUrls: ['orders.component.scss']
 })

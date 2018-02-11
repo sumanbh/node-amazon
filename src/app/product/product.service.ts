@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 import { NavService } from '../shared/nav.service';
 import { TransferHttp } from '../../modules/transfer-http/transfer-http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
@@ -28,16 +29,18 @@ export class ProductService {
         const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
 
         return this.authHttp.post(`/api/user/cart/add`, cartInfo, { headers })
-            .map((res: Response) => res.json())
-            .map(res => {
-                if (res.success) {
-                    if (typeof window !== 'undefined') {
-                        localStorage.setItem('id_cart', res.cart || 0);
+            .pipe(
+                map((res: Response) => res.json()),
+                map((res: any) => {
+                    if (res.success) {
+                        if (typeof window !== 'undefined') {
+                            localStorage.setItem('id_cart', res.cart || 0);
+                        }
+                        this.navService.changeCart(res.cart || 0);
+                        return true;
                     }
-                    this.navService.changeCart(res.cart || 0);
-                    return true;
-                }
-                return false;
-            });
+                    return false;
+                })
+            );
     }
 }

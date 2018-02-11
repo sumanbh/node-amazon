@@ -23,9 +23,6 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.slim.min.js",
-        "../node_modules/popper.js/dist/umd/popper.min.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -52,9 +49,6 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.slim.min.js",
-        "../node_modules/popper.js/dist/umd/popper.min.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

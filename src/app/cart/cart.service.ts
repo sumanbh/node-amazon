@@ -3,6 +3,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 import { NavService } from '../shared/nav.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CartService {
@@ -14,30 +15,34 @@ export class CartService {
     getCartById(): Observable<any> {
         const productUrl = `/api/user/cart`;  // api url
         return this.authHttp.get(productUrl)
-            .map((res: Response) => res.json())
-            .map(res => {
-                if (typeof window !== 'undefined') {
-                    localStorage.setItem('id_cart', res.cart || 0);
-                }
-                this.navService.changeCart(res.cart || 0);
-                return res;
-            });
+            .pipe(
+                map((res: Response) => res.json()),
+                map((res: any) => {
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('id_cart', res.cart || 0);
+                    }
+                    this.navService.changeCart(res.cart || 0);
+                    return res;
+                })
+            );
     }
 
     removeFromCart(id): Observable<any> {
         const productUrl = `/api/user/cart/remove/${id}`;
         return this.authHttp.delete(productUrl)
-            .map((res: Response) => res.json())
-            .map(res => {
-                if (res.success) {
-                    const cart = res.cart || 0;
-                    if (typeof window !== 'undefined') {
-                        localStorage.setItem('id_cart', cart);
+            .pipe(
+                map((res: Response) => res.json()),
+                map((res: any) => {
+                    if (res.success) {
+                        const cart = res.cart || 0;
+                        if (typeof window !== 'undefined') {
+                            localStorage.setItem('id_cart', cart);
+                        }
+                        this.navService.changeCart(cart);
+                        return true;
                     }
-                    this.navService.changeCart(cart);
-                    return true;
-                }
-                return false;
-            });
+                    return false;
+                })
+            );
     }
 }

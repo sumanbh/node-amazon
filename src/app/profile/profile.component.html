@@ -14,47 +14,46 @@
                         <div class="username">{{item.fullname}}</div>
                     </div>
                     <div class="col-md-4 col-5">
-                        <a href="#" class="edit-profile" data-toggle="modal" data-target="#user-modal">Edit Profile</a>
-                        <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog">
-                                <div class="modal-content usermodal-container">
-                                    <div class="usermodal-title">Edit Profile</div>
-                                    <form name="userForm" #theForm="ngForm">
-                                        <div class="form-group">
-                                            <input id="givenname" #givenname="ngModel" type="name" name="given_name" placeholder="Display Name" [(ngModel)]="userForm.given_name"
-                                                maxlength="32" required>
-                                            <label for="givenname" class="control-label">Display Name</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="fullname" #fullname="ngModel" type="name" name="fullname" placeholder="Full Name" [(ngModel)]="userForm.fullname"
-                                                maxlength="50" required>
-                                            <label for="fullname" class="control-label">Full Name</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="address" #address="ngModel" type="text" name="address" placeholder="Address" [(ngModel)]="userForm.address" maxlength="32"
-                                                required>
-                                            <label for="address" class="control-label">Address</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="city" #city="ngModel" type="text" name="city" placeholder="City" [(ngModel)]="userForm.city" maxlength="32" required>
-                                            <label for="city" class="control-label">City</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="state" #state="ngModel" type="text" name="state" placeholder="State" [(ngModel)]="userForm.state" minlength="2"
-                                                maxlength="2" required>
-                                            <label for="state" class="control-label">State</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="zip" #zip="ngModel" type="number" name="zip" placeholder="Zip Code" [(ngModel)]="userForm.zip" max="99999" required>
-                                            <label for="zip" class="control-label">Zip Code</label>
-                                        </div>
-                                        <div *ngIf="error" class="alert alert-danger" role="alert">Error. Please try again later.</div>
-                                        <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" data-dismiss="modal"
-                                            (click)="userSubmit()" [disabled]="!theForm.form.valid">
-                                    </form>
-                                </div>
+                        <a class="edit-profile" (click)="open(content)">Edit Profile</a>
+
+                        <ng-template #content>
+                            <div class="modal-content usermodal-container">
+                                <div class="usermodal-title">Edit Profile</div>
+                                <form name="userForm" #theForm="ngForm">
+                                    <div class="form-group">
+                                        <input id="givenname" #givenname="ngModel" type="name" name="given_name" placeholder="Display Name" [(ngModel)]="userForm.given_name"
+                                            maxlength="32" required>
+                                        <label for="givenname" class="control-label">Display Name</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="fullname" #fullname="ngModel" type="name" name="fullname" placeholder="Full Name" [(ngModel)]="userForm.fullname"
+                                            maxlength="50" required>
+                                        <label for="fullname" class="control-label">Full Name</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="address" #address="ngModel" type="text" name="address" placeholder="Address" [(ngModel)]="userForm.address" maxlength="32"
+                                            required>
+                                        <label for="address" class="control-label">Address</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="city" #city="ngModel" type="text" name="city" placeholder="City" [(ngModel)]="userForm.city" maxlength="32" required>
+                                        <label for="city" class="control-label">City</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="state" #state="ngModel" type="text" name="state" placeholder="State" [(ngModel)]="userForm.state" minlength="2"
+                                            maxlength="2" required>
+                                        <label for="state" class="control-label">State</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="zip" #zip="ngModel" type="number" name="zip" placeholder="Zip Code" [(ngModel)]="userForm.zip" max="99999" required>
+                                        <label for="zip" class="control-label">Zip Code</label>
+                                    </div>
+                                    <div *ngIf="error" class="alert alert-danger" role="alert">Error. Please try again later.</div>
+                                    <input type="submit" id="submit-form" name="user" class="user usermodal-submit" value="Update Profile" data-dismiss="modal"
+                                        (click)="userSubmit()" [disabled]="!theForm.form.valid">
+                                </form>
                             </div>
-                        </div>
+                        </ng-template>
                     </div>
                 </div>
                 <div class="user-info">{{item.email}}</div>

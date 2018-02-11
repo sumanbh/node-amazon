@@ -1,14 +1,18 @@
 <ng2-slim-loading-bar [color]="'#528bf5'" [height]="'3px'"></ng2-slim-loading-bar>
 <div class="orders-container">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/']">Home</a>
+        </li>
         <li class="breadcrumb-item active bread-name">Your orders</li>
     </ol>
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-10 col-12">
             <h2 class="orders-title text-center">Your Orders</h2>
             <hr>
-            <h5 *ngIf="noResults" class="text-center">You have no orders yet. Pick your favorite from <a [routerLink]="['/']">here!</a></h5>
+            <h5 *ngIf="noResults" class="text-center">You have no orders yet. Pick your favorite from
+                <a [routerLink]="['/']">here!</a>
+            </h5>
             <div class="row" *ngFor="let item of ordersContent | groupby ">
                 <div class="col-12">
                     <div class="card">
@@ -34,12 +38,18 @@
                                     <div>Ship to</div>
                                 </div>
                                 <div class="child-one">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{item.fullname}}<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown-item"><b>{{item.fullname}}</b></li>
-                                        <li class="dropdown-item">{{item.address}}</li>
-                                        <li class="dropdown-item">{{item.city}}, {{item.state}}, {{item.zip}}</li>
-                                    </ul>
+                                    <div ngbDropdown class="d-inline-block">
+                                        <a ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{item.fullname}}
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul ngbDropdownMenu class="dropdown-menu">
+                                            <li class="dropdown-item">
+                                                <b>{{item.fullname}}</b>
+                                            </li>
+                                            <li class="dropdown-item">{{item.address}}</li>
+                                            <li class="dropdown-item">{{item.city}}, {{item.state}}, {{item.zip}}</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="ordernumber-container">

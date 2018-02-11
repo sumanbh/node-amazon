@@ -4,6 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { NavService } from '../shared/nav.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -33,19 +34,21 @@ export class UserService {
         const headers = new Headers({ Accept: 'application/json', 'Content-Type': 'application/json' });
 
         return this.http.post(`${this.baseUrl}/auth/login`, user, { headers: headers })
-            .map((res: Response) => res.json())
-            .map((res) => {
-                if (res.success) {
-                    if (typeof window !== 'undefined') {
-                        localStorage.setItem('token', res.token);
-                        localStorage.setItem('id_cart', res.cart || 0);
+            .pipe(
+                map((res: Response) => res.json()),
+                map((res) => {
+                    if (res.success) {
+                        if (typeof window !== 'undefined') {
+                            localStorage.setItem('token', res.token);
+                            localStorage.setItem('id_cart', res.cart || 0);
+                        }
+                        this.navService.changeNav(true);
+                        this.navService.changeCart(res.cart);
+                        return { success: true };
                     }
-                    this.navService.changeNav(true);
-                    this.navService.changeCart(res.cart);
-                    return { success: true };
-                }
-                return res;
-            });
+                    return res;
+                })
+            );
     }
 
     logout(): Observable<any> {
@@ -54,7 +57,9 @@ export class UserService {
             localStorage.removeItem('id_cart');
         }
         return this.http.get(`${this.baseUrl}/auth/logout`)
-            .map((res: Response) => res.status);
+            .pipe(
+                map((res: Response) => res.status)
+            );
     }
 
     isLoggedIn() {

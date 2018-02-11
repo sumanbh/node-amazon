@@ -6,15 +6,17 @@
         <img src="../../assets/images/search.svg">
     </button>
     <a *ngIf="hideLogin" class="dropdown user-welcome">
-        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}
-            <span class="caret"></span>
-        </a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" [routerLink]="['/user/settings']">Your Account</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" [routerLink]="['/user/orders']">Your Orders</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="sendLogout()">Sign Out</a>
+        <div ngbDropdown class="d-inline-block">
+            <a ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}
+                <span class="caret"></span>
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu">
+                <a class="dropdown-item" [routerLink]="['/user/settings']">Your Account</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" [routerLink]="['/user/orders']">Your Orders</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="sendLogout()">Sign Out</a>
+            </div>
         </div>
         <a id="user-cart" [routerLink]="['/user/cart']">
             <svg id="cart-svg" version="1.1" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00" fill="#ddd" enable-background="new 0 0 24.00 24.00"
@@ -25,32 +27,31 @@
             <div id="cart-size" style="font-size: 15px">{{cart}}</div>
         </a>
     </a>
-    <a *ngIf="!hideLogin" id="login-io" href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+    <a *ngIf="!hideLogin" id="login-io" (click)="open(content)">Login</a>
     <a *ngIf="displayLink" id="add-laptop" [routerLink]="['/laptop/new']">Add Laptop</a>
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content loginmodal-container">
-                <a href="/auth/google" class="btn btn-google">
-                    <img class="google-g" src="../../assets/images/google-g.png">
-                    <span>Log in with Google</span>
-                </a>
-                <a href="/auth/facebook" class="btn btn-facebook">
-                    <img class="facebook-f" src="../../assets/images/facebook-f.png">
-                    <span>Log in with Facebook</span>
-                </a>
-                <div class="login-seperator">
-                    <span class="login-seperator-text">or</span>
-                    <hr>
-                </div>
-                <form>
-                    <div *ngIf="!login" class="alert alert-danger loginerr" role="alert">{{loginErr}}</div>
-                    <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
-                    <!--Demo Login info-->
-                    <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
-                    <!--For demo only. All passwords are hashed with bcrypt-->
-                    <input type="submit" name="login" class="loginmodal-submit" value="Log in" (click)="localAuth(email.value, pass.value)">
-                </form>
+
+    <ng-template #content class="modal-content">
+        <div class="loginmodal-container">
+            <a href="/auth/google" class="btn btn-google">
+                <img class="google-g" src="../../assets/images/google-g.png">
+                <span>Log in with Google</span>
+            </a>
+            <a href="/auth/facebook" class="btn btn-facebook">
+                <img class="facebook-f" src="../../assets/images/facebook-f.png">
+                <span>Log in with Facebook</span>
+            </a>
+            <div class="login-seperator">
+                <span class="login-seperator-text">or</span>
+                <hr>
             </div>
+            <form>
+                <div *ngIf="!login" class="alert alert-danger loginerr" role="alert">{{loginErr}}</div>
+                <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
+                <!--Demo Login info-->
+                <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
+                <!--For demo only. All passwords are hashed with bcrypt-->
+                <input type="submit" name="login" class="loginmodal-submit" value="Log in" (click)="localAuth(email.value, pass.value)">
+            </form>
         </div>
-    </div>
+    </ng-template>
 </nav>

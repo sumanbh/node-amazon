@@ -27,6 +27,7 @@
         border: none !important;
     }
     #back-btn {
+        cursor: pointer;
         margin-left: 5px;
         font-size: 14px;
         font-weight: 500;
@@ -37,6 +38,7 @@
         }
     }
     #filter-btn {
+        cursor: pointer;
         position: absolute;
         right: 8px;
         color: rgb(17, 17, 17);
@@ -122,9 +124,6 @@
     }
     #products {
         display: block !important;
-    }
-    .fade {
-        opacity: 1 !important;
     }
 }
 

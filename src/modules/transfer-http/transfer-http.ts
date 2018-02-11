@@ -3,10 +3,8 @@ import { ConnectionBackend, Http, Request, RequestOptions, RequestOptionsArgs, R
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TransferState } from '../transfer-state/transfer-state';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/fromPromise';
+import { fromPromise } from 'rxjs/observable/fromPromise';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class TransferHttp {
@@ -90,10 +88,12 @@ export class TransferHttp {
 
         } catch (e) {
             return callback(uri, options)
-                .map(res => res.json())
-                .do(data => {
-                    this.setCache(key, data);
-                });
+                .pipe(
+                    map(res => res.json()),
+                    tap(data => {
+                        this.setCache(key, data);
+                    })
+                );
         }
     }
 
@@ -114,10 +114,12 @@ export class TransferHttp {
 
         } catch (e) {
             return callback(uri, body, options)
-                .map(res => res.json())
-                .do(data => {
-                    this.setCache(key, data);
-                });
+                .pipe(
+                    map(res => res.json()),
+                    tap(data => {
+                        this.setCache(key, data);
+                    })
+                );
         }
     }
 
@@ -128,7 +130,7 @@ export class TransferHttp {
             throw new Error();
         }
 
-        return Observable.fromPromise(Promise.resolve(data));
+        return fromPromise(Promise.resolve(data));
     }
 
     private setCache(key, data) {

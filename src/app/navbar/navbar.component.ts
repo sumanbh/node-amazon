@@ -1,15 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Injector, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NavService } from '../shared/nav.service';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/debounceTime';
+import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime } from 'rxjs/operators/debounceTime';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'app-nav-bar',
     templateUrl: 'navbar.component.html',
-    providers: [],
+    providers: [NgbDropdownConfig],
     styleUrls: ['navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
@@ -26,13 +28,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchString: string;
     searchSubject: Subject<string> = new Subject();
     routeParam: Subscription;
+    modalService;
+    modalReference;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private userService: UserService,
         private navService: NavService,
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private injector: Injector
     ) {
+        if (isPlatformBrowser(this.platformId)) {
+            this.modalService = this.injector.get(NgbModal);
+        }
     }
 
     ngOnInit() {
@@ -53,6 +62,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.routeParam.unsubscribe();
     }
 
+    open(content) {
+        this.modalReference = this.modalService.open(content);
+    }
+
     registerSearch() {
         this.routeParam = this.route.queryParams.subscribe((params) => {
             if (params.search) {
@@ -62,7 +75,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     searchLaptop() {
-        this.searchSubject.debounceTime(300).subscribe(search => {
+        this.searchSubject
+            .pipe(debounceTime(300))
+            .subscribe(search => {
             const searchString = search;
             let param = {};
             if (searchString) {
@@ -123,6 +138,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.userService.login(email, password)
                 .subscribe(response => {
                     if (response.success) {
+                        if (this.modalReference) {
+                            this.modalReference.close();
+                        }
                         this.login = true;
                         location.reload();
                     } else {

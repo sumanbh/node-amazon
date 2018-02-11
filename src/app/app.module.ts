@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap/rating/rating.module';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown/dropdown.module';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,8 +35,6 @@ import { AddNewComponent } from './add-new/add-new.component';
 
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
-
-import 'rxjs/add/operator/map';
 
 import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
@@ -71,6 +71,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         TransferHttpModule,
         JsonpModule,
         NgbRatingModule,
+        NgbDropdownModule,
+        NgbModalModule.forRoot(),
         NgxPaginationModule,
         SimpleNotificationsModule,
         BrowserAnimationsModule,
