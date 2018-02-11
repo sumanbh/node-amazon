@@ -9,8 +9,9 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http, RequestOptions, JsonpModule } from '@angular/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
+
+import { environment } from '../environments/environment';
 import { AuthGuard } from './shared/auth.guard';
 import { NavService } from './shared/nav.service';
 import { UserService } from './shared/user.service';
@@ -94,5 +95,5 @@ export class AppModule {
 }
 
 export function getBaseUrl() {
-    return 'http://localhost:3000';
+    return environment.API_URL;
 }
