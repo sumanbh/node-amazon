@@ -3,7 +3,6 @@ import { Headers, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
-import { WindowRef } from '../shared/window';
 import 'rxjs/add/operator/toPromise';
 
 @Component({
@@ -42,7 +41,6 @@ export class AddNewComponent implements OnInit {
         private authHttp: AuthHttp,
         private ratingConfig: NgbRatingConfig,
         private titleService: Title,
-        private windowRef: WindowRef,
     ) {
         ratingConfig.max = 5;
         ratingConfig.readonly = false;
@@ -117,18 +115,18 @@ export class AddNewComponent implements OnInit {
                     const res = response.json();
                     this.newLaptopId = res.id;
                     this.clearAll();
-                    this.windowRef.nativeWindow.scrollTo(0, 0);
+                    window.scrollTo(0, 0);
                 })
                 .catch((err) => {
                     const error = err.json();
                     this.errorArr = error.errors;
                     this.updateErrorText();
-                    this.windowRef.nativeWindow.scrollTo(0, 0);
+                    window.scrollTo(0, 0);
                 });
         } else {
             this.errorArr.push('Image URL');
             this.updateErrorText();
-            this.windowRef.nativeWindow.scrollTo(0, 0);
+            window.scrollTo(0, 0);
         }
     }
 }

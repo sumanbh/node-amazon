@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -6,7 +7,6 @@ import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
-import { WindowRef } from '../shared/window';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
@@ -37,8 +37,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         private config: NgbRatingConfig,
         private toastService: NotificationsService,
         private titleService: Title,
-        private windowRef: WindowRef,
         private slimLoadingBarService: SlimLoadingBarService,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
         config.max = 5;
         config.readonly = true;
@@ -50,9 +50,9 @@ export class ProductComponent implements OnInit, OnDestroy {
             // start the loading bar animation
             this.slimLoadingBarService.start();
 
-            if (typeof window !== 'undefined') {
+            if (isPlatformBrowser(this.platformId)) {
                 // browser scrolls to top when route param changes
-                this.windowRef.nativeWindow.scrollTo(0, 0);
+                window.scrollTo(0, 0);
             };
 
             this.id = params['id'];
@@ -105,14 +105,14 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.productService.addToCart(id, quantity)
                 .subscribe(response => {
                     if (response) {
-                        this.windowRef.nativeWindow.scrollTo(0, 0);
+                        window.scrollTo(0, 0);
                         this.popToast(true, quantity);
                     } else {
                         this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
                     }
                 },
                 error => {
-                    this.windowRef.nativeWindow.scrollTo(0, 0);
+                    window.scrollTo(0, 0);
                     if (error) this.popToast(false, null);
                 });
         }

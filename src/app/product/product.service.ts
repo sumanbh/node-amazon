@@ -1,4 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
@@ -15,6 +16,7 @@ export class ProductService {
         private authHttp: AuthHttp,
         private navService: NavService,
         @Inject('BASE_URL') baseUrl: string,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
         this.baseUrl = baseUrl;
     }
@@ -33,7 +35,7 @@ export class ProductService {
                 map((res: Response) => res.json()),
                 map((res: any) => {
                     if (res.success) {
-                        if (typeof window !== 'undefined') {
+                        if (isPlatformBrowser(this.platformId)) {
                             localStorage.setItem('id_cart', res.cart || 0);
                         }
                         this.navService.changeCart(res.cart || 0);
