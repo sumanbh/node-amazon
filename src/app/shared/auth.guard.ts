@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router) { }
+    constructor(
+        private router: Router,
+        @Inject(PLATFORM_ID) private platformId: Object,
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (typeof window !== 'undefined' && tokenNotExpired()) {
+        if (isPlatformBrowser(this.platformId) && tokenNotExpired()) {
             return true;
         }
-        if (typeof window !== 'undefined') {
+        if (isPlatformBrowser(this.platformId)) {
             // Not logged in
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         }

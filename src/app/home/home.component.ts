@@ -14,7 +14,6 @@ import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
 import { Title } from '@angular/platform-browser';
-import { WindowRef } from '../shared/window';
 
 @Component({
     selector: 'app-home',
@@ -54,7 +53,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         private homeService: HomeService,
         private config: NgbRatingConfig,
         private titleService: Title,
-        private windowRef: WindowRef,
         private navService: NavService,
         private slimLoadingBarService: SlimLoadingBarService,
     ) {
@@ -112,18 +110,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         const isMinCustom = !!(this.minCustom || this.minCustom === 0);
 
         // scroll to top on filter change
-        this.windowRef.nativeWindow.scrollTo(0, 0);
+        window.scrollTo(0, 0);
 
-        /**
-         * On width < 768px, click on the Results tab.
-         * This is to ensure the user sees the result(s) when a filter is selected/clicked.
-         */
-        if (this.windowRef.nativeWindow.innerWidth < 768 && !this.showFilter) {
+        // On width < 768px, click on the Results tab.
+        // This is to ensure the user sees the result(s) when a filter is selected/clicked.
+        if (window.innerWidth < 768 && !this.showFilter) {
             try {
                 const resultsTab = document.getElementById('back-btn') as HTMLElement;
                 resultsTab.click();
             } catch (err) {
-                /* do nothing for now */
+                // do nothing for now
             }
         }
 

@@ -1,4 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
@@ -16,13 +17,14 @@ export class UserService {
     constructor(
         private http: Http,
         private navService: NavService,
-        @Inject('BASE_URL') baseUrl: string
+        @Inject('BASE_URL') baseUrl: string,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
         this.baseUrl = baseUrl;
     }
 
     checkLocalStorage() {
-        if (typeof window !== 'undefined' && tokenNotExpired()) {
+        if (isPlatformBrowser(this.platformId) && tokenNotExpired()) {
             this.loggedIn = true;
         } else {
             this.loggedIn = false;
@@ -38,7 +40,7 @@ export class UserService {
                 map((res: Response) => res.json()),
                 map((res) => {
                     if (res.success) {
-                        if (typeof window !== 'undefined') {
+                        if (isPlatformBrowser(this.platformId)) {
                             localStorage.setItem('token', res.token);
                             localStorage.setItem('id_cart', res.cart || 0);
                         }
@@ -52,7 +54,7 @@ export class UserService {
     }
 
     logout(): Observable<any> {
-        if (typeof window !== 'undefined') {
+        if (isPlatformBrowser(this.platformId)) {
             localStorage.removeItem('token');
             localStorage.removeItem('id_cart');
         }
@@ -64,7 +66,7 @@ export class UserService {
 
     isLoggedIn() {
         this.checkLocalStorage();
-        if (typeof window !== 'undefined' && this.loggedIn) {
+        if (isPlatformBrowser(this.platformId) && this.loggedIn) {
             const cart: Number = parseInt(localStorage.getItem('id_cart'), 10) || 0;
             this.navService.changeCart(cart);
             try {

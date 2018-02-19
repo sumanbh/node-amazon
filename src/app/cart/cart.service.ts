@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
@@ -10,6 +11,7 @@ export class CartService {
     constructor(
         public authHttp: AuthHttp,
         private navService: NavService,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) { }
 
     getCartById(): Observable<any> {
@@ -18,7 +20,7 @@ export class CartService {
             .pipe(
                 map((res: Response) => res.json()),
                 map((res: any) => {
-                    if (typeof window !== 'undefined') {
+                    if (isPlatformBrowser(this.platformId)) {
                         localStorage.setItem('id_cart', res.cart || 0);
                     }
                     this.navService.changeCart(res.cart || 0);
@@ -35,7 +37,7 @@ export class CartService {
                 map((res: any) => {
                     if (res.success) {
                         const cart = res.cart || 0;
-                        if (typeof window !== 'undefined') {
+                        if (isPlatformBrowser(this.platformId)) {
                             localStorage.setItem('id_cart', cart);
                         }
                         this.navService.changeCart(cart);

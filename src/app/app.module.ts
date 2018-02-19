@@ -17,7 +17,6 @@ import { environment } from '../environments/environment';
 import { AuthGuard } from './shared/auth.guard';
 import { NavService } from './shared/nav.service';
 import { UserService } from './shared/user.service';
-import { WindowRef } from './shared/window';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -87,7 +86,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         },
         NavService,
         UserService,
-        WindowRef,
     ],
     entryComponents: [AppComponent],
     bootstrap: [AppComponent]
