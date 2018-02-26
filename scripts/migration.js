@@ -203,7 +203,7 @@ async function createTables() {
         console.log(chalk.green('Process complete with no errors.'));
         process.exit(0);
     } catch (err) {
-        chalk.red(err);
+        console.log(chalk.red(err));
     }
 }
 
