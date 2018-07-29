@@ -3,7 +3,6 @@ import { Headers, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
-import 'rxjs/add/operator/toPromise';
 
 @Component({
     selector: 'app-add-new',

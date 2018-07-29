@@ -33,7 +33,7 @@ a {
     width: 45px;
     background: #FEBD69;
     border: none;
-    height: 36px;
+    height: 38px;
     border-radius: 0px 4px 4px 0px;
     padding: 0px;
     &:hover {
@@ -86,12 +86,8 @@ a {
 .user-welcome {
     position: absolute;
     right: 15px;
-    height: 50px;
-    top: .40rem;
-    padding-top: .30rem;
     padding-right: 0px;
     font-size: 1.0rem;
-    line-height: 20px;
     a {
         color: #ddd;
         &:hover {
@@ -105,7 +101,7 @@ a {
 }
 
 #user-cart {
-    margin-left: 2px;
+    margin-left: 5px;
     &:hover {
         path {
             fill: #fff;
@@ -113,7 +109,8 @@ a {
     }
     #cart-svg {
         position: relative;
-        top: 0.2rem;
+        top: -0.3rem;
+        margin-right: 2px;
     }
     #cart-size {
         font-size: 15px;

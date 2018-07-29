@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-
-import { Observable } from 'rxjs/Observable';
-import { ProductService } from './product.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ProductService } from './product.service';
 
 @Component({
     selector: 'app-product',
@@ -37,7 +35,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         private config: NgbRatingConfig,
         private toastService: NotificationsService,
         private titleService: Title,
-        private slimLoadingBarService: SlimLoadingBarService,
+        private slimLoadingBarService: LoadingBarService,
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
         config.max = 5;

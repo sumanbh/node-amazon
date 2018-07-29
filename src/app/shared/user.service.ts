@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
 

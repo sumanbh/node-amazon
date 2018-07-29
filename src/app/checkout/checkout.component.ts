@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { CheckoutService } from './checkout.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
     selector: 'app-checkout',
@@ -20,7 +20,7 @@ export class CheckoutComponent implements OnInit {
         private checkoutService: CheckoutService,
         private router: Router,
         private titleService: Title,
-        private slimLoadingBarService: SlimLoadingBarService,
+        private slimLoadingBarService: LoadingBarService,
     ) { }
 
     ngOnInit() {

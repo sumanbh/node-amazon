@@ -115,3 +115,12 @@ a {
         width: 25%;
     }
 }
+
+@media (max-width: 374px) {
+    .total-container {
+        width: 100%;
+    }
+    .ordernumber-container {
+        float: left;
+    }
+}

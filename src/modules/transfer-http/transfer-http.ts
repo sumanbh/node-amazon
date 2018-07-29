@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ConnectionBackend, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Http, Request, RequestOptionsArgs, Response } from '@angular/http';
+import { Observable, from } from 'rxjs';
 import { TransferState } from '../transfer-state/transfer-state';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -130,7 +128,7 @@ export class TransferHttp {
             throw new Error();
         }
 
-        return fromPromise(Promise.resolve(data));
+        return from(Promise.resolve(data));
     }
 
     private setCache(key, data) {

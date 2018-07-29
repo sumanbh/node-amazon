@@ -88,6 +88,9 @@
 
 .product-desc {
     margin-top: 5px;
+    li {
+        list-style-position: inside;
+    }
 }
 
 .product-cartbox {
