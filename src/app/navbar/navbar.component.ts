@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, PLATFORM_ID, Injector, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../shared/user.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription, Subject } from 'rxjs';
 import { NavService } from '../shared/nav.service';
-import { Subject } from 'rxjs/Subject';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime } from 'rxjs/operators/debounceTime';
+import { debounceTime } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({

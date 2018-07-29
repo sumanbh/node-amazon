@@ -4,17 +4,13 @@ import 'reflect-metadata';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-// Express Engine
-import { ngExpressEngine } from '@nguniversal/express-engine';
 // Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
 import { renderModuleFactory } from '@angular/platform-server';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
-
-const DIST_FOLDER = join(process.cwd(), 'dist');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
 
 // Load the index.html file containing referances to your application bundle.
 const index = readFileSync(join('browser', 'index.html'), 'utf8');

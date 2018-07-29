@@ -13,6 +13,7 @@
  *
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
+import './global-shim';
 
 /***************************************************************************************************
  * BROWSER POLYFILLS

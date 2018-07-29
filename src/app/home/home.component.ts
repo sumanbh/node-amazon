@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { NavService } from '../shared/nav.service';
 
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         private config: NgbRatingConfig,
         private titleService: Title,
         private navService: NavService,
-        private slimLoadingBarService: SlimLoadingBarService,
+        private slimLoadingBarService: LoadingBarService,
     ) {
         config.max = 5;
         config.readonly = true;

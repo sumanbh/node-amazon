@@ -10,8 +10,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http, RequestOptions, JsonpModule } from '@angular/http';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
+
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { environment } from '../environments/environment';
 import { AuthGuard } from './shared/auth.guard';
@@ -65,7 +66,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         CommonModule,
         FormsModule,
         RouterModule.forRoot(routes),
-        SlimLoadingBarModule.forRoot(),
+        LoadingBarModule.forRoot(),
         HttpModule,
         TransferHttpModule,
         JsonpModule,
@@ -73,7 +74,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         NgbDropdownModule,
         NgbModalModule.forRoot(),
         NgxPaginationModule,
-        SimpleNotificationsModule,
+        SimpleNotificationsModule.forRoot(),
         BrowserAnimationsModule,
     ],
     providers: [

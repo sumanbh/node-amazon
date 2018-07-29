@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';
 import { NavService } from '../shared/nav.service';
 import { TransferHttp } from '../../modules/transfer-http/transfer-http';

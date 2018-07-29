@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
 import { Title } from '@angular/platform-browser';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -20,7 +19,7 @@ export class OrdersComponent implements OnInit {
         private ordersService: OrdersService,
         private router: Router,
         private titleService: Title,
-        private slimLoadingBarService: SlimLoadingBarService,
+        private slimLoadingBarService: LoadingBarService,
     ) { }
 
     ngOnInit() {

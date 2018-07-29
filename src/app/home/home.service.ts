@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TransferHttp } from '../../modules/transfer-http/transfer-http';
 
 @Injectable()
