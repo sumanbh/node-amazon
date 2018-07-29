@@ -9,7 +9,7 @@
     "dev-server": "node server/index.js",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
-    "build:client-and-server-bundles": "ng build --prod && ng run amazon:server",
+    "build:client-and-server-bundles": "ng build --prod && ng run amazon:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "migrate": "node scripts/migration.js"
   },
