@@ -61,7 +61,7 @@
                 <div class="user-info" *ngIf="addressExist">{{item.address}}</div>
                 <div class="user-info" *ngIf="addressExist">{{item.city}}, {{item.state}}, {{item.zip}}</div>
                 <div class="user-info">
-                    <a href="#" class="add-address" *ngIf="!addressExist" data-toggle="modal" data-target="#user-modal">Add your address</a>
+                    <button type="button" class="btn btn-link no-pad" *ngIf="!addressExist" (click)="open(content)">Add your address</button>
                 </div>
             </div>
         </div>
