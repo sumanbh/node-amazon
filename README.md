@@ -1,7 +1,7 @@
 # Node - Amazon
 [![Build Status](https://travis-ci.org/sumanbh/node-amazon.svg?branch=master)](https://travis-ci.org/sumanbh/node-amazon)
 
-Amazon lookalike with Node, and Angular v6 with server-side rendering. Demo at: https://sumanb.com
+Amazon lookalike with Node, and Angular v7 with server-side rendering. Demo at: https://sumanb.com
 
 ## Requirements
 You need to have **Node v7.6.0** or higher and **PostgreSQL** installed.
