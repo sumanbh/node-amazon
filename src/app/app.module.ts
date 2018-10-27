@@ -3,7 +3,11 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbRatingModule, NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbRatingModule,
+  NgbDropdownModule,
+  NgbModalModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,61 +42,59 @@ import { BrowserTransferStateModule } from '../modules/transfer-state/browser-tr
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-    return new AuthHttp(new AuthConfig({}), http, options);
+  return new AuthHttp(new AuthConfig({}), http, options);
 }
 
 @NgModule({
-    declarations: [
-        NavbarComponent,
-        AppComponent,
-        PageNotFoundComponent,
-        HomeComponent,
-        ProductComponent,
-        CartComponent,
-        CheckoutComponent,
-        OrdersComponent,
-        ProfileComponent,
-        GroupByPipe,
-        EllipsisPipe,
-        LoginComponent,
-        ValidateComponent,
-        AddNewComponent
-    ],
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'amazon' }),
-        BrowserTransferStateModule,
-        CommonModule,
-        FormsModule,
-        RouterModule.forRoot(routes),
-        LoadingBarModule.forRoot(),
-        HttpModule,
-        TransferHttpModule,
-        JsonpModule,
-        NgbRatingModule,
-        NgbDropdownModule,
-        NgbModalModule.forRoot(),
-        NgxPaginationModule,
-        SimpleNotificationsModule.forRoot(),
-        BrowserAnimationsModule,
-    ],
-    providers: [
-        { provide: 'BASE_URL', useFactory: getBaseUrl },
-        AuthGuard,
-        {
-            provide: AuthHttp,
-            useFactory: authHttpServiceFactory,
-            deps: [Http, RequestOptions]
-        },
-        NavService,
-        UserService,
-    ],
-    entryComponents: [AppComponent],
-    bootstrap: [AppComponent]
+  declarations: [
+    NavbarComponent,
+    AppComponent,
+    PageNotFoundComponent,
+    HomeComponent,
+    ProductComponent,
+    CartComponent,
+    CheckoutComponent,
+    OrdersComponent,
+    ProfileComponent,
+    GroupByPipe,
+    EllipsisPipe,
+    LoginComponent,
+    ValidateComponent,
+    AddNewComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'amazon' }),
+    BrowserTransferStateModule,
+    CommonModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    LoadingBarModule.forRoot(),
+    HttpModule,
+    TransferHttpModule,
+    JsonpModule,
+    NgbRatingModule,
+    NgbDropdownModule,
+    NgbModalModule.forRoot(),
+    NgxPaginationModule,
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
+  ],
+  providers: [
+    { provide: 'BASE_URL', useFactory: getBaseUrl },
+    AuthGuard,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
+    NavService,
+    UserService
+  ],
+  entryComponents: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-
-}
+export class AppModule {}
 
 export function getBaseUrl() {
-    return environment.API_URL;
+  return environment.API_URL;
 }

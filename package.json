@@ -9,14 +9,16 @@
     "dev-server": "node server/index.js",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "lint": "node_modules/eslint/bin/eslint.js --ext .js ./",
+    "lint-ts": "node_modules/tslint/bin/tslint --project tslint.json 'src/**/**.ts'",
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build --prod && ng run amazon:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
-    "migrate": "node scripts/migration.js"
+    "migrate": "node scripts/migration.js",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "CI=true npm run lint"
+      "pre-commit": "CI=true concurrently \"npm run lint\" \"npm run lint-ts\""
     }
   },
   "private": true,
@@ -72,7 +74,7 @@
     "@types/jasmine": "^2.5.51",
     "@types/node": "^8.0.30",
     "angular2-jwt": "git://github.com/sumanbh/angular2-jwt.git",
-    "codelyzer": "^4.4.2",
+    "codelyzer": "^4.5.0",
     "concurrently": "^3.5.1",
     "eslint": "5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -93,6 +95,7 @@
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "3.1.3",
     "webpack-cli": "^3.1.0"
   }
