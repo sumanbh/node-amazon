@@ -91,11 +91,10 @@ const routes = {
       data: result.rows.splice(offset, limit), // pagination
     });
   },
-  getCartCount: id =>
-    new Promise(async (resolve) => {
-      const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
-      resolve((await pool.query(query, [id])).rows[0]);
-    }),
+  getCartCount: id => new Promise(async (resolve) => {
+    const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
+    resolve((await pool.query(query, [id])).rows[0]);
+  }),
   getProductById: async (req, res) => {
     const id = parseInt(req.params.productId, 10);
     // get the main product
@@ -213,9 +212,7 @@ const routes = {
     const orderline = (await pool.query(query, [req.user.id])).rows[0].id;
     // insert the individual cart item to orders table
     const values = [];
-    cart.rows.forEach(item =>
-      values.push([orderline, item.product_id, item.product_quantity, userName, userAddress, userCity, userState, userZip]),
-    );
+    cart.rows.forEach(item => values.push([orderline, item.product_id, item.product_quantity, userName, userAddress, userCity, userState, userZip]));
     const results = [];
     // insert into orderline
     const orderlineQuery = format(
@@ -278,11 +275,10 @@ const routes = {
   },
   updateProfile: async (req, res) => {
     const givenName = req.body.given_name;
-    const fullname = req.body.fullname;
-    const address = req.body.address;
-    const city = req.body.city;
-    const state = req.body.state;
-    const zip = req.body.zip;
+    const {
+      fullname, address, city, state, zip,
+    } = req.body;
+
     if (givenName && fullname && address && city && state && zip) {
       const query = 'UPDATE customers SET given_name = $1, fullname = $2, address = $3, city = $4, state = $5, zip = $6 WHERE id = $7;';
       await pool.query(query, [givenName, fullname, address, city, state, zip, req.user.id]);

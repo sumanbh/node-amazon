@@ -9,13 +9,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const compress = require('compression');
-const config = require('../config/amazon.json');
+const enforce = require('express-sslify');
+const routeCache = require('route-cache');
 const jwtExpress = require('express-jwt');
+
+const config = require('../config/amazon.json');
 const routes = require('./routes.js');
 const insertions = require('./new-insert');
 const authentication = require('./authentication.js');
-const enforce = require('express-sslify');
-const routeCache = require('route-cache');
 
 const app = express();
 

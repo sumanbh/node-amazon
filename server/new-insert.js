@@ -1,9 +1,15 @@
 const pool = require('./connection');
 
 // Just for demo purpose. You should not be hard-coding IDs here
-const operatingSystems = { 'Mac OS X': 1, 'Chrome OS': 2, 'Windows 10': 3, 'Windows 8.1': 4, 'Windows 7 Home': 5 };
-const processors = { 'Intel Core i7': 1, 'Intel Core i5': 2, 'Intel Core i3': 3, 'Intel Core 2': 4, AMD: 5 };
-const brands = { Apple: 1, Microsoft: 2, HP: 3, Dell: 4, Asus: 5, Acer: 6, Samsung: 7, Lenovo: 8, Toshiba: 9 };
+const operatingSystems = {
+  'Mac OS X': 1, 'Chrome OS': 2, 'Windows 10': 3, 'Windows 8.1': 4, 'Windows 7 Home': 5,
+};
+const processors = {
+  'Intel Core i7': 1, 'Intel Core i5': 2, 'Intel Core i3': 3, 'Intel Core 2': 4, AMD: 5,
+};
+const brands = {
+  Apple: 1, Microsoft: 2, HP: 3, Dell: 4, Asus: 5, Acer: 6, Samsung: 7, Lenovo: 8, Toshiba: 9,
+};
 const storageTypes = { SSD: 1, 'Hard Disk': 2 };
 
 /**
@@ -12,8 +18,8 @@ const storageTypes = { SSD: 1, 'Hard Disk': 2 };
  * @param {string} uri Image URL
  */
 function isImage(uri) {
-    // remove params
-  uri = uri.split('?')[0];
+  // remove params
+  [uri] = uri.split('?');
   const parts = uri.split('.');
   const extension = parts[parts.length - 1];
   const imageTypes = ['jpg', 'jpeg', 'tiff', 'png', 'gif', 'bmp'];
@@ -25,7 +31,7 @@ function isImage(uri) {
 
 const routes = {
   newLaptop: async (req, res) => {
-    const laptop = req.body.laptop;
+    const { laptop } = req.body;
     const result = {};
     const errors = [];
     if (laptop) {
@@ -104,7 +110,7 @@ const routes = {
             break;
           }
           case 'limit': {
-                        /* do nothing */
+            /* do nothing */
             break;
           }
           default: {

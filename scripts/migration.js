@@ -7,7 +7,9 @@ const { postgresql } = require('../config/amazon.json');
  * You can change these to whatever you want
  * in the config file itself
  */
-const { user, password, host, port } = postgresql;
+const {
+  user, password, host, port,
+} = postgresql;
 const postgresConfig = {
   user,
   password,
@@ -196,7 +198,7 @@ async function createTables() {
     const insertsArray = inserts.split('--statement--');
 
     for (let idx = 0; idx < insertsArray.length; idx += 1) {
-            // eslint-disable-next-line no-await-in-loop
+      // eslint-disable-next-line no-await-in-loop
       await pool.query(insertsArray[idx]);
     }
     console.log(chalk.green('Successfully seeded the database..'));
