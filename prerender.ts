@@ -13,7 +13,7 @@ import { renderModuleFactory } from '@angular/platform-server';
 const {
   AppServerModuleNgFactory,
   LAZY_MODULE_MAP
-} = require('./dist/server/main');
+} = require('./server/main');
 
 // Load the index.html file containing referances to your application bundle.
 const index = readFileSync(join('browser', 'index.html'), 'utf8');

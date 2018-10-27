@@ -33,6 +33,7 @@ config/amazon.prod.json
 npm-debug.log
 testem.log
 /typings
+yarn-error.log
 
 # e2e
 /e2e/*.js

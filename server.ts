@@ -17,7 +17,8 @@ import * as cors from 'cors';
 enableProdMode();
 
 // Config
-const config = require('./config/amazon.json');
+const CONFIG_FOLDER = join(process.cwd(), 'config');
+const config = require(join(CONFIG_FOLDER, 'amazon.json'));
 
 // Express server
 const app = express();
@@ -44,9 +45,10 @@ const jwtCheck = jwtExpress({
   secret: config.jwt.secret
 });
 
-const routes = require('./server/routes.js');
-const insertions = require('./server/new-insert');
-const authentication = require('./server/authentication.js');
+const SERVER_FOLDER = join(process.cwd(), 'server');
+const routes = require(join(SERVER_FOLDER, 'routes.js'));
+const insertions = require(join(SERVER_FOLDER, 'new-insert'));
+const authentication = require(join(SERVER_FOLDER, 'authentication.js'));
 const PORT = process.env.PORT || 3000;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
@@ -54,7 +56,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist');
 const {
   AppServerModuleNgFactory,
   LAZY_MODULE_MAP
-} = require('./dist/server/main');
+} = require('./server/main');
 
 // Express Engine
 import { ngExpressEngine } from '@nguniversal/express-engine';
