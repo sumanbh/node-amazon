@@ -12,8 +12,12 @@
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build --prod && ng run amazon:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
-    "migrate": "node scripts/migration.js",
-    "precommit": "CI=true npm run lint"
+    "migrate": "node scripts/migration.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "CI=true npm run lint"
+    }
   },
   "private": true,
   "dependencies": {
