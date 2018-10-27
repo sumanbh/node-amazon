@@ -1,6 +1,6 @@
 // set the mode if undefined
 if (typeof process.env.NODE_ENV === 'undefined') {
-    process.env.NODE_ENV = 'development';
+  process.env.NODE_ENV = 'development';
 }
 
 const express = require('express');
@@ -9,37 +9,38 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const compress = require('compression');
-const config = require('../config/amazon.json');
+const enforce = require('express-sslify');
+const routeCache = require('route-cache');
 const jwtExpress = require('express-jwt');
+
+const config = require('../config/amazon.json');
 const routes = require('./routes.js');
 const insertions = require('./new-insert');
 const authentication = require('./authentication.js');
-const enforce = require('express-sslify');
-const routeCache = require('route-cache');
 
 const app = express();
 
 if (process.env.NODE_ENV !== 'development') {
-    app.use(enforce.HTTPS());
+  app.use(enforce.HTTPS());
 }
 
 app.use(session({
-    secret: config.session.secret,
-    saveUninitialized: false,
-    resave: true,
+  secret: config.session.secret,
+  saveUninitialized: false,
+  resave: true,
 }));
 
 // For jwt token errors
 app.use((err, req, res, next) => {
-    if (err.name === 'StatusError') {
-        res.send(err.status, err.message);
-    } else {
-        next(err);
-    }
+  if (err.name === 'StatusError') {
+    res.send(err.status, err.message);
+  } else {
+    next(err);
+  }
 });
 
 const jwtCheck = jwtExpress({
-    secret: config.jwt.secret,
+  secret: config.jwt.secret,
 });
 
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -70,16 +71,16 @@ app.post('/api/user/laptop', insertions.newLaptop);
 
 // Catch all routes
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve('./dist/index.html'));
+  res.sendFile(path.resolve('./dist/index.html'));
 });
 
 // For jwt token errors
 app.use((err, req, res, next) => { // eslint-disable-line
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).send(err.inner);
-    }
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send(err.inner);
+  }
 });
 
 app.listen(3000, () => {
-    console.log('App listening on port 3000!');
+  console.log('App listening on port 3000!');
 });

@@ -1,6 +1,8 @@
-// Connection pooling
+/**
+ * Connection Pooling
+ */
 
-const Pool = require('pg').Pool;
+const { Pool } = require('pg');
 const config = require('../config/amazon.json');
 
 // Create pool with a max of 15 connections

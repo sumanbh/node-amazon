@@ -1,73 +1,73 @@
 .row {
-    margin: 0px;
+  margin: 0px;
 }
 
 .bg-none {
-    background: none !important;
+  background: none !important;
 }
 
 .star {
-    font-size: 1.5rem;
-    color: rgba(255, 187, 29, 0.5);
+  font-size: 1.5rem;
+  color: rgba(255, 187, 29, 0.5);
 }
 
 .filled {
-    color: #EAA500;
+  color: #eaa500;
 }
 
 .success-green {
-    fill: green !important;
-    top: 12px !important;
+  fill: green !important;
+  top: 12px !important;
 }
 
 .row-margin {
-    margin-left: -15px;
-    margin-right: -15px;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 .add-container {
-    margin-bottom: 20px;
-    .cursor-pointer {
-        cursor: pointer;
-    }
+  margin-bottom: 20px;
+  .cursor-pointer {
+    cursor: pointer;
+  }
 }
 
 .laptop-image {
-    max-width: 200px;
-    height: auto;
+  max-width: 200px;
+  height: auto;
 }
 
 .inline-margin {
-    margin-left: 0px !important;
-    margin-right: 1.25rem !important;
+  margin-left: 0px !important;
+  margin-right: 1.25rem !important;
 }
 
 .laptop-size {
-    min-width: 100px;
+  min-width: 100px;
 }
 
 .btn {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .pos-relative {
-    position: relative;
+  position: relative;
 }
 
 .svg-fixed {
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 8px;
-    z-index: 10;
-    fill: red;
-    background: white;
-    fill-opacity: 0.7;
-    &:hover {
-        fill-opacity: 1;
-    }
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  z-index: 10;
+  fill: red;
+  background: white;
+  fill-opacity: 0.7;
+  &:hover {
+    fill-opacity: 1;
+  }
 }
 
 .form-desc {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }

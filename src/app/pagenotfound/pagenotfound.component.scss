@@ -1,21 +1,21 @@
 .error-container {
-    margin-top: 40px;
-    text-align: center;
+  margin-top: 40px;
+  text-align: center;
 }
 
 .main-error {
-    font-size: 36px;
-    padding: 10px;
+  font-size: 36px;
+  padding: 10px;
 }
 
 .child-error {
-    margin-top: 15px;
-    font-size: 16px;
-    padding: 10px;
+  margin-top: 15px;
+  font-size: 16px;
+  padding: 10px;
 }
 
 @media screen and (min-width: 768px) {
-    .breadcrumb {
-        display: none !important;
-    }
+  .breadcrumb {
+    display: none !important;
+  }
 }

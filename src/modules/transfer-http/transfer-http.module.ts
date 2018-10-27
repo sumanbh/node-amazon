@@ -3,8 +3,6 @@ import { Http, HttpModule } from '@angular/http';
 import { TransferHttp } from './transfer-http';
 
 @NgModule({
-    providers: [
-        TransferHttp
-    ]
+  providers: [TransferHttp]
 })
-export class TransferHttpModule { }
+export class TransferHttpModule {}

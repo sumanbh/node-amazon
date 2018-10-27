@@ -1,116 +1,116 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 
 .modal-content {
-    margin-top: 60px;
+  margin-top: 60px;
 }
 
 .simple-notification {
-    .sn-title {
-        font-size: 16px !important;
-    }
-    .sn-content {
-        font-size: 14px !important;
-    }
+  .sn-title {
+    font-size: 16px !important;
+  }
+  .sn-content {
+    font-size: 14px !important;
+  }
 }
 
 simple-notifications {
-    .simple-notification-wrapper {
-        right: 15px !important;
-        top: 60px !important;
-    }
+  .simple-notification-wrapper {
+    right: 15px !important;
+    top: 60px !important;
+  }
 }
 
 .ngx-pagination {
-    padding-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 .loginerr {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .laptop-rating {
-    text-align: left;
-    color: #EAA500;
-    font-size: 18px;
-    &:focus {
-        outline: none;
-    }
+  text-align: left;
+  color: #eaa500;
+  font-size: 18px;
+  &:focus {
+    outline: none;
+  }
 }
 
 .no-pad {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 
 .simple-notification.success {
-    background: #263238 !important;
-    .sn-progress-loader {
-        span {
-            background: #78909c !important;
-        }
+  background: #263238 !important;
+  .sn-progress-loader {
+    span {
+      background: #78909c !important;
     }
+  }
 }
 
 .table-warning {
-    background-color: #fcf8e3 !important;
+  background-color: #fcf8e3 !important;
 }
 
 .loader {
-    margin: 60px auto;
-    font-size: 10px;
-    position: relative;
-    text-indent: -9999em;
-    border-top: 1.1em solid rgba(0, 104, 187, 0.20);
-    border-right: 1.1em solid rgba(0, 104, 187, 0.20);
-    border-bottom: 1.1em solid rgba(0, 104, 187, 0.20);
-    border-left: 1.1em solid #0960A7;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(0, 104, 187, 0.2);
+  border-right: 1.1em solid rgba(0, 104, 187, 0.2);
+  border-bottom: 1.1em solid rgba(0, 104, 187, 0.2);
+  border-left: 1.1em solid #0960a7;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
 }
 
 .loader,
 .loader:after {
-    border-radius: 50%;
-    width: 10em;
-    height: 10em;
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
 }
 
 @-webkit-keyframes load8 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes load8 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 .breadcrumb {
-    min-height: 48px;
-    border-radius: 0px !important;
+  min-height: 48px;
+  border-radius: 0px !important;
 }
 
 @media screen and (max-width: 767px) {
-    .breadcrumb {
-        background-color: #343A40 !important;
-        li {
-            display: none !important;
-        }
+  .breadcrumb {
+    background-color: #343a40 !important;
+    li {
+      display: none !important;
     }
+  }
 }

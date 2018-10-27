@@ -6,16 +6,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OrdersService {
+  constructor(private authHttp: AuthHttp) {}
 
-    constructor(
-        private authHttp: AuthHttp
-    ) { }
-
-    getOrdersById(): Observable<any> {
-        const ordersUrl = `/api/user/orders`;  // api url
-        return this.authHttp.get(ordersUrl)
-            .pipe(
-                map((res: Response) => res.json())
-            );
-    }
+  getOrdersById(): Observable<any> {
+    const ordersUrl = `/api/user/orders`; // api url
+    return this.authHttp
+      .get(ordersUrl)
+      .pipe(map((res: Response) => res.json()));
+  }
 }

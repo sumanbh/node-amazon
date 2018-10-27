@@ -1,91 +1,91 @@
 <ngx-loading-bar [includeSpinner]="false" [height]="'3px'"></ngx-loading-bar>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item active"></li>
+  <li class="breadcrumb-item active"></li>
 </ol>
 <div class="orders-container">
-    <div class="row">
-        <div class="col-md-10 col-12">
-            <h2 class="cart-title text-center"> Checkout</h2>
-            <hr>
-            <div class="row">
-                <div class="col-12">
-                    <div class="row is-flex" *ngFor="let user of userInfo">
-                        <div class="col-4 ship-info">
-                            <h5 class="checkout-head">Shipping address</h5>
-                        </div>
-                        <div class="col-8">
-                            <form #form="ngForm" (ngSubmit)="checkoutConfirm(form.value)">
-                                <div class="form-group">
-                                    <input type="text" id="userName" class="form-control user-address" [(ngModel)]="user.fullname" name="fullname" placeholder="Full Name"
-                                        required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" id="userAddress" class="form-control user-address" [(ngModel)]="user.address" name="address" placeholder="Shipping Address"
-                                        required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" id="userCity" class="form-control user-address" [(ngModel)]="user.city" name="city" maxlength="32" placeholder="City"
-                                        required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" id="userState" class="form-control user-address" [(ngModel)]="user.state" name="state" minlength="2" maxlength="2"
-                                        placeholder="State" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip" max="99999" placeholder="Zip"
-                                        required>
-                                </div>
-                                <input type="submit" id="submit-form" hidden [disabled]="cartContent.length === 0" />
-                            </form>
+  <div class="row">
+    <div class="col-md-10 col-12">
+      <h2 class="cart-title text-center"> Checkout</h2>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <div class="row is-flex" *ngFor="let user of userInfo">
+            <div class="col-4 ship-info">
+              <h5 class="checkout-head">Shipping address</h5>
+            </div>
+            <div class="col-8">
+              <form #form="ngForm" (ngSubmit)="checkoutConfirm(form.value)">
+                <div class="form-group">
+                  <input type="text" id="userName" class="form-control user-address" [(ngModel)]="user.fullname" name="fullname" placeholder="Full Name"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="userAddress" class="form-control user-address" [(ngModel)]="user.address" name="address" placeholder="Shipping Address"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="userCity" class="form-control user-address" [(ngModel)]="user.city" name="city" maxlength="32" placeholder="City"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="userState" class="form-control user-address" [(ngModel)]="user.state" name="state" minlength="2" maxlength="2"
+                    placeholder="State" required>
+                </div>
+                <div class="form-group">
+                  <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip" max="99999" placeholder="Zip"
+                    required>
+                </div>
+                <input type="submit" id="submit-form" hidden [disabled]="cartContent.length === 0" />
+              </form>
 
-                        </div>
-                        <div class="col-4 ship-info">
-                            <h5 class="checkout-head">Payment method</h5>
-                        </div>
-                        <div class="col-8">
-                            <div class="payment-container">
-                                <!--Dummy payment information below-->
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa">                                <b>Visa</b> ending in 4850
-                                <!--Dummy billing address-->
-                                <p class="billing-info"><b>Billing address:</b> Same as Shipping </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <hr class="checkout-divider" *ngIf="cartContent.length > 0">
+            <div class="col-4 ship-info">
+              <h5 class="checkout-head">Payment method</h5>
+            </div>
+            <div class="col-8">
+              <div class="payment-container">
+                <!--Dummy payment information below-->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa">                                <b>Visa</b> ending in 4850
+                <!--Dummy billing address-->
+                <p class="billing-info"><b>Billing address:</b> Same as Shipping </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="checkout-divider" *ngIf="cartContent.length > 0">
 
-            <h2 class="cart-title text-center" *ngIf="cartContent.length > 0">Review Items</h2>
-            <hr class="checkout-divider" *ngIf="cartContent.length > 0">
-            <div class="row checkout-elements" *ngFor="let item of cartContent">
-                <div class="col-12">
-                    <div class="row is-flex">
-                        <div class="col-md-2 col-4 image-container">
-                            <img class="cart-img" [src]="item.img">
-                        </div>
-                        <div class="col-md-6 col-8 name-container">
-                            <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a>
-                        </div>
-                        <div class="col-md-2 col-6 price-container">
-                            <span class="cart-product-price">${{item.price}}</span>
-                        </div>
-                        <div class="col-md-2 col-6 quantity-container">
-                            <b>Qty: {{item.product_quantity}}</b>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
+      <h2 class="cart-title text-center" *ngIf="cartContent.length > 0">Review Items</h2>
+      <hr class="checkout-divider" *ngIf="cartContent.length > 0">
+      <div class="row checkout-elements" *ngFor="let item of cartContent">
+        <div class="col-12">
+          <div class="row is-flex">
+            <div class="col-md-2 col-4 image-container">
+              <img class="cart-img" [src]="item.img">
             </div>
-        </div>
-        <div class="col-md-2 col-12 orders-col">
-            <div class="checkout-container">
-                <!--Submit button links to form on top-->
-                <label id="submit-label" for="submit-form">Place your order</label>
-                <hr>
-                <div class="checkout-subtotal">
-                    <span class="cart-product-price">Order total: ${{cartTotal}}</span>
-                </div>
+            <div class="col-md-6 col-8 name-container">
+              <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a>
             </div>
+            <div class="col-md-2 col-6 price-container">
+              <span class="cart-product-price">${{item.price}}</span>
+            </div>
+            <div class="col-md-2 col-6 quantity-container">
+              <b>Qty: {{item.product_quantity}}</b>
+            </div>
+          </div>
+          <hr>
         </div>
+      </div>
     </div>
+    <div class="col-md-2 col-12 orders-col">
+      <div class="checkout-container">
+        <!--Submit button links to form on top-->
+        <label id="submit-label" for="submit-form">Place your order</label>
+        <hr>
+        <div class="checkout-subtotal">
+          <span class="cart-product-price">Order total: ${{cartTotal}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -9,25 +9,25 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-remap-istanbul'),
-      require('angular-cli/plugins/karma')
+      require('angular-cli/plugins/karma'),
     ],
     customLaunchers: {
       // chrome setup for travis CI using chromium
       Chrome_travis_ci: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
+        flags: ['--no-sandbox'],
+      },
     },
     files: [
-      { pattern: './src/test.ts', watched: false }
+      { pattern: './src/test.ts', watched: false },
     ],
     preprocessors: {
-      './src/test.ts': ['angular-cli']
+      './src/test.ts': ['angular-cli'],
     },
     remapIstanbulReporter: {
       reports: {
-        html: 'coverage'
-      }
+        html: 'coverage',
+      },
     },
     angularCliConfig: './angular-cli.json',
     reporters: ['progress', 'karma-remap-istanbul'],
@@ -36,6 +36,6 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
   });
 };

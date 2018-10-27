@@ -1,169 +1,169 @@
 .row {
-    margin: 0px;
+  margin: 0px;
 }
 
 .profile-box {
-    margin-top: 20px;
-    padding: 2rem;
-    border: 2px solid #f1f1f1;
-    border-radius: 3px;
+  margin-top: 20px;
+  padding: 2rem;
+  border: 2px solid #f1f1f1;
+  border-radius: 3px;
 }
 
 .username {
-    color: #444;
-    font-size: 25px;
-    margin-bottom: 0.5rem;
-    font-weight: 400;
+  color: #444;
+  font-size: 25px;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
 }
 
 .user-info {
-    line-height: 24px;
-    color: #444;
-    font-size: 16px;
-    padding-left: 15px;
+  line-height: 24px;
+  color: #444;
+  font-size: 16px;
+  padding-left: 15px;
 }
 
 .edit-profile {
-    cursor: pointer;
-    background: white;
-    color: #484848;
-    max-width: 120px;
-    position: relative;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #c4c4c4;
-    border-radius: 3px;
-    float: right;
-    font-size: 13px;
-    &:hover,
-    &:focus {
-        background-color: #eee;
-        text-decoration: none;
-    }
+  cursor: pointer;
+  background: white;
+  color: #484848;
+  max-width: 120px;
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
+  float: right;
+  font-size: 13px;
+  &:hover,
+  &:focus {
+    background-color: #eee;
+    text-decoration: none;
+  }
 }
 
 .usermodal-container {
-    background-color: #fff;
-    margin: 0 auto;
-    border-radius: 2px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    input[type=submit] {
-        width: 100%;
-        display: block;
-        position: relative;
-    }
-    input[type=email],
-    input[type=password],
-    input[type=name],
-    input[type=text],
-    input[type=number] {
-        height: 48px;
-        font-size: 15px;
-    }
-    a {
-        text-decoration: none;
-        color: #666;
-        font-weight: 400;
-        text-align: center;
-        display: inline-block;
-        opacity: 0.6;
-        -webkit-transition: opacity ease 0.5s;
-        transition: opacity ease 0.5s;
-    }
+  background-color: #fff;
+  margin: 0 auto;
+  border-radius: 2px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  input[type="submit"] {
+    width: 100%;
+    display: block;
+    position: relative;
+  }
+  input[type="email"],
+  input[type="password"],
+  input[type="name"],
+  input[type="text"],
+  input[type="number"] {
+    height: 48px;
+    font-size: 15px;
+  }
+  a {
+    text-decoration: none;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+    display: inline-block;
+    opacity: 0.6;
+    -webkit-transition: opacity ease 0.5s;
+    transition: opacity ease 0.5s;
+  }
 }
 
 .usermodal {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    height: 36px;
-    padding: 0 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  height: 36px;
+  padding: 0 8px;
 }
 
 .usermodal-submit {
-    cursor: pointer;
+  cursor: pointer;
+  border: 0px;
+  color: #fff;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+  background-color: #4d90fe;
+  padding: 17px 0px;
+  font-size: 14px;
+  &:hover {
     border: 0px;
-    color: #fff;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-    background-color: #4d90fe;
-    padding: 17px 0px;
-    font-size: 14px;
-    &:hover {
-        border: 0px;
-        text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-        background-color: #357ae8;
-    }
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    background-color: #357ae8;
+  }
 }
 
 .alert {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 form {
-    padding: 0 30px 10px 30px;
+  padding: 0 30px 10px 30px;
 }
 
 .usermodal-title {
-    box-sizing: border-box;
-    font-size: 20px;
-    padding: 15px 0 10px 30px;
-    width: 100%;
-    color: #444;
-    line-height: 150%;
+  box-sizing: border-box;
+  font-size: 20px;
+  padding: 15px 0 10px 30px;
+  width: 100%;
+  color: #444;
+  line-height: 150%;
 }
 
 input {
-    border: 1px solid #dfdfdf;
-    width: 100%;
-    display: block;
-    color: #444;
-    border-radius: 3px;
-    padding: 10px;
-    -webkit-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out;
-    outline: 0;
-    display: inline-block;
-    margin-bottom: 10px;
-    &:focus,
-    &:valid {
-        box-shadow: none;
-        outline: none;
-        background-position: 0 0;
-    }
-    &:valid~.control-label {
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
+  border: 1px solid #dfdfdf;
+  width: 100%;
+  display: block;
+  color: #444;
+  border-radius: 3px;
+  padding: 10px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  outline: 0;
+  display: inline-block;
+  margin-bottom: 10px;
+  &:focus,
+  &:valid {
+    box-shadow: none;
+    outline: none;
+    background-position: 0 0;
+  }
+  &:valid ~ .control-label {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
 }
 
 .form-group {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    position: relative;
-    margin-bottom: 5px;
-    .control-label {
-        top: 1px;
-        left: 11px;
-        color: #bbb;
-        font-size: 12px;
-        position: absolute;
-        pointer-events: none;
-        z-index: 1;
-        font-weight: normal;
-        -webkit-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-        visibility: hidden;
-        opacity: 0;
-    }
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  margin-bottom: 5px;
+  .control-label {
+    top: 1px;
+    left: 11px;
+    color: #bbb;
+    font-size: 12px;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    font-weight: normal;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    visibility: hidden;
+    opacity: 0;
+  }
 }
 
 .ng-valid[required],
 .ng-valid.required {
-    border-right: 2px solid #42A948;
+  border-right: 2px solid #42a948;
 }
 
 .ng-invalid:not(form) {
-    border-right: 2px solid #a94442;
+  border-right: 2px solid #a94442;
 }
