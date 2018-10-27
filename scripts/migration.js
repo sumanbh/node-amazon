@@ -9,21 +9,21 @@ const { postgresql } = require('../config/amazon.json');
  */
 const { user, password, host, port } = postgresql;
 const postgresConfig = {
-    user,
-    password,
-    host,
-    port,
+  user,
+  password,
+  host,
+  port,
 };
 
 /**
  * Creates all the tables, views, extensions, and a function for unique ID generation
  */
 async function createTables() {
-    try {
-        const pool = new Pool(Object.assign({}, postgresConfig, { database: postgresql.database, max: 5 }));
+  try {
+    const pool = new Pool(Object.assign({}, postgresConfig, { database: postgresql.database, max: 5 }));
 
-        await pool.query('CREATE EXTENSION citext;');
-        await pool.query(`
+    await pool.query('CREATE EXTENSION citext;');
+    await pool.query(`
             CREATE TABLE customers 
                 ( 
                     id          SERIAL PRIMARY KEY NOT NULL, 
@@ -42,35 +42,35 @@ async function createTables() {
                     date_added  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
                 );
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE os 
                 ( 
                     id   SERIAL NOT NULL PRIMARY KEY, 
                     name VARCHAR(100)
                 ); 
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE processor 
                 ( 
                     id   SERIAL PRIMARY KEY, 
                     name VARCHAR(40)
                 ); 
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE brand 
                 ( 
                     id   SERIAL NOT NULL PRIMARY KEY, 
                     name VARCHAR(100)
                 );
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE storage_type 
                 ( 
                     id   SERIAL NOT NULL PRIMARY KEY, 
                     name VARCHAR(100) 
                 );
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE laptops 
                 ( 
                     id              SERIAL NOT NULL PRIMARY KEY, 
@@ -88,9 +88,9 @@ async function createTables() {
                     description     TEXT[] 
                 );
             `);
-        await pool.query('CREATE SCHEMA shard_1;');
-        await pool.query('CREATE SEQUENCE shard_1.global_id_sequence;');
-        await pool.query(`
+    await pool.query('CREATE SCHEMA shard_1;');
+    await pool.query('CREATE SEQUENCE shard_1.global_id_sequence;');
+    await pool.query(`
             CREATE OR REPLACE FUNCTION shard_1.id_generator(OUT result BIGINT) AS $$
             DECLARE
                 our_epoch BIGINT := 1314220021721;
@@ -109,7 +109,7 @@ async function createTables() {
             END;
             $$ LANGUAGE PLPGSQL;
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE orderline 
                 ( 
                     id          BIGINT PRIMARY KEY NOT NULL DEFAULT shard_1.id_generator(), 
@@ -118,7 +118,7 @@ async function createTables() {
                     date_added  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
                 ); 
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE orders 
                 ( 
                     id           SERIAL PRIMARY KEY NOT NULL, 
@@ -132,7 +132,7 @@ async function createTables() {
                     zip          CHAR(5) 
                 ); 
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE TABLE cart 
                 ( 
                     id               SERIAL PRIMARY KEY NOT NULL, 
@@ -142,7 +142,7 @@ async function createTables() {
                     date_added       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
                 ); 
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE view checkoutview 
             AS 
             SELECT cart.customer_id, 
@@ -166,7 +166,7 @@ async function createTables() {
                     JOIN brand 
                     ON laptops.brand_id = brand.id;
             `);
-        await pool.query(`
+    await pool.query(`
             CREATE VIEW cartview 
             AS 
             SELECT cart.customer_id, 
@@ -184,27 +184,27 @@ async function createTables() {
                     JOIN brand 
                     ON laptops.brand_id = brand.id;
             `);
-        await pool.query('CREATE INDEX ON laptops ((lower(name)));');
-        await pool.query('CREATE INDEX ON laptops (rating);');
-        await pool.query('CREATE INDEX ON laptops (price);');
+    await pool.query('CREATE INDEX ON laptops ((lower(name)));');
+    await pool.query('CREATE INDEX ON laptops (rating);');
+    await pool.query('CREATE INDEX ON laptops (price);');
 
-        console.log(chalk.green('Successfully created all the tables...'));
-        console.log(chalk.blue('Now initializing the tables with seeds...'));
+    console.log(chalk.green('Successfully created all the tables...'));
+    console.log(chalk.blue('Now initializing the tables with seeds...'));
 
-        const inserts = fs.readFileSync(`${__dirname}/schema/inserts.sql`, { encoding: 'utf8' });
+    const inserts = fs.readFileSync(`${__dirname}/schema/inserts.sql`, { encoding: 'utf8' });
 
-        const insertsArray = inserts.split('--statement--');
+    const insertsArray = inserts.split('--statement--');
 
-        for (let idx = 0; idx < insertsArray.length; idx += 1) {
+    for (let idx = 0; idx < insertsArray.length; idx += 1) {
             // eslint-disable-next-line no-await-in-loop
-            await pool.query(insertsArray[idx]);
-        }
-        console.log(chalk.green('Successfully seeded the database..'));
-        console.log(chalk.green('Process complete with no errors.'));
-        process.exit(0);
-    } catch (err) {
-        console.log(chalk.red(err));
+      await pool.query(insertsArray[idx]);
     }
+    console.log(chalk.green('Successfully seeded the database..'));
+    console.log(chalk.green('Process complete with no errors.'));
+    process.exit(0);
+  } catch (err) {
+    console.log(chalk.red(err));
+  }
 }
 
 /**
@@ -212,24 +212,24 @@ async function createTables() {
  * Creates the database, and calls createTables function
  */
 (async function main() {
-    try {
-        console.log(chalk.green('Starting database migration...'));
+  try {
+    console.log(chalk.green('Starting database migration...'));
 
-        const client = new Client(postgresConfig);
+    const client = new Client(postgresConfig);
 
-        await client.connect();
+    await client.connect();
 
-        console.log(chalk.green('Creating database:', postgresql.database));
+    console.log(chalk.green('Creating database:', postgresql.database));
 
-        await client.query(`CREATE DATABASE ${postgresql.database};`);
-        await client.end();
+    await client.query(`CREATE DATABASE ${postgresql.database};`);
+    await client.end();
 
-        console.log(chalk.green('Successfully created database: ', postgresql.database));
+    console.log(chalk.green('Successfully created database: ', postgresql.database));
 
-        console.log(chalk.blue('Now creating all the tables...'));
+    console.log(chalk.blue('Now creating all the tables...'));
 
-        await createTables();
-    } catch (err) {
-        console.log(chalk.red(err));
-    }
+    await createTables();
+  } catch (err) {
+    console.log(chalk.red(err));
+  }
 }());

@@ -21,13 +21,13 @@
         "valid-typeof": "warn",
         "indent": [
             "error",
-            4,
+            2,
             { "SwitchCase": 1 }
         ],
         "max-len": [
             "error",
-            180,
-            4,
+            140,
+            2,
             {
                 "ignoreUrls": true,
                 "ignoreComments": false,

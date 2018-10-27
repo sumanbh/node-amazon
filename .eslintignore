@@ -1,0 +1,6 @@
+/dist
+/build
+/config
+/karma.conf.js
+/protractor.conf.js
+/server/pg-format/index.js
