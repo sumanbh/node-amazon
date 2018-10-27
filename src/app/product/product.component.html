@@ -1,134 +1,134 @@
 <ngx-loading-bar [includeSpinner]="false" [height]="'3px'"></ngx-loading-bar>
 <div class="product-container">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a [routerLink]="['/']">Home</a>
-        </li>
-        <li class="breadcrumb-item active bread-name" *ngFor="let item of product">{{item.laptop_name}}</li>
-    </ol>
-    <simple-notifications [options]="options"></simple-notifications>
-    <div class="row" *ngFor="let item of product">
-        <div class="col-md-10 col-12">
-            <div class="row">
-                <div class="col-lg-4 col-12 text-center">
-                    <img class="product-img" [src]="item.img_big">
-                </div>
-                <div class="col-lg-8 col-12">
-                    <h1 class="sm-display">{{ item.laptop_name }}</h1>
-                    <div>by
-                        <a [routerLink]="['/']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a>
-                    </div>
-                    <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
-                    <hr>
-                    <div class="price-box">Price:
-                        <span class="product-price">${{item.price}}</span>
-                    </div>
-                    <div class="finance-master">
-                        <svg id="product-info" version="1.1" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M13.5,4A1.5,1.5 0 0,0 12,5.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 15,5.5A1.5,1.5 0 0,0 13.5,4M13.14,8.77C11.95,8.87 8.7,11.46 8.7,11.46C8.5,11.61 8.56,11.6 8.72,11.88C8.88,12.15 8.86,12.17 9.05,12.04C9.25,11.91 9.58,11.7 10.13,11.36C12.25,10 10.47,13.14 9.56,18.43C9.2,21.05 11.56,19.7 12.17,19.3C12.77,18.91 14.38,17.8 14.54,17.69C14.76,17.54 14.6,17.42 14.43,17.17C14.31,17 14.19,17.12 14.19,17.12C13.54,17.55 12.35,18.45 12.19,17.88C12,17.31 13.22,13.4 13.89,10.71C14,10.07 14.3,8.67 13.14,8.77Z"
-                            />
-                        </svg>Item is eligible:
-                        <b>No interest if paid in full within 12 months</b> with the nice Store Card.
-                    </div>
-                    <div id="availability">In Stock.</div>
-                    <div class="product-desc" *ngFor="let desc of item.description">
-                        <li>{{desc}}</li>
-                    </div>
-                </div>
-            </div>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a [routerLink]="['/']">Home</a>
+    </li>
+    <li class="breadcrumb-item active bread-name" *ngFor="let item of product">{{item.laptop_name}}</li>
+  </ol>
+  <simple-notifications [options]="options"></simple-notifications>
+  <div class="row" *ngFor="let item of product">
+    <div class="col-md-10 col-12">
+      <div class="row">
+        <div class="col-lg-4 col-12 text-center">
+          <img class="product-img" [src]="item.img_big">
         </div>
-        <div class="col-md-2 col-12">
-            <div class="product-cartbox">
-                <div class="quantity-container text-center">
-                    <label>Qty:</label>
-                    <input [(ngModel)]="currentQuantity" class="form-control" type="number" name="quantity"
-                        min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
-                </div>
-                <div class="current-total text-center">${{currentQuantity * item.price | number:'.2'}}</div>
-                <div class="cart-container">
-                    <button (click)="addToCart(item.id, currentQuantity)" type="button" class="btn btn-lg">Add to Cart
-                    </button>
-                </div>
-                <hr>
-                <!--Dummy Shipping information-->
-                <b>Shipping from:</b>
-                <p>Seattle - Washington</p>
-            </div>
+        <div class="col-lg-8 col-12">
+          <h1 class="sm-display">{{ item.laptop_name }}</h1>
+          <div>by
+            <a [routerLink]="['/']" [queryParams]="{ brand: item.brand_name }">{{ item.brand_name }}</a>
+          </div>
+          <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+          <hr>
+          <div class="price-box">Price:
+            <span class="product-price">${{item.price}}</span>
+          </div>
+          <div class="finance-master">
+            <svg id="product-info" version="1.1" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M13.5,4A1.5,1.5 0 0,0 12,5.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 15,5.5A1.5,1.5 0 0,0 13.5,4M13.14,8.77C11.95,8.87 8.7,11.46 8.7,11.46C8.5,11.61 8.56,11.6 8.72,11.88C8.88,12.15 8.86,12.17 9.05,12.04C9.25,11.91 9.58,11.7 10.13,11.36C12.25,10 10.47,13.14 9.56,18.43C9.2,21.05 11.56,19.7 12.17,19.3C12.77,18.91 14.38,17.8 14.54,17.69C14.76,17.54 14.6,17.42 14.43,17.17C14.31,17 14.19,17.12 14.19,17.12C13.54,17.55 12.35,18.45 12.19,17.88C12,17.31 13.22,13.4 13.89,10.71C14,10.07 14.3,8.67 13.14,8.77Z"
+              />
+            </svg>Item is eligible:
+            <b>No interest if paid in full within 12 months</b> with the nice Store Card.
+          </div>
+          <div id="availability">In Stock.</div>
+          <div class="product-desc" *ngFor="let desc of item.description">
+            <li>{{desc}}</li>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="col-md-2 col-12">
+      <div class="product-cartbox">
+        <div class="quantity-container text-center">
+          <label>Qty:</label>
+          <input [(ngModel)]="currentQuantity" class="form-control" type="number" name="quantity"
+            min="1" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+        </div>
+        <div class="current-total text-center">${{currentQuantity * item.price | number:'.2'}}</div>
+        <div class="cart-container">
+          <button (click)="addToCart(item.id, currentQuantity)" type="button" class="btn btn-lg">Add to Cart
+          </button>
+        </div>
+        <hr>
+        <!--Dummy Shipping information-->
+        <b>Shipping from:</b>
+        <p>Seattle - Washington</p>
+      </div>
+    </div>
+  </div>
 
-    <!--Compare portion begin-->
-    <hr>
-    <div class="product-compare">
-        <div class="compare-title" *ngIf="product.length > 0">Compare to Similar Items</div>
-        <div class="table-responsive">
-            <table class="table table-bordered" *ngFor="let item of product">
-                <tr>
-                    <th class="first-table-td"></th>
-                    <th class="table-image-container">
-                        <img class="similar-img" [src]="item.img">
-                    </th>
-                    <th class="table-image-container" *ngFor="let product of similar">
-                        <a [routerLink]="['/product', product.id]">
-                            <img class="similar-img" [src]="product.img">
-                        </a>
-                    </th>
-                </tr>
-                <tr>
-                    <td class="table-active">Name</td>
-                    <td class="table-warning">
-                        <table class="fixed-table">
-                            <tr>
-                                <td>
-                                    <b>This item:</b> {{item.laptop_name}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td *ngFor="let product of similar">
-                        <table class="fixed-table">
-                            <tr>
-                                <td>
-                                    <a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-active">Customer Rating</td>
-                    <td class="table-warning">
-                        <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
-                    </td>
-                    <td *ngFor="let product of similar">
-                        <ngb-rating class="laptop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-active">Price</td>
-                    <td class="table-warning sim-container-price">${{item.price}}</td>
-                    <td class="sim-container-price" *ngFor="let product of similar">${{product.price}}</td>
-                </tr>
-                <tr>
-                    <td class="table-active">Operating System</td>
-                    <td class="table-warning">{{item.os_name}}</td>
-                    <td *ngFor="let product of similar">{{product.os_name}}</td>
-                </tr>
-                <tr>
-                    <td class="table-active">Memory</td>
-                    <td class="table-warning">{{item.ram}} GB DDR3</td>
-                    <td *ngFor="let product of similar">{{product.ram}} GB DDR3</td>
-                </tr>
-                <tr>
-                    <td class="table-active">Storage</td>
-                    <td class="table-warning">{{item.storage}} GB</td>
-                    <td *ngFor="let product of similar">{{product.storage}} GB</td>
-                </tr>
-                <tr>
-                    <td class="table-active">Hard Drive Type</td>
-                    <td class="table-warning">{{item.storage_name}}</td>
-                    <td *ngFor="let product of similar">{{product.storage_name}}</td>
-                </tr>
+  <!--Compare portion begin-->
+  <hr>
+  <div class="product-compare">
+    <div class="compare-title" *ngIf="product.length > 0">Compare to Similar Items</div>
+    <div class="table-responsive">
+      <table class="table table-bordered" *ngFor="let item of product">
+        <tr>
+          <th class="first-table-td"></th>
+          <th class="table-image-container">
+            <img class="similar-img" [src]="item.img">
+          </th>
+          <th class="table-image-container" *ngFor="let product of similar">
+            <a [routerLink]="['/product', product.id]">
+              <img class="similar-img" [src]="product.img">
+            </a>
+          </th>
+        </tr>
+        <tr>
+          <td class="table-active">Name</td>
+          <td class="table-warning">
+            <table class="fixed-table">
+              <tr>
+                <td>
+                  <b>This item:</b> {{item.laptop_name}}</td>
+              </tr>
             </table>
-        </div>
+          </td>
+          <td *ngFor="let product of similar">
+            <table class="fixed-table">
+              <tr>
+                <td>
+                  <a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="table-active">Customer Rating</td>
+          <td class="table-warning">
+            <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+          </td>
+          <td *ngFor="let product of similar">
+            <ngb-rating class="laptop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
+          </td>
+        </tr>
+        <tr>
+          <td class="table-active">Price</td>
+          <td class="table-warning sim-container-price">${{item.price}}</td>
+          <td class="sim-container-price" *ngFor="let product of similar">${{product.price}}</td>
+        </tr>
+        <tr>
+          <td class="table-active">Operating System</td>
+          <td class="table-warning">{{item.os_name}}</td>
+          <td *ngFor="let product of similar">{{product.os_name}}</td>
+        </tr>
+        <tr>
+          <td class="table-active">Memory</td>
+          <td class="table-warning">{{item.ram}} GB DDR3</td>
+          <td *ngFor="let product of similar">{{product.ram}} GB DDR3</td>
+        </tr>
+        <tr>
+          <td class="table-active">Storage</td>
+          <td class="table-warning">{{item.storage}} GB</td>
+          <td *ngFor="let product of similar">{{product.storage}} GB</td>
+        </tr>
+        <tr>
+          <td class="table-active">Hard Drive Type</td>
+          <td class="table-warning">{{item.storage_name}}</td>
+          <td *ngFor="let product of similar">{{product.storage_name}}</td>
+        </tr>
+      </table>
     </div>
+  </div>
 </div>
