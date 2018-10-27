@@ -37,7 +37,7 @@ module.exports = () => {
     clientID: config.oauth.facebook.client,
     clientSecret: config.oauth.facebook.secret,
     callbackURL: config.oauth.facebook.callback,
-        profileFields: ['id', 'email', 'displayName', 'name', 'gender'] // eslint-disable-line
+    profileFields: ['id', 'email', 'displayName', 'name', 'gender'],
   },
   async function (accessToken, refreshToken, profile, cb) {
     if (!profile.emails) profile.emails = [{ value: null }]; // cases where facebook does not send back user email
@@ -130,7 +130,7 @@ module.exports = () => {
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true,
-        session: false // eslint-disable-line
+    session: false,
   },
   async function (req, email, password, cb) {
     let query = `

@@ -2,13 +2,29 @@ const pool = require('./connection');
 
 // Just for demo purpose. You should not be hard-coding IDs here
 const operatingSystems = {
-  'Mac OS X': 1, 'Chrome OS': 2, 'Windows 10': 3, 'Windows 8.1': 4, 'Windows 7 Home': 5,
+  'Mac OS X': 1,
+  'Chrome OS': 2,
+  'Windows 10': 3,
+  'Windows 8.1': 4,
+  'Windows 7 Home': 5,
 };
 const processors = {
-  'Intel Core i7': 1, 'Intel Core i5': 2, 'Intel Core i3': 3, 'Intel Core 2': 4, AMD: 5,
+  'Intel Core i7': 1,
+  'Intel Core i5': 2,
+  'Intel Core i3': 3,
+  'Intel Core 2': 4,
+  AMD: 5,
 };
 const brands = {
-  Apple: 1, Microsoft: 2, HP: 3, Dell: 4, Asus: 5, Acer: 6, Samsung: 7, Lenovo: 8, Toshiba: 9,
+  Apple: 1,
+  Microsoft: 2,
+  HP: 3,
+  Dell: 4,
+  Asus: 5,
+  Acer: 6,
+  Samsung: 7,
+  Lenovo: 8,
+  Toshiba: 9,
 };
 const storageTypes = { SSD: 1, 'Hard Disk': 2 };
 
@@ -122,7 +138,20 @@ const routes = {
         const query = `INSERT INTO laptops (name, os_id, processor_id, brand_id, img, ram, storage_type_id, storage, rating, price, img_big, description)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id;`;
         try {
-                    const insert = await pool.query(query, [result.title, operatingSystems[result.os], processors[result.processor], brands[result.brand], result.image, result.ram, storageTypes[result.storageType], result.storage, result.rating, result.price, result.image, result.description]); // eslint-disable-line
+          const insert = await pool.query(query, [
+            result.title,
+            operatingSystems[result.os],
+            processors[result.processor],
+            brands[result.brand],
+            result.image,
+            result.ram,
+            storageTypes[result.storageType],
+            result.storage,
+            result.rating,
+            result.price,
+            result.image,
+            result.description,
+          ]);
           res.status(200).json({
             success: true,
             id: insert.rows[0].id,
