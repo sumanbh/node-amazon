@@ -82,5 +82,5 @@ app.use((err, req, res, next) => { // eslint-disable-line
 });
 
 app.listen(3000, () => {
-  console.log('App listening on port 3000!');
+  console.log('Development API server running on port 3000!');
 });
