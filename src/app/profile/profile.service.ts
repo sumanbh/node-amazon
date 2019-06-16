@@ -7,8 +7,7 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getUserProfile(): Observable<any> {
-    return this.http
-      .get(`/api/user/settings`);
+    return this.http.get(`/api/user/settings`);
   }
 
   updateUserProfile(userObj): Observable<any> {
@@ -17,7 +16,9 @@ export class ProfileService {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     });
-    return this.http
-      .post(`/api/user/update`, userInfo, { headers });
+    return this.http.post(`/api/user/update`, userInfo, {
+      headers,
+      responseType: 'text'
+    });
   }
 }
