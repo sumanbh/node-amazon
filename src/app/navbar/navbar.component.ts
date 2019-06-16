@@ -156,7 +156,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   sendLogout() {
     this.userService.logout().subscribe(
-      response => {
+      () => {
         this.hideLogin = false;
         location.reload();
       },

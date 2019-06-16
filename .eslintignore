@@ -4,3 +4,5 @@
 /karma.conf.js
 /protractor.conf.js
 /server/pg-format/index.js
+**/*.ts
+**/*.d.ts
