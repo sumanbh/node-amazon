@@ -9,17 +9,11 @@
     "dev-server": "node server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "compile:server": "tsc -p server.tsconfig.json",
-    "lint": "node_modules/eslint/bin/eslint.js --ext .js ./",
-    "lint-ts": "node_modules/tslint/bin/tslint --project tslint.json 'src/**/**.ts'",
+    "lint": "eslint --ext .js ./",
+    "lint:ts": "tslint --project tslint.json 'src/**/**.ts'",
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build --prod && ng run amazon:server:production",
-    "migrate": "node scripts/migration.js",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "CI=true concurrently \"npm run lint\" \"npm run lint-ts\""
-    }
+    "migrate": "node scripts/migration.js"
   },
   "private": true,
   "dependencies": {
@@ -68,29 +62,44 @@
     "@angular-devkit/build-angular": "~0.800.0",
     "@angular/cli": "8.0.3",
     "@angular/compiler-cli": "^8.0.1",
-    "@types/jasmine": "^2.5.51",
+    "@types/jasmine": "^3.3.13",
     "@types/node": "^8.0.30",
     "codelyzer": "^5.0.1",
     "concurrently": "^3.5.1",
-    "eslint": "5.6.0",
+    "eslint": "5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.1.2",
+    "eslint-plugin-import": "^2.17.3",
+    "husky": "^2.4.1",
     "intl": "^1.2.5",
-    "jasmine-core": "^2.6.2",
-    "jasmine-spec-reporter": "^4.1.0",
-    "karma": "^4.0.1",
+    "jasmine-core": "^3.4.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "karma": "^4.1.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^2.0.0",
     "karma-coverage-istanbul-reporter": "^2.0.5",
     "karma-jasmine": "^2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "lint-staged": "^8.2.1",
     "node-sass": "^4.11.0",
     "protractor": "^6.0.0",
-    "ts-loader": "^4.4.2",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.11.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.17.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "3.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "tslint --fix",
+      "git add"
+    ]
   }
 }
