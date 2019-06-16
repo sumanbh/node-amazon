@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService } from 'angular-jwt-universal';
 import { Observable } from 'rxjs';
 import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';

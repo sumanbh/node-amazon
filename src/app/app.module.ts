@@ -13,7 +13,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { TransferHttpCacheModule } from '@nguniversal/common';
-import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from 'angular-jwt-universal';
 
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
