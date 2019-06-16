@@ -19,7 +19,6 @@ export class ProfileService {
       'Content-Type': 'application/json'
     });
     return this.http
-      .post(`/api/user/update`, userInfo, { headers })
-      .pipe(map((res: any) => res.status));
+      .post(`/api/user/update`, userInfo, { headers });
   }
 }
