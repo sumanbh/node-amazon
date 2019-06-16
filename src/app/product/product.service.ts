@@ -1,10 +1,8 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { AuthHttp } from 'angular2-jwt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavService } from '../shared/nav.service';
-import { TransferHttp } from '../../modules/transfer-http/transfer-http';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -12,8 +10,7 @@ export class ProductService {
   baseUrl: string;
 
   constructor(
-    private http: TransferHttp,
-    private authHttp: AuthHttp,
+    private http: HttpClient,
     private navService: NavService,
     @Inject('BASE_URL') baseUrl: string,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -31,13 +28,12 @@ export class ProductService {
       productId: id,
       productQuantity: quantity
     });
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       Accept: 'application/json',
       'Content-Type': 'application/json'
     });
 
-    return this.authHttp.post(`/api/user/cart/add`, cartInfo, { headers }).pipe(
-      map((res: Response) => res.json()),
+    return this.http.post(`/api/user/cart/add`, cartInfo, { headers }).pipe(
       map((res: any) => {
         if (res.success) {
           if (isPlatformBrowser(this.platformId)) {

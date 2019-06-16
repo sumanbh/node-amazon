@@ -89,6 +89,7 @@
 .product-desc {
   margin-top: 5px;
   li {
+    overflow-wrap: break-word;
     list-style-position: inside;
   }
 }

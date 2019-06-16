@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -11,9 +11,10 @@ import {
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule, Http, RequestOptions, JsonpModule } from '@angular/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { TransferHttpCacheModule } from '@nguniversal/common';
+import { JwtModule } from 'angular-jwt-universal';
 
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { environment } from '../environments/environment';
@@ -38,11 +39,11 @@ import { AddNewComponent } from './add-new/add-new.component';
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
 
-import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
-import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
-
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({}), http, options);
+export function tokenGetter() {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('token');
+  }
+  return null;
 }
 
 @NgModule({
@@ -64,14 +65,19 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'amazon' }),
-    BrowserTransferStateModule,
+    HttpClientModule,
+    TransferHttpCacheModule,
     CommonModule,
     FormsModule,
     RouterModule.forRoot(routes),
     LoadingBarModule.forRoot(),
-    HttpModule,
-    TransferHttpModule,
-    JsonpModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:4200', 'localhost:3000', 'sumanb.com']
+      }
+    }),
+    HttpClientJsonpModule,
     NgbRatingModule,
     NgbDropdownModule,
     NgbModalModule.forRoot(),
@@ -82,18 +88,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   providers: [
     { provide: 'BASE_URL', useFactory: getBaseUrl },
     AuthGuard,
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    },
     NavService,
     UserService
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppBrowserModule {}
 
 export function getBaseUrl() {
   return environment.API_URL;

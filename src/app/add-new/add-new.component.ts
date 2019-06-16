@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Headers, Response } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
 
@@ -59,7 +58,7 @@ export class AddNewComponent implements OnInit {
   newLaptopId: string;
 
   constructor(
-    private authHttp: AuthHttp,
+    private http: HttpClient,
     private ratingConfig: NgbRatingConfig,
     private titleService: Title
   ) {
@@ -127,24 +126,22 @@ export class AddNewComponent implements OnInit {
 
   submit(): void {
     if (!this.imageErr && this.laptop.image) {
-      const headers = new Headers({
+      const headers = new HttpHeaders({
         Accept: 'application/json',
         'Content-Type': 'application/json'
       });
       const apiUrl = '/api/user/laptop';
 
-      this.authHttp
+      this.http
         .post(apiUrl, { laptop: this.laptop }, { headers: headers })
         .toPromise()
-        .then(response => {
-          const res = response.json();
+        .then((res: { id: string }) => {
           this.newLaptopId = res.id;
           this.clearAll();
           window.scrollTo(0, 0);
         })
         .catch(err => {
-          const error = err.json();
-          this.errorArr = error.errors;
+          this.errorArr = err.errors;
           this.updateErrorText();
           window.scrollTo(0, 0);
         });

@@ -1,27 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { AuthHttp } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ProfileService {
-  constructor(private authHttp: AuthHttp) {}
+  constructor(private http: HttpClient) {}
 
   getUserProfile(): Observable<any> {
-    return this.authHttp
-      .get(`/api/user/settings`)
-      .pipe(map((res: Response) => res.json()));
+    return this.http
+      .get(`/api/user/settings`);
   }
 
   updateUserProfile(userObj): Observable<any> {
     const userInfo = JSON.stringify(userObj);
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       Accept: 'application/json',
       'Content-Type': 'application/json'
     });
-    return this.authHttp
+    return this.http
       .post(`/api/user/update`, userInfo, { headers })
-      .pipe(map((res: Response) => res.status));
+      .pipe(map((res: any) => res.status));
   }
 }

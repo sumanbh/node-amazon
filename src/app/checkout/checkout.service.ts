@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { AuthHttp } from 'angular2-jwt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private authHttp: AuthHttp, private navService: NavService) {}
+  constructor(private http: HttpClient, private navService: NavService) {}
 
   getCartById(): Observable<any> {
     const productUrl = `/api/user/checkout`; // api url
-    return this.authHttp
-      .get(productUrl)
-      .pipe(map((res: Response) => res.json()));
+    return this.http
+      .get(productUrl);
   }
 
   sendCheckout(value: any): Observable<any> {
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       Accept: 'application/json',
       'Content-Type': 'application/json'
     });
     const checkoutUrl = `/api/user/checkout/confirm`;
-    return this.authHttp.post(checkoutUrl, value, { headers: headers }).pipe(
-      map((res: Response) => res.json()),
+    return this.http.post(checkoutUrl, value, { headers: headers }).pipe(
       map((res: any) => {
         if (res.success) {
           localStorage.setItem('id_cart', res.cart || 0);
