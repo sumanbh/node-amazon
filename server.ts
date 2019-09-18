@@ -1,13 +1,12 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
-import { renderModuleFactory } from '@angular/platform-server';
 import { enableProdMode } from '@angular/core';
 
 import * as express from 'express';
 import { join } from 'path';
-import { readFileSync } from 'fs';
 import * as routeCache from 'route-cache';
 import * as jwtExpress from 'express-jwt';
+import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as compress from 'compression';
 import * as session from 'express-session';
@@ -21,7 +20,7 @@ const CONFIG_FOLDER = join(process.cwd(), 'config');
 const config = require(join(CONFIG_FOLDER, 'amazon.json'));
 
 // Express server
-const app = express();
+const app = express().disable('x-powered-by').use(cookieParser());
 
 // Basic express session
 app.use(

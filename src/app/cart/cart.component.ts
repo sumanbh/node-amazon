@@ -9,7 +9,8 @@ import {
   animate
 } from '@angular/animations';
 import { Title } from '@angular/platform-browser';
-import { LoadingBarService } from '@ngx-loading-bar/core';
+
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-cart',
@@ -46,7 +47,7 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private titleService: Title,
-    private loadingBarService: LoadingBarService
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -56,22 +57,18 @@ export class CartComponent implements OnInit {
 
   removeProduct(id) {
     this.cartService.removeFromCart(id).subscribe(
-      response => {
+      () => {
         this.getCartInfo();
       },
       error => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
 
   getCartInfo() {
-    // start the loading bar animation
-    this.loadingBarService.start();
-
     this.cartService.getCartById().subscribe(
       response => {
-        this.loadingBarService.complete();
         // initial load should be instant
         if (this.isFirst) {
           this.cartContent = response.data;
@@ -89,6 +86,10 @@ export class CartComponent implements OnInit {
       },
       error => {
         this.cartTotal = '0.00';
+        if (error && error.status === 401) {
+          this.userService.clearUser();
+          this.router.navigate(['login']);
+        }
       }
     );
   }

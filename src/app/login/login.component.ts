@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
   }
 
   checkLogin() {
-    const state = this.userService.isLoggedIn();
-    if (state) {
+    const user = this.userService.getUser();
+    if (user) {
       // get return url from route parameters or default to '/'
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
       this.router.navigateByUrl(this.returnUrl);

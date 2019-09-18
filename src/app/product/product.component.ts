@@ -10,7 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ProductService } from './product.service';
 
 @Component({
@@ -41,7 +40,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     private config: NgbRatingConfig,
     private toastService: NotificationsService,
     private titleService: Title,
-    private slimLoadingBarService: LoadingBarService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     config.max = 5;
@@ -51,9 +49,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // subscribe to route to get product ID
     this.param = this.route.params.subscribe(params => {
-      // start the loading bar animation
-      this.slimLoadingBarService.start();
-
       if (isPlatformBrowser(this.platformId)) {
         // browser scrolls to top when route param changes
         window.scrollTo(0, 0);
@@ -86,7 +81,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   getById(id: any) {
     this.productService.getProductById(id).subscribe(
       response => {
-        this.slimLoadingBarService.complete();
         this.currentQuantity = 1;
         this.product = response.product;
         this.similar = response.similar;

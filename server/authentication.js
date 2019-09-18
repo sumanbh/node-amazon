@@ -5,6 +5,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 const express = require('express');
+
 const config = require('../config/amazon.json');
 const pool = require('./connection');
 
@@ -12,7 +13,6 @@ const router = express.Router();
 
 /**
  * Creates a jwt token that expires in 24 hours
- * @param {Object} user Object that has user's name and database ID
  */
 function createToken(user) {
   return jwt.sign(user, config.jwt.secret, { expiresIn: 60 * 60 * 24 });
@@ -48,26 +48,21 @@ module.exports = () => {
                     `;
     const result = await pool.query(query, [profile.id, profile.emails[0].value]);
     if (result.rowCount === 1) {
-      // user already exists
       const tokenObj = {
-        name: result.rows[0].given_name,
         id: result.rows[0].id,
       };
-      const cartCount = await getCart(result.rows[0].id);
       // User already exists in the database
-      return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+      return cb(null, { token: createToken(tokenObj) });
     }
     // create new user
     query = `
                     INSERT INTO customers(facebook_id, given_name, email, fullname, local) VALUES ($1, $2, $3, $4, $5) RETURNING *;
                     `;
     const user = await pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
-    const cartCount = await getCart(user.rows[0].id);
     const tokenObj = {
-      name: user.rows[0].given_name,
       id: user.rows[0].id,
     };
-    return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+    return cb(null, { token: createToken(tokenObj) });
   }));
 
   router.get('/facebook', passport.authenticate('facebook', { session: false, scope: ['public_profile', 'email'] }));
@@ -75,8 +70,7 @@ module.exports = () => {
   router.get('/facebook/callback',
     passport.authenticate('facebook', { session: false, failureRedirect: '/login' }),
     function (req, res) {
-      // Successful authentication, redirect.
-      res.redirect(`/validate?cart=${req.user.cart}&token=${req.user.token}`);
+      res.cookie('SIO_SESSION', req.user.token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true }).redirect('/');
     });
 
   // Google auth begins
@@ -94,25 +88,21 @@ module.exports = () => {
                     `;
     const result = await pool.query(query, [profile.id, profile.emails[0].value]);
     if (result.rowCount === 1) {
-      // User already exists in the database
       const tokenObj = {
-        name: result.rows[0].given_name,
         id: result.rows[0].id,
       };
-      const cartCount = await getCart(result.rows[0].id);
-      return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+      return cb(null, { token: createToken(tokenObj) });
     }
     // insert new user
     query = `
                     INSERT INTO customers(google_id, given_name, email, fullname, local) VALUES ($1, $2, $3, $4, $5) RETURNING *;
                     `;
     const user = await pool.query(query, [profile.id, profile.name.givenName, profile.emails[0].value, profile.displayName, false]);
-    const cartCount = await getCart(user.rows[0].id);
     const tokenObj = {
-      name: user.rows[0].given_name,
       id: user.rows[0].id,
     };
-    return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+
+    return cb(null, { token: createToken(tokenObj) });
   }));
 
   router.get('/google',
@@ -121,8 +111,7 @@ module.exports = () => {
   router.get('/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/login' }),
     function (req, res) {
-      // Successful authentication, redirect.
-      res.redirect(`/validate?cart=${req.user.cart}&token=${req.user.token}`);
+      res.cookie('SIO_SESSION', req.user.token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true }).redirect('/');
     });
 
   // Local auth begins
@@ -152,11 +141,12 @@ module.exports = () => {
                         `;
         const user = (await pool.query(query, [email])).rows[0];
         const cartCount = await getCart(user.id);
+        const name = user.given_name;
         const tokenObj = {
-          name: user.given_name,
           id: user.id,
         };
-        return cb(null, { cart: cartCount.total || 0, token: createToken(tokenObj) });
+
+        return cb(null, { name, cart: cartCount.total || 0, token: createToken(tokenObj) });
       }
       return cb(null, false, 'The password you entered is incorrect.');
     });
@@ -168,18 +158,19 @@ module.exports = () => {
       if (!user) {
         return res.status(200).json({ success: false, err: message });
       }
-      const success = {
+      const response = {
+        name: user.name,
         cart: user.cart || 0,
-        token: user.token,
         success: true,
       };
-      return res.status(200).json(success);
+      res.cookie('SIO_SESSION', user.token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+      return res.status(200).json(response);
     })(req, res, next);
   });
 
   router.get('/logout', (req, res) => {
     req.session.destroy(() => {
-      res.sendStatus(200);
+      res.clearCookie('SIO_SESSION').sendStatus(200);
     });
   });
 

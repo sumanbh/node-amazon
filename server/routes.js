@@ -1,7 +1,32 @@
+const jwt = require('jsonwebtoken');
+
 const format = require('./pg-format/index');
 const pool = require('./connection');
+const config = require('../config/amazon.json');
 
 const routes = {
+  getCustomer: async (req, res) => {
+    if (!req.cookies || !req.cookies.SIO_SESSION) {
+      res.status(200).json({ name: null, cart: null });
+      return;
+    }
+    const token = req.cookies.SIO_SESSION;
+
+    try {
+      const { id } = jwt.verify(token, config.jwt.secret);
+      const query = 'SELECT customers.id,customers.given_name FROM customers WHERE customers.id = $1;';
+      const [customer, cartCount] = await Promise.all([pool.query(query, [id]), routes.getCartCount(id)]);
+
+      if (!customer.rows[0]) {
+        throw new Error('customer not found');
+      }
+
+      res.status(200).json({ name: customer.rows[0].given_name, cart: cartCount.total || 0 });
+    } catch (err) {
+      console.log(err);
+      res.status(200).json({ name: null, cart: null });
+    }
+  },
   getAllProducts: async (req, res) => {
     const offset = (parseInt(req.params.page, 10) - 1) * 24;
     const limit = 24;
@@ -96,7 +121,7 @@ const routes = {
     resolve((await pool.query(query, [id])).rows[0]);
   }),
   getProductById: async (req, res) => {
-    const id = parseInt(req.params.productId, 10);
+    const id = req.params.productId;
     // get the main product
     let query = `
             SELECT laptops.id, laptops.name AS laptop_name, laptops.img, laptops.ram, laptops.storage, laptops.img_big, laptops.price, laptops.rating, laptops.description, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
@@ -111,7 +136,7 @@ const routes = {
     mainProduct = mainProduct.rows;
     // find similar product based on price
     const price = parseInt(mainProduct[0].price, 10);
-    const mainId = parseInt(mainProduct[0].id, 10);
+    const mainId = mainProduct[0].id;
     query = `
             SELECT laptops.id, laptops.name AS laptop_name, laptops.rating, laptops.img, laptops.price, laptops.ram, laptops.storage, os.name AS os_name, brand.name AS brand_name, storage_type.name AS storage_name FROM laptops
             JOIN brand ON laptops.brand_id = brand.id
@@ -127,9 +152,9 @@ const routes = {
     });
   },
   addToCart: async (req, res) => {
-    const id = parseInt(req.body.productId, 10) || 0;
+    const id = req.body.productId;
     const quantity = parseInt(req.body.productQuantity, 10) || 0;
-    if (id === 0 || quantity <= 0) return res.status(200).json({ success: false });
+    if (!id || quantity <= 0) return res.status(200).json({ success: false });
     let results = [];
     // checks to see if the product already exists in the cart
     const query = 'SELECT * FROM cart WHERE product_id = $1 AND customer_id = $2;';
@@ -240,7 +265,7 @@ const routes = {
     res.status(200).json(result);
   },
   removeFromCart: async (req, res) => {
-    const uniqueId = parseInt(req.params.id, 10);
+    const uniqueId = req.params.id;
     // delete from cart based on id
     const query = 'DELETE FROM cart WHERE customer_id = $1 AND id = $2;';
     await pool.query(query, [req.user.id, uniqueId]);

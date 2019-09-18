@@ -2,10 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { NavService } from '../shared/nav.service';
-
 import { Brand } from './interfaces/brands.interface';
 import { OS } from './interfaces/os.interface';
 // import { Price } from './interfaces/price.interface';
@@ -53,7 +51,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private config: NgbRatingConfig,
     private titleService: Title,
     private navService: NavService,
-    private slimLoadingBarService: LoadingBarService
   ) {
     config.max = 5;
     config.readonly = true;
@@ -68,9 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   routeParams() {
     this.param = this.route.queryParamMap.subscribe(params => {
-      // start the loading bar animation
-      this.slimLoadingBarService.start();
-
       this.queryParams = params;
       // parses and converts back the query params to truthy checkbox values
       const results = this.homeService.parseQueryParams(this.queryParams);
@@ -186,9 +180,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // query the database
     this.homeService.getAllProducts(tempObj).subscribe(result => {
-      this.slimLoadingBarService.complete();
-      if (result.data.length === 0) this.searchResult = false;
-      else this.searchResult = true;
+      this.searchResult = result.data.length !== 0;
       this.data = result.data;
       this.totalItems = result.total;
     });

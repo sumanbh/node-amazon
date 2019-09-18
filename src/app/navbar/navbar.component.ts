@@ -118,22 +118,30 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   loginSub() {
     this.subscription = this.navService.navLogin$.subscribe(
-      isTrue => {
-        this.loginState = isTrue;
-        if (this.loginState) {
+      isLoggedIn => {
+        if (isLoggedIn) {
           this.onLoginSuccess();
+        } else {
+          this.onLogout();
         }
       },
-      error => console.log(error)
+      error => console.error(error)
     );
   }
 
   onLoginSuccess() {
-    const state = this.userService.isLoggedIn();
-    if (state) {
-      this.subscription.unsubscribe();
-      this.userGivenName = state.name;
+    const user = this.userService.getUser();
+    if (user) {
+      this.userGivenName = user;
       this.hideLogin = true;
+    }
+  }
+
+  onLogout() {
+    const user = this.userService.getUser();
+    if (!user) {
+      this.userGivenName = null;
+      this.hideLogin = false;
     }
   }
 
@@ -145,22 +153,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.modalReference.close();
           }
           this.login = true;
-          location.reload();
         } else {
           this.loginErr = response.err;
           this.login = false;
         }
       });
-    } else this.login = false;
+    } else {
+      this.login = false;
+    }
   }
 
   sendLogout() {
     this.userService.logout().subscribe(
       () => {
+        this.userGivenName = null;
         this.hideLogin = false;
-        location.reload();
+        this.router.navigate(['/']);
       },
-      error => console.log(error)
+      error => console.error(error)
     );
   }
 }

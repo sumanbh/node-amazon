@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrdersService } from './orders.service';
 import { Title } from '@angular/platform-browser';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-orders',
@@ -19,12 +20,17 @@ export class OrdersComponent implements OnInit {
     private ordersService: OrdersService,
     private router: Router,
     private titleService: Title,
-    private slimLoadingBarService: LoadingBarService
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
     this.titleService.setTitle('Your Orders');
     this.getOrdersInfo();
+  }
+
+  redirectToLogin() {
+    this.userService.clearUser();
+    this.router.navigate(['login']);
   }
 
   // To group by order id. The server gives us a list of arrays. This code groups the array into smaller chunks by id.
@@ -47,16 +53,14 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrdersInfo() {
-    // start the loading bar animation
-    this.slimLoadingBarService.start();
-
     this.ordersService.getOrdersById().subscribe(
       response => {
-        this.slimLoadingBarService.complete();
-        if (response.length === 0) this.noResults = true;
+        if (response.length === 0) {
+          this.noResults = true;
+        }
         this.ordersContent = this.transformArr(response).reduce(
           (result, item) => {
-            const key = Object.keys(item)[0];
+            const [key] = Object.keys(item);
             result[key] = item[key];
             return result;
           },
@@ -64,7 +68,9 @@ export class OrdersComponent implements OnInit {
         );
       },
       error => {
-        if (error) this.router.navigate(['login']);
+        if (error && error.status === 401) {
+          this.redirectToLogin();
+        }
       }
     );
   }

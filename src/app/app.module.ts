@@ -13,9 +13,6 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { TransferHttpCacheModule } from '@nguniversal/common';
-import { JwtModule } from 'angular-jwt-universal';
-
-import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { environment } from '../environments/environment';
 import { AuthGuard } from './shared/auth.guard';
@@ -33,18 +30,10 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
-import { ValidateComponent } from './validate/validate.component';
 import { AddNewComponent } from './add-new/add-new.component';
 
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
-
-export function tokenGetter() {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('token');
-  }
-  return null;
-}
 
 @NgModule({
   declarations: [
@@ -60,7 +49,6 @@ export function tokenGetter() {
     GroupByPipe,
     EllipsisPipe,
     LoginComponent,
-    ValidateComponent,
     AddNewComponent
   ],
   imports: [
@@ -70,17 +58,10 @@ export function tokenGetter() {
     CommonModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    LoadingBarModule.forRoot(),
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:4200', 'localhost:3000', 'sumanb.com']
-      }
-    }),
     HttpClientJsonpModule,
     NgbRatingModule,
     NgbDropdownModule,
-    NgbModalModule.forRoot(),
+    NgbModalModule,
     NgxPaginationModule,
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule

@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser } from '@angular/common';
 
 import { User } from './user.interface';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,6 +32,7 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private router: Router,
     private titleService: Title,
+    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private injector: Injector
   ) {
@@ -44,11 +46,15 @@ export class ProfileComponent implements OnInit {
     this.getProfile();
   }
 
+  redirectToLogin() {
+    this.userService.clearUser();
+    this.router.navigate(['login']);
+  }
+
   open(content) {
     this.modalReference = this.modalService.open(content);
   }
 
-  // get initial data to populate form
   getProfile() {
     this.profileService.getUserProfile().subscribe(
       response => {
@@ -59,7 +65,9 @@ export class ProfileComponent implements OnInit {
         this.userForm = { ...response[0] };
       },
       error => {
-        if (error) this.router.navigate(['user/cart']);
+        if (error && error.status === 401) {
+          this.redirectToLogin();
+        }
       }
     );
   }

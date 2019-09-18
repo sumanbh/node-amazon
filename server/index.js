@@ -6,6 +6,7 @@ if (typeof process.env.NODE_ENV === 'undefined') {
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
 const compress = require('compression');
@@ -18,7 +19,7 @@ const routes = require('./routes.js');
 const insertions = require('./new-insert');
 const authentication = require('./authentication.js');
 
-const app = express();
+const app = express().disable('x-powered-by').use(cookieParser());
 
 if (process.env.NODE_ENV !== 'development') {
   app.use(enforce.HTTPS());
@@ -41,6 +42,15 @@ app.use((err, req, res, next) => {
 
 const jwtCheck = jwtExpress({
   secret: config.jwt.secret,
+  getToken: (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+      return req.headers.authorization.split(' ')[1];
+    }
+    if (req.cookies && req.cookies.SIO_SESSION) {
+      return req.cookies.SIO_SESSION;
+    }
+    return null;
+  },
 });
 
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -48,6 +58,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(compress());
 app.use(express.static(`${__dirname}/../dist`)); // location of index.html
+
 // check jwt token for these routes
 app.use('/api/user', jwtCheck);
 // Authentication routes for local, google and facebook
@@ -55,6 +66,7 @@ app.use('/auth', authentication());
 
 // Api calls
 
+app.get('/api/customer', routes.getCustomer);
 app.get('/api/product/:productId', routeCache.cacheSeconds(86400), routes.getProductById); // Cache 24 hours
 app.get('/api/shop/:page', routeCache.cacheSeconds(20), routes.getAllProducts); // Cache 20 seconds
 app.get('/api/user/cart', routes.getFromCart);

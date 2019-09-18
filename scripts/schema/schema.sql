@@ -1,15 +1,11 @@
-CREATE DATABASE "node_amazon_dev"
-    WITH OWNER "postgres"
-    ENCODING 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TEMPLATE template0;
+CREATE DATABASE "node_amazon_dev";
 
 CREATE EXTENSION citext;
+CREATE EXTENSION pgcrypto;
 
 CREATE TABLE customers 
   ( 
-     id          SERIAL PRIMARY KEY NOT NULL, 
+     id          UUID DEFAULT gen_random_uuid() PRIMARY KEY, 
      google_id   VARCHAR(100), 
      facebook_id VARCHAR(100), 
      given_name  VARCHAR(70), 
@@ -27,31 +23,91 @@ CREATE TABLE customers
 
 CREATE TABLE os 
   ( 
-     id   SERIAL NOT NULL PRIMARY KEY, 
+     id   SERIAL PRIMARY KEY,
      name VARCHAR(100) 
   ); 
 
 CREATE TABLE processor 
   ( 
-     id   SERIAL PRIMARY KEY, 
+     id   SERIAL PRIMARY KEY,
      name VARCHAR(40) 
   ); 
 
 CREATE TABLE brand 
   ( 
-     id   SERIAL NOT NULL PRIMARY KEY, 
+     id   SERIAL PRIMARY KEY,
      name VARCHAR(100) 
   ); 
 
 CREATE TABLE storage_type 
   ( 
-     id   SERIAL NOT NULL PRIMARY KEY, 
+     id   SERIAL PRIMARY KEY,
      name VARCHAR(100) 
-  ); 
+  );
+
+-- Create a trigger function that takes no arguments.
+-- Trigger functions automatically have OLD, NEW records
+-- and TG_TABLE_NAME as well as others.
+CREATE OR REPLACE FUNCTION unique_short_id()
+RETURNS TRIGGER AS $$
+
+ -- Declare the variables we'll be using.
+DECLARE
+  key TEXT;
+  qry TEXT;
+  found TEXT;
+BEGIN
+
+  -- generate the first part of a query as a string with safely
+  -- escaped table name, using || to concat the parts
+  qry := 'SELECT id FROM ' || quote_ident(TG_TABLE_NAME) || ' WHERE id=';
+
+  -- This loop will probably only run once per call until we've generated
+  -- millions of ids.
+  LOOP
+
+    -- Generate our string bytes and re-encode as a base64 string.
+    key := encode(gen_random_bytes(6), 'base64');
+
+    -- Base64 encoding contains 2 URL unsafe characters by default.
+    -- The URL-safe version has these replacements.
+    key := replace(key, '/', '_'); -- url safe replacement
+    key := replace(key, '+', '-'); -- url safe replacement
+
+    -- Concat the generated key (safely quoted) with the generated query
+    -- and run it.
+    -- SELECT id FROM "test" WHERE id='blahblah' INTO found
+    -- Now "found" will be the duplicated id or NULL.
+    EXECUTE qry || quote_literal(key) INTO found;
+
+    -- Check to see if found is NULL.
+    -- If we checked to see if found = NULL it would always be FALSE
+    -- because (NULL = NULL) is always FALSE.
+    IF found IS NULL THEN
+
+      -- If we didn't find a collision then leave the LOOP.
+      EXIT;
+    END IF;
+
+    -- We haven't EXITed yet, so return to the top of the LOOP
+    -- and try again.
+  END LOOP;
+
+  -- NEW and OLD are available in TRIGGER PROCEDURES.
+  -- NEW is the mutated row that will actually be INSERTed.
+  -- We're replacing id, regardless of what it was before
+  -- with our key variable.
+  NEW.id = key;
+
+  -- The RECORD returned here is what will actually be INSERTed,
+  -- or what the next trigger will get if there is one.
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
 
 CREATE TABLE laptops 
   ( 
-     id              SERIAL NOT NULL PRIMARY KEY, 
+     id              TEXT PRIMARY KEY, 
      name            VARCHAR(300), 
      os_id           INT NOT NULL REFERENCES os(id), 
      processor_id    INT NOT NULL REFERENCES processor(id), 
@@ -65,6 +121,12 @@ CREATE TABLE laptops
      img_big         VARCHAR(200), 
      description     TEXT[] 
   );
+
+-- We name the trigger "trigger_laptops_genid" so that we can remove
+-- or replace it later.
+-- If an INSERT contains multiple RECORDs, each one will call
+-- unique_short_id individually.
+CREATE TRIGGER trigger_laptops_genid BEFORE INSERT ON laptops FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
 
 CREATE INDEX ON laptops ((lower(name)));
 CREATE INDEX ON laptops (rating);
@@ -92,15 +154,15 @@ $$ LANGUAGE PLPGSQL;
 
 CREATE TABLE orderline 
   ( 
-     id          BIGINT PRIMARY KEY NOT NULL DEFAULT shard_1.id_generator(), 
+     id          BIGINT PRIMARY KEY NOT NULL DEFAULT shard_1.id_generator(),
      order_total NUMERIC(7, 2), 
-     customer_id INTEGER NOT NULL REFERENCES customers(id), 
+     customer_id UUID REFERENCES customers(id), 
      date_added  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
   ); 
 
 CREATE TABLE orders 
   ( 
-     id           SERIAL PRIMARY KEY NOT NULL, 
+     id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
      orderline_id BIGINT REFERENCES orderline(id), 
      product_id   INTEGER NOT NULL REFERENCES laptops(id), 
      quantity     INTEGER NOT NULL, 
@@ -113,10 +175,10 @@ CREATE TABLE orders
 
 CREATE TABLE cart 
   ( 
-     id               SERIAL PRIMARY KEY NOT NULL, 
+     id               UUID DEFAULT gen_random_uuid() PRIMARY KEY,
      product_id       INTEGER NOT NULL REFERENCES laptops(id), 
      product_quantity INTEGER NOT NULL, 
-     customer_id      INTEGER NOT NULL REFERENCES customers(id), 
+     customer_id      UUID REFERENCES customers(id), 
      date_added       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
   ); 
 
@@ -162,18 +224,18 @@ AS
 
 -- CREATE TABLE google_account 
 --   ( 
---      customer_id INT NOT NULL PRIMARY KEY REFERENCES customers(id), 
+--      customer_id UUID REFERENCES customers(id), 
 --      google_id   VARCHAR (100) 
 --   ); 
 
 -- CREATE TABLE facebook_account 
 --   ( 
---      customer_id INT NOT NULL PRIMARY KEY REFERENCES customers(id), 
+--      customer_id UUID REFERENCES customers(id), 
 --      google_id   VARCHAR (100) 
 --   ); 
 
 -- CREATE TABLE user_account 
 --   ( 
---      customer_id INT NOT NULL PRIMARY KEY REFERENCES customers(id), 
+--      customer_id UUID REFERENCES customers(id), 
 --      password    VARCHAR(200) 
 --   ); 

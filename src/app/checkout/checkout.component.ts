@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { CheckoutService } from './checkout.service';
-import { LoadingBarService } from '@ngx-loading-bar/core';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +20,7 @@ export class CheckoutComponent implements OnInit {
     private checkoutService: CheckoutService,
     private router: Router,
     private titleService: Title,
-    private slimLoadingBarService: LoadingBarService
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -28,23 +28,30 @@ export class CheckoutComponent implements OnInit {
     this.getCartInfo();
   }
 
-  getCartInfo() {
-    // start the loading bar animation
-    this.slimLoadingBarService.start();
+  redirectToLogin() {
+    this.userService.clearUser();
+    this.router.navigate(['login']);
+  }
 
+  getCartInfo() {
     // get all the items on cart for the user
     this.checkoutService.getCartById().subscribe(
       response => {
-        this.slimLoadingBarService.complete();
         this.userInfo = response.userInfo;
-        if (!this.userInfo) this.router.navigate(['login']);
+        if (!this.userInfo) {
+          this.redirectToLogin();
+        }
         this.cartContent = response.data;
         if (this.cartContent) {
           this.cartTotal = response.sum.total;
-        } else this.router.navigate(['user/cart']);
+        } else {
+          this.router.navigate(['user/cart']);
+        }
       },
       error => {
-        if (error) this.router.navigate(['login']);
+        if (error && error.status === 401) {
+          this.redirectToLogin();
+        }
       }
     );
   }
@@ -60,10 +67,14 @@ export class CheckoutComponent implements OnInit {
     ) {
       this.checkoutService.sendCheckout(value).subscribe(
         response => {
-          if (response) this.router.navigate(['user/orders']);
+          if (response) {
+            this.router.navigate(['user/orders']);
+          }
         },
         error => {
-          if (error) this.router.navigate(['login']);
+          if (error && error.status === 401) {
+            this.redirectToLogin();
+          }
         }
       );
     }

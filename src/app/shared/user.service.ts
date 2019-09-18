@@ -1,15 +1,17 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { JwtHelperService } from 'angular-jwt-universal';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
 
-interface LoginResponse {
-  success?: boolean;
-  token?: string;
-  cart?: number;
+import { NavService } from '../shared/nav.service';
+
+interface User {
+  name: string;
+  cart: number;
+}
+
+interface LoginResponse extends User {
+  success: boolean;
 }
 
 @Injectable()
@@ -17,36 +19,20 @@ export class UserService {
   loggedIn = false;
   jwt: string;
   baseUrl: string;
+  user: string;
+  cart: number;
+  isLoading = true;
 
   constructor(
     private http: HttpClient,
     private navService: NavService,
-    private jwtHelperService: JwtHelperService,
     @Inject('BASE_URL') baseUrl: string,
-    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.baseUrl = baseUrl;
   }
 
-  checkLocalStorage() {
-    if (isPlatformBrowser(this.platformId)) {
-      const token: string = this.jwtHelperService.tokenGetter();
-
-      if (!token) {
-        this.loggedIn = false;
-      } else {
-        const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(
-          token
-        );
-        if (!tokenExpired) {
-          this.loggedIn = true;
-        } else {
-          this.loggedIn = false;
-        }
-      }
-    } else {
-      this.loggedIn = false;
-    }
+  checkIfLoggedIn() {
+    this.loggedIn = !!this.user;
   }
 
   login(email, password): Observable<any> {
@@ -63,15 +49,7 @@ export class UserService {
       .pipe(
         map(res => {
           if (res.success) {
-            if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem('token', res.token);
-              localStorage.setItem(
-                'id_cart',
-                res.cart ? String(res.cart) : '0'
-              );
-            }
-            this.navService.changeNav(true);
-            this.navService.changeCart(res.cart);
+            this.setUser(res);
             return { success: true };
           }
           return res;
@@ -80,29 +58,40 @@ export class UserService {
   }
 
   logout(): Observable<any> {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('id_cart');
-    }
+    this.clearUser();
     return this.http.get(`${this.baseUrl}/auth/logout`, {
       responseType: 'text'
     });
   }
 
-  isLoggedIn() {
-    this.checkLocalStorage();
-    if (isPlatformBrowser(this.platformId) && this.loggedIn) {
-      const cart: Number = parseInt(localStorage.getItem('id_cart'), 10) || 0;
-      this.navService.changeCart(cart);
-      try {
-        this.jwt = localStorage.getItem('token');
-        return this.jwtHelperService.decodeToken(this.jwt);
-      } catch (err) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('id_cart');
-        return false;
-      }
+  getUser() {
+    this.checkIfLoggedIn();
+    if (this.loggedIn) {
+      return this.user;
     }
-    return false;
+    return '';
+  }
+
+  setUser(data: User) {
+    this.user = data.name;
+    this.cart = data.cart;
+    this.navService.changeNav(true);
+    this.navService.changeCart(data.cart);
+  }
+
+  makeUserRequest() {
+    const apiUrl = '/api/customer';
+    this.http.get<User>(this.baseUrl + apiUrl).subscribe(data => {
+      if (data && data.name) {
+        this.setUser(data);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  clearUser() {
+    this.user = null;
+    this.cart = null;
+    this.navService.changeNav(false);
   }
 }

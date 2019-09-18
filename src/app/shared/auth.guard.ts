@@ -1,45 +1,30 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable } from '@angular/core';
 import {
   Router,
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
-import { JwtHelperService } from 'angular-jwt-universal';
+
+import { UserService } from './user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private jwtHelperService: JwtHelperService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private userService: UserService,
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (isPlatformBrowser(this.platformId)) {
-      const token: string = this.jwtHelperService.tokenGetter();
+    const user = this.userService.getUser();
+    if (!user && !this.userService.isLoading) {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: state.url }
+      });
 
-      if (!token) {
-        this.router.navigate(['/login'], {
-          queryParams: { returnUrl: state.url }
-        });
-
-        return false;
-      }
-
-      const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token);
-
-      if (tokenExpired) {
-        this.router.navigate(['/login'], {
-          queryParams: { returnUrl: state.url }
-        });
-        return false;
-      }
-
-      return true;
+      return false;
     }
 
-    return false;
+    return true;
   }
 }
