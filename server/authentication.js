@@ -24,6 +24,8 @@ function createToken(user) {
  */
 function getCart(id) {
   const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
+
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     resolve((await pool.query(query, [id])).rows[0]);
   });

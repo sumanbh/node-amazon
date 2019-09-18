@@ -22,7 +22,7 @@ const postgresConfig = {
  */
 async function createTables() {
   try {
-    const pool = new Pool(Object.assign({}, postgresConfig, { database: postgresql.database, max: 5 }));
+    const pool = new Pool({ ...postgresConfig, database: postgresql.database, max: 5 });
 
     await pool.query('CREATE EXTENSION citext;');
     await pool.query('CREATE EXTENSION pgcrypto;');

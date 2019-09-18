@@ -50,27 +50,27 @@ const routes = {
       switch (value) {
         case 'brand': {
           const keys = Object.keys(obj[value]);
-          brands = keys.filter(key => obj[value][key]);
+          brands = keys.filter((key) => obj[value][key]);
           break;
         }
         case 'os': {
           const keys = Object.keys(obj[value]);
-          os = keys.filter(key => obj[value][key]);
+          os = keys.filter((key) => obj[value][key]);
           break;
         }
         case 'processor': {
           const keys = Object.keys(obj[value]);
-          processor = keys.filter(key => obj[value][key]);
+          processor = keys.filter((key) => obj[value][key]);
           break;
         }
         case 'ram': {
           const keys = Object.keys(obj[value]);
-          ram = keys.filter(key => obj[value][key]);
+          ram = keys.filter((key) => obj[value][key]);
           break;
         }
         case 'storage': {
           const keys = Object.keys(obj[value]);
-          storage = keys.filter(key => obj[value][key]);
+          storage = keys.filter((key) => obj[value][key]);
           break;
         }
         case 'search': {
@@ -116,7 +116,8 @@ const routes = {
       data: result.rows.splice(offset, limit), // pagination
     });
   },
-  getCartCount: id => new Promise(async (resolve) => {
+  // eslint-disable-next-line no-async-promise-executor
+  getCartCount: (id) => new Promise(async (resolve) => {
     const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
     resolve((await pool.query(query, [id])).rows[0]);
   }),
@@ -237,7 +238,7 @@ const routes = {
     const orderline = (await pool.query(query, [req.user.id])).rows[0].id;
     // insert the individual cart item to orders table
     const values = [];
-    cart.rows.forEach(item => values.push([orderline, item.product_id, item.product_quantity, userName, userAddress, userCity, userState, userZip]));
+    cart.rows.forEach((item) => values.push([orderline, item.product_id, item.product_quantity, userName, userAddress, userCity, userState, userZip]));
     const results = [];
     // insert into orderline
     const orderlineQuery = format(
