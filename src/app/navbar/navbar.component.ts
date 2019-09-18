@@ -36,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   routeParam: Subscription;
   modalService;
   modalReference;
+  isClient = false;
 
   constructor(
     private router: Router,
@@ -45,6 +46,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private injector: Injector
   ) {
+    this.isClient = isPlatformBrowser(this.platformId);
     if (isPlatformBrowser(this.platformId)) {
       this.modalService = this.injector.get(NgbModal);
     }

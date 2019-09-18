@@ -5,7 +5,7 @@
   <button #searchBtn id="search-button" class="btn" type="submit" (click)="submit(searchBtn)">
     <img src="../../assets/images/search.svg">
   </button>
-  <a *ngIf="hideLogin" class="dropdown user-welcome">
+  <a *ngIf="hideLogin && isClient" class="dropdown user-welcome">
     <div ngbDropdown class="d-inline-block">
       <a ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Hello, {{userGivenName}}
         <span class="caret"></span>
