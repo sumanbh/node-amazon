@@ -41,7 +41,16 @@ app.use((err, req, res, next) => {
 });
 
 const jwtCheck = jwtExpress({
-  secret: config.jwt.secret
+  secret: config.jwt.secret,
+  getToken: (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+      return req.headers.authorization.split(' ')[1];
+    }
+    if (req.cookies && req.cookies.SIO_SESSION) {
+      return req.cookies.SIO_SESSION;
+    }
+    return null;
+  },
 });
 
 const SERVER_FOLDER = join(process.cwd(), 'server');
@@ -83,6 +92,7 @@ app.use('/api/user', jwtCheck);
 app.use('/auth', authentication());
 
 /* - Express Rest API endpoints - */
+app.get('/api/customer', routes.getCustomer);
 app.get('/api/shop/:page', routeCache.cacheSeconds(20), routes.getAllProducts); // Cache 20 seconds
 app.get(
   '/api/product/:productId',
@@ -124,5 +134,5 @@ app.use((err, req, res, next) => {
 
 // Start up the Node server
 app.listen(PORT, () => {
-  console.log(`Node Express server listening on http://localhost:${PORT}`);
+  console.log(`Server listening on http://localhost:${PORT}`);
 });
