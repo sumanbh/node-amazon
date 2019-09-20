@@ -23,7 +23,6 @@ const routes = {
 
       res.status(200).json({ name: customer.rows[0].given_name, cart: cartCount.total || 0 });
     } catch (err) {
-      console.log(err);
       res.status(200).json({ name: null, cart: null });
     }
   },
@@ -177,8 +176,8 @@ const routes = {
     }
   },
   getFromCart: async (req, res) => {
-    // returns everything in the cart if any
-    const query = 'SELECT * FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
+    // Get the user's cart
+    const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity, cartview.unique_id FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
     const cart = await pool.query(query, [req.user.id]);
     // check if cart is empty
     if (cart.rowCount === 0) return res.status(200).json(cart.rows);
@@ -196,8 +195,8 @@ const routes = {
     });
   },
   getCheckoutInfo: async (req, res) => {
-    // get cart information
-    const query = 'SELECT * FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
+    // Get the user's cart
+    const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
     const cart = await pool.query(query, [req.user.id]);
     // check if cart is empty
     if (cart.rowCount === 0) return res.status(200).json(cart.rows);
