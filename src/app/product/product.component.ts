@@ -12,6 +12,17 @@ import { NotificationsService } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
 import { ProductService } from './product.service';
 
+const ADDRESSES = [
+  'Seattle - Washington',
+  'Arches National Park - Utah',
+  'Vostok Station - Antarctica',
+  'Atacama Desert - Chile',
+  'Taumatawhakatangi­hangakoauauotamatea­turipukakapikimaunga­horonukupokaiwhen­uakitanatahu - New Zealand',
+  'Sagarmatha - Nepal',
+  'Olympus Mons - Mars',
+  'Death Valley - California'
+];
+
 @Component({
   selector: 'app-product',
   templateUrl: 'product.component.html',
@@ -32,6 +43,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     clickToClose: true,
     maxLength: 0
   };
+  shippingAddress = this.getAddress();
 
   constructor(
     private route: ActivatedRoute,
@@ -55,8 +67,13 @@ export class ProductComponent implements OnInit, OnDestroy {
       }
 
       this.id = params['id'];
+      this.shippingAddress = this.getAddress();
       this.getById(this.id);
     });
+  }
+
+  getAddress() {
+    return ADDRESSES[Math.floor(Math.random() * ADDRESSES.length)];
   }
 
   popToast(isTrue, quantity) {

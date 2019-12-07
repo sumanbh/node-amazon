@@ -1,9 +1,10 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { NavService } from '../shared/nav.service';
 
 @Injectable()
 export class ProductService {
@@ -14,7 +15,7 @@ export class ProductService {
     private navService: NavService,
     @Inject('BASE_URL') baseUrl: string,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+    ) {
     this.baseUrl = baseUrl;
   }
 

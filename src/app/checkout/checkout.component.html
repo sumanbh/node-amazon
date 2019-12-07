@@ -15,24 +15,24 @@
             <div class="col-8">
               <form #form="ngForm" (ngSubmit)="checkoutConfirm(form.value)">
                 <div class="form-group">
-                  <input type="text" id="userName" class="form-control user-address" [(ngModel)]="user.fullname" name="fullname" placeholder="Full Name"
-                    required>
+                  <input type="text" id="userName" class="form-control user-address" [(ngModel)]="user.fullname"
+                    name="fullname" placeholder="Full Name" required>
                 </div>
                 <div class="form-group">
-                  <input type="text" id="userAddress" class="form-control user-address" [(ngModel)]="user.address" name="address" placeholder="Shipping Address"
-                    required>
+                  <input type="text" id="userAddress" class="form-control user-address" [(ngModel)]="user.address"
+                    name="address" placeholder="Shipping Address" required>
                 </div>
                 <div class="form-group">
-                  <input type="text" id="userCity" class="form-control user-address" [(ngModel)]="user.city" name="city" maxlength="32" placeholder="City"
-                    required>
+                  <input type="text" id="userCity" class="form-control user-address" [(ngModel)]="user.city" name="city"
+                    maxlength="32" placeholder="City" required>
                 </div>
                 <div class="form-group">
-                  <input type="text" id="userState" class="form-control user-address" [(ngModel)]="user.state" name="state" minlength="2" maxlength="2"
-                    placeholder="State" required>
+                  <input type="text" id="userState" class="form-control user-address" [(ngModel)]="user.state"
+                    name="state" minlength="2" maxlength="2" placeholder="State" required>
                 </div>
                 <div class="form-group">
-                  <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip" max="99999" placeholder="Zip"
-                    required>
+                  <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip"
+                    max="99999" placeholder="Zip" required>
                 </div>
                 <input type="submit" id="submit-form" hidden [disabled]="cartContent.length === 0" />
               </form>
@@ -44,7 +44,7 @@
             <div class="col-8">
               <div class="payment-container">
                 <!--Dummy payment information below-->
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Farm-Fresh_visa_2.png" alt="Visa">                                <b>Visa</b> ending in 4850
+                <p><img src="../../assets/images/visa.png" alt="Visa" />&nbsp;<b>Visa</b> ending in 4850</p>
                 <!--Dummy billing address-->
                 <p class="billing-info"><b>Billing address:</b> Same as Shipping </p>
               </div>
