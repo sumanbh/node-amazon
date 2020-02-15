@@ -3,7 +3,6 @@ import {
   ServerModule,
   ServerTransferStateModule
 } from '@angular/platform-server';
-import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppBrowserModule } from './app.module';
@@ -14,7 +13,6 @@ import { HttpUniversalInterceptor } from './interceptor';
   imports: [
     AppBrowserModule,
     ServerModule,
-    ModuleMapLoaderModule,
     ServerTransferStateModule
   ],
   bootstrap: [AppComponent],
