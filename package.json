@@ -5,17 +5,13 @@
   "author": "Suman Bhattarai",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"npm run dev-server\" \"ng serve --proxy-config proxy.conf.json\"",
-    "dev-server": "node server",
+    "start": "ng run amazon:serve-ssr",
     "lint": "eslint --ext .js ./",
     "lint:ts": "tslint --project tslint.json 'src/**/**.ts'",
     "init:db": "node scripts/setupDatabase.js",
-    "compile:server_bak": "tsc -p server.tsconfig.json",
     "build:client-and-server-bundles_bak": "ng build --prod && ng run amazon:server:production",
-    "dev:ssr": "ng run amazon:serve-ssr",
     "serve:ssr": "node dist/server/main.js",
-    "build:ssr": "ng build --prod && ng run amazon:server:production",
-    "prerender": "ng run amazon:prerender"
+    "build:ssr": "ng build --prod && ng run amazon:server:production"
   },
   "private": true,
   "dependencies": {

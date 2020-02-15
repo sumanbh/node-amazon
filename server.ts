@@ -15,20 +15,28 @@ import * as cors from 'cors';
 
 import { AppServerModule } from './src/main.server';
 
+// Webpack will replace 'require' with '__webpack_require__'
+// '__non_webpack_require__' is a proxy to Node 'require'
+// The below code is to ensure that the server is run only when not requiring the bundle.
+declare const __non_webpack_require__: NodeRequire;
+const nodeRequire = __non_webpack_require__;
+const mainModule = __non_webpack_require__.main;
+const moduleFilename = mainModule && mainModule.filename || '';
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   // Config
   const CONFIG_FOLDER = join(process.cwd(), 'config');
-  const config = require(join(CONFIG_FOLDER, 'amazon.json'));
+  const config = nodeRequire(join(CONFIG_FOLDER, 'amazon.json'));
 
   const server = express().disable('x-powered-by').use(cookieParser());
   const distFolder = join(process.cwd(), 'dist/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const SERVER_FOLDER = join(process.cwd(), 'server');
-  const routes = require(join(SERVER_FOLDER, 'routes.js'));
-  const insertions = require(join(SERVER_FOLDER, 'new-insert'));
-  const authentication = require(join(SERVER_FOLDER, 'authentication.js'));
+  const routes = nodeRequire(join(SERVER_FOLDER, 'routes.js'));
+  const insertions = nodeRequire(join(SERVER_FOLDER, 'new-insert'));
+  const authentication = nodeRequire(join(SERVER_FOLDER, 'authentication.js'));
 
   // Basic express session
   server.use(
@@ -123,12 +131,6 @@ function run() {
   });
 }
 
-// Webpack will replace 'require' with '__webpack_require__'
-// '__non_webpack_require__' is a proxy to Node 'require'
-// The below code is to ensure that the server is run only when not requiring the bundle.
-declare const __non_webpack_require__: NodeRequire;
-const mainModule = __non_webpack_require__.main;
-const moduleFilename = mainModule && mainModule.filename || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
