@@ -57,7 +57,9 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
     TransferHttpCacheModule,
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabled'
+    }),
     HttpClientJsonpModule,
     NgbRatingModule,
     NgbDropdownModule,
