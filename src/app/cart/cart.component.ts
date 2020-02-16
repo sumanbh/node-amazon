@@ -56,14 +56,18 @@ export class CartComponent implements OnInit {
   }
 
   removeProduct(id) {
-    this.cartService.removeFromCart(id).subscribe(
-      () => {
-        this.getCartInfo();
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    const itemIndex = this.cartContent.findIndex(item => item.unique_id === id);
+    if (itemIndex !== -1) {
+      this.cartContent[itemIndex].hideme = true;
+      this.cartService.removeFromCart(id).subscribe(
+        () => {
+          this.getCartInfo();
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
   }
 
   getCartInfo() {

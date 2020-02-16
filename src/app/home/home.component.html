@@ -38,11 +38,11 @@
 
         <div class="filter-header">Price</div>
         <label *ngFor="let item of priceOptions" class="filters">
-          <input [id]="item.name" type="radio" (click)="isPrice = item.value" (click)="getPage(page, 'price')" [checked]="item.value === isPrice"
+          <input [id]="item.name" type="radio" (click)="[isPrice = item.value, getPage(page, 'price')]" [checked]="item.value === isPrice"
             name="price">
           <label [for]="item.name"> {{item.name}}</label>
         </label>
-        <a id="allprices" *ngIf="isPrice" (click)="isPrice = ''" (click)="getPage(page, 'price')">Back to all results</a>
+        <a id="allprices" *ngIf="isPrice" (click)="[isPrice = '', getPage(page, 'price')]">Back to all results</a>
         <div id="custom-container">$
           <input [(ngModel)]="minCustom" class="price-custom" type="number" id="low-price" name="min" step="50" min="1" max="100000"
             placeholder="Min"> to $

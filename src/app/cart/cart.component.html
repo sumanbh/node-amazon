@@ -18,7 +18,7 @@
             </div>
             <div class="col-lg-6 col-sm-8 col-12 name-container">
               <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
-              <a class="cart-remove"><span (click)="item.hideme = !item.hideme" (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</span></a>
+              <a class="cart-remove"><span (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</span></a>
             </div>
             <div class="col-lg-2 col-6 price-container">
               <span class="cart-product-price">${{item.price}}</span>
