@@ -9,7 +9,6 @@
     "lint": "eslint --ext .js ./",
     "lint:ts": "tslint --project tslint.json 'src/**/**.ts'",
     "init:db": "node scripts/setupDatabase.js",
-    "build:client-and-server-bundles_bak": "ng build --prod && ng run amazon:server:production",
     "serve:ssr": "node dist/server/main.js",
     "build:ssr": "ng build --prod && ng run amazon:server:production"
   },
