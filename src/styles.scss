@@ -108,6 +108,7 @@ simple-notifications {
 
 @media screen and (max-width: 767px) {
   .breadcrumb {
+    margin-top: -1px !important;
     background-color: #343a40 !important;
     li {
       display: none !important;

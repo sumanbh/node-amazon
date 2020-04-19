@@ -147,14 +147,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     // returns only truthy checked checkboxes which are formatted correctly
     const serializeQuery = this.homeService.serializeQueryParams(tempObj);
     // prepare query param
-    const param = { ...serializeQuery, page };
+    const param: { page: number; min?: string; max?: string; search?: string } = { ...serializeQuery, page };
     // add custom price option if it exists to the query param
     if (isMinCustom && this.maxCustom) {
-      param['min'] = `${this.minCustom}`;
-      param['max'] = `${this.maxCustom}`;
+      param.min = `${this.minCustom}`;
+      param.max = `${this.maxCustom}`;
     }
     if (this.searchString) {
-      param['search'] = this.searchString;
+      param.search = this.searchString;
     }
 
     // We are subscribing to route change up top
