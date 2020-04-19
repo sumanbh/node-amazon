@@ -27,7 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "@nguniversal/common": "^9.0.1",
     "@nguniversal/express-engine": "^9.0.1",
-    "angular2-notifications": "^3.0.0",
+    "angular2-notifications": "^9.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "bootstrap": "4.4.1",
