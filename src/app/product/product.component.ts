@@ -23,6 +23,13 @@ const ADDRESSES = [
   'Death Valley - California'
 ];
 
+function stringToUtfCode(str: string) {
+  return str.split('').reduce((acc, _, index) => {
+    acc += str.charCodeAt(index);
+    return acc;
+  }, 0);
+}
+
 @Component({
   selector: 'app-product',
   templateUrl: 'product.component.html',
@@ -33,7 +40,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   product = [];
   similar: Array<Object>;
   param: any;
-  id: any;
+  id: string;
   currentQuantity = 1;
   options = {
     position: ['top', 'right'],
@@ -43,7 +50,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     clickToClose: true,
     maxLength: 0
   };
-  shippingAddress = this.getAddress();
+  shippingAddress: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,27 +63,32 @@ export class ProductComponent implements OnInit, OnDestroy {
   ) {
     config.max = 5;
     config.readonly = true;
+    this.id = this.route.snapshot.params.id;
+    this.shippingAddress = this.getAddress();
   }
 
   ngOnInit() {
     // subscribe to route to get product ID
     this.param = this.route.params.subscribe(params => {
+      this.id = params['id'];
+      this.getById(this.id);
+
       if (isPlatformBrowser(this.platformId)) {
         // browser scrolls to top when route param changes
         window.scrollTo(0, 0);
+        this.shippingAddress = this.getAddress();
       }
-
-      this.id = params['id'];
-      this.shippingAddress = this.getAddress();
-      this.getById(this.id);
     });
   }
 
   getAddress() {
-    return ADDRESSES[Math.floor(Math.random() * ADDRESSES.length)];
+    if (this.id) {
+      return ADDRESSES[stringToUtfCode(this.id) % ADDRESSES.length];
+    }
+    return ADDRESSES[0];
   }
 
-  popToast(isTrue, quantity) {
+  popToast(isTrue: boolean, quantity: number) {
     if (isTrue) {
       this.toastService.success(
         `${quantity} Added`,
@@ -89,13 +101,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  popToastInvalid(header, subject) {
+  popToastInvalid(header: string, subject: string) {
     this.toastService.info(header, subject, {
       timeOut: 3000
     });
   }
 
-  getById(id: any) {
+  getById(id: string) {
     this.productService.getProductById(id).subscribe(
       response => {
         this.currentQuantity = 1;

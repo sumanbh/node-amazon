@@ -49,9 +49,11 @@
           </button>
         </div>
         <hr>
-        <!--Dummy Shipping information-->
-        <b>Shipping from:</b>
-        <p>{{shippingAddress}}</p>
+        <ng-container *ngIf="shippingAddress">
+          <!--Dummy Shipping information-->
+          <b>Shipping from:</b>
+          <p>{{shippingAddress}}</p>
+        </ng-container>
       </div>
     </div>
   </div>
