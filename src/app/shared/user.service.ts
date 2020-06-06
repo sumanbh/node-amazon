@@ -49,7 +49,8 @@ export class UserService {
       .pipe(
         map(res => {
           if (res.success) {
-            this.setUser(res);
+            this.setUser(res.name);
+            this.setCart(res.cart);
             return { success: true };
           }
           return res;
@@ -72,18 +73,23 @@ export class UserService {
     return '';
   }
 
-  setUser(data: User) {
-    this.user = data.name;
-    this.cart = data.cart;
+  setCart(cart: number) {
+    this.cart = cart;
     this.navService.changeNav(true);
-    this.navService.changeCart(data.cart);
+    this.navService.changeCart(this.cart);
+  }
+
+  setUser(user: string) {
+    this.user = user;
+    this.navService.changeNav(true);
   }
 
   makeUserRequest() {
     const apiUrl = '/api/customer';
     this.http.get<User>(this.baseUrl + apiUrl).subscribe(data => {
       if (data && data.name) {
-        this.setUser(data);
+        this.setUser(data.name);
+        this.setCart(data.cart);
         this.isLoading = false;
       }
     });

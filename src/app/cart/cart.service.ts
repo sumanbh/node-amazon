@@ -2,14 +2,17 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
+
+import { UserService } from '../shared/user.service';
+import { NavService } from '../shared/nav.service';
 
 @Injectable()
 export class CartService {
   constructor(
     public http: HttpClient,
     private navService: NavService,
+    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -17,10 +20,12 @@ export class CartService {
     const productUrl = `/api/user/cart`; // api url
     return this.http.get(productUrl).pipe(
       map((res: any) => {
+        const cart = res.cart || 0;
         if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('id_cart', res.cart || 0);
+          localStorage.setItem('id_cart', cart);
         }
-        this.navService.changeCart(res.cart || 0);
+        this.userService.setCart(cart);
+        this.navService.changeCart(cart);
         return res;
       })
     );
@@ -35,6 +40,7 @@ export class CartService {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('id_cart', cart);
           }
+          this.userService.setCart(cart);
           this.navService.changeCart(cart);
           return true;
         }

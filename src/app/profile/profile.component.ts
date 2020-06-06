@@ -58,11 +58,10 @@ export class ProfileComponent implements OnInit {
   getProfile() {
     this.profileService.getUserProfile().subscribe(
       response => {
-        if (!response[0].address) this.addressExist = false;
-        // to trigger ngif 'add address'
-        else this.addressExist = true;
+        this.addressExist = !!response[0].address;
         this.userInfo = response;
         this.userForm = { ...response[0] };
+        this.userService.setUser(this.userForm.given_name);
       },
       error => {
         if (error && error.status === 401) {
@@ -80,7 +79,7 @@ export class ProfileComponent implements OnInit {
           this.modalReference.close();
         }
       },
-      error => {
+      () => {
         this.error = true;
       }
     );
