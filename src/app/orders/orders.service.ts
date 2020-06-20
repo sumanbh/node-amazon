@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class OrdersService {
-  constructor(private http: HttpClient) {}
+  baseUrl: string;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
   getOrdersById(): Observable<any> {
-    const ordersUrl = `/api/user/orders`; // api url
-    return this.http
-      .get(ordersUrl);
+    const ordersUrl = `${this.baseUrl}/api/user/orders`;
+    return this.http.get(ordersUrl);
   }
 }

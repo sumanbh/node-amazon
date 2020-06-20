@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { Subscription, Subject } from 'rxjs';
 import { NavService } from '../shared/nav.service';
-import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -34,8 +34,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   searchString: string;
   searchSubject: Subject<string> = new Subject();
   routeParam: Subscription;
-  modalService;
-  modalReference;
+  modalReference: NgbModalRef;
+  modalService: NgbModal;
   isClient = false;
 
   constructor(

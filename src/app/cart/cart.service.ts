@@ -9,15 +9,20 @@ import { NavService } from '../shared/nav.service';
 
 @Injectable()
 export class CartService {
+  baseUrl: string;
+
   constructor(
     public http: HttpClient,
     private navService: NavService,
     private userService: UserService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   getCartById(): Observable<any> {
-    const productUrl = `/api/user/cart`; // api url
+    const productUrl = `${this.baseUrl}/api/user/cart`;
     return this.http.get(productUrl).pipe(
       map((res: any) => {
         const cart = res.cart || 0;

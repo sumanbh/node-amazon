@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ProfileService {
-  constructor(private http: HttpClient) {}
+  baseUrl: string;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
   getUserProfile(): Observable<any> {
-    return this.http.get(`/api/user/settings`);
+    return this.http.get(`${this.baseUrl}/api/user/settings`);
   }
 
   updateUserProfile(userObj): Observable<any> {

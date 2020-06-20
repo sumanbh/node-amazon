@@ -1,23 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NavService } from '../shared/nav.service';
 import { map } from 'rxjs/operators';
+import { NavService } from '../shared/nav.service';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private http: HttpClient, private navService: NavService) {}
+  baseUrl: string;
+
+  constructor(
+    private http: HttpClient,
+    private navService: NavService,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   getCartById(): Observable<any> {
-    const productUrl = `/api/user/checkout`; // api url
-    return this.http
-      .get(productUrl);
+    const productUrl = `${this.baseUrl}/api/user/checkout`; // api url
+    return this.http.get(productUrl);
   }
 
   sendCheckout(value: any): Observable<any> {
     const headers = new HttpHeaders({
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
     const checkoutUrl = `/api/user/checkout/confirm`;
     return this.http.post(checkoutUrl, value, { headers: headers }).pipe(

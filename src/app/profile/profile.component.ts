@@ -8,7 +8,7 @@ import {
 import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser } from '@angular/common';
 
 import { User } from './user.interface';
@@ -25,8 +25,8 @@ export class ProfileComponent implements OnInit {
   addressExist = true;
   userInfo: Array<Object>;
   userForm: User;
-  modalReference;
-  modalService;
+  modalReference: NgbModalRef;
+  modalService: NgbModal;
 
   constructor(
     private profileService: ProfileService,
