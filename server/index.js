@@ -17,7 +17,7 @@ const jwtExpress = require('express-jwt');
 const config = require('../config/amazon.json');
 const routes = require('./routes.js');
 const insertions = require('./new-insert');
-const authentication = require('./authentication.js');
+const authentication = require('./authentication');
 
 const app = express().disable('x-powered-by').use(cookieParser());
 
