@@ -8,7 +8,6 @@ import { existsSync } from 'fs';
 import * as routeCache from 'route-cache';
 import * as jwtExpress from 'express-jwt';
 import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
 import * as compress from 'compression';
 import * as session from 'express-session';
 import * as cors from 'cors';
@@ -57,6 +56,7 @@ export function app() {
   });
 
   const jwtCheck = jwtExpress({
+    algorithms: ['HS256'],
     secret: config.jwt.secret,
     getToken: (req) => {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -77,8 +77,8 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  server.use(bodyParser.json({ limit: '5mb' }));
-  server.use(bodyParser.urlencoded({ extended: false }));
+  server.use(express.json({ limit: '5mb' }));
+  server.use(express.urlencoded({ extended: false }));
   server.use(cors());
   server.use(compress());
 
