@@ -5,7 +5,6 @@ if (typeof process.env.NODE_ENV === 'undefined') {
 
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
@@ -41,6 +40,7 @@ app.use((err, req, res, next) => {
 });
 
 const jwtCheck = jwtExpress({
+  algorithms: ['HS256'],
   secret: config.jwt.secret,
   getToken: (req) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -53,8 +53,8 @@ const jwtCheck = jwtExpress({
   },
 });
 
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(compress());
 app.use(express.static(`${__dirname}/../dist`)); // location of index.html
