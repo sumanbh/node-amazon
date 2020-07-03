@@ -3,17 +3,12 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "baseUrl": "./",
-    "types": []
-  ,    "target": "es2016"
-},
+    "types": [],
+    "target": "es2016"
+  },
   "angularCompilerOptions": {
     "entryModule": "./src/app/app.server.module#AppServerModule"
   },
-  "files": [
-    "src/main.server.ts",
-    "server.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/main.server.ts", "server.ts"],
+  "include": ["src/**/*.d.ts"]
 }
