@@ -3,7 +3,7 @@
     <li class="breadcrumb-item">
       <a [routerLink]="['/']">Home</a>
     </li>
-    <li class="breadcrumb-item active bread-name" *ngFor="let item of product">{{item.laptop_name}}</li>
+    <li class="breadcrumb-item active breadcrumb-ellipsis" *ngFor="let item of product">{{item.laptop_name}}</li>
   </ol>
   <simple-notifications [options]="options"></simple-notifications>
   <div class="row" *ngFor="let item of product">

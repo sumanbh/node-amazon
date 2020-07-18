@@ -106,6 +106,15 @@ simple-notifications {
   border-radius: 0px !important;
 }
 
+.breadcrumb-ellipsis {
+  display: inline-block !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 14rem;
+  vertical-align: middle;
+}
+
 @media screen and (max-width: 767px) {
   .breadcrumb {
     margin-top: -1px !important;
