@@ -158,7 +158,6 @@ async function createTables() {
     // If an INSERT contains multiple RECORDs, each one will call unique_short_id individually.
     await pool.query('CREATE TRIGGER trigger_laptops_genid BEFORE INSERT ON laptops FOR EACH ROW EXECUTE PROCEDURE unique_short_id();');
 
-
     await pool.query('CREATE SCHEMA shard_1;');
     await pool.query('CREATE SEQUENCE shard_1.global_id_sequence;');
     await pool.query(`
