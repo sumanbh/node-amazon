@@ -17,10 +17,15 @@ interface LoginResponse extends User {
 @Injectable()
 export class UserService {
   loggedIn = false;
+
   jwt: string;
+
   baseUrl: string;
+
   user: string;
+
   cart: number;
+
   isLoading = true;
 
   constructor(
@@ -44,7 +49,7 @@ export class UserService {
 
     return this.http
       .post<LoginResponse>(`${this.baseUrl}/auth/login`, user, {
-        headers: headers
+        headers
       })
       .pipe(
         map(res => {

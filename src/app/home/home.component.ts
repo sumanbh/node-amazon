@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HomeService } from './home.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Title } from '@angular/platform-browser';
+import { HomeService } from './home.service';
 
 import { NavService } from '../shared/nav.service';
 import { Brand } from './interfaces/brands.interface';
@@ -11,7 +12,6 @@ import { Processor } from './interfaces/processor.interface';
 import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -21,27 +21,49 @@ import { Title } from '@angular/platform-browser';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   param: any;
+
   brand: Brand;
+
   os: OS;
+
   processor: Processor;
+
   ram: RAM;
+
   storage: Storage;
+
   queryParams: QueryParam;
+
   searchResult = true;
+
   minCustom: number;
+
   maxCustom: number;
+
   page = 1;
+
   itemsPerPage = 24;
+
   data: Array<Object> = [];
+
   totalItems: number;
+
   isPrice = '';
+
   brandOptions = this.homeService.brandOptions;
+
   osOptions = this.homeService.osOptions;
+
   ramOptions = this.homeService.ramOptions;
+
   processorOptions = this.homeService.processorOptions;
+
   storageOptions = this.homeService.storageOptions;
+
   priceOptions = this.homeService.priceOptions;
+
   searchString: string;
+
   showFilter = true;
 
   constructor(
@@ -87,13 +109,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.ram = queryObj.ram;
       this.storage = queryObj.storage;
       // parseInt page otherwise ng2-pagination does not function correctly
-      if (this.queryParams.params.page)
-        this.page = parseInt(this.queryParams.params.page, 10);
+      if (this.queryParams.params.page) this.page = parseInt(this.queryParams.params.page, 10);
       else this.page = 1;
       // populate custom min and max
       if (
-        this.isPrice &&
-        !this.homeService.defaultPrices.includes(this.isPrice)
+        this.isPrice
+        && !this.homeService.defaultPrices.includes(this.isPrice)
       ) {
         const price = this.isPrice.split(',');
         if (price[0]) this.minCustom = parseInt(price[0], 10);

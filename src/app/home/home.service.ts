@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class HomeService {
   isNumber = Number.isFinite;
+
   brandOptions = [
     'Apple',
     'Microsoft',
@@ -15,6 +16,7 @@ export class HomeService {
     'Acer',
     'Lenovo'
   ];
+
   defaultPrices = [
     '0,500',
     '500,600',
@@ -24,6 +26,7 @@ export class HomeService {
     '900,1000',
     '1000,20000'
   ];
+
   priceOptions = [
     { name: 'Under $500', value: '0,500' },
     { name: '$500 to $600', value: '500,600' },
@@ -33,6 +36,7 @@ export class HomeService {
     { name: '$900 to $1000', value: '900,1000' },
     { name: 'Above $1000', value: '1000,20000' }
   ];
+
   osOptions = [
     'Mac OS X',
     'Windows 10',
@@ -40,7 +44,9 @@ export class HomeService {
     'Windows 7 Home',
     'Chrome OS'
   ];
+
   ramOptions = ['64', '32', '16', '12', '8', '4', '2'];
+
   processorOptions = [
     'Intel Core i7',
     'Intel Core i5',
@@ -48,7 +54,9 @@ export class HomeService {
     'Intel Core 2',
     'AMD'
   ];
+
   storageOptions = ['SSD', 'Hard Disk'];
+
   baseUrl: string;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -56,7 +64,15 @@ export class HomeService {
   }
 
   serializeQueryParams(queryObj) {
-    const serializedObj = {};
+    const serializedObj: {
+      os?: string;
+      brand?: string;
+      processor?: string;
+      storage?: string;
+      ram?: string;
+      min?: string;
+      max?: string;
+    } = {};
     const list = Object.keys(queryObj);
     let brands = [];
     let os = [];
@@ -79,7 +95,7 @@ export class HomeService {
           break;
         }
         case 'price': {
-          let price = queryObj.price;
+          let { price } = queryObj;
           if (price) {
             price = price.split(',');
             min = price[0];
@@ -107,13 +123,13 @@ export class HomeService {
       }
     });
 
-    if (os.length > 0) serializedObj['os'] = os.join(',');
-    if (brands.length > 0) serializedObj['brand'] = brands.join(',');
-    if (processor.length > 0) serializedObj['processor'] = processor.join(',');
-    if (storage.length > 0) serializedObj['storage'] = storage.join(',');
-    if (ram.length > 0) serializedObj['ram'] = ram.join(',');
-    if (min) serializedObj['min'] = `${min}`;
-    if (max) serializedObj['max'] = `${max}`;
+    if (os.length > 0) serializedObj.os = os.join(',');
+    if (brands.length > 0) serializedObj.brand = brands.join(',');
+    if (processor.length > 0) serializedObj.processor = processor.join(',');
+    if (storage.length > 0) serializedObj.storage = storage.join(',');
+    if (ram.length > 0) serializedObj.ram = ram.join(',');
+    if (min) serializedObj.min = `${min}`;
+    if (max) serializedObj.max = `${max}`;
     return serializedObj;
   }
 

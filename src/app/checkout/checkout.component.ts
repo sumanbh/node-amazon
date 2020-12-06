@@ -13,7 +13,9 @@ import { UserService } from '../shared/user.service';
 })
 export class CheckoutComponent implements OnInit {
   cartContent = [];
+
   userInfo: Object;
+
   cartTotal = '0.00';
 
   constructor(
@@ -58,12 +60,12 @@ export class CheckoutComponent implements OnInit {
 
   checkoutConfirm(value: any) {
     if (
-      this.userInfo &&
-      value.fullname &&
-      value.address &&
-      value.city &&
-      value.state &&
-      value.zip
+      this.userInfo
+      && value.fullname
+      && value.address
+      && value.city
+      && value.state
+      && value.zip
     ) {
       this.checkoutService.sendCheckout(value).subscribe(
         response => {

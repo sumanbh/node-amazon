@@ -5,11 +5,11 @@ import {
   Injector,
   Inject
 } from '@angular/core';
-import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser } from '@angular/common';
+import { ProfileService } from './profile.service';
 
 import { User } from './user.interface';
 import { UserService } from '../shared/user.service';
@@ -22,10 +22,15 @@ import { UserService } from '../shared/user.service';
 })
 export class ProfileComponent implements OnInit {
   error = false;
+
   addressExist = true;
+
   userInfo: Array<Object>;
+
   userForm: User;
+
   modalReference: NgbModalRef;
+
   modalService: NgbModal;
 
   constructor(

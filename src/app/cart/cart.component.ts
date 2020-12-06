@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from './cart.service';
 import { Router } from '@angular/router';
 import {
   trigger,
@@ -9,6 +8,7 @@ import {
   animate
 } from '@angular/animations';
 import { Title } from '@angular/platform-browser';
+import { CartService } from './cart.service';
 
 import { UserService } from '../shared/user.service';
 
@@ -38,9 +38,13 @@ import { UserService } from '../shared/user.service';
 })
 export class CartComponent implements OnInit {
   cartContent = [];
+
   cartTotal = '0.00';
+
   buttonDisabled = false;
+
   isFirst = true;
+
   animate = 'initial';
 
   constructor(

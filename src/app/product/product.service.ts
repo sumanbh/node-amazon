@@ -15,7 +15,7 @@ export class ProductService {
     private navService: NavService,
     @Inject('BASE_URL') baseUrl: string,
     @Inject(PLATFORM_ID) private platformId: Object
-    ) {
+  ) {
     this.baseUrl = baseUrl;
   }
 
