@@ -58,7 +58,8 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
     CommonModule,
     FormsModule,
     RouterModule.forRoot(routes, {
-      initialNavigation: 'enabled'
+      initialNavigation: 'enabled',
+      relativeLinkResolution: 'legacy'
     }),
     HttpClientJsonpModule,
     NgbRatingModule,
@@ -77,7 +78,7 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppBrowserModule {}
+export class AppBrowserModule { }
 
 export function getBaseUrl() {
   return environment.API_URL;

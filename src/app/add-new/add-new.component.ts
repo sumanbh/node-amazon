@@ -17,6 +17,7 @@ export class AddNewComponent implements OnInit {
     'Windows 8.1',
     'Windows 7 Home'
   ];
+
   processors = [
     'Intel Core i7',
     'Intel Core i5',
@@ -24,6 +25,7 @@ export class AddNewComponent implements OnInit {
     'Intel Core 2',
     'AMD'
   ];
+
   brands = [
     'Apple',
     'Microsoft',
@@ -35,7 +37,9 @@ export class AddNewComponent implements OnInit {
     'Lenovo',
     'Toshiba'
   ];
+
   storageTypes = ['SSD', 'Hard Disk'];
+
   // initialize default laptop options
   defaultOptions = {
     title: '',
@@ -51,10 +55,15 @@ export class AddNewComponent implements OnInit {
     price: null,
     rating: null
   };
-  laptop = Object.assign({}, this.defaultOptions);
+
+  laptop = ({ ...this.defaultOptions });
+
   errorArr = [];
+
   errorText: string;
+
   imageErr = false;
+
   newLaptopId: string;
 
   constructor(
@@ -75,7 +84,7 @@ export class AddNewComponent implements OnInit {
   }
 
   clearAll() {
-    this.laptop = Object.assign({}, this.defaultOptions);
+    this.laptop = { ...this.defaultOptions };
     // because Object.assign does not deep clone
     this.laptop.description = ['', '', '', ''];
     // Clear Errors
@@ -133,7 +142,7 @@ export class AddNewComponent implements OnInit {
       const apiUrl = '/api/user/laptop';
 
       this.http
-        .post(apiUrl, { laptop: this.laptop }, { headers: headers })
+        .post(apiUrl, { laptop: this.laptop }, { headers })
         .toPromise()
         .then((res: { id: string }) => {
           this.newLaptopId = res.id;

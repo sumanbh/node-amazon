@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrdersService } from './orders.service';
 import { Title } from '@angular/platform-browser';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { OrdersService } from './orders.service';
 
 import { UserService } from '../shared/user.service';
 
@@ -14,6 +14,7 @@ import { UserService } from '../shared/user.service';
 })
 export class OrdersComponent implements OnInit {
   ordersContent: Array<Object>;
+
   noResults = false;
 
   constructor(

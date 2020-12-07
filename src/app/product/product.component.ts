@@ -38,10 +38,15 @@ function stringToUtfCode(str: string) {
 })
 export class ProductComponent implements OnInit, OnDestroy {
   product = [];
+
   similar: Array<Object>;
+
   param: any;
+
   id: string;
+
   currentQuantity = 1;
+
   options = {
     position: ['top', 'right'],
     timeOut: 4000,
@@ -50,6 +55,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     clickToClose: true,
     maxLength: 0
   };
+
   shippingAddress: string;
 
   constructor(
@@ -70,7 +76,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // subscribe to route to get product ID
     this.param = this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params.id;
       this.getById(this.id);
 
       if (isPlatformBrowser(this.platformId)) {
@@ -92,7 +98,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     if (isTrue) {
       this.toastService.success(
         `${quantity} Added`,
-        `${this.product[0]['laptop_name'].substring(0, 40)}...`
+        `${this.product[0].laptop_name.substring(0, 40)}...`
       );
     } else {
       this.router.navigate(['/login'], {
@@ -113,7 +119,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentQuantity = 1;
         this.product = response.product;
         this.similar = response.similar;
-        this.titleService.setTitle(`${this.product[0]['laptop_name']}`);
+        this.titleService.setTitle(`${this.product[0].laptop_name}`);
       },
       error => {
         if (error) this.router.navigate(['404']);

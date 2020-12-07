@@ -27,7 +27,7 @@ export class CheckoutService {
       'Content-Type': 'application/json',
     });
     const checkoutUrl = `/api/user/checkout/confirm`;
-    return this.http.post(checkoutUrl, value, { headers: headers }).pipe(
+    return this.http.post(checkoutUrl, value, { headers }).pipe(
       map((res: any) => {
         if (res.success) {
           localStorage.setItem('id_cart', res.cart || 0);

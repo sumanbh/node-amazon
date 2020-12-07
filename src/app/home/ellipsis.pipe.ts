@@ -10,7 +10,7 @@ export class EllipsisPipe implements PipeTransform {
     }
 
     if (val.length > maxLength) {
-      return val.substring(0, maxLength) + '...';
+      return `${val.substring(0, maxLength)}...`;
     }
 
     return val;

@@ -7,12 +7,12 @@ import {
   Inject
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../shared/user.service';
 import { Subscription, Subject } from 'rxjs';
-import { NavService } from '../shared/nav.service';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { NavService } from '../shared/nav.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,20 +22,35 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   hideLogin: boolean;
+
   userGivenName: string;
+
   login = true;
+
   loginErr = 'Invalid email and or password.';
+
   cart = 0;
+
   subscription: Subscription;
+
   cartSubscription: Subscription;
+
   routeSubscription: Subscription;
+
   loginState: boolean;
+
   displayLink: boolean;
+
   searchString: string;
+
   searchSubject: Subject<string> = new Subject();
+
   routeParam: Subscription;
+
   modalReference: NgbModalRef;
+
   modalService: NgbModal;
+
   isClient = false;
 
   constructor(

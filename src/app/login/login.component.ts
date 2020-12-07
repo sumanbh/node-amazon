@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../shared/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,9 @@ import { Title } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
   login = true;
+
   loginErr = 'Invalid email and or password.';
+
   returnUrl: string;
 
   constructor(
@@ -29,7 +31,7 @@ export class LoginComponent implements OnInit {
     const user = this.userService.getUser();
     if (user) {
       // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
       this.router.navigateByUrl(this.returnUrl);
     }
   }
@@ -40,7 +42,7 @@ export class LoginComponent implements OnInit {
         if (response.success) {
           this.login = true;
           // get return url from route parameters or default to '/'
-          this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
           this.router.navigateByUrl(this.returnUrl);
         } else {
           this.loginErr = response.err;
