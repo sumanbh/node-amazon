@@ -1,4 +1,5 @@
 # Node - Amazon
+[![Build Status](https://github.com/sumanbh/node-amazon/actions/workflows/build.yml/badge.svg)](https://github.com/sumanbh/node-amazon/actions/workflows/build.yml)
 
 Amazon look-a-like with Node, and Angular 11 with server-side rendering. Demo at: https://sumanb.com
 
