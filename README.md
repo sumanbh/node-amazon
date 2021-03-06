@@ -1,5 +1,4 @@
 # Node - Amazon
-[![Build Status](https://travis-ci.org/sumanbh/node-amazon.svg?branch=master)](https://travis-ci.org/sumanbh/node-amazon)
 
 Amazon look-a-like with Node, and Angular 11 with server-side rendering. Demo at: https://sumanb.com
 
