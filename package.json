@@ -37,7 +37,7 @@
     "express-jwt": "^6.0.0",
     "express-session": "^1.17.1",
     "express-sslify": "^1.2.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "ngx-pagination": "^5.0.0",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
