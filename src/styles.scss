@@ -3,6 +3,13 @@ body {
   padding: 0px !important;
 }
 
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .modal-content {
   margin-top: 60px;
 }
@@ -103,11 +110,14 @@ simple-notifications {
 
 .breadcrumb {
   min-height: 48px;
-  border-radius: 0px !important;
+  border-radius: 0px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background-color: #e9ecef;
 }
 
 .breadcrumb-ellipsis {
-  display: inline-block !important;
+  display: inline-block;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -117,10 +127,10 @@ simple-notifications {
 
 @media screen and (max-width: 767px) {
   .breadcrumb {
-    margin-top: -1px !important;
-    background-color: #343a40 !important;
+    margin-top: -1px;
+    background-color: rgb(33, 37, 41);
     li {
-      display: none !important;
+      display: none;
     }
   }
 }

@@ -62,76 +62,74 @@
   <hr>
   <div class="product-compare">
     <div class="compare-title" *ngIf="product.length > 0">Compare to Similar Items</div>
-    <div class="table-responsive">
-      <table class="table table-bordered" *ngFor="let item of product">
-        <tbody>
-          <tr>
-            <th class="first-table-td"></th>
-            <th class="table-image-container">
-              <img class="similar-img" [src]="item.img">
-            </th>
-            <th class="table-image-container" *ngFor="let product of similar">
-              <a [routerLink]="['/product', product.id]">
-                <img class="similar-img" [src]="product.img">
-              </a>
-            </th>
-          </tr>
-          <tr>
-            <td class="table-active">Name</td>
-            <td class="table-warning">
-              <table class="fixed-table">
-                <tr>
-                  <td>
-                    <b>This item:</b> {{item.laptop_name}}</td>
-                </tr>
-              </table>
-            </td>
-            <td *ngFor="let product of similar">
-              <table class="fixed-table">
-                <tr>
-                  <td>
-                    <a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="table-active">Customer Rating</td>
-            <td class="table-warning">
-              <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
-            </td>
-            <td *ngFor="let product of similar">
-              <ngb-rating class="laptop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
-            </td>
-          </tr>
-          <tr>
-            <td class="table-active">Price</td>
-            <td class="table-warning sim-container-price">${{item.price}}</td>
-            <td class="sim-container-price" *ngFor="let product of similar">${{product.price}}</td>
-          </tr>
-          <tr>
-            <td class="table-active">Operating System</td>
-            <td class="table-warning">{{item.os_name}}</td>
-            <td *ngFor="let product of similar">{{product.os_name}}</td>
-          </tr>
-          <tr>
-            <td class="table-active">Memory</td>
-            <td class="table-warning">{{item.ram}} GB DDR3</td>
-            <td *ngFor="let product of similar">{{product.ram}} GB DDR3</td>
-          </tr>
-          <tr>
-            <td class="table-active">Storage</td>
-            <td class="table-warning">{{item.storage}} GB</td>
-            <td *ngFor="let product of similar">{{product.storage}} GB</td>
-          </tr>
-          <tr>
-            <td class="table-active">Hard Drive Type</td>
-            <td class="table-warning">{{item.storage_name}}</td>
-            <td *ngFor="let product of similar">{{product.storage_name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="table table-bordered" *ngFor="let item of product">
+      <tbody>
+        <tr>
+          <th class="first-table-td"></th>
+          <th class="table-image-container">
+            <img class="similar-img" [src]="item.img">
+          </th>
+          <th class="table-image-container" *ngFor="let product of similar">
+            <a [routerLink]="['/product', product.id]">
+              <img class="similar-img" [src]="product.img">
+            </a>
+          </th>
+        </tr>
+        <tr>
+          <td class="table-active">Name</td>
+          <td class="table-warning">
+            <table class="fixed-table">
+              <tr>
+                <td>
+                  <b>This item:</b> {{item.laptop_name}}</td>
+              </tr>
+            </table>
+          </td>
+          <td *ngFor="let product of similar">
+            <table class="fixed-table">
+              <tr>
+                <td>
+                  <a [routerLink]="['/product', product.id]">{{product.laptop_name}}</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="table-active">Customer Rating</td>
+          <td class="table-warning">
+            <ngb-rating class="laptop-rating" [rate]="item.rating" max="5" [readonly]="!readonly"></ngb-rating>
+          </td>
+          <td *ngFor="let product of similar">
+            <ngb-rating class="laptop-rating" [rate]="product.rating" max="5" [readonly]="!readonly"></ngb-rating>
+          </td>
+        </tr>
+        <tr>
+          <td class="table-active">Price</td>
+          <td class="table-warning sim-container-price">${{item.price}}</td>
+          <td class="sim-container-price" *ngFor="let product of similar">${{product.price}}</td>
+        </tr>
+        <tr>
+          <td class="table-active">Operating System</td>
+          <td class="table-warning">{{item.os_name}}</td>
+          <td *ngFor="let product of similar">{{product.os_name}}</td>
+        </tr>
+        <tr>
+          <td class="table-active">Memory</td>
+          <td class="table-warning">{{item.ram}} GB DDR3</td>
+          <td *ngFor="let product of similar">{{product.ram}} GB DDR3</td>
+        </tr>
+        <tr>
+          <td class="table-active">Storage</td>
+          <td class="table-warning">{{item.storage}} GB</td>
+          <td *ngFor="let product of similar">{{product.storage}} GB</td>
+        </tr>
+        <tr>
+          <td class="table-active">Hard Drive Type</td>
+          <td class="table-warning">{{item.storage_name}}</td>
+          <td *ngFor="let product of similar">{{product.storage_name}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

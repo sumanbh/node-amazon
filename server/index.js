@@ -14,7 +14,7 @@ const routeCache = require('route-cache');
 const jwtExpress = require('express-jwt');
 
 const config = require('../config/amazon.json');
-const routes = require('./routes.js');
+const routes = require('./routes');
 const insertions = require('./new-insert');
 const authentication = require('./authentication');
 

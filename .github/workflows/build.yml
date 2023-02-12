@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install
-        run: yarn --no-progress --non-interactive
+        run: yarn install --immutable
       - name: Build
         run: yarn build

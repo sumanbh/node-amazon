@@ -13,7 +13,7 @@
     <div class="col-xl-8 col-lg-10 col-12">
       <div class="card">
         <div class="card-body">
-          <button type="reset" class="btn btn-primary float-right" (click)="clearAll()">Clear All</button>
+          <button type="reset" class="btn btn-primary float-end" (click)="clearAll()">Clear All</button>
           <br>
           <div class="alert alert-danger" role="alert" *ngIf="errorText" style="margin-top: 20px;">
             Error: {{errorText}}
@@ -26,12 +26,12 @@
               <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
             </svg>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label for="laptopName">Laptop Name</label>
             <input type="text" class="form-control" id="laptopName" aria-describedby="laptop" placeholder="Enter name"
               [(ngModel)]="laptop.title">
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label for="imageUrl">Image URL</label>
             <input type="text" class="form-control" id="imageUrl" aria-describedby="image" placeholder="Enter Image URL"
               [(ngModel)]="laptop.image">
@@ -67,7 +67,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group" style="margin-top: 10px;">
+          <div class="mb-3" style="margin-top: 10px;">
             <label>Description (will show as bullet points)</label>
             <div *ngFor="let desc of laptop.description; let i = index; trackBy:trackByFn">
               <div class="pos-relative">
@@ -86,9 +86,9 @@
                 <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
               </svg>
             </div>
-            <button type="button" class="btn btn-light float-right" (click)="addDescription()">Add More</button>
+            <button type="button" class="btn btn-light float-end" (click)="addDescription()">Add More</button>
           </div>
-          <div class="form-group" style="margin-top: 50px;">
+          <div class="mb-3" style="margin-top: 50px;">
             <label>Operating System</label>
             <br>
             <div class="form-check form-check-inline inline-margin" *ngFor="let item of operatingSystems; let i = index">
@@ -98,7 +98,7 @@
               </label>
             </div>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label>Brand</label>
             <br>
             <div class="form-check form-check-inline inline-margin" *ngFor="let item of brands; let i = index">
@@ -108,7 +108,7 @@
               </label>
             </div>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label>Processor</label>
             <br>
             <div class="form-check form-check-inline inline-margin" *ngFor="let item of processors; let i = index">
@@ -118,7 +118,7 @@
               </label>
             </div>
           </div>
-          <div class="form-group">
+          <div class="mb-3">
             <label>Storage Type</label>
             <br>
             <div class="form-check form-check-inline inline-margin" *ngFor="let item of storageTypes; let i = index">

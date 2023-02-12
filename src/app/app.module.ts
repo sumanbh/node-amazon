@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import {
   NgbRatingModule,
   NgbDropdownModule,
-  NgbModalModule
+  NgbModalModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
@@ -49,7 +49,7 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
     GroupByPipe,
     EllipsisPipe,
     LoginComponent,
-    AddNewComponent
+    AddNewComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'amazon' }),
@@ -58,8 +58,7 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
     CommonModule,
     FormsModule,
     RouterModule.forRoot(routes, {
-      initialNavigation: 'enabled',
-      relativeLinkResolution: 'legacy'
+      initialNavigation: 'enabledBlocking',
     }),
     HttpClientJsonpModule,
     NgbRatingModule,
@@ -67,18 +66,17 @@ import { EllipsisPipe } from './home/ellipsis.pipe';
     NgbModalModule,
     NgxPaginationModule,
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: 'BASE_URL', useFactory: getBaseUrl },
     AuthGuard,
     NavService,
-    UserService
+    UserService,
   ],
-  entryComponents: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppBrowserModule { }
+export class AppBrowserModule {}
 
 export function getBaseUrl() {
   return environment.API_URL;

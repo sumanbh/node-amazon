@@ -26,6 +26,7 @@ config/amazon.prod.json
 .settings/
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage/*
@@ -42,3 +43,12 @@ yarn-error.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# yarn berry
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

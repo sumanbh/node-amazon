@@ -1,4 +1,4 @@
-import 'zone.js/dist/zone-node';
+import 'zone.js/node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
@@ -6,7 +6,7 @@ import { join } from 'path';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 import * as routeCache from 'route-cache';
-import * as jwtExpress from 'express-jwt';
+import { expressjwt } from 'express-jwt';
 import * as cookieParser from 'cookie-parser';
 import * as compress from 'compression';
 import * as session from 'express-session';
@@ -55,7 +55,7 @@ export function app() {
     }
   });
 
-  const jwtCheck = jwtExpress({
+  const jwtCheck = expressjwt({
     algorithms: ['HS256'],
     secret: config.jwt.secret,
     getToken: (req) => {

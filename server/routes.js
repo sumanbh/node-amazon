@@ -158,12 +158,12 @@ const routes = {
     let results = [];
     // checks to see if the product already exists in the cart
     const query = 'SELECT * FROM cart WHERE product_id = $1 AND customer_id = $2;';
-    results.push(pool.query(query, [id, req.user.id]), routes.getCartCount(req.user.id));
+    results.push(pool.query(query, [id, req.auth.id]), routes.getCartCount(req.auth.id));
     results = await Promise.all(results);
     // insert the product if it doesn't already exist
     if (results[0].rowCount === 0) {
       const insertQuery = 'INSERT INTO cart(product_id, product_quantity, customer_id) VALUES ($1, $2, $3);';
-      await pool.query(insertQuery, [id, quantity, req.user.id]);
+      await pool.query(insertQuery, [id, quantity, req.auth.id]);
       const cartCount = parseInt(results[1].total || 0, 10) + quantity;
       res.status(200).json({ cart: cartCount || 0, success: true });
     } else {
@@ -171,19 +171,19 @@ const routes = {
       const updateQuery = 'UPDATE cart SET product_quantity = ($1) WHERE customer_id = ($2) and product_id = ($3);';
       const newLength = results[0].rows[0].product_quantity + quantity;
       const cartCount = parseInt(results[1].total || 0, 10) + quantity;
-      await pool.query(updateQuery, [newLength, req.user.id, id]);
+      await pool.query(updateQuery, [newLength, req.auth.id, id]);
       res.status(200).json({ cart: cartCount || 0, success: true });
     }
   },
   getFromCart: async (req, res) => {
     // Get the user's cart
     const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity, cartview.unique_id FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
-    const cart = await pool.query(query, [req.user.id]);
+    const cart = await pool.query(query, [req.auth.id]);
     // check if cart is empty
     if (cart.rowCount === 0) return res.status(200).json(cart.rows);
     let results = [];
     const sumQuery = 'SELECT SUM(price * product_quantity) AS total FROM cartview WHERE customer_id = $1;';
-    results.push(pool.query(sumQuery, [req.user.id]), routes.getCartCount(req.user.id));
+    results.push(pool.query(sumQuery, [req.auth.id]), routes.getCartCount(req.auth.id));
     results = await Promise.all(results);
     // results
     const sum = results[0].rows[0];
@@ -197,7 +197,7 @@ const routes = {
   getCheckoutInfo: async (req, res) => {
     // Get the user's cart
     const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
-    const cart = await pool.query(query, [req.user.id]);
+    const cart = await pool.query(query, [req.auth.id]);
     // check if cart is empty
     if (cart.rowCount === 0) return res.status(200).json(cart.rows);
     let results = [];
@@ -206,7 +206,7 @@ const routes = {
     // get user information
     const userQuery = 'SELECT address, city, fullname, state, zip FROM customers WHERE id = $1;';
     // run the query
-    results.push(pool.query(sumQuery, [req.user.id]), pool.query(userQuery, [req.user.id]));
+    results.push(pool.query(sumQuery, [req.auth.id]), pool.query(userQuery, [req.auth.id]));
     results = await Promise.all(results);
     // results
     const sum = results[0].rows[0];
@@ -227,14 +227,14 @@ const routes = {
     let query = `
             SELECT * FROM cart WHERE customer_id = $1;
             `;
-    const cart = await pool.query(query, [req.user.id]);
+    const cart = await pool.query(query, [req.auth.id]);
     // check if cart is empty
     if (cart.rowCount === 0) return res.sendStatus(204);
     // create a unique orderline for checkout
     query = `
                 INSERT INTO orderline(customer_id, order_total) VALUES($1, (SELECT SUM(price * product_quantity) FROM cartview WHERE customer_id = $1)) RETURNING orderline.id;
                 `;
-    const orderline = (await pool.query(query, [req.user.id])).rows[0].id;
+    const orderline = (await pool.query(query, [req.auth.id])).rows[0].id;
     // insert the individual cart item to orders table
     const values = [];
     cart.rows.forEach((item) => values.push([orderline, item.product_id, item.product_quantity, userName, userAddress, userCity, userState, userZip]));
@@ -247,7 +247,7 @@ const routes = {
     // clear the cart
     const deleteCartQuery = 'DELETE FROM cart WHERE id IN (SELECT id FROM cart WHERE customer_id = $1);';
     // run the query
-    results.push(pool.query(orderlineQuery), pool.query(deleteCartQuery, [req.user.id]));
+    results.push(pool.query(orderlineQuery), pool.query(deleteCartQuery, [req.auth.id]));
     await Promise.all(results);
     // send success status
     res.status(200).json({ cart: 0, success: true });
@@ -261,15 +261,15 @@ const routes = {
             WHERE orderline.customer_id = $1
             ORDER BY orderline.date_added DESC;
             `;
-    const result = (await pool.query(query, [req.user.id])).rows;
+    const result = (await pool.query(query, [req.auth.id])).rows;
     res.status(200).json(result);
   },
   removeFromCart: async (req, res) => {
     const uniqueId = req.params.id;
     // delete from cart based on id
     const query = 'DELETE FROM cart WHERE customer_id = $1 AND id = $2;';
-    await pool.query(query, [req.user.id, uniqueId]);
-    const result = await routes.getCartCount(req.user.id);
+    await pool.query(query, [req.auth.id, uniqueId]);
+    const result = await routes.getCartCount(req.auth.id);
     res.status(200).json({ cart: result.total || 0, success: true });
   },
   getOrderById: async (req, res) => {
@@ -283,7 +283,7 @@ const routes = {
             WHERE orderline.customer_id = $1
             AND orders.orderline_id = $2;
             `;
-    const result = (await pool.query(query, [req.user.id, orderId])).rows;
+    const result = (await pool.query(query, [req.auth.id, orderId])).rows;
     res.status(200).json({
       data: result,
       one: result.slice(0, 1),
@@ -295,7 +295,7 @@ const routes = {
             WHERE customers.id = $1
             LIMIT 1;
             `;
-    const result = (await pool.query(query, [req.user.id])).rows;
+    const result = (await pool.query(query, [req.auth.id])).rows;
     res.status(200).json(result);
   },
   updateProfile: async (req, res) => {
@@ -306,7 +306,7 @@ const routes = {
 
     if (givenName && fullname && address && city && state && zip) {
       const query = 'UPDATE customers SET given_name = $1, fullname = $2, address = $3, city = $4, state = $5, zip = $6 WHERE id = $7;';
-      await pool.query(query, [givenName, fullname, address, city, state, zip, req.user.id]);
+      await pool.query(query, [givenName, fullname, address, city, state, zip, req.auth.id]);
       res.sendStatus(200);
     } else {
       res.sendStatus(400);
