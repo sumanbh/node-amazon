@@ -120,6 +120,7 @@ CREATE TABLE laptops
      price           NUMERIC(7, 2), 
      img_big         VARCHAR(200), 
      description     TEXT[] 
+     date_added      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
   );
 
 -- We name the trigger "trigger_laptops_genid" so that we can remove

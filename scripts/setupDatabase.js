@@ -151,6 +151,7 @@ async function createTables() {
                     price           NUMERIC(7, 2), 
                     img_big         VARCHAR(200), 
                     description     TEXT[] 
+                    date_added      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
                 );
             `);
 
