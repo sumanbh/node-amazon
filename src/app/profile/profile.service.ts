@@ -20,7 +20,7 @@ export class ProfileService {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     });
-    return this.http.post(`/api/user/update`, userInfo, {
+    return this.http.post(`${this.baseUrl}/api/user/update`, userInfo, {
       headers,
       responseType: 'text'
     });

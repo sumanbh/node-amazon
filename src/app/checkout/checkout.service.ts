@@ -26,7 +26,7 @@ export class CheckoutService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     });
-    const checkoutUrl = `/api/user/checkout/confirm`;
+    const checkoutUrl = `${this.baseUrl}/api/user/checkout/confirm`;
     return this.http.post(checkoutUrl, value, { headers }).pipe(
       map((res: any) => {
         if (res.success) {

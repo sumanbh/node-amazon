@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
@@ -20,6 +20,8 @@ import { QueryParam } from './interfaces/queryparam.interface';
   styleUrls: ['home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  baseUrl: string;
+
   param: any;
 
   brand: Brand;
@@ -73,9 +75,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     private config: NgbRatingConfig,
     private titleService: Title,
     private navService: NavService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     config.max = 5;
     config.readonly = true;
+    this.baseUrl = baseUrl;
   }
 
   ngOnInit() {

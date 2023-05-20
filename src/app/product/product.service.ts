@@ -34,7 +34,7 @@ export class ProductService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`/api/user/cart/add`, cartInfo, { headers }).pipe(
+    return this.http.post(this.baseUrl + '/api/user/cart/add', cartInfo, { headers }).pipe(
       map((res: any) => {
         if (res.success) {
           if (isPlatformBrowser(this.platformId)) {

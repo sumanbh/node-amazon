@@ -37,7 +37,7 @@ export class CartService {
   }
 
   removeFromCart(id): Observable<any> {
-    const productUrl = `/api/user/cart/remove/${id}`;
+    const productUrl = `${this.baseUrl}/api/user/cart/remove/${id}`;
     return this.http.delete(productUrl).pipe(
       map((res: any) => {
         if (res.success) {

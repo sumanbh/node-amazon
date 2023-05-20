@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../shared/user.service';
@@ -9,6 +9,8 @@ import { UserService } from '../shared/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  baseUrl: string;
+
   login = true;
 
   loginErr = 'Invalid email and or password.';
@@ -19,8 +21,11 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private titleService: Title
-  ) {}
+    private titleService: Title,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   ngOnInit() {
     this.titleService.setTitle('Login');

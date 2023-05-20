@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -9,9 +9,11 @@ import { UserService } from '../shared/user.service';
   selector: 'app-checkout',
   providers: [CheckoutService],
   styleUrls: ['checkout.component.scss'],
-  templateUrl: 'checkout.component.html'
+  templateUrl: 'checkout.component.html',
 })
 export class CheckoutComponent implements OnInit {
+  baseUrl: string;
+
   cartContent = [];
 
   userInfo: Object;
@@ -23,7 +25,10 @@ export class CheckoutComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private userService: UserService,
-  ) {}
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   ngOnInit() {
     this.titleService.setTitle('Checkout');
@@ -38,7 +43,7 @@ export class CheckoutComponent implements OnInit {
   getCartInfo() {
     // get all the items on cart for the user
     this.checkoutService.getCartById().subscribe(
-      response => {
+      (response) => {
         this.userInfo = response.userInfo;
         if (!this.userInfo) {
           this.redirectToLogin();
@@ -50,7 +55,7 @@ export class CheckoutComponent implements OnInit {
           this.router.navigate(['user/cart']);
         }
       },
-      error => {
+      (error) => {
         if (error && error.status === 401) {
           this.redirectToLogin();
         }
@@ -60,20 +65,20 @@ export class CheckoutComponent implements OnInit {
 
   checkoutConfirm(value: any) {
     if (
-      this.userInfo
-      && value.fullname
-      && value.address
-      && value.city
-      && value.state
-      && value.zip
+      this.userInfo &&
+      value.fullname &&
+      value.address &&
+      value.city &&
+      value.state &&
+      value.zip
     ) {
       this.checkoutService.sendCheckout(value).subscribe(
-        response => {
+        (response) => {
           if (response) {
             this.router.navigate(['user/orders']);
           }
         },
-        error => {
+        (error) => {
           if (error && error.status === 401) {
             this.redirectToLogin();
           }

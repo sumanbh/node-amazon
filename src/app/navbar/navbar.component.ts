@@ -21,6 +21,8 @@ import { UserService } from '../shared/user.service';
   styleUrls: ['navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  baseUrl: string;
+
   hideLogin: boolean;
 
   userGivenName: string;
@@ -59,12 +61,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private navService: NavService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private injector: Injector
+    private injector: Injector,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.isClient = isPlatformBrowser(this.platformId);
     if (isPlatformBrowser(this.platformId)) {
       this.modalService = this.injector.get(NgbModal);
     }
+    this.baseUrl = baseUrl;
   }
 
   ngOnInit() {
