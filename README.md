@@ -1,7 +1,7 @@
 # Node - Amazon
 [![Build Status](https://github.com/sumanbh/node-amazon/actions/workflows/build.yml/badge.svg)](https://github.com/sumanbh/node-amazon/actions/workflows/build.yml)
 
-Built with Node, and Angular 15 with server-side rendering. Demo at: https://sumanb.com/demo/
+Built with Node, and Angular 15 with server-side rendering.
 
 ## Requirements
 You need to have **Node 16** or higher and **PostgreSQL 9.5** or higher installed.
