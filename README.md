@@ -69,3 +69,22 @@ This builds the Angular app, starts the Express API on **port 3000**, and serves
 | `yarn serve`   | Serve the production build (`dist/server/server.mjs`) |
 | `yarn init:db` | Create and seed the database                          |
 | `yarn lint`    | Lint and auto-fix with ESLint                         |
+| `yarn e2e`     | Run E2E tests using Playwright                        |
+
+## E2E Testing
+
+The project uses [Playwright](https://playwright.dev/) for E2E tests.
+
+### Running Tests
+
+To run E2E tests against the development server:
+
+```bash
+yarn e2e
+```
+
+To target a different URL (such as the production backend):
+
+```bash
+PLAYWRIGHT_TEST_BASE_URL=http://localhost:3000 yarn e2e
+```

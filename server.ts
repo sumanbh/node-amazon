@@ -7,6 +7,7 @@ import AppServerModule from './src/main.server';
 
 import { createRequire } from 'node:module';
 import { REQUEST } from './src/app/express.tokens';
+import { BASE_URL } from './src/app/shared/base-url.token';
 
 const require = createRequire(import.meta.url);
 
@@ -136,7 +137,8 @@ export function app(): express.Express {
         publicPath: browserDistFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: '/demo/' },
-          { provide: REQUEST, useValue: req }
+          { provide: REQUEST, useValue: req },
+          { provide: BASE_URL, useValue: `${protocol}://${headers.host}/demo` }
         ],
       })
       .then((html) => {

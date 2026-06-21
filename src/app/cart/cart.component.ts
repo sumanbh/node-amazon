@@ -61,6 +61,7 @@ export class CartComponent implements OnInit {
           this.buttonDisabled.set(false);
           this.cartTotal.set(response.sum.total);
         } else {
+          setTimeout(() => this.cartContent.set([]), 400);
           this.buttonDisabled.set(true);
           this.cartTotal.set('0.00');
         }

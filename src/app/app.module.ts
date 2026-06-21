@@ -1,5 +1,5 @@
-import { NgModule, provideZonelessChangeDetection } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, provideZonelessChangeDetection, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -37,6 +37,7 @@ import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
 
 import { BASE_URL } from './shared/base-url.token';
+import { REQUEST } from './express.tokens';
 
 @NgModule({ declarations: [], bootstrap: [AppComponent],
     imports: [BrowserModule,
@@ -73,5 +74,19 @@ import { BASE_URL } from './shared/base-url.token';
 export class AppBrowserModule {}
 
 export function getBaseUrl() {
+  const platformId = inject(PLATFORM_ID);
+  if (isPlatformBrowser(platformId)) {
+    return environment.API_URL;
+  }
+  try {
+    const req = inject(REQUEST, { optional: true });
+    if (req) {
+      const protocol = req.protocol;
+      const host = req.get('host');
+      return `${protocol}://${host}/demo`;
+    }
+  } catch (e) {
+    console.error('Error injecting REQUEST in getBaseUrl:', e);
+  }
   return environment.API_URL;
 }
