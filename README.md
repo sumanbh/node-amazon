@@ -50,7 +50,7 @@ Edit [`config/amazon.json`](config/amazon.json) to set your database credentials
 yarn init:db
 ```
 
-This creates the `node_amazon_dev` database, sets up all tables, views, and indexes, then seeds it with sample laptop data.
+This creates the `node_amazon_dev` database and runs Kysely migrations to set up all tables, views, triggers, and indexes, then seeds the database.
 
 ### 4. Start the dev server
 
@@ -67,7 +67,7 @@ This builds the Angular app, starts the Express API on **port 3000**, and serves
 | `yarn start`   | Build + run Express API and Angular dev server        |
 | `yarn build`   | Production build                                      |
 | `yarn serve`   | Serve the production build (`dist/server/server.mjs`) |
-| `yarn init:db` | Create and seed the database                          |
+| `yarn init:db` | Create database and run Kysely migrations + seeds     |
 | `yarn lint`    | Lint and auto-fix with ESLint                         |
 | `yarn e2e`     | Run E2E tests using Playwright                        |
 

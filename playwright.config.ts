@@ -38,4 +38,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
+  /* Run backend Express server before tests start */
+  webServer: {
+    command: 'node dist/server/server.mjs',
+    url: 'http://localhost:3000/demo/api/customer',
+    reuseExistingServer: !process.env['CI'],
+  },
 });
+
