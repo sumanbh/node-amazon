@@ -1,9 +1,13 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { GetProductsParams, AllProductsResponse } from '../shared/types';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Injectable()
 export class HomeService {
+  private http = inject(HttpClient);
+
   isNumber = Number.isFinite;
 
   brandOptions = [
@@ -57,11 +61,7 @@ export class HomeService {
 
   storageOptions = ['SSD', 'Hard Disk'];
 
-  baseUrl: string;
-
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
+  baseUrl = inject(BASE_URL);
 
   serializeQueryParams(queryObj) {
     const serializedObj: {
@@ -231,7 +231,7 @@ export class HomeService {
     return { queryObj: allFilters, pageTitle: title };
   }
 
-  getAllProducts(obj: any): Observable<any> {
+  getAllProducts(obj: GetProductsParams): Observable<AllProductsResponse> {
     let productUrl = `/api/shop/${obj.page}?obj=${JSON.stringify(obj)}`; // api url
     if (this.isNumber(obj.minCustom)) productUrl += `&min=${obj.minCustom}`;
     if (this.isNumber(obj.maxCustom)) productUrl += `&max=${obj.maxCustom}`;
@@ -239,6 +239,6 @@ export class HomeService {
       const value = obj.price.split(',');
       productUrl += `&min=${value[0]}&max=${value[1]}`;
     }
-    return this.http.get(this.baseUrl + productUrl);
+    return this.http.get<AllProductsResponse>(this.baseUrl + productUrl);
   }
 }

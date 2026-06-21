@@ -1,9 +1,10 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { NavService } from '../shared/nav.service';
+import { BASE_URL } from './base-url.token';
 
 interface User {
   name: string;
@@ -12,10 +13,14 @@ interface User {
 
 interface LoginResponse extends User {
   success: boolean;
+  err?: string;
 }
 
 @Injectable()
 export class UserService {
+  private http = inject(HttpClient);
+  private navService = inject(NavService);
+
   loggedIn = false;
 
   jwt: string;
@@ -28,11 +33,9 @@ export class UserService {
 
   isLoading = true;
 
-  constructor(
-    private http: HttpClient,
-    private navService: NavService,
-    @Inject('BASE_URL') baseUrl: string,
-  ) {
+  constructor() {
+    const baseUrl = inject(BASE_URL);
+
     this.baseUrl = baseUrl;
   }
 
@@ -40,7 +43,7 @@ export class UserService {
     this.loggedIn = !!this.user;
   }
 
-  login(email, password): Observable<any> {
+  login(email: string, password: string): Observable<LoginResponse> {
     const user = JSON.stringify({ email, password });
     const headers = new HttpHeaders({
       Accept: 'application/json',
@@ -56,14 +59,14 @@ export class UserService {
           if (res.success) {
             this.setUser(res.name);
             this.setCart(res.cart);
-            return { success: true };
+            return { success: true, name: res.name, cart: res.cart };
           }
           return res;
         })
       );
   }
 
-  logout(): Observable<any> {
+  logout(): Observable<string> {
     this.clearUser();
     return this.http.get(`${this.baseUrl}/auth/logout`, {
       responseType: 'text'

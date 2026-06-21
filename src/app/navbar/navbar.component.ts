@@ -1,37 +1,40 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  PLATFORM_ID,
-  Injector,
-  Inject
-} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Injector, signal, inject } from '@angular/core';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
-import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { NavService } from '../shared/nav.service';
 import { UserService } from '../shared/user.service';
+import { FormsModule } from '@angular/forms';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: 'navbar.component.html',
-  providers: [NgbDropdownConfig],
-  styleUrls: ['navbar.component.scss']
+    selector: 'app-nav-bar',
+    templateUrl: 'navbar.component.html',
+    providers: [NgbDropdownConfig],
+    styleUrls: ['navbar.component.scss'],
+    imports: [RouterLink, FormsModule, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  baseUrl: string;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private userService = inject(UserService);
+  private navService = inject(NavService);
+  private platformId = inject(PLATFORM_ID);
+  private injector = inject(Injector);
 
-  hideLogin: boolean;
+  baseUrl = inject(BASE_URL);
 
-  userGivenName: string;
+  hideLogin = signal<boolean>(false);
 
-  login = true;
+  userGivenName = signal<string | null>(null);
 
-  loginErr = 'Invalid email and or password.';
+  login = signal<boolean>(true);
 
-  cart = 0;
+  loginErr = signal<string>('Invalid email and or password.');
+
+  cart = signal<number>(0);
 
   subscription: Subscription;
 
@@ -41,11 +44,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   loginState: boolean;
 
-  displayLink: boolean;
+  displayLink = signal<boolean>(false);
 
   searchString: string;
 
-  searchSubject: Subject<string> = new Subject();
+  searchSubject = new Subject<string>();
 
   routeParam: Subscription;
 
@@ -55,20 +58,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   isClient = false;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private navService: NavService,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private injector: Injector,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
+  constructor() {
     this.isClient = isPlatformBrowser(this.platformId);
     if (isPlatformBrowser(this.platformId)) {
       this.modalService = this.injector.get(NgbModal);
     }
-    this.baseUrl = baseUrl;
   }
 
   ngOnInit() {
@@ -89,12 +83,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.routeParam.unsubscribe();
   }
 
-  open(content) {
+  open(content: unknown) {
     this.modalReference = this.modalService.open(content);
   }
 
   registerSearch() {
-    this.routeParam = this.route.queryParams.subscribe(params => {
+    this.routeParam = this.route.queryParams.subscribe((params: Record<string, string | undefined>) => {
       if (params.search) {
         this.searchString = params.search;
       }
@@ -102,18 +96,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   searchLaptop() {
-    this.searchSubject.pipe(debounceTime(300)).subscribe(search => {
+    this.searchSubject.pipe(debounceTime(300)).subscribe((search: string) => {
       const searchString = search;
-      let param = {};
-      if (searchString) {
-        param = {
-          search
-        };
-      } else {
-        param = {
-          refresh: true
-        };
-      }
+      const param = searchString
+        ? { search }
+        : { refresh: true };
       this.router.navigate([''], {
         queryParams: param
       });
@@ -126,69 +113,69 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   cartSub() {
-    this.cartSubscription = this.navService.navCart$.subscribe(newValue => {
-      this.cart = newValue;
+    this.cartSubscription = this.navService.navCart$.subscribe((newValue: number) => {
+      this.cart.set(newValue);
     });
   }
 
   newLaptopSub() {
-    this.routeSubscription = this.navService.routeNew$.subscribe(newValue => {
-      this.displayLink = newValue;
+    this.routeSubscription = this.navService.routeNew$.subscribe((newValue: boolean) => {
+      this.displayLink.set(newValue);
     });
   }
 
   loginSub() {
     this.subscription = this.navService.navLogin$.subscribe(
-      isLoggedIn => {
+      (isLoggedIn: boolean) => {
         if (isLoggedIn) {
           this.onLoginSuccess();
         } else {
           this.onLogout();
         }
       },
-      error => console.error(error)
+      (error: unknown) => console.error(error)
     );
   }
 
   onLoginSuccess() {
     const user = this.userService.getUser();
     if (user) {
-      this.userGivenName = user;
-      this.hideLogin = true;
+      this.userGivenName.set(user);
+      this.hideLogin.set(true);
     }
   }
 
   onLogout() {
     const user = this.userService.getUser();
     if (!user) {
-      this.userGivenName = null;
-      this.hideLogin = false;
+      this.userGivenName.set(null);
+      this.hideLogin.set(false);
     }
   }
 
-  localAuth(email, password) {
+  localAuth(email: string, password: string) {
     if (email && password) {
       this.userService.login(email, password).subscribe(response => {
         if (response.success) {
           if (this.modalReference) {
             this.modalReference.close();
           }
-          this.login = true;
+          this.login.set(true);
         } else {
-          this.loginErr = response.err;
-          this.login = false;
+          this.loginErr.set(response.err);
+          this.login.set(false);
         }
       });
     } else {
-      this.login = false;
+      this.login.set(false);
     }
   }
 
   sendLogout() {
     this.userService.logout().subscribe(
       () => {
-        this.userGivenName = null;
-        this.hideLogin = false;
+        this.userGivenName.set(null);
+        this.hideLogin.set(false);
         this.router.navigate(['/']);
       },
       error => console.error(error)

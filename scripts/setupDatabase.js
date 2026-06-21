@@ -150,7 +150,7 @@ async function createTables() {
                     rating          DECIMAL(2, 1), 
                     price           NUMERIC(7, 2), 
                     img_big         VARCHAR(200), 
-                    description     TEXT[] 
+                    description     TEXT[], 
                     date_added      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
                 );
             `);
@@ -267,7 +267,7 @@ async function createTables() {
     const insertsArray = inserts.split('--statement--');
 
     for (let idx = 0; idx < insertsArray.length; idx += 1) {
-      // eslint-disable-next-line no-await-in-loop
+       
       await pool.query(insertsArray[idx]);
     }
     console.log(chalk.green('Successfully seeded the database..'));
@@ -289,6 +289,19 @@ async function createTables() {
     const client = new Client(postgresConfig);
 
     await client.connect();
+
+    console.log(chalk.green('Dropping database if it exists:', postgresql.database));
+    try {
+      await client.query(`
+        SELECT pg_terminate_backend(pg_stat_activity.pid)
+        FROM pg_stat_activity
+        WHERE pg_stat_activity.datname = $1
+          AND pid <> pg_backend_pid();
+      `, [postgresql.database]);
+    } catch {
+      // Ignore error if terminating connections fails or is not supported
+    }
+    await client.query(`DROP DATABASE IF EXISTS ${postgresql.database};`);
 
     console.log(chalk.green('Creating database:', postgresql.database));
 

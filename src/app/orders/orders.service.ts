@@ -1,17 +1,16 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { OrderItem } from '../shared/types';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Injectable()
 export class OrdersService {
-  baseUrl: string;
+  private http = inject(HttpClient);
+  baseUrl = inject(BASE_URL);
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
-  getOrdersById(): Observable<any> {
+  getOrdersById(): Observable<OrderItem[]> {
     const ordersUrl = `${this.baseUrl}/api/user/orders`;
-    return this.http.get(ordersUrl);
+    return this.http.get<OrderItem[]>(ordersUrl);
   }
 }

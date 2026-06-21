@@ -3,23 +3,25 @@
 </ol>
 <div class="loginmodal-container">
   <a href="/auth/google" class="btn btn-google">
-    <img class="google-g" [src]="baseUrl + '/assets/images/google-g.png'">
+    <img class="google-g" [src]="baseUrl + '/assets/images/google-g.png'" alt="">
     <span>Log in with Google</span>
   </a>
   <a href="/auth/facebook" class="btn btn-facebook">
-    <img class="facebook-f" [src]="baseUrl + '/assets/images/facebook-f.png'">
+    <img class="facebook-f" [src]="baseUrl + '/assets/images/facebook-f.png'" alt="">
     <span>Log in with Facebook</span>
   </a>
   <div class="login-seperator">
     <span class="login-seperator-text">or</span>
     <hr>
+    </div>
+    <form>
+      @if (!login()) {
+        <div class="alert alert-danger loginerr" role="alert">{{loginErr()}}</div>
+      }
+      <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
+      <!--Demo Login info-->
+      <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
+      <!--For demo only. All passwords are hashed with bcrypt-->
+      <input type="submit" name="login" class="loginmodal-submit" value="Log in" (click)="localAuth(email.value, pass.value)">
+    </form>
   </div>
-  <form>
-    <div *ngIf="!login" class="alert alert-danger loginerr" role="alert">{{loginErr}}</div>
-    <input #email type="email" name="email" placeholder="Email" value="demo@sumanb.com" required>
-    <!--Demo Login info-->
-    <input #pass type="password" name="pass" placeholder="Password" value="hunter2" required>
-    <!--For demo only. All passwords are hashed with bcrypt-->
-    <input type="submit" name="login" class="loginmodal-submit" value="Log in" (click)="localAuth(email.value, pass.value)">
-  </form>
-</div>

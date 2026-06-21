@@ -9,7 +9,6 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
 const compress = require('compression');
-const enforce = require('express-sslify');
 const routeCache = require('route-cache');
 const jwtExpress = require('express-jwt');
 
@@ -19,10 +18,6 @@ const insertions = require('./new-insert');
 const authentication = require('./authentication');
 
 const app = express().disable('x-powered-by').use(cookieParser());
-
-if (process.env.NODE_ENV !== 'development') {
-  app.use(enforce.HTTPS());
-}
 
 app.use(session({
   secret: config.session.secret,

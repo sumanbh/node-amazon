@@ -2,21 +2,21 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "esModuleInterop": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
+    "ignoreDeprecations": "6.0",
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
     ],
     "module": "es2020",
     "skipLibCheck": true,

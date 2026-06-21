@@ -1,34 +1,32 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { CheckoutService } from './checkout.service';
 import { UserService } from '../shared/user.service';
+import { CartItem, UserCheckoutInfo, CheckoutFormValue, CheckoutInfoResponse } from '../shared/types';
+import { FormsModule } from '@angular/forms';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Component({
-  selector: 'app-checkout',
-  providers: [CheckoutService],
-  styleUrls: ['checkout.component.scss'],
-  templateUrl: 'checkout.component.html',
+    selector: 'app-checkout',
+    providers: [CheckoutService],
+    styleUrls: ['checkout.component.scss'],
+    templateUrl: 'checkout.component.html',
+    imports: [FormsModule, RouterLink]
 })
 export class CheckoutComponent implements OnInit {
-  baseUrl: string;
+  private checkoutService = inject(CheckoutService);
+  private router = inject(Router);
+  private titleService = inject(Title);
+  private userService = inject(UserService);
+  baseUrl = inject(BASE_URL);
 
-  cartContent = [];
+  cartContent = signal<CartItem[]>([]);
 
-  userInfo: Object;
+  userInfo = signal<UserCheckoutInfo[] | undefined>(undefined);
 
-  cartTotal = '0.00';
-
-  constructor(
-    private checkoutService: CheckoutService,
-    private router: Router,
-    private titleService: Title,
-    private userService: UserService,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
-    this.baseUrl = baseUrl;
-  }
+  cartTotal = signal<string>('0.00');
 
   ngOnInit() {
     this.titleService.setTitle('Checkout');
@@ -43,14 +41,14 @@ export class CheckoutComponent implements OnInit {
   getCartInfo() {
     // get all the items on cart for the user
     this.checkoutService.getCartById().subscribe(
-      (response) => {
-        this.userInfo = response.userInfo;
-        if (!this.userInfo) {
+      (response: CheckoutInfoResponse) => {
+        this.userInfo.set(response.userInfo);
+        if (!this.userInfo() || this.userInfo().length === 0) {
           this.redirectToLogin();
         }
-        this.cartContent = response.data;
-        if (this.cartContent) {
-          this.cartTotal = response.sum.total;
+        this.cartContent.set(response.data);
+        if (this.cartContent() && this.cartContent().length > 0) {
+          this.cartTotal.set(response.sum.total || '0.00');
         } else {
           this.router.navigate(['user/cart']);
         }
@@ -63,9 +61,9 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  checkoutConfirm(value: any) {
+  checkoutConfirm(value: CheckoutFormValue) {
     if (
-      this.userInfo &&
+      this.userInfo() &&
       value.fullname &&
       value.address &&
       value.city &&

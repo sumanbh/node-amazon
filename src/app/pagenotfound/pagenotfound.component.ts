@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-page-not-found',
-  templateUrl: 'pagenotfound.component.html',
-  styleUrls: ['pagenotfound.component.scss']
+    selector: 'app-page-not-found',
+    templateUrl: 'pagenotfound.component.html',
+    styleUrls: ['pagenotfound.component.scss'],
+    imports: [RouterLink]
 })
 export class PageNotFoundComponent implements OnInit {
-  constructor(private titleService: Title) {}
+  private titleService = inject(Title);
 
-  ngOnInit() {
+
+  ngOnInit(): void {
     this.titleService.setTitle('404');
   }
 }

@@ -81,6 +81,11 @@
   color: #0275d8 !important;
   cursor: pointer;
   width: 30px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  display: inline;
 }
 
 @media (max-width: 991px) {
@@ -136,4 +141,19 @@
   .quantity-container {
     padding: 5px;
   }
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20%);
+  }
+}
+
+.cart-item-leave {
+  animation: slide-out 400ms ease-in-out forwards;
 }

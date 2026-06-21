@@ -1,20 +1,19 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from './user.interface';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Injectable()
 export class ProfileService {
-  baseUrl: string;
+  private http = inject(HttpClient);
+  baseUrl = inject(BASE_URL);
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+  getUserProfile(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/api/user/settings`);
   }
 
-  getUserProfile(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/user/settings`);
-  }
-
-  updateUserProfile(userObj): Observable<any> {
+  updateUserProfile(userObj: User): Observable<string> {
     const userInfo = JSON.stringify(userObj);
     const headers = new HttpHeaders({
       Accept: 'application/json',

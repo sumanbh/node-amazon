@@ -32,6 +32,9 @@
     font-size: 14px;
     font-weight: 500;
     color: rgb(17, 17, 17);
+    background: none;
+    border: none;
+    padding: 0;
     img {
       margin-right: -5px;
       padding-bottom: 2px;
@@ -44,6 +47,9 @@
     color: rgb(17, 17, 17);
     font-size: 14px;
     font-weight: 500;
+    background: none;
+    border: none;
+    padding: 0;
     img {
       margin-left: -5px;
       padding-bottom: 2px;
@@ -85,6 +91,10 @@
   color: #0275d8;
   cursor: pointer;
   padding: 5px 5px 5px 0px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .boxception {

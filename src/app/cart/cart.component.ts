@@ -1,68 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/animations';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CartService } from './cart.service';
 
 import { UserService } from '../shared/user.service';
+import { CartItem, CartResponse } from '../shared/types';
 
 @Component({
-  selector: 'app-cart',
-  providers: [CartService],
-  templateUrl: 'cart.component.html',
-  styleUrls: ['cart.component.scss'],
-  animations: [
-    trigger('signal', [
-      state(
-        'void',
-        style({
-          opacity: 0,
-          transform: 'translateX(20%)'
-        })
-      ),
-      transition('* => void', [animate('400ms ease-in-out')]),
-      state(
-        'initial',
-        style({
-          opacity: 1
-        })
-      )
-    ])
-  ]
+    selector: 'app-cart',
+    providers: [CartService],
+    templateUrl: 'cart.component.html',
+    styleUrls: ['cart.component.scss'],
+    imports: [RouterLink]
 })
 export class CartComponent implements OnInit {
-  cartContent = [];
+  private cartService = inject(CartService);
+  private router = inject(Router);
+  private titleService = inject(Title);
+  private userService = inject(UserService);
 
-  cartTotal = '0.00';
+  cartContent = signal<CartItem[]>([]);
 
-  buttonDisabled = false;
+  cartTotal = signal<string>('0.00');
+
+  buttonDisabled = signal<boolean>(false);
 
   isFirst = true;
-
-  animate = 'initial';
-
-  constructor(
-    private cartService: CartService,
-    private router: Router,
-    private titleService: Title,
-    private userService: UserService,
-  ) {}
 
   ngOnInit() {
     this.titleService.setTitle('Shopping Cart');
     this.getCartInfo();
   }
 
-  removeProduct(id) {
-    const itemIndex = this.cartContent.findIndex(item => item.unique_id === id);
+  removeProduct(id: string) {
+    const itemIndex = this.cartContent().findIndex(item => item.unique_id === id);
     if (itemIndex !== -1) {
-      this.cartContent[itemIndex].hideme = true;
+      this.cartContent.update(content => content.map((item, idx) => idx === itemIndex ? { ...item, hideme: true } : item));
       this.cartService.removeFromCart(id).subscribe(
         () => {
           this.getCartInfo();
@@ -76,24 +49,24 @@ export class CartComponent implements OnInit {
 
   getCartInfo() {
     this.cartService.getCartById().subscribe(
-      response => {
+      (response: CartResponse) => {
         // initial load should be instant
         if (this.isFirst) {
-          this.cartContent = response.data;
+          this.cartContent.set(response.data);
           this.isFirst = false;
         }
-        if (response.data) {
+        if (response.data && response.data.length > 0) {
           // because the delete animation takes 400ms
-          setTimeout(() => (this.cartContent = response.data), 400);
-          this.buttonDisabled = false;
-          this.cartTotal = response.sum.total;
+          setTimeout(() => this.cartContent.set(response.data), 400);
+          this.buttonDisabled.set(false);
+          this.cartTotal.set(response.sum.total);
         } else {
-          this.buttonDisabled = true;
-          this.cartTotal = '0.00';
+          this.buttonDisabled.set(true);
+          this.cartTotal.set('0.00');
         }
       },
       error => {
-        this.cartTotal = '0.00';
+        this.cartTotal.set('0.00');
         if (error && error.status === 401) {
           this.userService.clearUser();
           this.router.navigate(['login']);

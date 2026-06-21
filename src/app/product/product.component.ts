@@ -1,16 +1,13 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Inject,
-  PLATFORM_ID
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationsService } from 'angular2-notifications';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, signal, inject } from '@angular/core';
+import { isPlatformBrowser, DecimalPipe } from '@angular/common';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { NgbRatingConfig, NgbRating } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsService, SimpleNotificationsModule } from 'angular2-notifications';
 import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { ProductService } from './product.service';
+import { LaptopProduct } from '../shared/types';
+import { FormsModule } from '@angular/forms';
 
 const ADDRESSES = [
   'Seattle - Washington',
@@ -31,17 +28,26 @@ function stringToUtfCode(str: string) {
 }
 
 @Component({
-  selector: 'app-product',
-  templateUrl: 'product.component.html',
-  providers: [ProductService, NgbRatingConfig, NotificationsService],
-  styleUrls: ['product.component.scss']
+    selector: 'app-product',
+    templateUrl: 'product.component.html',
+    providers: [ProductService, NgbRatingConfig, NotificationsService],
+    styleUrls: ['product.component.scss'],
+    imports: [RouterLink, SimpleNotificationsModule, NgbRating, FormsModule, DecimalPipe]
 })
 export class ProductComponent implements OnInit, OnDestroy {
-  product = [];
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private productService = inject(ProductService);
+  private config = inject(NgbRatingConfig);
+  private toastService = inject(NotificationsService);
+  private titleService = inject(Title);
+  private platformId = inject(PLATFORM_ID);
 
-  similar: Array<Object>;
+  product = signal<LaptopProduct[]>([]);
 
-  param: any;
+  similar = signal<LaptopProduct[]>([]);
+
+  param: Subscription;
 
   id: string;
 
@@ -58,15 +64,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   shippingAddress: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private productService: ProductService,
-    private config: NgbRatingConfig,
-    private toastService: NotificationsService,
-    private titleService: Title,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+  constructor() {
+    const config = this.config;
+
     config.max = 5;
     config.readonly = true;
     this.id = this.route.snapshot.params.id;
@@ -98,7 +98,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     if (isTrue) {
       this.toastService.success(
         `${quantity} Added`,
-        `${this.product[0].laptop_name.substring(0, 40)}...`
+        `${this.product()[0].laptop_name.substring(0, 40)}...`
       );
     } else {
       this.router.navigate(['/login'], {
@@ -117,9 +117,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService.getProductById(id).subscribe(
       response => {
         this.currentQuantity = 1;
-        this.product = response.product;
-        this.similar = response.similar;
-        this.titleService.setTitle(`${this.product[0].laptop_name}`);
+        this.product.set(response.product);
+        this.similar.set(response.similar);
+        this.titleService.setTitle(`${this.product()[0].laptop_name}`);
       },
       error => {
         if (error) this.router.navigate(['404']);
@@ -127,8 +127,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToCart(id, qty) {
-    const quantity = parseInt(qty, 10) || 0;
+  addToCart(id: string, qty: string | number) {
+    const quantity = typeof qty === 'number' ? qty : parseInt(qty, 10) || 0;
     if (quantity <= 0) {
       this.popToastInvalid('Missing Quantity', 'Did you mean to add 1?');
     } else if (quantity > 20) {
@@ -145,7 +145,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         },
         error => {
           window.scrollTo(0, 0);
-          if (error) this.popToast(false, null);
+          if (error) this.popToast(false, 0);
         }
       );
     }

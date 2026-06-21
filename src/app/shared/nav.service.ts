@@ -18,15 +18,15 @@ export class NavService {
   routeNew$ = this.routeNewLaptop.asObservable();
 
   // service commands
-  changeNav(isTrue) {
+  changeNav(isTrue: boolean): void {
     this.navLoginSource.next(isTrue);
   }
 
-  changeCart(value) {
+  changeCart(value: number): void {
     this.navCartSource.next(value);
   }
 
-  newRoute(isTrue) {
+  newRoute(isTrue: boolean): void {
     this.routeNewLaptop.next(isTrue);
   }
 }

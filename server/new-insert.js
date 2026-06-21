@@ -156,7 +156,7 @@ const routes = {
             success: true,
             id: insert.rows[0].id,
           });
-        } catch (err) {
+        } catch {
           errors.push('Internal Server Error');
           res.status(500).json({
             success: false,

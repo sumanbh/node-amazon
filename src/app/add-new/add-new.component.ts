@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingConfig, NgbRating } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
+import { NewLaptopResponse } from '../shared/types';
+import { firstValueFrom } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-new',
-  templateUrl: './add-new.component.html',
-  styleUrls: ['./add-new.component.scss'],
-  providers: [NgbRatingConfig]
+    selector: 'app-add-new',
+    templateUrl: './add-new.component.html',
+    styleUrls: ['./add-new.component.scss'],
+    providers: [NgbRatingConfig],
+    imports: [RouterLink, FormsModule, NgbRating]
 })
 export class AddNewComponent implements OnInit {
+  private http = inject(HttpClient);
+  private ratingConfig = inject(NgbRatingConfig);
+  private titleService = inject(Title);
+
   operatingSystems = [
     'Mac OS X',
     'Chrome OS',
@@ -64,23 +73,17 @@ export class AddNewComponent implements OnInit {
 
   imageErr = false;
 
-  newLaptopId: string;
+  newLaptopId = signal<string | undefined>(undefined);
 
-  constructor(
-    private http: HttpClient,
-    private ratingConfig: NgbRatingConfig,
-    private titleService: Title
-  ) {
+  constructor() {
+    const ratingConfig = this.ratingConfig;
+
     ratingConfig.max = 5;
     ratingConfig.readonly = false;
   }
 
   ngOnInit() {
     this.titleService.setTitle('Add new laptop');
-  }
-
-  trackByFn(index: any, item: any) {
-    return index;
   }
 
   clearAll() {
@@ -101,7 +104,7 @@ export class AddNewComponent implements OnInit {
     }
   }
 
-  removeDescription(index: any) {
+  removeDescription(index: number) {
     if (this.laptop.description.length > 1) {
       this.laptop.limit = false;
       this.laptop.description.splice(index, 1);
@@ -141,11 +144,11 @@ export class AddNewComponent implements OnInit {
       });
       const apiUrl = '/api/user/laptop';
 
-      this.http
-        .post(apiUrl, { laptop: this.laptop }, { headers })
-        .toPromise()
-        .then((res: { id: string }) => {
-          this.newLaptopId = res.id;
+      firstValueFrom(
+        this.http.post<NewLaptopResponse>(apiUrl, { laptop: this.laptop }, { headers })
+      )
+        .then((res: NewLaptopResponse) => {
+          this.newLaptopId.set(res.id);
           this.clearAll();
           window.scrollTo(0, 0);
         })

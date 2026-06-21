@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  API_URL: 'http://localhost:3000/demo',
+  API_URL: '/demo',
   SESSION: 'SIO_SESSION',
 };

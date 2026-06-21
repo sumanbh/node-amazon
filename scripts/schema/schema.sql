@@ -119,7 +119,7 @@ CREATE TABLE laptops
      rating          DECIMAL(2, 1), 
      price           NUMERIC(7, 2), 
      img_big         VARCHAR(200), 
-     description     TEXT[] 
+     description     TEXT[], 
      date_added      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
   );
 

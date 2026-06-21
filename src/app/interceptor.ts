@@ -1,29 +1,20 @@
+import { inject } from '@angular/core';
+import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Injectable, Inject } from '@angular/core';
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest
-} from '@angular/common/http';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
-import * as xhr2 from 'xhr2';
+import { REQUEST } from './express.tokens';
 
-// @todo Fix this. Hack to pass cookie(s) down to express API server
-xhr2.prototype._restrictedHeaders = {};
+export function cookiesInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  const ssrRequest = inject(REQUEST, { optional: true });
 
-@Injectable()
-export class HttpUniversalInterceptor implements HttpInterceptor {
-  constructor(@Inject(REQUEST) private req: any) {}
+  const isApiRequest = req.url.includes('/api/') || req.url.includes('/auth/');
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const authReq = req.clone({
-      setHeaders: { cookie: this.req.headers.cookie || '' }
+  if (isApiRequest) {
+    const clonedReq = req.clone({
+      withCredentials: true,
+      ...(ssrRequest ? { setHeaders: { cookie: ssrRequest.headers.cookie || '' } } : {})
     });
-
-    return next.handle(authReq);
+    return next(clonedReq);
   }
+
+  return next(req);
 }

@@ -1,41 +1,50 @@
-import 'zone.js/node';
-
-import { ngExpressEngine } from '@nguniversal/express-engine';
-import * as express from 'express';
-import { join } from 'path';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
-import * as routeCache from 'route-cache';
-import { expressjwt } from 'express-jwt';
-import * as cookieParser from 'cookie-parser';
-import * as compress from 'compression';
-import * as session from 'express-session';
-import * as cors from 'cors';
+import { CommonEngine } from '@angular/ssr/node';
+import express from 'express';
+import { fileURLToPath } from 'node:url';
+import { dirname, join, resolve } from 'node:path';
+import AppServerModule from './src/main.server';
 
-import { AppServerModule } from './src/main.server';
+import { createRequire } from 'node:module';
+import { REQUEST } from './src/app/express.tokens';
 
-// Webpack will replace 'require' with '__webpack_require__'
-// '__non_webpack_require__' is a proxy to Node 'require'
-// The below code is to ensure that the server is run only when not requiring the bundle.
-declare const __non_webpack_require__: NodeRequire;
-const nodeRequire = __non_webpack_require__;
-const mainModule = __non_webpack_require__.main;
-const moduleFilename = mainModule && mainModule.filename || '';
+const require = createRequire(import.meta.url);
+
+const routeCache = require('route-cache');
+const { expressjwt } = require('express-jwt');
+const cookieParser = require('cookie-parser');
+const compress = require('compression');
+const session = require('express-session');
+const cors = require('cors');
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app() {
+export function app(): express.Express {
   // Config
   const CONFIG_FOLDER = join(process.cwd(), 'config');
-  const config = nodeRequire(join(CONFIG_FOLDER, 'amazon.json'));
-
-  const server = express().disable('x-powered-by').use(cookieParser());
-  const distFolder = join(process.cwd(), 'dist/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  const config = require(join(CONFIG_FOLDER, 'amazon.json'));
 
   const SERVER_FOLDER = join(process.cwd(), 'server');
-  const routes = nodeRequire(join(SERVER_FOLDER, 'routes.js'));
-  const insertions = nodeRequire(join(SERVER_FOLDER, 'new-insert'));
-  const authentication = nodeRequire(join(SERVER_FOLDER, 'authentication.js'));
+  const routes = require(join(SERVER_FOLDER, 'routes.js'));
+  const insertions = require(join(SERVER_FOLDER, 'new-insert'));
+  const authentication = require(join(SERVER_FOLDER, 'authentication.js'));
+
+  const server = express().disable('x-powered-by').use(cookieParser());
+
+  // Rewrite /demo paths to base paths to avoid routing issues and SSR deadlocks
+  server.use((req, res, next) => {
+    if (req.url.startsWith('/demo/')) {
+      req.url = req.url.replace(/^\/demo/, '');
+    } else if (req.url === '/demo') {
+      req.url = '/';
+    }
+    next();
+  });
+
+  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
+
+  const commonEngine = new CommonEngine({ allowedHosts: ['localhost', '127.0.0.1'] });
 
   // Basic express session
   server.use(
@@ -47,9 +56,14 @@ export function app() {
   );
 
   // For jwt token errors
-  server.use((err, _, res, next) => {
+  server.use((
+    err: Error & { name?: string; status?: number },
+    _req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
     if (err.name === 'StatusError') {
-      res.send(err.status, err.message);
+      res.status(err.status || 500).send(err.message);
     } else {
       next(err);
     }
@@ -58,7 +72,7 @@ export function app() {
   const jwtCheck = expressjwt({
     algorithms: ['HS256'],
     secret: config.jwt.secret,
-    getToken: (req) => {
+    getToken: (req: express.Request) => {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         return req.headers.authorization.split(' ')[1];
       }
@@ -69,13 +83,8 @@ export function app() {
     },
   });
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine('html', ngExpressEngine({
-    bootstrap: AppServerModule,
-  }));
-
   server.set('view engine', 'html');
-  server.set('views', distFolder);
+  server.set('views', browserDistFolder);
 
   server.use(express.json({ limit: '5mb' }));
   server.use(express.urlencoded({ extended: false }));
@@ -109,20 +118,39 @@ export function app() {
   server.post('/api/user/laptop', insertions.newLaptop);
 
   // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
+  server.get('**', express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: 'index.html',
   }));
 
-  // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+  // All regular routes use the Angular engine
+  server.get('**', (req, res, next) => {
+    console.log(`[Express] [${new Date().toISOString()}] Starting SSR render for ${req.url}`);
+    const { protocol, originalUrl, headers } = req;
+
+    commonEngine
+      .render({
+        bootstrap: AppServerModule,
+        documentFilePath: indexHtml,
+        url: `${protocol}://${headers.host}${originalUrl}`,
+        publicPath: browserDistFolder,
+        providers: [
+          { provide: APP_BASE_HREF, useValue: '/demo/' },
+          { provide: REQUEST, useValue: req }
+        ],
+      })
+      .then((html) => {
+        console.log(`[Express] [${new Date().toISOString()}] Finished SSR render for ${req.url}`);
+        res.send(html);
+      })
+      .catch((err) => next(err));
   });
 
   return server;
 }
 
-function run() {
-  const port = process.env.PORT || 3000;
+function run(): void {
+  const port = process.env['PORT'] || 3000;
 
   // Start up the Node server
   const server = app();
@@ -131,8 +159,6 @@ function run() {
   });
 }
 
-if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
-  run();
-}
+run();
 
 export * from './src/main.server';

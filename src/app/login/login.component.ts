@@ -1,31 +1,28 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../shared/user.service';
+import { FormsModule } from '@angular/forms';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    imports: [FormsModule]
 })
 export class LoginComponent implements OnInit {
-  baseUrl: string;
+  private userService = inject(UserService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  baseUrl = inject(BASE_URL);
 
-  login = true;
+  login = signal<boolean>(true);
 
-  loginErr = 'Invalid email and or password.';
+  loginErr = signal<string>('Invalid email and or password.');
 
   returnUrl: string;
-
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
-    this.baseUrl = baseUrl;
-  }
 
   ngOnInit() {
     this.titleService.setTitle('Login');
@@ -41,19 +38,19 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  localAuth(email, password) {
+  localAuth(email: string, password: string) {
     if (email && password) {
       this.userService.login(email, password).subscribe(response => {
         if (response.success) {
-          this.login = true;
+          this.login.set(true);
           // get return url from route parameters or default to '/'
           this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
           this.router.navigateByUrl(this.returnUrl);
         } else {
-          this.loginErr = response.err;
-          this.login = false;
+          this.loginErr.set(response.err);
+          this.login.set(false);
         }
       });
-    } else this.login = false;
+    } else this.login.set(false);
   }
 }

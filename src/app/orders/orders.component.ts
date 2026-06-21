@@ -1,28 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from './orders.service';
 
 import { UserService } from '../shared/user.service';
+import { OrderItem } from '../shared/types';
+import { DatePipe } from '@angular/common';
+import { GroupByPipe } from './groupby.pipe';
 
 @Component({
-  selector: 'app-orders',
-  providers: [OrdersService, NgbDropdownConfig],
-  templateUrl: 'orders.component.html',
-  styleUrls: ['orders.component.scss']
+    selector: 'app-orders',
+    providers: [OrdersService, NgbDropdownConfig],
+    templateUrl: 'orders.component.html',
+    styleUrls: ['orders.component.scss'],
+    imports: [RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, DatePipe, GroupByPipe]
 })
 export class OrdersComponent implements OnInit {
-  ordersContent: Array<Object>;
+  private ordersService = inject(OrdersService);
+  private router = inject(Router);
+  private titleService = inject(Title);
+  private userService = inject(UserService);
+
+  ordersContent = signal<Record<string, OrderItem[]>>({});
 
   noResults = false;
-
-  constructor(
-    private ordersService: OrdersService,
-    private router: Router,
-    private titleService: Title,
-    private userService: UserService,
-  ) {}
 
   ngOnInit() {
     this.titleService.setTitle('Your Orders');
@@ -35,9 +37,9 @@ export class OrdersComponent implements OnInit {
   }
 
   // To group by order id. The server gives us a list of arrays. This code groups the array into smaller chunks by id.
-  transformArr(original) {
-    const results = [];
-    const types = {};
+  transformArr(original: OrderItem[]): Record<string, OrderItem[]>[] {
+    const results: Record<string, OrderItem[]>[] = [];
+    const types: Record<string, Record<string, OrderItem[]>> = {};
     let i;
     let j;
     let current;
@@ -59,13 +61,15 @@ export class OrdersComponent implements OnInit {
         if (response.length === 0) {
           this.noResults = true;
         }
-        this.ordersContent = this.transformArr(response).reduce(
-          (result, item) => {
-            const [key] = Object.keys(item);
-            result[key] = item[key];
-            return result;
-          },
-          {}
+        this.ordersContent.set(
+          this.transformArr(response).reduce(
+            (result, item) => {
+              const [key] = Object.keys(item);
+              result[key] = item[key];
+              return result;
+            },
+            {} as Record<string, OrderItem[]>
+          )
         );
       },
       error => {

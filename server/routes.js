@@ -22,7 +22,7 @@ const routes = {
       }
 
       res.status(200).json({ name: customer.rows[0].given_name, cart: cartCount.total || 0 });
-    } catch (err) {
+    } catch {
       res.status(200).json({ name: null, cart: null });
     }
   },
@@ -115,7 +115,7 @@ const routes = {
       data: result.rows.splice(offset, limit), // pagination
     });
   },
-  // eslint-disable-next-line no-async-promise-executor
+   
   getCartCount: (id) => new Promise(async (resolve) => {
     const query = 'SELECT SUM(product_quantity) as total FROM cartview WHERE customer_id = $1;';
     resolve((await pool.query(query, [id])).rows[0]);
@@ -180,7 +180,13 @@ const routes = {
     const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity, cartview.unique_id FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
     const cart = await pool.query(query, [req.auth.id]);
     // check if cart is empty
-    if (cart.rowCount === 0) return res.status(200).json(cart.rows);
+    if (cart.rowCount === 0) {
+      return res.status(200).json({
+        sum: { total: '0.00' },
+        data: [],
+        cart: 0,
+      });
+    }
     let results = [];
     const sumQuery = 'SELECT SUM(price * product_quantity) AS total FROM cartview WHERE customer_id = $1;';
     results.push(pool.query(sumQuery, [req.auth.id]), routes.getCartCount(req.auth.id));
@@ -199,7 +205,13 @@ const routes = {
     const query = 'SELECT cartview.brand_name, cartview.img, cartview.laptops_id, cartview.name, cartview.price, cartview.product_quantity FROM cartview WHERE customer_id = $1 ORDER BY date_added DESC;';
     const cart = await pool.query(query, [req.auth.id]);
     // check if cart is empty
-    if (cart.rowCount === 0) return res.status(200).json(cart.rows);
+    if (cart.rowCount === 0) {
+      return res.status(200).json({
+        sum: { total: '0.00' },
+        userInfo: [],
+        data: [],
+      });
+    }
     let results = [];
     // sum the cart
     const sumQuery = 'SELECT SUM(price * product_quantity) AS total FROM cartview WHERE customer_id = $1;';

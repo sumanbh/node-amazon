@@ -7,37 +7,41 @@
     <div class="col-lg-10 col-12">
       <h2 class="cart-title text-center"> Shopping Cart</h2>
       <hr>
-      <div [hidden]="!buttonDisabled" class="col-12">
-        <h2 class="cart-title text-center">Your cart is empty. It is not meant to be!</h2>
-      </div>
-      <div class="row" *ngFor="let item of cartContent">
-        <div [@signal]="animate" *ngIf="!item.hideme" class="col-12">
-          <div class="row is-flex">
-            <div class="col-lg-2 col-sm-4 col-12 image-container">
-              <img class="cart-img" [src]="item.img">
+        <div [hidden]="!buttonDisabled()" class="col-12">
+          <h2 class="cart-title text-center">Your cart is empty. It is not meant to be!</h2>
+        </div>
+        @for (item of cartContent(); track item.unique_id) {
+          <div class="row">
+            @if (!item.hideme) {
+              <div animate.leave="cart-item-leave" class="col-12">
+                <div class="row is-flex">
+                  <div class="col-lg-2 col-sm-4 col-12 image-container">
+                    <img class="cart-img" [src]="item.img" [alt]="item.name">
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-12 name-container">
+                    <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
+                    <button type="button" class="cart-remove" (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</button>
+                  </div>
+                  <div class="col-lg-2 col-6 price-container">
+                    <span class="cart-product-price">${{item.price}}</span>
+                  </div>
+                  <div class="col-lg-2 col-6 quantity-container">
+                    <b>Qty: {{item.product_quantity}}</b>
+                  </div>
+                </div>
+                <hr>
+                </div>
+              }
             </div>
-            <div class="col-lg-6 col-sm-8 col-12 name-container">
-              <a [routerLink]="['/product', item.laptops_id]">{{item.name}}</a> by {{item.brand_name}}
-              <a class="cart-remove"><span (click)="removeProduct(item.unique_id)" style="font-size: 14px">Delete</span></a>
+          }
+        </div>
+        <div class="col-lg-2 col-12 checkout-col">
+          <div class="checkout-container">
+            <div class="checkout-subtotal">
+              <span>Subtotal: </span><span class="cart-product-price">${{cartTotal()}}</span>
             </div>
-            <div class="col-lg-2 col-6 price-container">
-              <span class="cart-product-price">${{item.price}}</span>
-            </div>
-            <div class="col-lg-2 col-6 quantity-container">
-              <b>Qty: {{item.product_quantity}}</b>
-            </div>
+            <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="buttonDisabled() || cartContent().length === 0">Proceed to Checkout</button>
           </div>
-          <hr>
         </div>
       </div>
     </div>
-    <div class="col-lg-2 col-12 checkout-col">
-      <div class="checkout-container">
-        <div class="checkout-subtotal">
-          <span>Subtotal: </span><span class="cart-product-price">${{cartTotal}}</span>
-        </div>
-        <button [routerLink]="['/user/checkout']" type="button" class="btn btn-lg" [disabled]="buttonDisabled || cartContent.length === 0">Proceed to Checkout</button>
-      </div>
-    </div>
-  </div>
-</div>

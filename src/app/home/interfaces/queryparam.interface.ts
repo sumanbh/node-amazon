@@ -1,5 +1,5 @@
 export interface QueryParam {
-  keys: Array<String>;
+  keys: string[];
   params?: {
     brand?: string;
     os?: string;

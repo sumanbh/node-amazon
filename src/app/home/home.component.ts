@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { NgbRatingConfig, NgbRating } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { HomeService } from './home.service';
 
 import { NavService } from '../shared/nav.service';
@@ -12,17 +13,30 @@ import { Processor } from './interfaces/processor.interface';
 import { RAM } from './interfaces/ram.interface';
 import { Storage } from './interfaces/storage.interface';
 import { QueryParam } from './interfaces/queryparam.interface';
+import { ProductSummary } from '../shared/types';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { EllipsisPipe } from './ellipsis.pipe';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.component.html',
-  providers: [HomeService, NgbRatingConfig],
-  styleUrls: ['home.component.scss']
+    selector: 'app-home',
+    templateUrl: 'home.component.html',
+    providers: [HomeService, NgbRatingConfig],
+    styleUrls: ['home.component.scss'],
+    imports: [RouterLink, FormsModule, NgbRating, NgxPaginationModule, EllipsisPipe]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  baseUrl: string;
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private homeService = inject(HomeService);
+  private config = inject(NgbRatingConfig);
+  private titleService = inject(Title);
+  private navService = inject(NavService);
 
-  param: any;
+  baseUrl = inject(BASE_URL);
+
+  param: Subscription;
 
   brand: Brand;
 
@@ -36,21 +50,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   queryParams: QueryParam;
 
-  searchResult = true;
+  searchResult = signal<boolean>(true);
 
   minCustom: number;
 
   maxCustom: number;
 
-  page = 1;
+  page = signal<number>(1);
 
   itemsPerPage = 24;
 
-  data: Array<Object> = [];
+  data = signal<ProductSummary[]>([]);
 
-  totalItems: number;
+  totalItems = signal<number>(0);
 
-  isPrice = '';
+  isPrice = signal<string>('');
 
   brandOptions = this.homeService.brandOptions;
 
@@ -66,20 +80,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchString: string;
 
-  showFilter = true;
+  showFilter = signal<boolean>(true);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private homeService: HomeService,
-    private config: NgbRatingConfig,
-    private titleService: Title,
-    private navService: NavService,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
+  constructor() {
+    const config = this.config;
+
     config.max = 5;
     config.readonly = true;
-    this.baseUrl = baseUrl;
   }
 
   ngOnInit() {
@@ -104,23 +111,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.searchString = queryObj.search;
       this.brand = queryObj.brand;
       this.os = queryObj.os;
-      this.isPrice = `${queryObj.min ? queryObj.min : ''},${
+      this.isPrice.set(`${queryObj.min ? queryObj.min : ''},${
         queryObj.max ? queryObj.max : ''
-      }`;
+      }`);
       // default to empty if no min or max
-      if (this.isPrice === ',') this.isPrice = '';
+      if (this.isPrice() === ',') this.isPrice.set('');
       this.processor = queryObj.processor;
       this.ram = queryObj.ram;
       this.storage = queryObj.storage;
       // parseInt page otherwise ng2-pagination does not function correctly
-      if (this.queryParams.params.page) this.page = parseInt(this.queryParams.params.page, 10);
-      else this.page = 1;
+      if (this.queryParams.params.page) this.page.set(parseInt(this.queryParams.params.page, 10));
+      else this.page.set(1);
       // populate custom min and max
       if (
-        this.isPrice
-        && !this.homeService.defaultPrices.includes(this.isPrice)
+        this.isPrice()
+        && !this.homeService.defaultPrices.includes(this.isPrice())
       ) {
-        const price = this.isPrice.split(',');
+        const price = this.isPrice().split(',');
         if (price[0]) this.minCustom = parseInt(price[0], 10);
         if (price[1]) this.maxCustom = parseInt(price[1], 10);
       }
@@ -138,11 +145,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // On width < 768px, click on the Results tab.
     // This is to ensure the user sees the result(s) when a filter is selected/clicked.
-    if (window.innerWidth < 768 && !this.showFilter) {
+    if (window.innerWidth < 768 && !this.showFilter()) {
       try {
         const resultsTab = document.getElementById('back-btn') as HTMLElement;
         resultsTab.click();
-      } catch (err) {
+      } catch {
         // do nothing for now
       }
     }
@@ -152,10 +159,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // you can only choose one of the price filter
     if (queryParam === 'customPrice') {
-      this.isPrice = `${this.minCustom ? this.minCustom : ''},${
+      this.isPrice.set(`${this.minCustom ? this.minCustom : ''},${
         this.maxCustom ? this.maxCustom : ''
-      }`;
-      if (this.isPrice === ',') this.isPrice = '';
+      }`);
+      if (this.isPrice() === ',') this.isPrice.set('');
     } else if ((isMinCustom || this.maxCustom) && queryParam === 'price') {
       this.minCustom = null;
       this.maxCustom = null;
@@ -164,7 +171,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const tempObj = {
       brand: this.brand,
       os: this.os,
-      price: this.isPrice,
+      price: this.isPrice(),
       processor: this.processor,
       ram: this.ram,
       storage: this.storage
@@ -196,18 +203,25 @@ export class HomeComponent implements OnInit, OnDestroy {
       processor: this.processor,
       ram: this.ram,
       storage: this.storage,
-      page: this.page,
+      page: this.page(),
       search: this.searchString,
-      price: this.isPrice,
+      price: this.isPrice(),
       minCustom: this.minCustom,
       maxCustom: this.maxCustom
     };
 
     // query the database
-    this.homeService.getAllProducts(tempObj).subscribe(result => {
-      this.searchResult = result.data.length !== 0;
-      this.data = result.data;
-      this.totalItems = result.total;
+    console.log(`[HomeComponent] getResults query.`);
+    this.homeService.getAllProducts(tempObj).subscribe({
+      next: (result) => {
+        console.log(`[HomeComponent] getResults success. Total: ${result?.total}, Items: ${result?.data?.length}.`);
+        this.searchResult.set(result.data.length !== 0);
+        this.data.set(result.data);
+        this.totalItems.set(result.total);
+      },
+      error: (err) => {
+        console.error('[HomeComponent] getResults error:', err);
+      }
     });
   }
 

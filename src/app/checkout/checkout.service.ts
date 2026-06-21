@@ -1,36 +1,32 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NavService } from '../shared/nav.service';
+import { CheckoutInfoResponse, CheckoutFormValue, CheckoutConfirmResponse } from '../shared/types';
+import { BASE_URL } from '../shared/base-url.token';
 
 @Injectable()
 export class CheckoutService {
-  baseUrl: string;
+  private http = inject(HttpClient);
+  private navService = inject(NavService);
+  baseUrl = inject(BASE_URL);
 
-  constructor(
-    private http: HttpClient,
-    private navService: NavService,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
-    this.baseUrl = baseUrl;
-  }
-
-  getCartById(): Observable<any> {
+  getCartById(): Observable<CheckoutInfoResponse> {
     const productUrl = `${this.baseUrl}/api/user/checkout`; // api url
-    return this.http.get(productUrl);
+    return this.http.get<CheckoutInfoResponse>(productUrl);
   }
 
-  sendCheckout(value: any): Observable<any> {
+  sendCheckout(value: CheckoutFormValue): Observable<boolean> {
     const headers = new HttpHeaders({
       Accept: 'application/json',
       'Content-Type': 'application/json',
     });
     const checkoutUrl = `${this.baseUrl}/api/user/checkout/confirm`;
-    return this.http.post(checkoutUrl, value, { headers }).pipe(
-      map((res: any) => {
+    return this.http.post<CheckoutConfirmResponse>(checkoutUrl, value, { headers }).pipe(
+      map((res) => {
         if (res.success) {
-          localStorage.setItem('id_cart', res.cart || 0);
+          localStorage.setItem('id_cart', String(res.cart || 0));
           this.navService.changeCart(res.cart || 0);
           return true;
         }

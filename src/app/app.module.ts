@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, provideZonelessChangeDetection } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -9,14 +9,16 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
-import { TransferHttpCacheModule } from '@nguniversal/common';
+import { provideHttpClient, withInterceptors, withJsonpSupport } from '@angular/common/http';
+import { provideClientHydration, withNoIncrementalHydration, BrowserModule } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 import { environment } from '../environments/environment';
 import { AuthGuard } from './shared/auth.guard';
 import { NavService } from './shared/nav.service';
 import { UserService } from './shared/user.service';
+import { cookiesInterceptor } from './interceptor';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -34,46 +36,40 @@ import { AddNewComponent } from './add-new/add-new.component';
 import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
 
-@NgModule({
-  declarations: [
-    NavbarComponent,
-    AppComponent,
-    PageNotFoundComponent,
-    HomeComponent,
-    ProductComponent,
-    CartComponent,
-    CheckoutComponent,
-    OrdersComponent,
-    ProfileComponent,
-    GroupByPipe,
-    EllipsisPipe,
-    LoginComponent,
-    AddNewComponent,
-  ],
-  imports: [
-    HttpClientModule,
-    TransferHttpCacheModule,
-    CommonModule,
-    FormsModule,
-    RouterModule.forRoot(routes, {
-      initialNavigation: 'enabledBlocking',
-    }),
-    HttpClientJsonpModule,
-    NgbRatingModule,
-    NgbDropdownModule,
-    NgbModalModule,
-    NgxPaginationModule,
-    SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule,
-  ],
-  providers: [
-    { provide: 'BASE_URL', useFactory: getBaseUrl },
-    AuthGuard,
-    NavService,
-    UserService,
-  ],
-  bootstrap: [AppComponent],
-})
+import { BASE_URL } from './shared/base-url.token';
+
+@NgModule({ declarations: [], bootstrap: [AppComponent],
+    imports: [BrowserModule,
+        AppComponent,
+        CommonModule,
+        FormsModule,
+        RouterModule.forRoot(routes),
+        NgbRatingModule,
+        NgbDropdownModule,
+        NgbModalModule,
+        NgxPaginationModule,
+        SimpleNotificationsModule.forRoot(), NavbarComponent,
+        PageNotFoundComponent,
+        HomeComponent,
+        ProductComponent,
+        CartComponent,
+        CheckoutComponent,
+        OrdersComponent,
+        ProfileComponent,
+        GroupByPipe,
+        EllipsisPipe,
+        LoginComponent,
+        AddNewComponent],
+    providers: [
+        provideZonelessChangeDetection(),
+        provideAnimations(),
+        provideClientHydration(withNoIncrementalHydration()),
+        { provide: BASE_URL, useFactory: getBaseUrl },
+        AuthGuard,
+        NavService,
+        UserService,
+        provideHttpClient(withInterceptors([cookiesInterceptor]), withJsonpSupport()),
+    ] })
 export class AppBrowserModule {}
 
 export function getBaseUrl() {

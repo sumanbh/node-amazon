@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { UserService } from './user.service';
 
 @Injectable()
 export class AuthGuard  {
-  constructor(
-    private router: Router,
-    private userService: UserService,
-  ) {}
+  private router = inject(Router);
+  private userService = inject(UserService);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const user = this.userService.getUser();
     if (!user && !this.userService.isLoading) {
       this.router.navigate(['/login'], {

@@ -120,6 +120,22 @@
   }
 }
 
+.product-compare {
+  width: 100%;
+}
+
+.compare-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
 .compare-title {
   font-size: 21px;
   color: #e77600;
