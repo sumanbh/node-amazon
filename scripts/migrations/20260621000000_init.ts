@@ -151,6 +151,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
     .addColumn('product_quantity', 'integer', (col) => col.notNull())
     .addColumn('customer_id', 'uuid', (col) => col.references('customers.id'))
     .addColumn('date_added', 'timestamptz', (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+    .addUniqueConstraint('cart_customer_product_unique', ['customer_id', 'product_id'])
     .execute();
 
   // Create views

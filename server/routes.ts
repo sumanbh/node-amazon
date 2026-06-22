@@ -142,6 +142,7 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
       'laptops.price',
       'laptops.rating',
       'laptops.name',
+      sql<string | number>`count(*) over()`.as('full_count'),
     ]);
 
   if (brands.length > 0) {
@@ -188,9 +189,15 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
 
   query = query.orderBy('laptops.rating', 'desc');
 
-  const rows = await query.execute();
-  const total = rows.length;
-  const paginatedData = rows.slice(offset, offset + limit);
+  const rows = await query.limit(limit).offset(offset).execute();
+  const total = rows.length > 0 ? Number(rows[0].full_count) : 0;
+  const paginatedData = rows.map((row) => ({
+    id: row.id,
+    img: row.img,
+    price: row.price,
+    rating: row.rating,
+    name: row.name,
+  }));
 
   res.status(200).json({
     total,
@@ -268,39 +275,24 @@ export async function addToCart(req: AuthenticatedRequest, res: Response): Promi
   }
   const customerId = getCustomerId(req);
 
-  const [cartItem, cartCountResult] = await Promise.all([
-    db.selectFrom('cart')
-      .selectAll()
-      .where('product_id', '=', id)
-      .where('customer_id', '=', customerId)
-      .executeTakeFirst(),
-    getCartCountHelper(customerId),
-  ]);
+  await db.insertInto('cart')
+    .values({
+      id: undefined,
+      product_id: id,
+      product_quantity: quantity,
+      customer_id: customerId,
+      date_added: undefined,
+    })
+    .onConflict((oc) => oc
+      .columns(['customer_id', 'product_id'])
+      .doUpdateSet({
+        product_quantity: sql`cart.product_quantity + ${quantity}`,
+      })
+    )
+    .execute();
 
-  if (!cartItem) {
-    await db.insertInto('cart')
-      .values({
-        id: undefined,
-        product_id: id,
-        product_quantity: quantity,
-        customer_id: customerId,
-        date_added: undefined,
-      })
-      .execute();
-    const cartCount = cartCountResult.total + quantity;
-    res.status(200).json({ cart: cartCount, success: true });
-  } else {
-    const newLength = cartItem.product_quantity + quantity;
-    await db.updateTable('cart')
-      .set({
-        product_quantity: newLength,
-      })
-      .where('customer_id', '=', customerId)
-      .where('product_id', '=', id)
-      .execute();
-    const cartCount = cartCountResult.total + quantity;
-    res.status(200).json({ cart: cartCount, success: true });
-  }
+  const cartCountResult = await getCartCountHelper(customerId);
+  res.status(200).json({ cart: cartCountResult.total, success: true });
 }
 
 export async function getFromCart(req: AuthenticatedRequest, res: Response): Promise<void> {
@@ -320,31 +312,19 @@ export async function getFromCart(req: AuthenticatedRequest, res: Response): Pro
     .orderBy('date_added', 'desc')
     .execute();
 
-  if (cartRows.length === 0) {
-    res.status(200).json({
-      sum: { total: '0.00' },
-      data: [],
-      cart: 0,
-    });
-    return;
+  let totalSum = 0;
+  let totalQuantity = 0;
+  for (const row of cartRows) {
+    const qty = row.product_quantity || 0;
+    const price = Number(row.price) || 0;
+    totalSum += price * qty;
+    totalQuantity += qty;
   }
 
-  const [sumResult, cartCountResult] = await Promise.all([
-    db.selectFrom('cartview')
-      .select((eb) =>
-        eb.fn<string>('sum', [
-          sql`price * product_quantity`
-        ]).as('total')
-      )
-      .where('customer_id', '=', customerId)
-      .executeTakeFirst(),
-    getCartCountHelper(customerId),
-  ]);
-
   res.status(200).json({
-    sum: { total: sumResult?.total || '0.00' },
+    sum: { total: totalSum.toFixed(2) },
     data: cartRows,
-    cart: cartCountResult.total || 0,
+    cart: totalQuantity,
   });
 }
 
@@ -373,23 +353,20 @@ export async function getCheckoutInfo(req: AuthenticatedRequest, res: Response):
     return;
   }
 
-  const [sumResult, userInfoResult] = await Promise.all([
-    db.selectFrom('cartview')
-      .select((eb) =>
-        eb.fn<string>('sum', [
-          sql`price * product_quantity`
-        ]).as('total')
-      )
-      .where('customer_id', '=', customerId)
-      .executeTakeFirst(),
-    db.selectFrom('customers')
-      .select(['address', 'city', 'fullname', 'state', 'zip'])
-      .where('id', '=', customerId)
-      .execute(),
-  ]);
+  let totalSum = 0;
+  for (const row of cartRows) {
+    const qty = row.product_quantity || 0;
+    const price = Number(row.price) || 0;
+    totalSum += price * qty;
+  }
+
+  const userInfoResult = await db.selectFrom('customers')
+    .select(['address', 'city', 'fullname', 'state', 'zip'])
+    .where('id', '=', customerId)
+    .execute();
 
   res.status(200).json({
-    sum: { total: sumResult?.total || '0.00' },
+    sum: { total: totalSum.toFixed(2) },
     userInfo: userInfoResult,
     data: cartRows,
   });
