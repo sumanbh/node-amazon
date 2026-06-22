@@ -5,29 +5,24 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
 
-import { createRequire } from 'node:module';
 import { REQUEST } from './src/app/express.tokens';
 import { BASE_URL } from './src/app/shared/base-url.token';
 
-const require = createRequire(import.meta.url);
+import { expressjwt } from 'express-jwt';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import cors from 'cors';
+import * as fs from 'node:fs';
 
-const routeCache = require('route-cache');
-const { expressjwt } = require('express-jwt');
-const cookieParser = require('cookie-parser');
-const compress = require('compression');
-const session = require('express-session');
-const cors = require('cors');
+import * as routes from './server/routes';
+import * as insertions from './server/new-insert';
+import authentication from './server/authentication';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   // Config
   const CONFIG_FOLDER = join(process.cwd(), 'config');
-  const config = require(join(CONFIG_FOLDER, 'amazon.json'));
-
-  const SERVER_FOLDER = join(process.cwd(), 'server');
-  const routes = require(join(SERVER_FOLDER, 'routes.js'));
-  const insertions = require(join(SERVER_FOLDER, 'new-insert'));
-  const authentication = require(join(SERVER_FOLDER, 'authentication.js'));
+  const config = JSON.parse(fs.readFileSync(join(CONFIG_FOLDER, 'amazon.json'), 'utf8'));
 
   const server = express().disable('x-powered-by').use(cookieParser());
 
@@ -90,7 +85,6 @@ export function app(): express.Express {
   server.use(express.json({ limit: '5mb' }));
   server.use(express.urlencoded({ extended: false }));
   server.use(cors());
-  server.use(compress());
 
   // Check jwt token for these routes
   server.use('/api/user', jwtCheck);
@@ -100,22 +94,18 @@ export function app(): express.Express {
 
   /* - Express Rest API endpoints - */
   server.get('/api/customer', routes.getCustomer);
-  server.get('/api/shop/:page', routeCache.cacheSeconds(20), routes.getAllProducts); // Cache 20 seconds
-  server.get(
-    '/api/product/:productId',
-    routeCache.cacheSeconds(86400),
-    routes.getProductById
-  ); // Cache 24 hours
-  server.get('/api/user/cart', routes.getFromCart);
-  server.get('/api/user/cart/count', routes.getCartCount);
-  server.get('/api/user/checkout', routes.getCheckoutInfo);
-  server.get('/api/user/orders', routes.getUserOrders);
-  server.get('/api/user/order/:id', routes.getOrderById);
-  server.get('/api/user/settings', routes.getUserInfo);
-  server.delete('/api/user/cart/remove/:id', routes.removeFromCart);
-  server.post('/api/user/checkout/confirm', routes.checkoutConfirm);
-  server.post('/api/user/cart/add', routes.addToCart);
-  server.post('/api/user/update', routes.updateProfile);
+  server.get('/api/shop/:page', routes.getAllProducts);
+  server.get( '/api/product/:productId', routes.getProductById);
+  server.get('/api/user/cart', routes.authMiddleware, routes.getFromCart);
+  server.get('/api/user/cart/count', routes.authMiddleware, routes.getCartCount);
+  server.get('/api/user/checkout', routes.authMiddleware, routes.getCheckoutInfo);
+  server.get('/api/user/orders', routes.authMiddleware, routes.getUserOrders);
+  server.get('/api/user/order/:id', routes.authMiddleware, routes.getOrderById);
+  server.get('/api/user/settings', routes.authMiddleware, routes.getUserInfo);
+  server.delete('/api/user/cart/remove/:id', routes.authMiddleware, routes.removeFromCart);
+  server.post('/api/user/checkout/confirm', routes.authMiddleware, routes.checkoutConfirm);
+  server.post('/api/user/cart/add', routes.authMiddleware, routes.addToCart);
+  server.post('/api/user/update', routes.authMiddleware, routes.updateProfile);
   server.post('/api/user/laptop', insertions.newLaptop);
 
   // Serve static files from /browser
@@ -164,3 +154,4 @@ function run(): void {
 run();
 
 export * from './src/main.server';
+

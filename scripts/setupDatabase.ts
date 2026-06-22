@@ -6,6 +6,7 @@ import { promises as fsPromises } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import chalk from 'chalk';
+import { generateTypes } from './generateTypes';
 
 const { Pool, Client } = pg;
 
@@ -68,6 +69,16 @@ async function runMigrations() {
 
   console.log(chalk.green('Successfully ran all migrations and seeded the database.'));
   await db.destroy();
+
+  console.log(chalk.blue('Generating Kysely type definitions...'));
+  try {
+    await generateTypes();
+  } catch (err) {
+    console.error(chalk.red('Failed to generate types:'));
+    console.error(err);
+    process.exit(1);
+  }
+
   process.exit(0);
 }
 

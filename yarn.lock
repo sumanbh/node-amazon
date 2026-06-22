@@ -4302,6 +4302,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bcryptjs@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/bcryptjs@npm:3.0.0"
+  dependencies:
+    bcryptjs: "npm:*"
+  checksum: 10/15fcb37f90ff9726b436bad453248402c6a6d6c0f1b9689faf2c0c0f0f5eab519e04b34848c99ea7603821a07cd494df995bec29f020130665133570b5a5185e
+  languageName: node
+  linkType: hard
+
 "@types/body-parser@npm:*":
   version: 1.19.2
   resolution: "@types/body-parser@npm:1.19.2"
@@ -4337,6 +4346,24 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10/fe81351470f2d3165e8b12ce33542eef89ea893e36dd62e8f7d72566dfb7e448376ae962f9f3ea888547ce8b55a40020ca0e01d637fab5d99567673084542641
+  languageName: node
+  linkType: hard
+
+"@types/cookie-parser@npm:^1.4.10":
+  version: 1.4.10
+  resolution: "@types/cookie-parser@npm:1.4.10"
+  peerDependencies:
+    "@types/express": "*"
+  checksum: 10/1f37b5a4115dbfd4b7bbea2d874fbf9495eca8c3e8c87fa7e38c50f9fff66222377c911cfdc7a1ea08855e822919c5534ebbcc4bf25b596bc6f7270e403483d9
+  languageName: node
+  linkType: hard
+
+"@types/cors@npm:^2.8.19":
+  version: 2.8.19
+  resolution: "@types/cors@npm:2.8.19"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/9545cc532c9218754443f48a0c98c1a9ba4af1fe54a3425c95de75ff3158147bb39e666cb7c6bf98cc56a9c6dc7b4ce5b2cbdae6b55d5942e50c81b76ed6b825
   languageName: node
   linkType: hard
 
@@ -4390,6 +4417,15 @@ __metadata:
     "@types/range-parser": "npm:*"
     "@types/send": "npm:*"
   checksum: 10/eb1b832343c0991395c9b10e124dc805921ea7c08efe01222d83912123b8c054119d009e9e55c91af6bdbeeec153c0d35411c9c6d80781bc8c0a43e8b1a84387
+  languageName: node
+  linkType: hard
+
+"@types/express-session@npm:^1.19.0":
+  version: 1.19.0
+  resolution: "@types/express-session@npm:1.19.0"
+  dependencies:
+    "@types/express": "npm:*"
+  checksum: 10/cc2d693a3a40a1c5d0739acec811b5a5d1e6be3fcb7513d920e6d0f604e7f8a6ac54509d604c6d32bde6a2ca57aa84d5dee067433a5ac9859ab47b7f2a855010
   languageName: node
   linkType: hard
 
@@ -5360,10 +5396,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcrypt-nodejs@npm:0.0.3":
-  version: 0.0.3
-  resolution: "bcrypt-nodejs@npm:0.0.3"
-  checksum: 10/2d170c807d7bbbf8ca2d50f197dd537ec20f4b303155580ceebd76e649b40027f768d81d463336cf3edc6256c01e2f252b1a4c8743de37eac5a3e3443b077711
+"bcryptjs@npm:*, bcryptjs@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "bcryptjs@npm:3.0.3"
+  bin:
+    bcrypt: bin/bcrypt
+  checksum: 10/c24c2b02d2156be4a2842752526ffcc48eb49f6c5c1271765d10f6f847eb40005716f0b910df8c04811fb5223ba9b80b84223c2a6f0a346584df9be2c44e2d14
   languageName: node
   linkType: hard
 
@@ -5846,7 +5884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compression@npm:^1.7.4, compression@npm:^1.8.1":
+"compression@npm:^1.8.1":
   version: 1.8.1
   resolution: "compression@npm:1.8.1"
   dependencies:
@@ -5943,13 +5981,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie-parser@npm:^1.4.6":
-  version: 1.4.6
-  resolution: "cookie-parser@npm:1.4.6"
+"cookie-parser@npm:^1.4.7":
+  version: 1.4.7
+  resolution: "cookie-parser@npm:1.4.7"
   dependencies:
-    cookie: "npm:0.4.1"
+    cookie: "npm:0.7.2"
     cookie-signature: "npm:1.0.6"
-  checksum: 10/1e5a63aa82e8eb4e02d2977c6902983dee87b02e87ec5ec43ac3cb1e72da354003716570cd5190c0ad9e8a454c9d3237f4ad6e2f16d0902205a96a1c72b77ba5
+  checksum: 10/243fa13f217e793d20a57675e6552beea08c5989fcc68495d543997a31646875335e0e82d687b42dcfd466df57891d22bae7f5ba6ab33b7705ed2dd6eb989105
   languageName: node
   linkType: hard
 
@@ -5967,28 +6005,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie-signature@npm:~1.0.6":
+"cookie-signature@npm:~1.0.6, cookie-signature@npm:~1.0.7":
   version: 1.0.7
   resolution: "cookie-signature@npm:1.0.7"
   checksum: 10/1a62808cd30d15fb43b70e19829b64d04b0802d8ef00275b57d152de4ae6a3208ca05c197b6668d104c4d9de389e53ccc2d3bc6bcaaffd9602461417d8c40710
   languageName: node
   linkType: hard
 
-"cookie@npm:0.4.1":
-  version: 0.4.1
-  resolution: "cookie@npm:0.4.1"
-  checksum: 10/0f2defd60ac93645ee31e82d11da695080435eb4fe5bed9b14d2fc4e0621a66f4c5c60f3eb05761df08a9d6279366e8646edfd1654f359d0b5afc25304fc4ddc
-  languageName: node
-  linkType: hard
-
-"cookie@npm:0.4.2":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: 10/2e1de9fdedca54881eab3c0477aeb067f281f3155d9cfee9d28dfb252210d09e85e9d175c0a60689661feb9e35e588515352f2456bc1f8e8db4267e05fd70137
-  languageName: node
-  linkType: hard
-
-"cookie@npm:^0.7.1, cookie@npm:~0.7.1":
+"cookie@npm:0.7.2, cookie@npm:^0.7.1, cookie@npm:~0.7.1, cookie@npm:~0.7.2":
   version: 0.7.2
   resolution: "cookie@npm:0.7.2"
   checksum: 10/24b286c556420d4ba4e9bc09120c9d3db7d28ace2bd0f8ccee82422ce42322f73c8312441271e5eefafbead725980e5996cc02766dbb89a90ac7f5636ede608f
@@ -6035,13 +6059,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cors@npm:^2.8.5":
-  version: 2.8.5
-  resolution: "cors@npm:2.8.5"
+"cors@npm:^2.8.5, cors@npm:^2.8.6":
+  version: 2.8.6
+  resolution: "cors@npm:2.8.6"
   dependencies:
     object-assign: "npm:^4"
     vary: "npm:^1"
-  checksum: 10/66e88e08edee7cbce9d92b4d28a2028c88772a4c73e02f143ed8ca76789f9b59444eed6b1c167139e76fa662998c151322720093ba229f9941365ada5a6fc2c6
+  checksum: 10/aa7174305b21ceb90f9c84f4eaa32f04432d333addbfdc0d1eb7310393c48902e5364aada5ac2f5d054528d63b3179238444475426fcb74e1e345077de485727
   languageName: node
   linkType: hard
 
@@ -6126,21 +6150,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:2.6.9":
+"debug@npm:2.6.9, debug@npm:~2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
   dependencies:
     ms: "npm:2.0.0"
   checksum: 10/e07005f2b40e04f1bd14a3dd20520e9c4f25f60224cb006ce9d6781732c917964e9ec029fc7f1a151083cd929025ad5133814d4dc624a9aaf020effe4914ed14
-  languageName: node
-  linkType: hard
-
-"debug@npm:3.1.0":
-  version: 3.1.0
-  resolution: "debug@npm:3.1.0"
-  dependencies:
-    ms: "npm:2.0.0"
-  checksum: 10/f5fd4b1390dd3b03a78aa30133a4b4db62acc3e6cd86af49f114bf7f7bd57c41a5c5c2eced2ad2c8190d70c60309f2dd5782feeaa0704dbaa5697890e3c5ad07
   languageName: node
   linkType: hard
 
@@ -6901,19 +6916,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-session@npm:^1.17.3":
-  version: 1.17.3
-  resolution: "express-session@npm:1.17.3"
+"express-session@npm:^1.19.0":
+  version: 1.19.0
+  resolution: "express-session@npm:1.19.0"
   dependencies:
-    cookie: "npm:0.4.2"
-    cookie-signature: "npm:1.0.6"
-    debug: "npm:2.6.9"
+    cookie: "npm:~0.7.2"
+    cookie-signature: "npm:~1.0.7"
+    debug: "npm:~2.6.9"
     depd: "npm:~2.0.0"
-    on-headers: "npm:~1.0.2"
+    on-headers: "npm:~1.1.0"
     parseurl: "npm:~1.3.3"
-    safe-buffer: "npm:5.2.1"
+    safe-buffer: "npm:~5.2.1"
     uid-safe: "npm:~2.1.5"
-  checksum: 10/dba1d5a1b83ef2b029643f665f4ab6174ad12c32d457af5565b4975235e74c2fe5c9f3816320a4cd740836d82d979d4a94c07e05930690b36a4c265159376c53
+  checksum: 10/5f36b51d344ec40adb5b9cd8a915fd694cdaf64832632411d4f6e6de8e9a83d873a20389e9c3cce966fece76a18c0384c5f2763b3ac089f801e8d6e92cb543e6
   languageName: node
   linkType: hard
 
@@ -8541,16 +8556,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:4.0.1":
-  version: 4.0.1
-  resolution: "lru-cache@npm:4.0.1"
-  dependencies:
-    pseudomap: "npm:^1.0.1"
-    yallist: "npm:^2.0.0"
-  checksum: 10/948b5b3e24b54a5333a6bf3c66c723863d63f7a9e286709e539e90a1b64bf3e8eadb8ea9284dd03e5ed77bc94de95b7120299d5f65846a476e6afc8436900d8f
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^11.0.0, lru-cache@npm:^11.1.0, lru-cache@npm:^11.2.1":
   version: 11.5.1
   resolution: "lru-cache@npm:11.5.1"
@@ -9163,22 +9168,25 @@ __metadata:
     "@ng-bootstrap/ng-bootstrap": "npm:^20.0.0"
     "@playwright/test": "npm:1.61.0"
     "@popperjs/core": "npm:^2.11.8"
+    "@types/bcryptjs": "npm:^3.0.0"
+    "@types/cookie-parser": "npm:^1.4.10"
+    "@types/cors": "npm:^2.8.19"
     "@types/express": "npm:^4.17.17"
+    "@types/express-session": "npm:^1.19.0"
     "@types/node": "npm:^24"
     "@types/pg": "npm:^8.20.0"
     angular-eslint: "npm:^22.0.0"
     angular2-notifications: "npm:^16.0.1"
-    bcrypt-nodejs: "npm:0.0.3"
+    bcryptjs: "npm:^3.0.3"
     bootstrap: "npm:5.3.8"
     chalk: "npm:^5.6.2"
-    compression: "npm:^1.7.4"
     concurrently: "npm:^10.0.3"
-    cookie-parser: "npm:^1.4.6"
-    cors: "npm:^2.8.5"
+    cookie-parser: "npm:^1.4.7"
+    cors: "npm:^2.8.6"
     eslint: "npm:^10.5.0"
     express: "npm:^4.22.0"
     express-jwt: "npm:^8.4.1"
-    express-session: "npm:^1.17.3"
+    express-session: "npm:^1.19.0"
     globals: "npm:^17.6.0"
     husky: "npm:^8.0.3"
     jsonwebtoken: "npm:^9.0.0"
@@ -9191,7 +9199,6 @@ __metadata:
     passport-local: "npm:^1.0.0"
     pg: "npm:^8.22.0"
     playwright-ng-schematics: "npm:^22.0.0"
-    route-cache: "npm:^0.4.7"
     rxjs: "npm:^7.8.1"
     sass: "npm:^1.101.0"
     tslib: "npm:^2.5.0"
@@ -9429,13 +9436,6 @@ __metadata:
   dependencies:
     ee-first: "npm:1.1.1"
   checksum: 10/8e81472c5028125c8c39044ac4ab8ba51a7cdc19a9fbd4710f5d524a74c6d8c9ded4dd0eed83f28d3d33ac1d7a6a439ba948ccb765ac6ce87f30450a26bfe2ea
-  languageName: node
-  linkType: hard
-
-"on-headers@npm:~1.0.2":
-  version: 1.0.2
-  resolution: "on-headers@npm:1.0.2"
-  checksum: 10/870766c16345855e2012e9422ba1ab110c7e44ad5891a67790f84610bd70a72b67fdd71baf497295f1d1bf38dd4c92248f825d48729c53c0eae5262fb69fa171
   languageName: node
   linkType: hard
 
@@ -10206,13 +10206,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pseudomap@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "pseudomap@npm:1.0.2"
-  checksum: 10/856c0aae0ff2ad60881168334448e898ad7a0e45fe7386d114b150084254c01e200c957cf378378025df4e052c7890c5bd933939b0e0d2ecfcc1dc2f0b2991f5
-  languageName: node
-  linkType: hard
-
 "punycode@npm:^2.1.0":
   version: 2.3.0
   resolution: "punycode@npm:2.3.0"
@@ -10688,16 +10681,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"route-cache@npm:^0.4.7":
-  version: 0.4.7
-  resolution: "route-cache@npm:0.4.7"
-  dependencies:
-    debug: "npm:3.1.0"
-    lru-cache: "npm:4.0.1"
-  checksum: 10/9c9b0683f8873a7876751281a08eca3cad701221b02a30032de0f908630da4b60e2dc90e1bc30fc095481d7a0f03e7f4daf77b620768bf79dc24f20aa0199230
-  languageName: node
-  linkType: hard
-
 "router@npm:^2.2.0":
   version: 2.2.0
   resolution: "router@npm:2.2.0"
@@ -10727,7 +10710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-buffer@npm:5.2.1, safe-buffer@npm:>=5.1.0, safe-buffer@npm:^5.0.1, safe-buffer@npm:~5.2.0":
+"safe-buffer@npm:5.2.1, safe-buffer@npm:>=5.1.0, safe-buffer@npm:^5.0.1, safe-buffer@npm:~5.2.0, safe-buffer@npm:~5.2.1":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
   checksum: 10/32872cd0ff68a3ddade7a7617b8f4c2ae8764d8b7d884c651b74457967a9e0e886267d3ecc781220629c44a865167b61c375d2da6c720c840ecd73f45d5d9451
@@ -12338,13 +12321,6 @@ __metadata:
   version: 5.0.8
   resolution: "y18n@npm:5.0.8"
   checksum: 10/5f1b5f95e3775de4514edbb142398a2c37849ccfaf04a015be5d75521e9629d3be29bd4432d23c57f37e5b61ade592fb0197022e9993f81a06a5afbdcda9346d
-  languageName: node
-  linkType: hard
-
-"yallist@npm:^2.0.0":
-  version: 2.1.2
-  resolution: "yallist@npm:2.1.2"
-  checksum: 10/75fc7bee4821f52d1c6e6021b91b3e079276f1a9ce0ad58da3c76b79a7e47d6f276d35e206a96ac16c1cf48daee38a8bb3af0b1522a3d11c8ffe18f898828832
   languageName: node
   linkType: hard
 
