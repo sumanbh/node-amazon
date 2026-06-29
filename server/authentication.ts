@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
+import { Strategy as GoogleStrategy, Profile as GoogleProfile, VerifyCallback as GoogleVerifyCallback } from 'passport-google-oauth20';
+import { Strategy as FacebookStrategy, Profile as FacebookProfile } from 'passport-facebook';
 import { Strategy as LocalStrategy } from 'passport-local';
 import jwt from 'jsonwebtoken';
 import express, { Request, Response, Router } from 'express';
@@ -14,12 +14,6 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const router = express.Router();
 
-interface PassportProfile {
-  id: string;
-  emails?: { value: string | null }[];
-  name?: { givenName?: string };
-  displayName?: string;
-}
 
 interface AuthUser {
   name?: string | null;
@@ -59,8 +53,8 @@ export default function initAuth(): Router {
       async (
         _accessToken: string,
         _refreshToken: string,
-        profile: PassportProfile,
-        cb: (err: unknown, user?: unknown) => void
+        profile: FacebookProfile,
+        cb: (err: Error | null | undefined, user?: false | Record<string, unknown>) => void
       ) => {
         try {
           const emails = profile.emails || [{ value: null }];
@@ -68,15 +62,23 @@ export default function initAuth(): Router {
 
           const existingUser = await db.selectFrom('customers')
             .select(['id', 'given_name'])
-            .where((eb) =>
-              eb('facebook_id', '=', profile.id)
-                .or(email ? eb('email', '=', email) : eb.val(false))
-            )
+            .where('facebook_id', '=', profile.id)
             .limit(1)
             .executeTakeFirst();
 
+          if (!existingUser && email) {
+            const emailUser = await db.selectFrom('customers')
+              .select(['id'])
+              .where('email', '=', email)
+              .limit(1)
+              .executeTakeFirst();
+            if (emailUser) {
+              return cb(new Error('Email is already registered. Please log in using your password or the correct provider.'));
+            }
+          }
+
           if (existingUser) {
-            const tokenObj = { id: existingUser.id };
+            const tokenObj = { id: existingUser.id as string };
             return cb(null, { token: createToken(tokenObj) });
           }
 
@@ -100,10 +102,10 @@ export default function initAuth(): Router {
             .returningAll()
             .executeTakeFirstOrThrow();
 
-          const tokenObj = { id: insertedUser.id };
+          const tokenObj = { id: insertedUser.id as string };
           return cb(null, { token: createToken(tokenObj) });
         } catch (err) {
-          return cb(err);
+          return cb(err instanceof Error ? err : new Error(String(err)));
         }
       }
     )
@@ -116,7 +118,13 @@ export default function initAuth(): Router {
     passport.authenticate('facebook', { session: false, failureRedirect: '/login' }),
     (req: CustomAuthRequest, res: Response) => {
       const token = req.user?.token || req.auth?.token;
-      res.cookie('SIO_SESSION', token || '', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true }).redirect('/');
+      res.cookie('SIO_SESSION', token || '', {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        path: '/',
+      }).redirect('/');
     }
   );
 
@@ -131,23 +139,31 @@ export default function initAuth(): Router {
       async (
         _accessToken: string,
         _refreshToken: string,
-        profile: PassportProfile,
-        cb: (err: unknown, user?: unknown) => void
+        profile: GoogleProfile,
+        cb: GoogleVerifyCallback
       ) => {
         try {
           const email = profile.emails?.[0]?.value || null;
 
           const existingUser = await db.selectFrom('customers')
             .select(['id', 'given_name'])
-            .where((eb) =>
-              eb('google_id', '=', profile.id)
-                .or(email ? eb('email', '=', email) : eb.val(false))
-            )
+            .where('google_id', '=', profile.id)
             .limit(1)
             .executeTakeFirst();
 
+          if (!existingUser && email) {
+            const emailUser = await db.selectFrom('customers')
+              .select(['id'])
+              .where('email', '=', email)
+              .limit(1)
+              .executeTakeFirst();
+            if (emailUser) {
+              return cb(new Error('Email is already registered. Please log in using your password or the correct provider.'));
+            }
+          }
+
           if (existingUser) {
-            const tokenObj = { id: existingUser.id };
+            const tokenObj = { id: existingUser.id as string };
             return cb(null, { token: createToken(tokenObj) });
           }
 
@@ -171,7 +187,7 @@ export default function initAuth(): Router {
             .returningAll()
             .executeTakeFirstOrThrow();
 
-          const tokenObj = { id: insertedUser.id };
+          const tokenObj = { id: insertedUser.id as string };
           return cb(null, { token: createToken(tokenObj) });
         } catch (err) {
           return cb(err);
@@ -190,7 +206,13 @@ export default function initAuth(): Router {
     passport.authenticate('google', { session: false, failureRedirect: '/login' }),
     (req: CustomAuthRequest, res: Response) => {
       const token = req.user?.token || req.auth?.token;
-      res.cookie('SIO_SESSION', token || '', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true }).redirect('/');
+      res.cookie('SIO_SESSION', token || '', {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        path: '/',
+      }).redirect('/');
     }
   );
 
@@ -207,7 +229,7 @@ export default function initAuth(): Router {
         _req: Request,
         email: string,
         password: string,
-        cb: (err: unknown, user?: unknown, info?: unknown) => void
+        cb: (err: Error | null | undefined, user?: false | Record<string, unknown>, info?: { message: string }) => void
       ) => {
         try {
           const result = await db.selectFrom('customers')
@@ -218,12 +240,12 @@ export default function initAuth(): Router {
             .executeTakeFirst();
 
           if (!result || !result.password) {
-            return cb(null, false, 'The email you entered is incorrect.');
+            return cb(null, false, { message: 'Invalid email or password.' });
           }
 
-          bcrypt.compare(password, result.password, async (error: unknown, isValid: boolean) => {
+          bcrypt.compare(password, result.password, async (error, isValid) => {
             if (error) {
-              return cb(error);
+              return cb(error instanceof Error ? error : new Error(String(error)));
             }
             if (isValid) {
               const user = await db.selectFrom('customers')
@@ -234,11 +256,11 @@ export default function initAuth(): Router {
                 .executeTakeFirst();
 
               if (!user) {
-                return cb(null, false, 'The email you entered is incorrect.');
+                return cb(null, false, { message: 'Invalid email or password.' });
               }
 
-              const cartCount = await getCart(user.id);
-              const tokenObj = { id: user.id };
+              const cartCount = await getCart(user.id as string);
+              const tokenObj = { id: user.id as string };
 
               return cb(null, {
                 name: user.given_name,
@@ -246,10 +268,10 @@ export default function initAuth(): Router {
                 token: createToken(tokenObj),
               });
             }
-            return cb(null, false, 'The password you entered is incorrect.');
+            return cb(null, false, { message: 'Invalid email or password.' });
           });
         } catch (err) {
-          return cb(err);
+          return cb(err instanceof Error ? err : new Error(String(err)));
         }
       }
     )
@@ -262,14 +284,23 @@ export default function initAuth(): Router {
       }
       const authUser = user as AuthUser | undefined;
       if (!authUser) {
-        return res.status(200).json({ success: false, err: message as string });
+        const errMsg = (message && typeof message === 'object' && 'message' in message)
+          ? (message as { message: string }).message
+          : (message as string);
+        return res.status(200).json({ success: false, err: errMsg });
       }
       const response = {
         name: authUser.name,
         cart: authUser.cart || 0,
         success: true,
       };
-      res.cookie('SIO_SESSION', authUser.token || '', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie('SIO_SESSION', authUser.token || '', {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        path: '/',
+      });
       return res.status(200).json(response);
     })(req, res, next);
   });

@@ -36,25 +36,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   cart = signal<number>(0);
 
-  subscription: Subscription;
+  subscription?: Subscription;
 
-  cartSubscription: Subscription;
+  cartSubscription?: Subscription;
 
-  routeSubscription: Subscription;
+  routeSubscription?: Subscription;
 
-  loginState: boolean;
+  loginState?: boolean;
 
   displayLink = signal<boolean>(false);
 
-  searchString: string;
+  searchString = '';
 
   searchSubject = new Subject<string>();
 
-  routeParam: Subscription;
+  searchSubscription?: Subscription;
 
-  modalReference: NgbModalRef;
+  routeParam?: Subscription;
 
-  modalService: NgbModal;
+  modalReference?: NgbModalRef;
+
+  modalService?: NgbModal;
 
   isClient = false;
 
@@ -76,15 +78,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // prevent memory leak when component is destroyed
-    this.subscription.unsubscribe();
-    this.cartSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
-    this.searchSubject.unsubscribe();
-    this.routeParam.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+    if (this.routeParam) {
+      this.routeParam.unsubscribe();
+    }
   }
 
   open(content: unknown) {
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService?.open(content);
   }
 
   registerSearch() {
@@ -96,7 +108,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   searchLaptop() {
-    this.searchSubject.pipe(debounceTime(300)).subscribe((search: string) => {
+    this.searchSubscription = this.searchSubject.pipe(debounceTime(300)).subscribe((search: string) => {
       const searchString = search;
       const param = searchString
         ? { search }
@@ -125,16 +137,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   loginSub() {
-    this.subscription = this.navService.navLogin$.subscribe(
-      (isLoggedIn: boolean) => {
+    this.subscription = this.navService.navLogin$.subscribe({
+      next: (isLoggedIn: boolean) => {
         if (isLoggedIn) {
           this.onLoginSuccess();
         } else {
           this.onLogout();
         }
       },
-      (error: unknown) => console.error(error)
-    );
+      error: (error: unknown) => console.error(error)
+    });
   }
 
   onLoginSuccess() {
@@ -162,7 +174,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           }
           this.login.set(true);
         } else {
-          this.loginErr.set(response.err);
+          this.loginErr.set(response.err || 'Invalid email and or password.');
           this.login.set(false);
         }
       });

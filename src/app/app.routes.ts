@@ -9,7 +9,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { AddNewComponent } from './add-new/add-new.component';
-import { AuthGuard } from './shared/auth.guard';
+import { authGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,27 +27,27 @@ export const routes: Routes = [
   {
     path: 'user/cart',
     component: CartComponent,
-    canActivate: [AuthGuard]
+    canActivate: [authGuard]
   },
   {
     path: 'user/checkout',
     component: CheckoutComponent,
-    canActivate: [AuthGuard]
+    canActivate: [authGuard]
   },
   {
     path: 'user/orders',
     component: OrdersComponent,
-    canActivate: [AuthGuard]
+    canActivate: [authGuard]
   },
   {
     path: 'user/settings',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [authGuard]
   },
   {
     path: 'laptop/new',
     component: AddNewComponent,
-    canActivate: [AuthGuard]
+    canActivate: [authGuard]
   },
   {
     path: '**',

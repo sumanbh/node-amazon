@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbRatingConfig, NgbRating } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
-import { NewLaptopResponse } from '../shared/types';
+import { NewLaptop, NewLaptopResponse } from '../shared/types';
 import { firstValueFrom } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -50,7 +50,7 @@ export class AddNewComponent implements OnInit {
   storageTypes = ['SSD', 'Hard Disk'];
 
   // initialize default laptop options
-  defaultOptions = {
+  defaultOptions: NewLaptop = {
     title: '',
     image: '',
     ram: null,
@@ -65,11 +65,11 @@ export class AddNewComponent implements OnInit {
     rating: null
   };
 
-  laptop = ({ ...this.defaultOptions });
+  laptop: NewLaptop = ({ ...this.defaultOptions });
 
-  errorArr = [];
+  errorArr: string[] = [];
 
-  errorText: string;
+  errorText = '';
 
   imageErr = false;
 
@@ -130,7 +130,7 @@ export class AddNewComponent implements OnInit {
       this.errorArr.splice(index, 1);
     }
     if (this.errorArr.length === 0) {
-      this.errorText = null;
+      this.errorText = '';
     } else {
       this.updateErrorText();
     }
@@ -152,8 +152,9 @@ export class AddNewComponent implements OnInit {
           this.clearAll();
           window.scrollTo(0, 0);
         })
-        .catch(err => {
-          this.errorArr = err.errors;
+        .catch((err: unknown) => {
+          const errors = (err && typeof err === 'object' && 'errors' in err) ? (err as { errors: string[] }).errors : [];
+          this.errorArr = errors || [];
           this.updateErrorText();
           window.scrollTo(0, 0);
         });

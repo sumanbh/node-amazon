@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { NavService } from '../shared/nav.service';
 import { BASE_URL } from './base-url.token';
@@ -20,23 +20,24 @@ interface LoginResponse extends User {
 export class UserService {
   private http = inject(HttpClient);
   private navService = inject(NavService);
+  baseUrl = inject(BASE_URL);
 
   loggedIn = false;
 
-  jwt: string;
+  jwt?: string;
 
-  baseUrl: string;
+  user: string | null = null;
 
-  user: string;
+  cart: number | null = null;
 
-  cart: number;
+  isLoading$ = new BehaviorSubject<boolean>(true);
 
-  isLoading = true;
+  get isLoading() {
+    return this.isLoading$.value;
+  }
 
-  constructor() {
-    const baseUrl = inject(BASE_URL);
-
-    this.baseUrl = baseUrl;
+  set isLoading(val: boolean) {
+    this.isLoading$.next(val);
   }
 
   checkIfLoggedIn() {
@@ -94,10 +95,15 @@ export class UserService {
 
   makeUserRequest() {
     const apiUrl = '/api/customer';
-    this.http.get<User>(this.baseUrl + apiUrl).subscribe(data => {
-      if (data && data.name) {
-        this.setUser(data.name);
-        this.setCart(data.cart);
+    this.http.get<User>(this.baseUrl + apiUrl).pipe(take(1)).subscribe({
+      next: (data) => {
+        if (data && data.name) {
+          this.setUser(data.name);
+          this.setCart(data.cart);
+        }
+        this.isLoading = false;
+      },
+      error: () => {
         this.isLoading = false;
       }
     });

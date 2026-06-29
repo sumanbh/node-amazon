@@ -49,37 +49,49 @@ export class HomePage {
 
   async filterByBrand(brand: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${brand}"]`).check({ force: true });
+      const element = this.page.locator(`input[id="${brand}"]`);
+      if (!(await element.isChecked())) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async clearBrandFilter(brand: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${brand}"]`).uncheck({ force: true });
+      const element = this.page.locator(`input[id="${brand}"]`);
+      if (await element.isChecked()) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async filterByOS(os: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${os}"]`).check({ force: true });
+      const element = this.page.locator(`input[id="${os}"]`);
+      if (!(await element.isChecked())) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async clearOSFilter(os: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${os}"]`).uncheck({ force: true });
+      const element = this.page.locator(`input[id="${os}"]`);
+      if (await element.isChecked()) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async filterByPriceRadio(priceLabel: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${priceLabel}"]`).click({ force: true });
+      await this.page.locator(`input[id="${priceLabel}"]`).dispatchEvent('click');
     });
   }
 
   async clearPriceFilter() {
     await this.performFilterAction(async () => {
-      await this.clearPriceBtn.click();
+      await this.clearPriceBtn.dispatchEvent('click');
     });
   }
 
@@ -87,49 +99,67 @@ export class HomePage {
     await this.lowPriceInput.fill(min.toString());
     await this.highPriceInput.fill(max.toString());
     await this.performFilterAction(async () => {
-      await this.customPriceGoBtn.click();
+      await this.customPriceGoBtn.dispatchEvent('click');
     });
   }
 
   async clearCustomPrice() {
     await this.performFilterAction(async () => {
-      await this.clearPriceBtn.click();
+      await this.clearPriceBtn.dispatchEvent('click');
     });
   }
 
   async filterByRAM(ram: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${ram}"]`).check({ force: true });
+      const element = this.page.locator(`input[id="${ram}"]`);
+      if (!(await element.isChecked())) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async clearRAMFilter(ram: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${ram}"]`).uncheck({ force: true });
+      const element = this.page.locator(`input[id="${ram}"]`);
+      if (await element.isChecked()) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async filterByProcessor(processor: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${processor}"]`).check({ force: true });
+      const element = this.page.locator(`input[id="${processor}"]`);
+      if (!(await element.isChecked())) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async clearProcessorFilter(processor: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${processor}"]`).uncheck({ force: true });
+      const element = this.page.locator(`input[id="${processor}"]`);
+      if (await element.isChecked()) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async filterByStorage(storageType: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${storageType}"]`).check({ force: true });
+      const element = this.page.locator(`input[id="${storageType}"]`);
+      if (!(await element.isChecked())) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 
   async clearStorageFilter(storageType: string) {
     await this.performFilterAction(async () => {
-      await this.page.locator(`input[id="${storageType}"]`).uncheck({ force: true });
+      const element = this.page.locator(`input[id="${storageType}"]`);
+      if (await element.isChecked()) {
+        await element.dispatchEvent('click');
+      }
     });
   }
 

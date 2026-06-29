@@ -47,7 +47,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   similar = signal<LaptopProduct[]>([]);
 
-  param: Subscription;
+  param?: Subscription;
 
   id: string;
 
@@ -153,6 +153,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // prevent memory leaks
-    this.param.unsubscribe();
+    this.param?.unsubscribe();
   }
 }

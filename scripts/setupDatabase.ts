@@ -89,6 +89,10 @@ async function runMigrations() {
     const client = new Client(postgresConfig);
     await client.connect();
 
+    if (!/^[a-zA-Z0-9_]+$/.test(postgresql.database)) {
+      throw new Error(`Invalid database name: ${postgresql.database}`);
+    }
+
     console.log(chalk.green('Dropping database if it exists:', postgresql.database));
     try {
       await client.query(`

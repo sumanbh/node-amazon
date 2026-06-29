@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser, DatePipe } from '@angular/common';
 import { ProfileService } from './profile.service';
+import { take } from 'rxjs/operators';
 
 import { User } from './user.interface';
 import { UserService } from '../shared/user.service';
@@ -32,9 +33,9 @@ export class ProfileComponent implements OnInit {
 
   userForm = signal<User | undefined>(undefined);
 
-  modalReference: NgbModalRef;
+  modalReference?: NgbModalRef;
 
-  modalService: NgbModal;
+  modalService?: NgbModal;
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -53,12 +54,12 @@ export class ProfileComponent implements OnInit {
   }
 
   open(content: unknown) {
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService?.open(content);
   }
 
   getProfile() {
-    this.profileService.getUserProfile().subscribe(
-      response => {
+    this.profileService.getUserProfile().pipe(take(1)).subscribe({
+      next: response => {
         this.addressExist = !!response[0].address;
         this.userInfo.set(response);
         this.userForm.set({ ...response[0] });
@@ -67,28 +68,28 @@ export class ProfileComponent implements OnInit {
           this.userService.setUser(formValue.given_name);
         }
       },
-      error => {
+      error: error => {
         if (error && error.status === 401) {
           this.redirectToLogin();
         }
       }
-    );
+    });
   }
 
   userSubmit() {
     const formValue = this.userForm();
     if (formValue) {
-      this.profileService.updateUserProfile(formValue).subscribe(
-        response => {
+      this.profileService.updateUserProfile(formValue).pipe(take(1)).subscribe({
+        next: response => {
           if (response) this.getProfile();
           if (this.modalReference) {
             this.modalReference.close();
           }
         },
-        () => {
+        error: () => {
           this.error = true;
         }
-      );
+      });
     }
   }
 }

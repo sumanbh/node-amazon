@@ -15,6 +15,16 @@ export interface AuthenticatedRequest extends Request {
   };
 }
 
+export interface CheckoutRequest extends AuthenticatedRequest {
+  body: {
+    fullname?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+  };
+}
+
 export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   const auth = (req as AuthenticatedRequest).auth;
   if (!auth || !auth.id) {
@@ -73,14 +83,32 @@ export async function getCustomer(req: Request, res: Response): Promise<void> {
 
     res.status(200).json({ name: customer.given_name, cart: cartCount.total || 0 });
   } catch {
-    res.status(200).json({ name: null, cart: null });
+    res.clearCookie('SIO_SESSION');
+    res.status(401).json({ name: null, cart: null, error: 'Invalid or expired session' });
   }
 }
 
 export async function getAllProducts(req: Request, res: Response): Promise<void> {
-  const offset = (parseInt(req.params.page, 10) - 1) * 24;
+  const pageNum = parseInt(req.params.page, 10);
+  if (isNaN(pageNum) || pageNum < 1) {
+    res.status(400).json({ error: 'Invalid page parameter' });
+    return;
+  }
+  const offset = (pageNum - 1) * 24;
   const limit = 24;
-  const obj = JSON.parse(req.query.obj as string);
+
+  let obj: Record<string, Record<string, boolean>> = {};
+  if (req.query.obj) {
+    try {
+      obj = JSON.parse(req.query.obj as string);
+    } catch {
+      res.status(400).json({ error: 'Invalid obj query parameter' });
+      return;
+    }
+  } else {
+    res.status(400).json({ error: 'Missing obj query parameter' });
+    return;
+  }
   const list = Object.keys(obj);
   let brands: string[] = [];
   let os: string[] = [];
@@ -122,7 +150,7 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
         break;
       }
       case 'search': {
-        const searchTerm = obj[value];
+        const searchTerm = obj[value] as unknown as string;
         if (searchTerm) {
           search = `${searchTerm}`.toLowerCase();
         }
@@ -177,7 +205,13 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
                .where('laptops.price', '<', String(max));
 
   if (search) {
-    const searchPattern = `%${search.replace(/-/g, ' ').trim() || ' '}%`;
+    const escapedSearch = search
+      .replace(/-/g, ' ')
+      .replace(/\\/g, '\\\\')
+      .replace(/%/g, '\\%')
+      .replace(/_/g, '\\_')
+      .trim() || ' ';
+    const searchPattern = `%${escapedSearch}%`;
     query = query.where((eb) =>
       eb(
         eb.fn('translate', [eb.fn('lower', ['laptops.name']), eb.val('-'), eb.val(' ')]),
@@ -271,6 +305,16 @@ export async function addToCart(req: AuthenticatedRequest, res: Response): Promi
   const quantity = parseInt(req.body.productQuantity, 10) || 0;
   if (!id || quantity <= 0) {
     res.status(200).json({ success: false });
+    return;
+  }
+
+  const productExists = await db.selectFrom('laptops')
+    .select('id')
+    .where('id', '=', id)
+    .limit(1)
+    .executeTakeFirst();
+  if (!productExists) {
+    res.status(400).json({ success: false, error: 'Invalid product ID' });
     return;
   }
   const customerId = getCustomerId(req);
@@ -372,13 +416,34 @@ export async function getCheckoutInfo(req: AuthenticatedRequest, res: Response):
   });
 }
 
-export async function checkoutConfirm(req: AuthenticatedRequest, res: Response): Promise<void> {
+export async function checkoutConfirm(req: CheckoutRequest, res: Response): Promise<void> {
   const customerId = getCustomerId(req);
   const userName = req.body.fullname;
   const userAddress = req.body.address;
   const userCity = req.body.city;
   const userState = req.body.state;
   const userZip = req.body.zip;
+
+  if (!userName || typeof userName !== 'string' || userName.trim().length === 0 || userName.length > 70) {
+    res.status(400).json({ error: 'Invalid name. Must be between 1 and 70 characters.' });
+    return;
+  }
+  if (!userAddress || typeof userAddress !== 'string' || userAddress.trim().length === 0 || userAddress.length > 32) {
+    res.status(400).json({ error: 'Invalid address. Must be between 1 and 32 characters.' });
+    return;
+  }
+  if (!userCity || typeof userCity !== 'string' || userCity.trim().length === 0 || userCity.length > 32) {
+    res.status(400).json({ error: 'Invalid city. Must be between 1 and 32 characters.' });
+    return;
+  }
+  if (!userState || typeof userState !== 'string' || !/^[A-Z]{2}$/i.test(userState)) {
+    res.status(400).json({ error: 'Invalid state. Must be a 2-letter state code.' });
+    return;
+  }
+  if (!userZip || typeof userZip !== 'string' || !/^\d{5}$/.test(userZip)) {
+    res.status(400).json({ error: 'Invalid zip. Must be a 5-digit zip code.' });
+    return;
+  }
 
   const cartRows = await db.selectFrom('cart')
     .selectAll()
@@ -530,20 +595,41 @@ export async function updateProfile(req: AuthenticatedRequest, res: Response): P
   const givenName = req.body.given_name;
   const { fullname, address, city, state, zip } = req.body;
 
-  if (givenName && fullname && address && city && state && zip) {
-    await db.updateTable('customers')
-      .set({
-        given_name: givenName,
-        fullname,
-        address,
-        city,
-        state,
-        zip,
-      })
-      .where('id', '=', customerId)
-      .execute();
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(400);
+  if (!givenName || typeof givenName !== 'string' || givenName.trim().length === 0 || givenName.length > 70) {
+    res.status(400).json({ error: 'Invalid given name. Must be between 1 and 70 characters.' });
+    return;
   }
+  if (!fullname || typeof fullname !== 'string' || fullname.trim().length === 0 || fullname.length > 70) {
+    res.status(400).json({ error: 'Invalid full name. Must be between 1 and 70 characters.' });
+    return;
+  }
+  if (!address || typeof address !== 'string' || address.trim().length === 0 || address.length > 32) {
+    res.status(400).json({ error: 'Invalid address. Must be between 1 and 32 characters.' });
+    return;
+  }
+  if (!city || typeof city !== 'string' || city.trim().length === 0 || city.length > 32) {
+    res.status(400).json({ error: 'Invalid city. Must be between 1 and 32 characters.' });
+    return;
+  }
+  if (!state || typeof state !== 'string' || !/^[A-Z]{2}$/i.test(state)) {
+    res.status(400).json({ error: 'Invalid state. Must be a 2-letter state code.' });
+    return;
+  }
+  if (!zip || typeof zip !== 'string' || !/^\d{5}$/.test(zip)) {
+    res.status(400).json({ error: 'Invalid zip. Must be a 5-digit zip code.' });
+    return;
+  }
+
+  await db.updateTable('customers')
+    .set({
+      given_name: givenName,
+      fullname,
+      address,
+      city,
+      state,
+      zip,
+    })
+    .where('id', '=', customerId)
+    .execute();
+  res.sendStatus(200);
 }

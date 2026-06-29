@@ -9,5 +9,8 @@ export interface QueryParam {
     processor?: string;
     storage?: string;
     customprice?: string;
+    min?: string;
+    max?: string;
+    search?: string;
   };
 }

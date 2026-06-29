@@ -65,7 +65,7 @@ export interface CheckoutFormValue {
   address: string;
   city: string;
   state: string;
-  zip: string | number;
+  zip: string;
 }
 
 export interface CheckoutConfirmResponse {

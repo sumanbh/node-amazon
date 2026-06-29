@@ -12,9 +12,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "ignoreDeprecations": "6.0",
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
+    "strict": true,
     "typeRoots": [
       "node_modules/@types"
     ],

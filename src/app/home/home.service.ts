@@ -3,6 +3,13 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GetProductsParams, AllProductsResponse } from '../shared/types';
 import { BASE_URL } from '../shared/base-url.token';
+import { QueryParam } from './interfaces/queryparam.interface';
+
+import { Brand } from './interfaces/brands.interface';
+import { OS } from './interfaces/os.interface';
+import { Processor } from './interfaces/processor.interface';
+import { RAM } from './interfaces/ram.interface';
+import { Storage } from './interfaces/storage.interface';
 
 @Injectable()
 export class HomeService {
@@ -63,7 +70,14 @@ export class HomeService {
 
   baseUrl = inject(BASE_URL);
 
-  serializeQueryParams(queryObj) {
+  serializeQueryParams(queryObj: {
+    brand?: Brand;
+    os?: OS;
+    price?: string;
+    processor?: Processor;
+    ram?: RAM;
+    storage?: Storage;
+  }) {
     const serializedObj: {
       os?: string;
       brand?: string;
@@ -74,48 +88,63 @@ export class HomeService {
       max?: string;
     } = {};
     const list = Object.keys(queryObj);
-    let brands = [];
-    let os = [];
-    let processor = [];
-    let storage = [];
-    let ram = [];
-    let min: number;
-    let max: number;
+    let brands: string[] = [];
+    let os: string[] = [];
+    let processor: string[] = [];
+    let storage: string[] = [];
+    let ram: string[] = [];
+    let min: string | undefined;
+    let max: string | undefined;
 
     list.forEach(value => {
       switch (value) {
         case 'brand': {
-          const keys = Object.keys(queryObj.brand);
-          brands = keys.filter(key => queryObj.brand[key]);
+          const brandObj = queryObj.brand as Record<string, unknown> | undefined;
+          if (brandObj) {
+            const keys = Object.keys(brandObj);
+            brands = keys.filter(key => brandObj[key]);
+          }
           break;
         }
         case 'os': {
-          const keys = Object.keys(queryObj.os);
-          os = keys.filter(key => queryObj.os[key]);
+          const osObj = queryObj.os as Record<string, unknown> | undefined;
+          if (osObj) {
+            const keys = Object.keys(osObj);
+            os = keys.filter(key => osObj[key]);
+          }
           break;
         }
         case 'price': {
-          let { price } = queryObj;
+          const { price } = queryObj;
           if (price) {
-            price = price.split(',');
-            min = price[0];
-            max = price[1];
+            const parts = price.split(',');
+            min = parts[0];
+            max = parts[1];
           }
           break;
         }
         case 'processor': {
-          const keys = Object.keys(queryObj.processor);
-          processor = keys.filter(key => queryObj.processor[key]);
+          const procObj = queryObj.processor as Record<string, unknown> | undefined;
+          if (procObj) {
+            const keys = Object.keys(procObj);
+            processor = keys.filter(key => procObj[key]);
+          }
           break;
         }
         case 'ram': {
-          const keys = Object.keys(queryObj.ram);
-          ram = keys.filter(key => queryObj.ram[key]);
+          const ramObj = queryObj.ram as Record<string, unknown> | undefined;
+          if (ramObj) {
+            const keys = Object.keys(ramObj);
+            ram = keys.filter(key => ramObj[key]);
+          }
           break;
         }
         case 'storage': {
-          const keys = Object.keys(queryObj.storage);
-          storage = keys.filter(key => queryObj.storage[key]);
+          const storObj = queryObj.storage as Record<string, unknown> | undefined;
+          if (storObj) {
+            const keys = Object.keys(storObj);
+            storage = keys.filter(key => storObj[key]);
+          }
           break;
         }
         default:
@@ -133,8 +162,17 @@ export class HomeService {
     return serializedObj;
   }
 
-  parseQueryParams(queryObj) {
-    const allFilters = {
+  parseQueryParams(queryObj: QueryParam) {
+    const allFilters: {
+      brand: Record<string, boolean>;
+      os: Record<string, boolean>;
+      processor: Record<string, boolean>;
+      ram: Record<string, boolean>;
+      storage: Record<string, boolean>;
+      min: string;
+      max: string;
+      search: string;
+    } = {
       brand: {},
       os: {},
       processor: {},
@@ -144,90 +182,92 @@ export class HomeService {
       max: '',
       search: ''
     };
-    const title = [];
-    queryObj.keys.forEach(element => {
-      switch (element) {
-        case 'brand': {
-          let arr = queryObj.params.brand;
-          if (typeof arr === 'string') {
-            title.push(arr.replace(/,/g, ', '));
-            arr = arr.split(',');
-            arr.forEach(
-              value => (allFilters.brand[value.toLowerCase()] = true)
-            );
+    const title: string[] = [];
+    if (queryObj.keys) {
+      queryObj.keys.forEach((element: string) => {
+        switch (element) {
+          case 'brand': {
+            let arr: string | string[] | undefined = queryObj.params?.brand;
+            if (typeof arr === 'string') {
+              title.push(arr.replace(/,/g, ', '));
+              arr = arr.split(',');
+              arr.forEach(
+                (value: string) => (allFilters.brand[value.toLowerCase()] = true)
+              );
+            }
+            break;
           }
-          break;
-        }
-        case 'os': {
-          let arr = queryObj.params.os;
-          if (typeof arr === 'string') {
-            title.push(arr.replace(/,/g, ', '));
-            arr = arr.split(',');
-            arr.forEach(value => (allFilters.os[value.toLowerCase()] = true));
+          case 'os': {
+            let arr: string | string[] | undefined = queryObj.params?.os;
+            if (typeof arr === 'string') {
+              title.push(arr.replace(/,/g, ', '));
+              arr = arr.split(',');
+              arr.forEach((value: string) => (allFilters.os[value.toLowerCase()] = true));
+            }
+            break;
           }
-          break;
-        }
-        case 'min': {
-          const str = queryObj.params.min;
-          if (Array.isArray(str)) break;
-          if (str) {
-            allFilters.min = str;
-            title.push(`min: ${str}`);
+          case 'min': {
+            const str = queryObj.params?.min;
+            if (Array.isArray(str)) break;
+            if (str) {
+              allFilters.min = str;
+              title.push(`min: ${str}`);
+            }
+            break;
           }
-          break;
-        }
-        case 'max': {
-          const str = queryObj.params.max;
-          if (Array.isArray(str)) break;
-          if (str) {
-            allFilters.max = str;
-            title.push(`max: ${str}`);
+          case 'max': {
+            const str = queryObj.params?.max;
+            if (Array.isArray(str)) break;
+            if (str) {
+              allFilters.max = str;
+              title.push(`max: ${str}`);
+            }
+            break;
           }
-          break;
-        }
-        case 'processor': {
-          let arr = queryObj.params.processor;
-          if (typeof arr === 'string') {
-            title.push(arr.replace(/,/g, ', '));
-            arr = arr.split(',');
-            arr.forEach(
-              value => (allFilters.processor[value.toLowerCase()] = true)
-            );
+          case 'processor': {
+            let arr: string | string[] | undefined = queryObj.params?.processor;
+            if (typeof arr === 'string') {
+              title.push(arr.replace(/,/g, ', '));
+              arr = arr.split(',');
+              arr.forEach(
+                (value: string) => (allFilters.processor[value.toLowerCase()] = true)
+              );
+            }
+            break;
           }
-          break;
-        }
-        case 'ram': {
-          let arr = queryObj.params.ram;
-          if (typeof arr === 'string') {
-            title.push(`RAM: ${arr.replace(/,/g, ', ')}GB`);
-            arr = arr.split(',');
-            arr.forEach(value => (allFilters.ram[value] = true));
+          case 'ram': {
+            let arr: string | string[] | undefined = queryObj.params?.ram;
+            if (typeof arr === 'string') {
+              title.push(`RAM: ${arr.replace(/,/g, ', ')}GB`);
+              arr = arr.split(',');
+              arr.forEach((value: string) => (allFilters.ram[value] = true));
+            }
+            break;
           }
-          break;
-        }
-        case 'storage': {
-          let arr = queryObj.params.storage;
-          if (typeof arr === 'string') {
-            title.push(arr.replace(/,/g, ', '));
-            arr = arr.split(',');
-            arr.forEach(
-              value => (allFilters.storage[value.toLowerCase()] = true)
-            );
+          case 'storage': {
+            let arr: string | string[] | undefined = queryObj.params?.storage;
+            if (typeof arr === 'string') {
+              title.push(arr.replace(/,/g, ', '));
+              arr = arr.split(',');
+              arr.forEach(
+                (value: string) => (allFilters.storage[value.toLowerCase()] = true)
+              );
+            }
+            break;
           }
-          break;
-        }
-        case 'search': {
-          const str = queryObj.params.search;
-          if (typeof str === 'string') {
-            title.push(str);
-            allFilters.search = str;
+          case 'search': {
+            const str = queryObj.params?.search;
+            if (typeof str === 'string') {
+              title.push(str);
+              allFilters.search = str;
+            }
+            break;
           }
-          break;
+          default:
+          /* do nothing */
         }
-        default:
-        /* do nothing */
-      }
-    });
+      });
+    }
     return { queryObj: allFilters, pageTitle: title };
   }
 

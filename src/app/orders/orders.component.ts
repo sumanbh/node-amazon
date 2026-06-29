@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NgbDropdownConfig, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from './orders.service';
+import { take } from 'rxjs/operators';
 
 import { UserService } from '../shared/user.service';
 import { OrderItem } from '../shared/types';
@@ -56,8 +57,8 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrdersInfo() {
-    this.ordersService.getOrdersById().subscribe(
-      response => {
+    this.ordersService.getOrdersById().pipe(take(1)).subscribe({
+      next: response => {
         if (response.length === 0) {
           this.noResults = true;
         }
@@ -72,11 +73,11 @@ export class OrdersComponent implements OnInit {
           )
         );
       },
-      error => {
+      error: error => {
         if (error && error.status === 401) {
           this.redirectToLogin();
         }
       }
-    );
+    });
   }
 }

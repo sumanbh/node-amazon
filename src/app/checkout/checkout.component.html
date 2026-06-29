@@ -32,8 +32,8 @@
                         name="state" minlength="2" maxlength="2" placeholder="State" required>
                     </div>
                     <div class="form-group">
-                      <input type="number" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip"
-                        max="99999" placeholder="Zip" required>
+                      <input type="text" inputmode="numeric" pattern="[0-9]{5}" id="userZip" class="form-control user-address" [(ngModel)]="user.zip" name="zip"
+                        placeholder="Zip" required>
                     </div>
                   </form>
                 </div>

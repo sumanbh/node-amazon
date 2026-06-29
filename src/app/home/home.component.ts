@@ -36,25 +36,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   baseUrl = inject(BASE_URL);
 
-  param: Subscription;
+  param?: Subscription;
 
-  brand: Brand;
+  brand?: Brand;
 
-  os: OS;
+  os?: OS;
 
-  processor: Processor;
+  processor?: Processor;
 
-  ram: RAM;
+  ram?: RAM;
 
-  storage: Storage;
+  storage?: Storage;
 
-  queryParams: QueryParam;
+  queryParams?: QueryParam;
 
   searchResult = signal<boolean>(true);
 
-  minCustom: number;
+  minCustom: number | null = null;
 
-  maxCustom: number;
+  maxCustom: number | null = null;
 
   page = signal<number>(1);
 
@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   priceOptions = this.homeService.priceOptions;
 
-  searchString: string;
+  searchString = '';
 
   showFilter = signal<boolean>(true);
 
@@ -97,10 +97,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   routeParams() {
-    this.param = this.route.queryParamMap.subscribe(params => {
-      this.queryParams = params;
+    this.param = this.route.queryParams.subscribe(params => {
+      const queryParamObj: QueryParam = {
+        keys: Object.keys(params),
+        params: params
+      };
+      this.queryParams = queryParamObj;
       // parses and converts back the query params to truthy checkbox values
-      const results = this.homeService.parseQueryParams(this.queryParams);
+      const results = this.homeService.parseQueryParams(queryParamObj);
       const { queryObj, pageTitle } = results;
       // set the page title dynamically
       if (pageTitle.length > 0) {
@@ -120,7 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.ram = queryObj.ram;
       this.storage = queryObj.storage;
       // parseInt page otherwise ng2-pagination does not function correctly
-      if (this.queryParams.params.page) this.page.set(parseInt(this.queryParams.params.page, 10));
+      if (queryParamObj.params?.page) this.page.set(parseInt(queryParamObj.params.page, 10));
       else this.page.set(1);
       // populate custom min and max
       if (
@@ -227,7 +231,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // prevent memory leaks
-    this.param.unsubscribe();
+    this.param?.unsubscribe();
     // remove the option to add new laptop
     this.navService.newRoute(false);
   }

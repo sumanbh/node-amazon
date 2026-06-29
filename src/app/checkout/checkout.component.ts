@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { take } from 'rxjs/operators';
 
 import { CheckoutService } from './checkout.service';
 import { UserService } from '../shared/user.service';
@@ -40,10 +41,11 @@ export class CheckoutComponent implements OnInit {
 
   getCartInfo() {
     // get all the items on cart for the user
-    this.checkoutService.getCartById().subscribe(
-      (response: CheckoutInfoResponse) => {
+    this.checkoutService.getCartById().pipe(take(1)).subscribe({
+      next: (response: CheckoutInfoResponse) => {
         this.userInfo.set(response.userInfo);
-        if (!this.userInfo() || this.userInfo().length === 0) {
+        const info = this.userInfo();
+        if (!info || info.length === 0) {
           this.redirectToLogin();
         }
         this.cartContent.set(response.data);
@@ -53,12 +55,12 @@ export class CheckoutComponent implements OnInit {
           this.router.navigate(['user/cart']);
         }
       },
-      (error) => {
+      error: (error) => {
         if (error && error.status === 401) {
           this.redirectToLogin();
         }
       }
-    );
+    });
   }
 
   checkoutConfirm(value: CheckoutFormValue) {
@@ -70,18 +72,18 @@ export class CheckoutComponent implements OnInit {
       value.state &&
       value.zip
     ) {
-      this.checkoutService.sendCheckout(value).subscribe(
-        (response) => {
+      this.checkoutService.sendCheckout(value).pipe(take(1)).subscribe({
+        next: (response) => {
           if (response) {
             this.router.navigate(['user/orders']);
           }
         },
-        (error) => {
+        error: (error) => {
           if (error && error.status === 401) {
             this.redirectToLogin();
           }
         }
-      );
+      });
     }
   }
 }

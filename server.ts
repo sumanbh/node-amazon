@@ -51,19 +51,7 @@ export function app(): express.Express {
     })
   );
 
-  // For jwt token errors
-  server.use((
-    err: Error & { name?: string; status?: number },
-    _req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    if (err.name === 'StatusError') {
-      res.status(err.status || 500).send(err.message);
-    } else {
-      next(err);
-    }
-  });
+
 
   const jwtCheck = expressjwt({
     algorithms: ['HS256'],
@@ -84,7 +72,10 @@ export function app(): express.Express {
 
   server.use(express.json({ limit: '5mb' }));
   server.use(express.urlencoded({ extended: false }));
-  server.use(cors());
+  server.use(cors({
+    origin: ['http://localhost:4200', 'http://localhost:3000', 'http://127.0.0.1:4200', 'http://127.0.0.1:3000'],
+    credentials: true,
+  }));
 
   // Check jwt token for these routes
   server.use('/api/user', jwtCheck);
@@ -106,7 +97,7 @@ export function app(): express.Express {
   server.post('/api/user/checkout/confirm', routes.authMiddleware, routes.checkoutConfirm);
   server.post('/api/user/cart/add', routes.authMiddleware, routes.addToCart);
   server.post('/api/user/update', routes.authMiddleware, routes.updateProfile);
-  server.post('/api/user/laptop', insertions.newLaptop);
+  server.post('/api/user/laptop', routes.authMiddleware, insertions.newLaptop);
 
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
@@ -136,6 +127,20 @@ export function app(): express.Express {
         res.send(html);
       })
       .catch((err) => next(err));
+  });
+
+  // For jwt token errors
+  server.use((
+    err: Error & { name?: string; status?: number },
+    _req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    if (err.name === 'StatusError') {
+      res.status(err.status || 500).send(err.message);
+    } else {
+      next(err);
+    }
   });
 
   return server;

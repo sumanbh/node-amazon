@@ -1,24 +1,56 @@
-import { Injectable, inject } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
+import { inject, Injectable } from '@angular/core';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from '@angular/router';
 import { UserService } from './user.service';
+import { filter, map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-@Injectable()
-export class AuthGuard  {
-  private router = inject(Router);
-  private userService = inject(UserService);
+export const authGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): Observable<boolean> => {
+  const router = inject(Router);
+  const userService = inject(UserService);
 
+  return userService.isLoading$.pipe(
+    filter((loading) => !loading),
+    take(1),
+    map(() => {
+      const user = userService.getUser();
+      if (!user) {
+        router.navigate(['/login'], {
+          queryParams: { returnUrl: state.url },
+        });
+        return false;
+      }
+      return true;
+    })
+  );
+};
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const user = this.userService.getUser();
-    if (!user && !this.userService.isLoading) {
-      this.router.navigate(['/login'], {
-        queryParams: { returnUrl: state.url }
-      });
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+    const router = inject(Router);
+    const userService = inject(UserService);
 
-      return false;
-    }
-
-    return true;
+    return userService.isLoading$.pipe(
+      filter((loading) => !loading),
+      take(1),
+      map(() => {
+        const user = userService.getUser();
+        if (!user) {
+          router.navigate(['/login'], {
+            queryParams: { returnUrl: state.url },
+          });
+          return false;
+        }
+        return true;
+      })
+    );
   }
 }
