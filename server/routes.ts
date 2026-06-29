@@ -10,7 +10,7 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 export interface AuthenticatedRequest extends Request {
   auth?: {
-    id: string;
+    id: number;
     [key: string]: unknown;
   };
 }
@@ -34,7 +34,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
   next();
 }
 
-export function getCustomerId(req: AuthenticatedRequest): string {
+export function getCustomerId(req: AuthenticatedRequest): number {
   const auth = req.auth;
   if (!auth) {
     throw new Error('Unauthorized');
@@ -42,7 +42,7 @@ export function getCustomerId(req: AuthenticatedRequest): string {
   return auth.id;
 }
 
-export async function getCartCountHelper(customerId: string): Promise<{ total: number }> {
+export async function getCartCountHelper(customerId: number): Promise<{ total: number }> {
   const result = await db.selectFrom('cartview')
     .select(db.fn.sum<string | number>('product_quantity').as('total'))
     .where('customer_id', '=', customerId)
@@ -68,7 +68,7 @@ export async function getCustomer(req: Request, res: Response): Promise<void> {
   const token = req.cookies.SIO_SESSION;
 
   try {
-    const { id } = jwt.verify(token, config.jwt.secret) as { id: string };
+    const { id } = jwt.verify(token, config.jwt.secret) as { id: number };
     const [customer, cartCount] = await Promise.all([
       db.selectFrom('customers')
         .select(['id', 'given_name'])
@@ -114,7 +114,7 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
   let os: string[] = [];
   let processor: string[] = [];
   let storage: string[] = [];
-  let ram: string[] = [];
+  let ram: number[] = [];
   let min = 0;
   let max = 20000;
   let search = '';
@@ -141,7 +141,7 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
       }
       case 'ram': {
         const keys = Object.keys(obj[value]);
-        ram = keys.filter((key) => obj[value][key]);
+        ram = keys.filter((key) => obj[value][key]).map(Number);
         break;
       }
       case 'storage': {
@@ -240,7 +240,7 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
 }
 
 export async function getProductById(req: Request, res: Response): Promise<void> {
-  const id = req.params.productId;
+  const id = req.params.productId.toLowerCase();
 
   const mainProductRows = await db.selectFrom('laptops')
     .innerJoin('brand', 'laptops.brand_id', 'brand.id')
@@ -301,7 +301,8 @@ export async function getProductById(req: Request, res: Response): Promise<void>
 }
 
 export async function addToCart(req: AuthenticatedRequest, res: Response): Promise<void> {
-  const id = req.body.productId;
+  const rawId = req.body.productId;
+  const id = typeof rawId === 'string' ? rawId.toLowerCase() : undefined;
   const quantity = parseInt(req.body.productQuantity, 10) || 0;
   if (!id || quantity <= 0) {
     res.status(200).json({ success: false });
@@ -424,16 +425,16 @@ export async function checkoutConfirm(req: CheckoutRequest, res: Response): Prom
   const userState = req.body.state;
   const userZip = req.body.zip;
 
-  if (!userName || typeof userName !== 'string' || userName.trim().length === 0 || userName.length > 70) {
-    res.status(400).json({ error: 'Invalid name. Must be between 1 and 70 characters.' });
+  if (!userName || typeof userName !== 'string' || userName.trim().length === 0 || userName.length > 150) {
+    res.status(400).json({ error: 'Invalid name. Must be between 1 and 150 characters.' });
     return;
   }
-  if (!userAddress || typeof userAddress !== 'string' || userAddress.trim().length === 0 || userAddress.length > 32) {
-    res.status(400).json({ error: 'Invalid address. Must be between 1 and 32 characters.' });
+  if (!userAddress || typeof userAddress !== 'string' || userAddress.trim().length === 0 || userAddress.length > 255) {
+    res.status(400).json({ error: 'Invalid address. Must be between 1 and 255 characters.' });
     return;
   }
-  if (!userCity || typeof userCity !== 'string' || userCity.trim().length === 0 || userCity.length > 32) {
-    res.status(400).json({ error: 'Invalid city. Must be between 1 and 32 characters.' });
+  if (!userCity || typeof userCity !== 'string' || userCity.trim().length === 0 || userCity.length > 100) {
+    res.status(400).json({ error: 'Invalid city. Must be between 1 and 100 characters.' });
     return;
   }
   if (!userState || typeof userState !== 'string' || !/^[A-Z]{2}$/i.test(userState)) {
@@ -461,23 +462,24 @@ export async function checkoutConfirm(req: CheckoutRequest, res: Response): Prom
     )
     .where('customer_id', '=', customerId);
 
-  const orderlineInserted = await db.insertInto('orderline')
+  const orderInserted = await db.insertInto('orders')
     .values({
-      id: undefined,
       customer_id: customerId,
       order_total: sumQuery,
-      date_added: undefined,
     })
     .returning('id')
     .executeTakeFirstOrThrow();
 
-  const orderlineId = orderlineInserted.id;
+  if (orderInserted.id === undefined) {
+    res.status(500).json({ error: 'Failed to create order' });
+    return;
+  }
+  const orderId = orderInserted.id;
 
-  await db.insertInto('orders')
+  await db.insertInto('order_items')
     .values(
       cartRows.map((item) => ({
-        id: undefined,
-        orderline_id: orderlineId,
+        order_id: orderId,
         product_id: item.product_id,
         quantity: item.product_quantity,
         fullname: userName,
@@ -499,26 +501,26 @@ export async function checkoutConfirm(req: CheckoutRequest, res: Response): Prom
 export async function getUserOrders(req: AuthenticatedRequest, res: Response): Promise<void> {
   const customerId = getCustomerId(req);
 
-  const result = await db.selectFrom('orders')
-    .innerJoin('laptops', 'laptops.id', 'orders.product_id')
-    .innerJoin('orderline', 'orderline.id', 'orders.orderline_id')
+  const result = await db.selectFrom('order_items')
+    .innerJoin('laptops', 'laptops.id', 'order_items.product_id')
+    .innerJoin('orders', 'orders.id', 'order_items.order_id')
     .select([
       'laptops.id as laptop_id',
       'laptops.name as laptop_name',
       'laptops.img',
       'laptops.price',
-      'orderline.id as id',
-      'orderline.order_total',
-      'orderline.date_added',
-      'orders.quantity',
-      'orders.fullname',
-      'orders.address',
-      'orders.city',
-      'orders.state',
-      'orders.zip',
+      'orders.id as id',
+      'orders.order_total',
+      'orders.date_added',
+      'order_items.quantity',
+      'order_items.fullname',
+      'order_items.address',
+      'order_items.city',
+      'order_items.state',
+      'order_items.zip',
     ])
-    .where('orderline.customer_id', '=', customerId)
-    .orderBy('orderline.date_added', 'desc')
+    .where('orders.customer_id', '=', customerId)
+    .orderBy('orders.date_added', 'desc')
     .execute();
 
   res.status(200).json(result);
@@ -541,26 +543,26 @@ export async function getOrderById(req: AuthenticatedRequest, res: Response): Pr
   const customerId = getCustomerId(req);
   const orderId = req.params.id;
 
-  const result = await db.selectFrom('orders')
-    .innerJoin('laptops', 'laptops.id', 'orders.product_id')
-    .innerJoin('orderline', 'orderline.id', 'orders.orderline_id')
+  const result = await db.selectFrom('order_items')
+    .innerJoin('laptops', 'laptops.id', 'order_items.product_id')
+    .innerJoin('orders', 'orders.id', 'order_items.order_id')
     .select([
       'laptops.id as laptop_id',
       'laptops.name as laptop_name',
       'laptops.img',
       'laptops.price',
-      'orderline.id as id',
-      'orderline.order_total',
-      'orderline.date_added',
-      'orders.quantity',
-      'orders.fullname',
-      'orders.address',
-      'orders.city',
-      'orders.state',
-      'orders.zip',
+      'orders.id as id',
+      'orders.order_total',
+      'orders.date_added',
+      'order_items.quantity',
+      'order_items.fullname',
+      'order_items.address',
+      'order_items.city',
+      'order_items.state',
+      'order_items.zip',
     ])
-    .where('orderline.customer_id', '=', customerId)
-    .where('orders.orderline_id', '=', orderId)
+    .where('orders.customer_id', '=', customerId)
+    .where('order_items.order_id', '=', orderId)
     .execute();
 
   res.status(200).json({
@@ -595,20 +597,20 @@ export async function updateProfile(req: AuthenticatedRequest, res: Response): P
   const givenName = req.body.given_name;
   const { fullname, address, city, state, zip } = req.body;
 
-  if (!givenName || typeof givenName !== 'string' || givenName.trim().length === 0 || givenName.length > 70) {
-    res.status(400).json({ error: 'Invalid given name. Must be between 1 and 70 characters.' });
+  if (!givenName || typeof givenName !== 'string' || givenName.trim().length === 0 || givenName.length > 150) {
+    res.status(400).json({ error: 'Invalid given name. Must be between 1 and 150 characters.' });
     return;
   }
-  if (!fullname || typeof fullname !== 'string' || fullname.trim().length === 0 || fullname.length > 70) {
-    res.status(400).json({ error: 'Invalid full name. Must be between 1 and 70 characters.' });
+  if (!fullname || typeof fullname !== 'string' || fullname.trim().length === 0 || fullname.length > 150) {
+    res.status(400).json({ error: 'Invalid full name. Must be between 1 and 150 characters.' });
     return;
   }
-  if (!address || typeof address !== 'string' || address.trim().length === 0 || address.length > 32) {
-    res.status(400).json({ error: 'Invalid address. Must be between 1 and 32 characters.' });
+  if (!address || typeof address !== 'string' || address.trim().length === 0 || address.length > 255) {
+    res.status(400).json({ error: 'Invalid address. Must be between 1 and 255 characters.' });
     return;
   }
-  if (!city || typeof city !== 'string' || city.trim().length === 0 || city.length > 32) {
-    res.status(400).json({ error: 'Invalid city. Must be between 1 and 32 characters.' });
+  if (!city || typeof city !== 'string' || city.trim().length === 0 || city.length > 100) {
+    res.status(400).json({ error: 'Invalid city. Must be between 1 and 100 characters.' });
     return;
   }
   if (!state || typeof state !== 'string' || !/^[A-Z]{2}$/i.test(state)) {

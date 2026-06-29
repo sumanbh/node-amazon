@@ -20,5 +20,5 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 }
 
 export async function down(db: Kysely<unknown>): Promise<void> {
-  await sql`TRUNCATE TABLE cart, orders, orderline, laptops, storage_type, brand, processor, os, customers CASCADE;`.execute(db);
+  await sql`TRUNCATE TABLE cart, order_items, orders, laptops, storage_type, brand, processor, os, customers CASCADE;`.execute(db);
 }

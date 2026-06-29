@@ -189,18 +189,23 @@ export async function newLaptop(req: Request, res: Response): Promise<void> {
     }
 
     if (errors.length === 0) {
+      const { title, ram, storage } = validatedLaptop;
+      if (title === undefined || ram === null || ram === undefined || storage === null || storage === undefined) {
+        res.status(400).json({ success: false, errors: ['Required fields are missing.'] });
+        return;
+      }
       try {
         const insert = await db.insertInto('laptops')
           .values({
             id: undefined,
-            name: validatedLaptop.title,
+            name: title,
             os_id: operatingSystems[validatedLaptop.os as keyof typeof operatingSystems],
             processor_id: processors[validatedLaptop.processor as keyof typeof processors],
             brand_id: brands[validatedLaptop.brand as keyof typeof brands],
             img: validatedLaptop.image,
-            ram: String(validatedLaptop.ram),
+            ram: ram,
             storage_type_id: storageTypes[validatedLaptop.storageType as keyof typeof storageTypes],
-            storage: validatedLaptop.storage,
+            storage: storage,
             rating: String(validatedLaptop.rating),
             price: String(validatedLaptop.price),
             img_big: validatedLaptop.image,

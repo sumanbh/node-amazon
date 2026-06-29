@@ -26,11 +26,11 @@ interface CustomAuthRequest extends Request {
   auth?: AuthUser;
 }
 
-function createToken(user: { id: string }): string {
+function createToken(user: { id: number }): string {
   return jwt.sign(user, config.jwt.secret, { expiresIn: 60 * 60 * 24 });
 }
 
-async function getCart(id: string) {
+async function getCart(id: number) {
   const result = await db.selectFrom('cartview')
     .select(db.fn.sum<string | number>('product_quantity').as('total'))
     .where('customer_id', '=', id)
@@ -78,7 +78,7 @@ export default function initAuth(): Router {
           }
 
           if (existingUser) {
-            const tokenObj = { id: existingUser.id as string };
+            const tokenObj = { id: existingUser.id as number };
             return cb(null, { token: createToken(tokenObj) });
           }
 
@@ -102,7 +102,7 @@ export default function initAuth(): Router {
             .returningAll()
             .executeTakeFirstOrThrow();
 
-          const tokenObj = { id: insertedUser.id as string };
+          const tokenObj = { id: insertedUser.id as number };
           return cb(null, { token: createToken(tokenObj) });
         } catch (err) {
           return cb(err instanceof Error ? err : new Error(String(err)));
@@ -163,7 +163,7 @@ export default function initAuth(): Router {
           }
 
           if (existingUser) {
-            const tokenObj = { id: existingUser.id as string };
+            const tokenObj = { id: existingUser.id as number };
             return cb(null, { token: createToken(tokenObj) });
           }
 
@@ -187,7 +187,7 @@ export default function initAuth(): Router {
             .returningAll()
             .executeTakeFirstOrThrow();
 
-          const tokenObj = { id: insertedUser.id as string };
+          const tokenObj = { id: insertedUser.id as number };
           return cb(null, { token: createToken(tokenObj) });
         } catch (err) {
           return cb(err);
@@ -259,8 +259,8 @@ export default function initAuth(): Router {
                 return cb(null, false, { message: 'Invalid email or password.' });
               }
 
-              const cartCount = await getCart(user.id as string);
-              const tokenObj = { id: user.id as string };
+              const cartCount = await getCart(user.id as number);
+              const tokenObj = { id: user.id as number };
 
               return cb(null, {
                 name: user.given_name,
