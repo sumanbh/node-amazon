@@ -87,7 +87,7 @@ export function getBaseUrl() {
       };
     } | null;
     if (req) {
-      if (req.url) {
+      if (req.url && (req.url.startsWith('http://') || req.url.startsWith('https://'))) {
         const parsedUrl = new URL(req.url);
         return `${parsedUrl.protocol}//${parsedUrl.host}/demo`;
       }
