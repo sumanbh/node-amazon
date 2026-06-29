@@ -1,4 +1,4 @@
-import { NgModule, provideZonelessChangeDetection, PLATFORM_ID, inject } from '@angular/core';
+import { NgModule, provideZonelessChangeDetection, PLATFORM_ID, inject, REQUEST } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -37,7 +37,6 @@ import { GroupByPipe } from './orders/groupby.pipe';
 import { EllipsisPipe } from './home/ellipsis.pipe';
 
 import { BASE_URL } from './shared/base-url.token';
-import { REQUEST } from './express.tokens';
 
 @NgModule({ declarations: [], bootstrap: [AppComponent],
     imports: [BrowserModule,
@@ -79,10 +78,21 @@ export function getBaseUrl() {
     return environment.API_URL;
   }
   try {
-    const req = inject(REQUEST, { optional: true });
+    const req = inject(REQUEST, { optional: true }) as {
+      url?: string;
+      protocol?: string;
+      get?: (name: string) => string | null;
+      headers?: {
+        host?: string;
+      };
+    } | null;
     if (req) {
-      const protocol = req.protocol;
-      const host = req.get('host');
+      if (req.url) {
+        const parsedUrl = new URL(req.url);
+        return `${parsedUrl.protocol}//${parsedUrl.host}/demo`;
+      }
+      const protocol = req.protocol || 'http';
+      const host = typeof req.get === 'function' ? req.get('host') : (req.headers?.host || 'localhost:3000');
       return `${protocol}://${host}/demo`;
     }
   } catch (e) {
@@ -90,3 +100,4 @@ export function getBaseUrl() {
   }
   return environment.API_URL;
 }
+

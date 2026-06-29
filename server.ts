@@ -1,11 +1,11 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr/node';
+import { CommonEngine, isMainModule } from '@angular/ssr/node';
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
-import AppServerModule from './src/main.server';
+import { REQUEST } from '@angular/core';
 
-import { REQUEST } from './src/app/express.tokens';
+import AppServerModule from './src/main.server';
 import { BASE_URL } from './src/app/shared/base-url.token';
 
 import { expressjwt } from 'express-jwt';
@@ -146,6 +146,8 @@ export function app(): express.Express {
   return server;
 }
 
+export const reqHandler = app();
+
 function run(): void {
   const port = process.env['PORT'] || 3000;
 
@@ -156,7 +158,10 @@ function run(): void {
   });
 }
 
-run();
+if (isMainModule(import.meta.url)) {
+  run();
+}
 
 export * from './src/main.server';
+
 

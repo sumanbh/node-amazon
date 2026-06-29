@@ -38,7 +38,8 @@
             "prerender": false,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "outputMode": "server"
           },
           "configurations": {
             "production": {
